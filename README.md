@@ -1,4 +1,4 @@
-Welcome to the Cognitive-Affective Maps tools documentation!
+Welcome to the Cognitive-Affective Maps tools *CAM-App*!
 ===============================================
 
 
