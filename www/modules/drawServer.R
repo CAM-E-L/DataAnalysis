@@ -1,0 +1,388 @@
+drawServer <- function(id, dataCAM, parent, globals) {
+    moduleServer(id, function(input, output, session) {
+        ns <- NS(id)
+
+        ## reactive values
+        outUI <- reactiveValues(elements = NULL)
+
+
+        ################
+        # default text + set output
+        ################
+        ## default text
+        outUI$elements <- tagList(
+          tags$div(
+            h1("Draw CAM module"),
+            tags$br(),
+            tags$br(),
+            HTML('To start the module please click on one of the the module option on the sidebar panel. The options for
+                     this module are the following:'),
+            tags$ul(
+              tags$li(HTML('<b>Draw R:</b> Draw CAMs using R (statistic software).')),
+              tags$li(HTML('<b>Draw JS:</b> to be implemented. If you have uploaded CAMEL data you can draw your CAMs using Java Script to see the CAMs how they were drawn.')),
+              tags$li(HTML('<b>Information:</b> Further information regarding the module.'))
+            )
+          )
+        )
+
+        ## set output
+        output$uploadOutDraw <- renderUI({
+          outUI$elements
+        })
+
+        ################
+        # single module options
+        ################
+        ###### drawCAMR
+        #> UI
+        observeEvent(input$drawCAMR, {
+
+          ## change UI
+          outUI$elements <- tagList(
+            tags$h2("Draw CAMs using R (statistic software)"),
+            tags$br(),
+            tags$div(HTML("Click on button to run function to draw CAMs. Please click only once and
+                      wait few seconds. If you have deleted a single or multiple CAMs please click on this button again to update your drawn CAMs:"), style="font-size:14px"),
+            actionButton(ns("clickDrawR"), "draw CAMs"),
+            tags$p(
+              "You have drawn ",
+              tags$b(textOutput(ns("numCAMsDrawnR"), inline = TRUE), " CAMs"), ". If you hover over the drawn CAM with your mouse
+              you can increase the size."
+            ),
+            tags$br(),
+            tags$br(),
+            fluidRow(
+              column(width = 7,
+                     plotOutput(ns("plotR"), width = "95%"),
+                     htmlOutput(ns("textR"))
+              ),
+              column(width = 4,
+                     uiOutput(ns("selectCAMR")),
+                     actionButton(ns("prevCAMR"), "Previous"),
+                     actionButton(ns("nextCAMR"), "Next"),
+                     tags$br(),
+                     tags$span(HTML("order your drawn CAMs according to: "), style="font-size:14px;"),
+
+                     selectInput(ns("orderCAMR"), NULL, c("mean valence",
+                                                      "# of nodes",
+                                                      "# of connectors",
+                                                      "density",
+                                                      "assortativity"), width = "200px"),
+                     tableOutput(ns('tableR')),
+                     tags$div(HTML("Click if you want to delete the displayed CAM (click again to keep it). After you have marked all CAMs you want to delete, draw the CAMs again:"), style="font-size:14px"),
+                     actionButton(ns("deleteCAMR"), "un/delete CAM"),
+                     tags$div(HTML("When you delete CAMs, you can save them as PDFs to upload them for example on OSF:"), style="font-size:14px"),
+                     textInput(ns("renamefileR"), "Filename (PDF):", placeholder = "e.g. reason for the deletion"),
+                     downloadButton(outputId = ns('PDFdownloadR'), label = "Download CAM as PDF")
+              ),
+              column(width = 11,
+              tags$br(),
+                      div(style="margin: 0 auto; text-align:left;",
+               tags$div(HTML('After you have drawn and/ or deleted your CAMs you can continue with the
+                              prepocessing part:')),
+                    actionButton(ns("continueDrawnPreprocessing"),  HTML('Continue<br>Preprocessing'), style="width: 150px;
+                                 height: 90px; font-size: 18px; padding: 10px")
+                                 ))
+            )
+          )
+        })
+
+
+        #> Server
+        ## reactive values (to track deleted CAMs; counter)
+        rv <- reactiveValues(deleted = NULL, diffdeleted = NULL, counter = 1L, networkIndicators = NULL, CAMsdrawn = FALSE)
+
+        #rv <- reactiveValues(deleted = globals$protocol$deletedCAMs, 
+        #diffdeleted = setdiff(globals$protocol$currentCAMs , globals$protocol$deletedCAMs), counter = 1L, networkIndicators = NULL, CAMsdrawn = FALSE)
+
+
+        ## draw CAMs
+        CAMs_drawnR <- eventReactive(input$clickDrawR, {
+               req(dataCAM())
+          if (rv$counter == 1) {
+            tmp_CAMs <- draw_CAM(
+              dat_merged = dataCAM()[[3]],
+              dat_nodes = dataCAM()[[1]], ids_CAMs = "all", plot_CAM = FALSE,
+              relvertexsize = 3,
+              reledgesize = 1
+            )
+          } else if (rv$counter >= 2) {
+            if (!is.null(rv$diffdeleted)) {
+              tmp_CAMs <- draw_CAM(
+                dat_merged = dataCAM()[[3]],
+                dat_nodes = dataCAM()[[1]], ids_CAMs = rv$diffdeleted,
+                plot_CAM = FALSE,
+                relvertexsize = 3,
+                reledgesize = 1
+              )
+            } else {
+              tmp_CAMs <- draw_CAM(
+                dat_merged = dataCAM()[[3]],
+                dat_nodes = dataCAM()[[1]], ids_CAMs = "all", plot_CAM = FALSE,
+                relvertexsize = 3,
+                reledgesize = 1
+              )
+            }
+          }
+          rv$counter <- rv$counter + 1L
+
+          ## globals ##
+          if(length(tmp_CAMs) > 0){
+            message("successfully drawn CAMs!")
+            #> change condition
+            globals$condition <- c(globals$condition, "drawnCAMs")
+            #> possible to continue with preprocessing step
+            rv$CAMsdrawn <- TRUE
+
+            # keep list of all CAM IDs drawn
+            globals$protocol$currentCAMs <- names(tmp_CAMs)
+          }
+
+          if(length(rv$deleted) > 0){
+            tmp <- rv$deleted[!rv$deleted %in% globals$protocol$deletedCAMs] # add only CAMs which have not been yet added to the protocol
+            globals$protocol$deletedCAMs <- c(globals$protocol$deletedCAMs, tmp)
+            # globals$protocol$deletedCAMs[[length(globals$protocol$deletedCAMs)+ 1]] <- rv$deleted
+
+
+            # only keep CAM in currentCAMs list which have not been deleted
+            globals$protocol$currentCAMs <- globals$protocol$currentCAMs[!globals$protocol$currentCAMs %in% rv$deleted]
+          }
+          ####
+
+
+          rv$networkIndicators <- compute_indicatorsCAM(drawn_CAM = tmp_CAMs,
+                                micro_degree = NULL,
+                                micro_valence = NULL,
+                                micro_centr_clo = NULL,
+                                largestClique = FALSE)
+          rv$networkIndicators$assortativity_valence_macro[is.na(rv$networkIndicators$assortativity_valence_macro)] <- 0
+
+          tmp_CAMs
+        })
+
+
+        ## summary stats:
+        output$numCAMsDrawnR <- renderText({
+          req(CAMs_drawnR())
+
+          length(CAMs_drawnR())
+        })
+
+        ## choices CAMs for selectInput
+        CAM_choicesR <- reactive({
+          req(CAMs_drawnR())
+
+          print(input$orderCAMR)
+          if(input$orderCAMR == "# of nodes"){
+            print("# of nodes")
+            rv$networkIndicators$CAM_ID[order(rv$networkIndicators$num_nodes_macro)]
+          }else if(input$orderCAMR == "# of conectors"){
+            print("# of connectors")
+            rv$networkIndicators$CAM_ID[order(rv$networkIndicators$num_edges_macro)]
+          }else if(input$orderCAMR == "density"){
+            print("density")
+            rv$networkIndicators$CAM_ID[order(rv$networkIndicators$density_macro)]
+          }else if(input$orderCAMR == "assortativity"){
+            print("assortativity")
+            rv$networkIndicators$CAM_ID[order(rv$networkIndicators$assortativity_valence_macro)]
+          }else{  # default
+            print("mean valence")
+            rv$networkIndicators$CAM_ID[order(rv$networkIndicators$mean_valence_macro)]
+          }
+        })
+
+        output$selectCAMR <- renderUI({
+          selectInput(ns("CAMs"),
+                      "Which CAM would you like to draw?",
+                      choices = as.list(CAM_choicesR()), width = "80%"
+          )
+        })
+        observeEvent(input$prevCAMR, {
+          current <- which(CAM_choicesR() == input$CAMs)
+          if (current > 1) {
+            updateSelectInput(session, "CAMs",
+                              choices = as.list(CAM_choicesR()),
+                              selected = CAM_choicesR()[current - 1]
+            )
+          }
+        })
+        observeEvent(input$nextCAMR, {
+          current <- which(CAM_choicesR() == input$CAMs)
+          if (current < length(CAM_choicesR())) {
+            updateSelectInput(session, "CAMs",
+                              choices = as.list(CAM_choicesR()),
+                              selected = CAM_choicesR()[current + 1]
+            )
+          }
+        })
+
+
+
+        ## plot CAM
+        output$plotR <- renderPlot({
+          req(input$CAMs)
+          req(CAMs_drawnR())
+
+          plot.igraph(CAMs_drawnR()[[input$CAMs]],
+                      edge.arrow.size = .7,
+                      layout = layout_nicely, vertex.frame.color = "black", asp = .5,
+                      margin = 0, vertex.label.cex = .7
+          )
+        })
+
+
+
+        ## delete CAM:
+        observeEvent(input$deleteCAMR, {
+          req(input$CAMs)
+          if (input$CAMs %in% rv$deleted) {
+            rv$deleted <- setdiff(rv$deleted, input$CAMs)
+            rv$diffdeleted <- c(rv$diffdeleted, input$CAMs)
+          } else {
+            rv$deleted <- unique(c(rv$deleted, input$CAMs))
+            rv$diffdeleted <- setdiff(CAM_choicesR(), rv$deleted)
+          }
+
+          #print(input$CAMs)
+          #print(rv$deleted)
+          #print(rv$diffdeleted)
+        })
+
+
+
+        ## show when CAM was deleted:
+        output$textR <- renderUI({
+          req(input$CAMs)
+          if (input$CAMs %in% rv$deleted) {
+            HTML('<b style="color:red;">deleted CAM</b> (<i>draw CAMs again to see result</i>)')
+          } else {
+            HTML('<i style="font-size: 6px;">not deleted</i>')
+          }
+        })
+
+
+
+        ## table
+        output$tableR <- renderTable({
+          req(input$CAMs)
+          req(CAMs_drawnR())
+          tmp <- matrix(data = NA, nrow = 5, ncol = 2)
+          tmp[1, 1] <- "mean valence"
+          tmp[2, 1] <- "# of nodes"
+          tmp[3, 1] <- "# of connectors"
+          tmp[4, 1] <- "density"
+          tmp[5, 1] <- "assortativity"
+
+          tmp_value <- V(CAMs_drawnR()[[input$CAMs]])$value
+          tmp_value[tmp_value == 10] <- 0
+          tmp[1, 2] <- round(x = mean(tmp_value), digits = 2)
+          tmp[2, 2] <- igraph::gorder(graph = CAMs_drawnR()[[input$CAMs]]) # nodes
+          tmp[3, 2] <- igraph::gsize(graph = CAMs_drawnR()[[input$CAMs]])
+          tmp[4, 2] <- round(x = igraph::graph.density(graph = CAMs_drawnR()[[input$CAMs]]), digits = 2)
+
+          tmp_assortativity <- round(x = igraph::assortativity(graph = CAMs_drawnR()[[input$CAMs]], types1 =
+                                                                 ifelse(test = igraph::V(CAMs_drawnR()[[input$CAMs]])$color == "green",
+                                                                        yes = 3, no =
+                                                                          ifelse(test = igraph::V(CAMs_drawnR()[[input$CAMs]])$color == "red", yes = 2, no = 1)), directed = FALSE)
+                                     , digits = 2)
+          if(is.numeric(tmp_assortativity)){
+            tmp[5, 2] <- tmp_assortativity
+          }else{
+            tmp[5, 2] <- NA
+          }
+
+
+          tmp <- as.data.frame(tmp)
+          colnames(tmp) <- c("indicator", "value")
+          tmp
+        })
+
+
+        ## download CAMs as PDF
+        observe({
+          updateTextInput(session, "renamefileR",
+                          value = paste0("CAM_", input$CAMs)
+          )
+        })
+
+
+        output$PDFdownloadR <- downloadHandler(
+          filename = function() {
+            paste(input$renamefileR, ".pdf", sep = "")
+          },
+          content = function(file) {
+            cairo_pdf(
+              filename = file,
+              width = 18, height = 10, pointsize = 12, family = "sans", bg = "transparent",
+              antialias = "subpixel", fallback_resolution = 300
+            )
+            plot.igraph(CAMs_drawnR()[[input$CAMs]],
+                        edge.arrow.size = .7,
+                        layout = layout_nicely, vertex.frame.color = "black", asp = .5,
+                        margin = 0,
+                        vertex.size = 12, vertex.label.cex = .7,
+                        main = paste0("CAM with ID: ", input$CAMs)
+            )
+            dev.off()
+          },
+          contentType = "application/pdf"
+        )
+
+
+
+        ################
+        # switch to
+        ################
+        ## switch to
+        #> start preprocessing
+        observeEvent(input$continueDrawnPreprocessing, {
+          #req(data())
+          if(!rv$CAMsdrawn){
+            showModal(modalDialog(
+              title = "No CAMs drawn",
+              paste0("Please drawn and/ or delete CAMs to continue."),
+              easyClose = TRUE,
+              footer = tagList(
+                modalButton("Ok")
+              )
+            ))
+          }else{
+            shinyjs::disable(selector = '.navbar-nav a[data-value="draw CAM"')
+
+            shinyjs::enable(selector = '.navbar-nav a[data-value="summarize terms"')
+             showTab(inputId = "tabs", target = "summarize terms", select = TRUE, session = parent)
+          }
+        })
+
+
+        ###### drawCAMJS
+        observeEvent(input$drawCAMJS, {
+          ## change UI
+          outUI$elements <- tagList(
+            tags$h2("Draw CAMs using Java Script (programming language)"),
+            tags$br(),
+            HTML('<i>to be implemented</i>')
+          )
+        })
+
+
+
+        ###### information
+        observeEvent(input$informationDraw, {
+          ## change UI
+          outUI$elements <- tagList(
+            tags$h2("Module Specific Information"),
+            tags$div(
+              HTML('The options for this module are the following:'),
+             tags$ul(
+              tags$li(HTML('<b>Draw R:</b> Draw CAMs using R (statistic software).')),
+              tags$li(HTML('<b>Draw JS:</b> to be implemented. If you have uploaded CAMEL data you can draw your CAMs using Java Script to see the CAMs how they were drawn.'))
+            )
+          )
+          )
+        })
+
+
+    return(CAMs_drawnR)
+    })
+}
