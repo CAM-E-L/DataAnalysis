@@ -28,6 +28,12 @@ library(igraph)
 
 library(sortable)
 
+library(vroom)
+library(xlsx)
+
+
+library(irr)
+
 ########################################
 # load additional data
 ########################################
@@ -72,11 +78,6 @@ source("./www/functions_CAM/create_ValenceFiles.R", encoding = "utf-8")
 source("./www/functions_CAM/fix_ValenceData.R", encoding = "utf-8")
 
 
-
-
-
-
-
 # draw CAMs
 source("./www/functions_CAM/draw_CAM.R", encoding = "utf-8")
 
@@ -86,6 +87,16 @@ source("./www/functions_CAM/compute_indicatorsCAM.R", encoding = "utf-8")
 
 # helper functions for protocol
 source("./www/functions_CAM/protocolFunctions.R", encoding = "utf-8")
+
+# create wordlists
+source("./www/functions_CAM/create_wordlist2.R", encoding = "utf-8")
+
+# create wordlists
+source("./www/functions_CAM/compute_Reliabilities.R", encoding = "utf-8")
+
+
+
+
 
 ########################################
 # load modules
@@ -195,7 +206,8 @@ ui <- fluidPage(
       dataCAM = NULL,
       drawnCAM = NULL,
       summarizedData = NULL,
-      usedWords = NULL
+      usedWords = NULL,
+      wordlistRaters = NULL
     )
 
     ## set up download function:
@@ -275,6 +287,20 @@ ui <- fluidPage(
         }
 
 
+        if ("wordlistRatersCreated" %in% globals$condition) {
+          print("wordlistRatersCreated - check")
+          ## wordlist raters as txt file
+          path <- paste0("wordlist_raters", ".txt")
+          fs <- c(fs, path)
+          vroom::vroom_write(globals$wordlistRaters, path)
+
+          ## wordlist raters as xlsx file
+          path <- paste0("wordlist_raters", ".xlsx")
+          fs <- c(fs, path)
+          xlsx::write.xlsx2(globals$wordlistRaters, path, row.names = FALSE)
+        }
+
+
         ## + add description file
         path <- paste0("description file", ".txt")
         fs <- c(fs, path)
@@ -297,7 +323,7 @@ ui <- fluidPage(
             append = TRUE
           )
           write(
-            "CAM_merged_raw: contains the merged data of all nodes and connectors included in the CAM dataset\n",
+            "CAM_merged_raw: contains the merged data of all nodes and connectors included in the CAM dataset",
             path,
             append = TRUE
           )
@@ -326,9 +352,9 @@ ui <- fluidPage(
             path,
             append = TRUE
           )
-                  }
+        }
 
-                            if ("searchTerms" %in% globals$condition) {
+        if ("searchTerms" %in% globals$condition) {
           write(
             "\nsearchTerms_protocol: a more detailed protocol including summary statistics of your summarizing steps regarding search terms (regular expressions)",
             path,
@@ -336,6 +362,21 @@ ui <- fluidPage(
           )
                   }
           }
+
+
+        if ("wordlistRatersCreated" %in% globals$condition) {
+        write(
+            "\nwordlist_raters: .txt file of wordlist, which you can forward to the raters",
+            path,
+            append = TRUE
+          )
+
+        write(
+            "wordlist_raters: .xlsx (Excel) file of wordlist, which you can forward to the raters",
+            path,
+            append = TRUE
+          )
+        }
 
         ## add protocol
         #> add unique session id
@@ -392,5 +433,5 @@ ui <- fluidPage(
 
 
   ### run app
-  # shinyApp(ui, server)
-  runApp(shinyApp(ui, server), launch.browser = TRUE)
+  shinyApp(ui, server)
+  # runApp(shinyApp(ui, server), launch.browser = TRUE)

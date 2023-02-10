@@ -46,6 +46,9 @@ source("./www/functions_CAM/compute_indicatorsCAM.R", encoding = "utf-8")
 source("./www/functions_CAM/protocolFunctions.R", encoding = "utf-8")
 
 
+# create wordlist
+source("./www/functions_CAM/create_wordlist2.R", encoding = "utf-8")
+
 
 
 ########################################
@@ -59,21 +62,22 @@ protocol <- jsonlite::read_json(path = "protocol.txt")
 
 
 CAMfiles = list()
-CAMfiles[[1]] <- vroom::vroom(file = "CAM_nodes_raw.txt", delim = "\t",
+# readLines("CAM_nodes_raw.txt")
+CAMfiles[[1]] <- vroom::vroom(file = "CAM_nodes_clean.txt", delim = "\t",
                               show_col_types = FALSE)
 CAMfiles[[2]] <- vroom::vroom(file = "CAM_connectors_raw.txt", delim = "\t",
                               show_col_types = FALSE)
 CAMfiles[[3]] <- vroom::vroom(file = "CAM_merged_raw.txt", delim = "\t",
                               show_col_types = FALSE)
 
-tmp_out <- overwriteTextNodes(protocolDat = protocol, nodesDat = CAMfiles[[1]])
-CAMfiles[[1]] <- tmp_out[[1]]
+# tmp_out <- overwriteTextNodes(protocolDat = protocol, nodesDat = CAMfiles[[1]])
+# CAMfiles[[1]] <- tmp_out[[1]]
 # tmp_out[[1]]$text_summarized
 # CAMfiles[[1]]$text_summarized
 
 
 
-tmp <- str_subset(string = CAMfiles[[1]]$text_summarized, pattern = "_")
+tmp <- str_subset(string = CAMfiles[[1]]$text_summarized, pattern = "_", negate)
 sort(table(tmp))
 length(tmp) / nrow(CAMfiles[[1]])
 
@@ -82,10 +86,23 @@ length(tmp) / nrow(CAMfiles[[1]])
 
 
 ######################
-tmp_nodes_out <- CAMfiles[[1]]
-tmp_nodes_out$text <- tmp_nodes_out$text_summarized
-tmp_nodes_out$text_summarized <- NULL
+# tmp_nodes_out <- CAMfiles[[1]]
+# tmp_nodes_out$text <- tmp_nodes_out$text_summarized
+# tmp_nodes_out$text_summarized <- NULL
+#
+# vroom::vroom_write(x = tmp_nodes_out, file = "CAM_nodes_raw_upload.txt")
 
-vroom::vroom_write(x = tmp_nodes_out, file = "CAM_nodes_raw_upload.txt")
 
 
+CAMwordlist <- create_wordlist(
+  dat_nodes = CAMfiles[[1]],
+  dat_merged = CAMfiles[[3]],
+  order = "alphabetic",
+  splitByValence = TRUE,
+  comments = FALSE
+)
+
+head(CAMwordlist)
+
+vroom::vroom_write(x = CAMwordlist, "aa.txt")
+xlsx::write.xlsx2(x = CAMwordlist, file = "CAMwordlist.xlsx", row.names = FALSE)
