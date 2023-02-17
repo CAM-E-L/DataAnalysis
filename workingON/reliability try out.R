@@ -3,6 +3,7 @@ library(tibble)
 library(xlsx)
 library(stringdist)
 library(tidyverse)
+library(irr)
 files <- list()
 files[[1]] <- xlsx::read.xlsx2(file = "aaa.xlsx", sheetIndex = 1)
 files[[2]] <- xlsx::read.xlsx2(file = "bbb.xlsx", sheetIndex = 1)
@@ -52,6 +53,59 @@ tmp <- kappam.fleiss(ratings = tmp,
 
 
 
+ovallRaterList <- out_OverallRaterList
+
+
+number_wordCom <- sort(table(unlist(ovallRaterList[, str_subset(string = colnames(ovallRaterList),
+                                                                      pattern = "Rating_")])), decreasing = TRUE)
+# number_wordCom
+
+
+
+tmp_Ratings <- ovallRaterList[, c("Words", str_subset(string = colnames(ovallRaterList),
+                                                            pattern = "Rating_"))]
+tmp_Ratings <- tmp_Ratings %>%
+  gather(variable, value, -Words)
+
+
+tmp_Superordinate <- ovallRaterList[, str_subset(string = colnames(ovallRaterList),
+                                                            pattern = "Superordinate_")]
+tmp_Superordinate <- tmp_Superordinate %>%
+  gather(variable, value)
+
+
+
+tmp_Ratings$Superordinate <- tmp_Superordinate$value
+tmp_Ratings$variable <- str_remove(string = tmp_Ratings$variable, pattern = "Rating_")
+colnames(tmp_Ratings) <- c("Words", "Raters", "Rating", "Superordinate")
+
+
+
+
+for(w in 1:length(number_wordCom)){
+  tmp_data <- data.frame(Raters = tmp_Ratings$Raters[tmp_Ratings$Rating %in% names(number_wordCom)[w]],
+                         Superordinates = tmp_Ratings$Superordinate[tmp_Ratings$Rating %in% names(number_wordCom)[w]],
+                         Words = tmp_Ratings$Words[tmp_Ratings$Rating %in% names(number_wordCom)[w]])
+
+cat("\nword combination: ", names(number_wordCom)[w],
+    "\n,        # of Superordinates:", length(unique(tmp_data$Superordinate)),
+    ", # of Raters:", length(unique(tmp_data$Raters)),
+    ", # of words:", number_wordCom[w],
+    "\n")
+  print(tmp_data)
+}
+
+
+names(number_wordCom)[1]
+sort(tmp_Ratings$Superordinate[tmp_Ratings$Rating %in% names(number_wordCom)[w]])
+sort(unique(tmp_Ratings$Words[tmp_Ratings$Rating %in% names(number_wordCom)[w]]))
+
+
+
+ovallRaterList[, str_subset(string = colnames(ovallRaterList),
+                                  pattern = "Rating_")]
+
+tmp
 
 
 ##################################

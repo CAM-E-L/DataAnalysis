@@ -63,7 +63,7 @@ protocol <- jsonlite::read_json(path = "protocol.txt")
 
 CAMfiles = list()
 # readLines("CAM_nodes_raw.txt")
-CAMfiles[[1]] <- vroom::vroom(file = "CAM_nodes_clean.txt", delim = "\t",
+CAMfiles[[1]] <- vroom::vroom(file = "CAM_nodes_raw.txt", delim = "\t",
                               show_col_types = FALSE)
 CAMfiles[[2]] <- vroom::vroom(file = "CAM_connectors_raw.txt", delim = "\t",
                               show_col_types = FALSE)
@@ -82,9 +82,9 @@ sort(table(tmp))
 length(tmp) / nrow(CAMfiles[[1]])
 
 
-
-
-
+word(string = CAMfiles[[1]]$text)
+cat(CAMfiles[[1]]$text[str_count(string = CAMfiles[[1]]$text,
+                                 pattern = "\\S+") == 1])
 ######################
 # tmp_nodes_out <- CAMfiles[[1]]
 # tmp_nodes_out$text <- tmp_nodes_out$text_summarized

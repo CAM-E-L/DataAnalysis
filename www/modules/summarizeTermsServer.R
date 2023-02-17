@@ -1516,6 +1516,17 @@ tags$br(),
     #> Server
       observeEvent(input$clickGetWords, {
           print(input$selectValence)
+          if (is.null(module_rv$df)) {
+          showModal(
+            modalDialog(
+              title = "Run Approximate matching or Searching terms",
+              paste0("You need to run the approximate matching or searching terms function before you 
+              can check if you have any missing words"),
+              easyClose = TRUE,
+              footer = tagList(modalButton("Ok"))
+            )
+        )
+          }
       output$outGetWords <- renderPrint({
         if (!is.null(module_rv$df)) {
 
@@ -1782,9 +1793,9 @@ tags$br(),
           #> change condition
           globals$condition <-
             c(globals$condition, "wordlistRatersCreated")
-
           #> save as global
           globals$wordlistRaters <- CAMwordlist
+
         CAMwordlist
       })
 
@@ -1864,6 +1875,7 @@ tags$br(),
             style = "font-size:14px"
           ),
           verbatimTextOutput(ns("b_CohensKappaSummary")),
+          tags$br(),
           tags$h5("Fleiss Kappa:"),
                                         tags$div(
             HTML(
@@ -1872,6 +1884,14 @@ tags$br(),
             style = "font-size:14px"
           ),
           verbatimTextOutput(ns("b_FleissKappaOverlapping")),
+                                                  tags$div(
+            HTML(
+              "> for different word combinations given superordinate words (sorted by highest frequency):"
+            ),
+            style = "font-size:14px"
+          ),
+          verbatimTextOutput(ns("b_FleissKappaOverlapping_Descriptives")),
+          tags$br(),
                                                   tags$div(
             HTML(
               "Fleiss Kappa for given superordinate words:"
@@ -1990,16 +2010,19 @@ tags$br(),
         }) 
 
 
-        ovallRaterList <- getOverallRaterList(files = data(),
+      ovallRaterList <- getOverallRaterList(files = data(),
                     orderAlphabetically = TRUE,
-                    raterNames = tmp_namesRater) 
+                    raterNames = tmp_namesRater)
+
+      #> change condition
+      globals$condition <- c(globals$condition, "wordlistOverallRated")
+      #> save as global
+      globals$wordlistOverallRated <- ovallRaterList
 
       ## output overall table
       output$b_wordlistTableOverall <- renderDataTable({
         ovallRaterList
       })
-
-
 
       ## Fleiss Kappa for different groups of overlapping words
       output$b_FleissKappaOverlapping <- renderPrint({
@@ -2007,6 +2030,45 @@ tags$br(),
                                   pattern = "Rating_")]
         kappam.fleiss(ratings = tmp, detail=TRUE)
       })
+
+
+      # > for different word combinations given superordinate words (sorted by highest frequency)
+      output$b_FleissKappaOverlapping_Descriptives <- renderPrint({
+        ## table of word counts sorted
+        number_wordCom <- sort(table(unlist(ovallRaterList[, str_subset(string = colnames(ovallRaterList),
+          pattern = "Rating_")])), decreasing = TRUE)
+
+        ## wide to long data
+        tmp_Ratings <- ovallRaterList[, c("Words", str_subset(string = colnames(ovallRaterList),
+                                                            pattern = "Rating_"))]
+        tmp_Ratings <- tmp_Ratings %>%
+          gather(variable, value, -Words)
+                                                            
+        tmp_Superordinate <- ovallRaterList[, str_subset(string = colnames(ovallRaterList),
+                                                            pattern = "Superordinate_")]
+        tmp_Superordinate <- tmp_Superordinate %>%
+          gather(variable, value)
+          
+        tmp_Ratings$Superordinate <- tmp_Superordinate$value
+        tmp_Ratings$variable <- str_remove(string = tmp_Ratings$variable, pattern = "Rating_")
+        colnames(tmp_Ratings) <- c("Words", "Raters", "Rating", "Superordinate")
+        
+        ## print output
+        for(w in 1:length(number_wordCom)){
+          tmp_data <- data.frame(Raters = tmp_Ratings$Raters[tmp_Ratings$Rating %in% names(number_wordCom)[w]],
+                         Superordinates = tmp_Ratings$Superordinate[tmp_Ratings$Rating %in% names(number_wordCom)[w]],
+                         Words = tmp_Ratings$Words[tmp_Ratings$Rating %in% names(number_wordCom)[w]])
+
+          cat("\nword combination: ", names(number_wordCom)[w],
+          "\n      , # of Raters:", length(unique(tmp_data$Raters)),
+          ", # of Superordinates:", length(unique(tmp_data$Superordinate)),
+          ", # of words:", number_wordCom[w], "\n")
+          print(tmp_data)
+          }
+      })
+
+
+
 
       ## Fleiss Kappa for given superordinate words
       output$b_FleissKappaSuperordinate <- renderPrint({

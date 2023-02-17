@@ -207,7 +207,9 @@ ui <- fluidPage(
       drawnCAM = NULL,
       summarizedData = NULL,
       usedWords = NULL,
-      wordlistRaters = NULL
+      # wordlist for Raters AND wordlist overall rated by raters
+      wordlistRaters = NULL,
+      wordlistOverallRated = NULL
     )
 
     ## set up download function:
@@ -301,6 +303,19 @@ ui <- fluidPage(
         }
 
 
+        if ("wordlistOverallRated" %in% globals$condition) {
+          print("wordlistOverallRated - check")
+          ## wordlist raters as txt file
+          path <- paste0("wordlist_overallRated", ".txt")
+          fs <- c(fs, path)
+          vroom::vroom_write(globals$wordlistOverallRated, path)
+
+          ## wordlist raters as xlsx file
+          path <- paste0("wordlist_overallRated", ".xlsx")
+          fs <- c(fs, path)
+          xlsx::write.xlsx2(globals$wordlistOverallRated, path, row.names = FALSE)
+        }
+
         ## + add description file
         path <- paste0("description file", ".txt")
         fs <- c(fs, path)
@@ -360,7 +375,7 @@ ui <- fluidPage(
             path,
             append = TRUE
           )
-                  }
+        }
           }
 
 
@@ -378,6 +393,20 @@ ui <- fluidPage(
           )
         }
 
+
+        if ("wordlistOverallRated" %in% globals$condition) {
+        write(
+            "\nwordlist_overallRated: .txt file of overall wordlist, which have been rated by your raters",
+            path,
+            append = TRUE
+          )
+
+        write(
+            "wordlist_overallRated: .xlsx (Excel) file of overall wordlist, which have been rated by your raters",
+            path,
+            append = TRUE
+          )
+        }
         ## add protocol
         #> add unique session id
         if (is.null(globals$protocol$sessionID)) {
@@ -433,5 +462,5 @@ ui <- fluidPage(
 
 
   ### run app
-  shinyApp(ui, server)
-  # runApp(shinyApp(ui, server), launch.browser = TRUE)
+# shinyApp(ui, server)
+runApp(shinyApp(ui, server), launch.browser = TRUE)

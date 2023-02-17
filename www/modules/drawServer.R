@@ -176,7 +176,7 @@ drawServer <- function(id, dataCAM, parent, globals) {
           if(input$orderCAMR == "# of nodes"){
             print("# of nodes")
             rv$networkIndicators$CAM_ID[order(rv$networkIndicators$num_nodes_macro)]
-          }else if(input$orderCAMR == "# of conectors"){
+          }else if(input$orderCAMR == "# of connectors"){
             print("# of connectors")
             rv$networkIndicators$CAM_ID[order(rv$networkIndicators$num_edges_macro)]
           }else if(input$orderCAMR == "density"){
