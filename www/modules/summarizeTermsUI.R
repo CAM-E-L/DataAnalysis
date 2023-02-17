@@ -12,7 +12,7 @@ summarizeTermsUI <- function(id) {
                     actionButton(inputId =  ns("searchTerms"), label = "Searching terms",
                                  icon = icon(name = "angle-right", lib = "font-awesome"),
                                  class = "btn-sidebar"),
-                    actionButton(inputId = ns("wordVec"), label = "word2vec",
+                    actionButton(inputId = ns("Synonyms_wordVec"), label = HTML("Synonyms/<br>word2vec"),
                                  icon = icon(name = "angle-right", lib = "font-awesome"),
                                  class = "btn-sidebar"),
 

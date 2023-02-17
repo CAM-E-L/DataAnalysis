@@ -1,0 +1,3 @@
+time	searchRound	stringDistance	superordinate	subordinate_positive	N_positive	mean_positive	sd_positive	subordinate_negative	N_negative	mean_negative	sd_negative	subordinate_neutral	N_neutral	subordinate_ambivalent	N_ambivalent
+2022-11-04 16:25:25	102	climate change|Climate change	climate change		0	NA	NA	Climate change // Inherent climate change // climate change continuation // climate change denial_negative	3	-2	1		0		0
+2022-11-04 16:25:47	102	climate change|Climate change	helps climate change	helps climate change // reduce climate change // prevent climate change // tackle climate change	5	2.6	0.55		0	NA	NA		0		0

@@ -1444,23 +1444,68 @@ tags$br(),
 
 
       ############
-      # word2vec
+      # synonyms, word2vec
       ############
       #> UI
-      observeEvent(input$wordVec, {
+      observeEvent(input$Synonyms_wordVec, {
         ## change UI
         outUI$elements <- tagList(
-          tags$h2("Summarize by word2vec models"),
+          tags$h2("Summarize by searching for synonyms or word2vec models"),
           tags$br(),
-          HTML('<i>to be implemented</i>'),
-          tags$br(),
-          tags$div(
+     tags$div(
             HTML(
-              "Remark: Will only be available offline, as the models (trained neural networks over hundreds of millions to billions of words) of word2vec are several
-            gigabytes in size and it is not possible to put them online. IMPORTANT: Only concepts with single words can be summarized using word2vec models!"
+              "This module option is divided in two parts: you can search for similar group of terms  (a) by simply searching for synonyms
+               and / or
+               (b) by applying a word2vec model (neural network model which had learned word associations from a large corpus of text).
+               <br>    
+               <br>
+               <b>Important: This module option can handle only concepts written with a single word, which exsists.</b>
+               <br>
+               Therefore, it could be necessary to summarize your concepts manually / check spelling errors and 
+              inconsistent writing of concepts before using this module."
             ),
             style = "font-size:14px"
           ),
+          tags$br(),
+          tags$br(),
+                 tags$h3("(a) searching for synonyms"),
+                 tags$div(
+            HTML(
+              "...:"
+            ),
+            style = "font-size:14px"
+          ),
+                    tags$br(),
+                 tags$h3("(b) applying a word2vec model"),
+                 tags$div(
+            HTML(
+              "Remark: To use this functionality you need to compute the pairwise similarity between concepts (written with a single word) using
+              the provided Python code on GitHub. It is not possible to implement this procedure online, because trained word2vec models are 
+              relatively large (> 500mb) and it is technically difficult to implement Python Code within a Shiny Application.
+              <br>
+              <br>
+              To run the word2vec model, please do the following three steps: (1) download your summarized words as a text file using the button below 
+              and (2) download run the Python script (see GitHub link) and (3) upload the so computed pairwise similarities to the Shiny App."
+            ),
+            style = "font-size:14px"
+          ),
+          tags$h4("(1) Download summarized words:"),
+          tags$h4("(2) Download and run Python script:"),
+                        tags$div(
+            HTML(
+              "...:"
+            ),
+            style = "font-size:14px"
+          ),
+          tags$h4("(3) Upload the computed pairwise similarities:"),
+                        tags$div(
+            HTML(
+              "...:"
+            ),
+            style = "font-size:14px"
+          ),
+          tags$h5("Pairwise similarities (correlation matrix):"),
+          tags$h5("Suggested similar groups of concepts by computing a hierarchical clustering:"),
         )
       })
 
