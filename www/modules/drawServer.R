@@ -41,8 +41,41 @@ drawServer <- function(id, dataCAM, parent, globals) {
           outUI$elements <- tagList(
             tags$h2("Draw CAMs using R (statistic software)"),
             tags$br(),
-            tags$div(HTML("Click on button to run function to draw CAMs. Please click only once and
-                      wait few seconds. If you have deleted a single or multiple CAMs please click on this button again to update your drawn CAMs:"), style="font-size:14px"),
+            tags$div(HTML("After choosen your settings (in most cases the default is recommended), please click on the draw CAMs button 
+            to draw your CAMs. Please click only once and wait few seconds. If you have deleted a single or multiple CAMs please 
+            click on this button again to update your drawn CAMs:"), style="font-size:14px"),
+            tags$h3("Your Settings:"),
+         tags$div(
+            HTML(
+              'Please select if you want to drawn the concepts on the same positions as the participants, else a so called 
+              <a href="https://en.wikipedia.org/wiki/Force-directed_graph_drawing" target="_blank">force-directed graph drawing algorithm</a> 
+              is applied. Further you can change the relative size of the vertices and edges (only needed if you have large CAMs):'
+            ),
+            style = "font-size:14px"
+          ),
+          div(
+            style = "margin: 0 auto; width: 100%; text-align:left;",
+            div(
+              style = "display: inline-block; vertical-align: top; width: 25%; padding:10px;",
+			  # position
+                       tags$div(HTML("Please specify if positions should be considered:"), style="font-size:14px"),
+                   radioButtons(ns("drawCAM_setting_position"), label = NULL, c("Yes", "No"), selected = "Yes"),
+            ),
+      div(
+              style = "display: inline-block; vertical-align: top; width: 25%; padding:10px;",
+			  # relative size of the vertices
+		                     tags$div(HTML("You can change the relative size of the vertices (from 1 to 10):"), style="font-size:14px"),
+                   numericInput(ns("drawCAM_setting_relVertices"), label = NULL, value = 4, min = 1, max = 10, step = 1, width = "80%"),
+            ),
+      div(
+              style = "display: inline-block; vertical-align: top; width: 25%; padding:10px;",
+			  # relative size of the edges
+		                     tags$div(HTML("You can change the relative size of the edges (from .1 to 1.5):"), style="font-size:14px"),
+                   numericInput(ns("drawCAM_setting_relEdges"), label = NULL, value = .5, min = .1, max = 1.5, step = .1, width = "80%"),
+            ),
+          ),
+
+            tags$h3("Draw CAMs:"),
             actionButton(ns("clickDrawR"), "draw CAMs"),
             tags$p(
               "You have drawn ",
@@ -103,8 +136,8 @@ drawServer <- function(id, dataCAM, parent, globals) {
             tmp_CAMs <- draw_CAM(
               dat_merged = dataCAM()[[3]],
               dat_nodes = dataCAM()[[1]], ids_CAMs = "all", plot_CAM = FALSE,
-              relvertexsize = 3,
-              reledgesize = 1
+              relvertexsize = input$drawCAM_setting_relVertices,
+              reledgesize = input$drawCAM_setting_relEdges
             )
           } else if (rv$counter >= 2) {
             if (!is.null(rv$diffdeleted)) {
@@ -112,15 +145,15 @@ drawServer <- function(id, dataCAM, parent, globals) {
                 dat_merged = dataCAM()[[3]],
                 dat_nodes = dataCAM()[[1]], ids_CAMs = rv$diffdeleted,
                 plot_CAM = FALSE,
-                relvertexsize = 3,
-                reledgesize = 1
+              relvertexsize = input$drawCAM_setting_relVertices,
+              reledgesize = input$drawCAM_setting_relEdges
               )
             } else {
               tmp_CAMs <- draw_CAM(
                 dat_merged = dataCAM()[[3]],
                 dat_nodes = dataCAM()[[1]], ids_CAMs = "all", plot_CAM = FALSE,
-                relvertexsize = 3,
-                reledgesize = 1
+                     relvertexsize = input$drawCAM_setting_relVertices,
+              reledgesize = input$drawCAM_setting_relEdges
               )
             }
           }
@@ -223,11 +256,21 @@ drawServer <- function(id, dataCAM, parent, globals) {
           req(input$CAMs)
           req(CAMs_drawnR())
 
+          if(input$drawCAM_setting_position == "Yes"){
+          plot.igraph(CAMs_drawnR()[[input$CAMs]],
+                      edge.arrow.size = .7,
+                      layout=cbind(V(CAMs_drawnR()[[input$CAMs]])$xPos, V(CAMs_drawnR()[[input$CAMs]])$yPos),
+                      vertex.frame.color = "black", asp = .5,
+                      margin = 0, vertex.label.cex = .7
+          )
+          }else{
           plot.igraph(CAMs_drawnR()[[input$CAMs]],
                       edge.arrow.size = .7,
                       layout = layout_nicely, vertex.frame.color = "black", asp = .5,
                       margin = 0, vertex.label.cex = .7
           )
+          }
+
         })
 
 
@@ -316,13 +359,24 @@ drawServer <- function(id, dataCAM, parent, globals) {
               width = 18, height = 10, pointsize = 12, family = "sans", bg = "transparent",
               antialias = "subpixel", fallback_resolution = 300
             )
-            plot.igraph(CAMs_drawnR()[[input$CAMs]],
-                        edge.arrow.size = .7,
-                        layout = layout_nicely, vertex.frame.color = "black", asp = .5,
-                        margin = 0,
-                        vertex.size = 12, vertex.label.cex = .7,
-                        main = paste0("CAM with ID: ", input$CAMs)
-            )
+
+
+          if(input$drawCAM_setting_position == "Yes"){
+          plot.igraph(CAMs_drawnR()[[input$CAMs]],
+                      edge.arrow.size = .7,
+                      layout=cbind(V(CAMs_drawnR()[[input$CAMs]])$xPos, V(CAMs_drawnR()[[input$CAMs]])$yPos),
+                      vertex.frame.color = "black", asp = .5,
+                      margin = 0, vertex.label.cex = .7,
+                           main = paste0("CAM with ID: ", input$CAMs)
+          )
+          }else{
+          plot.igraph(CAMs_drawnR()[[input$CAMs]],
+                      edge.arrow.size = .7,
+                      layout = layout_nicely, vertex.frame.color = "black", asp = .5,
+                      margin = 0, vertex.label.cex = .7,
+                           main = paste0("CAM with ID: ", input$CAMs)
+          )
+          }
             dev.off()
           },
           contentType = "application/pdf"

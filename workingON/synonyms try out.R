@@ -38,7 +38,6 @@ sum(rowSums(x = tmp != "") == 1) / nrow(tmp)
 
 
 
-
 word(string = CAMfiles[[1]]$text[1], start = 1L, end = 1, sep = fixed(" "))
 
 
@@ -125,14 +124,14 @@ SummarizedSynonymList <- function(listSynonyms = NULL){
 raw_SynonymList <- RawSynonymList(vectorWords = CAMfiles[[1]]$text)
 raw_SynonymList[[2]]
 reduced_SynonymList <- SummarizedSynonymList(listSynonyms = raw_SynonymList[[1]])
-for(i in 1:length(list_out_mat_synonym)){
-  reduced_list_out_mat_synonym <- SummarizedSynonymList(listSynonyms = reduced_list_out_mat_synonym)
+for(i in 1:length(reduced_SynonymList)){
+  reduced_SynonymList <- SummarizedSynonymList(listSynonyms = reduced_SynonymList)
 }
 
 
 
 
-reduced_list_out_mat_synonym
+reduced_SynonymList
 length(list_out_mat_synonym)
-length(reduced_list_out_mat_synonym)
+length(reduced_SynonymList)
 

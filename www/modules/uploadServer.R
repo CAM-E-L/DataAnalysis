@@ -150,6 +150,12 @@ uploadServer <- function(id, parent, globals) {
     observeEvent(input$uploadData, {
       ## change UI
       outUI$elements <- tagList(
+        tags$div(
+          HTML(
+            "Remark: if you have a protocol already please upload first your protocol and afterwards your raw data."
+          ),
+          style = "font-size:14px"
+        ),
         tags$h2("Upload your protocol"),
         tags$div(
           HTML(
