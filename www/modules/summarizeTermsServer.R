@@ -95,7 +95,7 @@ summarizeTermsServer <-
             style = "font-size:14px"
           ),
           tags$br(),
-          tags$b("Settings:"),
+          tags$h3("Your Settings:"),
           tags$div(
             HTML(
               "Please select the maximum string distance (recommended: less than five) and
@@ -131,7 +131,7 @@ summarizeTermsServer <-
             tags$b(
               textOutput(ns("Nodes_matches"), inline = TRUE),
               " cases, where you can apply approximate string matching, were found."
-            ),
+            )),
             tags$br(),
             tags$p(
               "Word for which matches were found: ",
@@ -189,7 +189,6 @@ summarizeTermsServer <-
               style = "font-size:14px"
             ),
             dataTableOutput(ns("alreadyUsedWords")),
-          )
         )
       })
 
@@ -310,7 +309,7 @@ summarizeTermsServer <-
 
       # > rounds to click:
       output$Nodes_matchesRounds <- renderText({
-        max(optimalMatchSim()$num) - am_rv$counterPos
+        max(optimalMatchSim()$num) - am_rv$counterPos + 1
       })
 
 
@@ -1446,7 +1445,7 @@ tags$br(),
       ############
       # synonyms, word2vec
       ############
-      #> UI
+      #> UI general
       observeEvent(input$Synonyms_wordVec, {
         ## change UI
         outUI$elements <- tagList(
@@ -1459,29 +1458,898 @@ tags$br(),
                (b) by applying a word2vec model (neural network model which had learned word associations from a large corpus of text).
                <br>    
                <br>
-               <b>Important: This module option can handle only concepts written with a single word, which exsists.</b>
+               <b>Important: This module option can handle only concepts written with a <u>single word, which exsists</u>.</b>
                <br>
                Therefore, it could be necessary to summarize your concepts manually / check spelling errors and 
-              inconsistent writing of concepts before using this module."
+              inconsistent writing of concepts before using this module.        
+              <br>
+              Please click on: "
             ),
             style = "font-size:14px"
           ),
           tags$br(),
+          div(
+          style = "margin: 0 auto; width: 50%; text-align:center;",
+          actionButton(
+            ns("a_synonyms"),
+            HTML('(a)<br>Searching for<br>Synonyms'),
+            style = "width: 250px; height: 150px; font-size: 22px;"
+          ),
+          actionButton(
+            ns("b_word2vec"),
+            HTML('(b)<br>Applying a<br>word2vec Model'),
+            style = "width: 250px; height: 150px; margin-left:20px; font-size: 22px;"
+          )
+        ),
+        tags$br(),
+        tags$p(
+              "Your CAM dataset has at the moment ",
+              tags$b(textOutput(ns(
+                "numOneWords"
+              ), inline = TRUE)),
+              " unique concepts, which contains only one word, which are ",
+              tags$b(textOutput(ns(
+                "numOneWordsPercentage"
+              ), inline = TRUE)),
+              " percent of your total unique concepts."
+            ),
+        )
+      })
+
+
+      #> Server synonyms, word2vec general
+      observeEvent(input$Synonyms_wordVec, {
+          if (is.null(module_rv$df)) {
+          showModal(
+            modalDialog(
+              title = "Run Approximate matching or Searching terms",
+              paste0("You need to run the approximate matching or searching terms function before you 
+              can use the module option."),
+              easyClose = TRUE,
+              footer = tagList(modalButton("Ok"))
+            )
+        )
+          }else{
+            tmpOneWords <- str_split(string = unique(module_rv$df[[1]]$text), pattern = " ", simplify = TRUE)
+
+            output$numOneWords <- renderText({
+              sum(rowSums(x = tmpOneWords != "") == 1)
+              })
+
+            output$numOneWordsPercentage <- renderText({
+              round(x = sum(rowSums(x = tmpOneWords != "") == 1) / nrow(tmpOneWords), digits = 2) * 100
+              })
+          }
+          })
+
+
+       #> UI a_synonyms
+      observeEvent(input$a_synonyms, {
+        ## change UI
+        outUI$elements <- tagList(
+          tags$h2("(a) Summarize concepts by searching for synonyms"),
           tags$br(),
-                 tags$h3("(a) searching for synonyms"),
-                 tags$div(
+          tags$div(
             HTML(
-              "...:"
+              'Here you can summarize concepts by searching for synonyms, whereby for words written in 
+              <ul>
+                <li>English the <a href="https://dictionary.reverso.net/english-synonyms/" target="_blank">Reverso Online Dictionary</a></li>
+                <li><i>other languages will be implemented</i></li>
+              </ul>
+              <br> 
+               are applied:'
             ),
             style = "font-size:14px"
           ),
-                    tags$br(),
-                 tags$h3("(b) applying a word2vec model"),
-                 tags$div(
+          tags$br(),
+          tags$h3("Your settings:"),
+                    tags$div(
+            HTML(
+              "Please select the language of your CAM dataset and click
+                click on the button to start summarizing your concepts by searching for synonyms. 
+                Please click only once and wait few seconds:"
+            ),
+            style = "font-size:14px"
+          ),
+          div(
+            style = "margin: 0 auto; width: 100%; text-align:left;",
+            div(
+              style = "display: inline-block; vertical-align: top;",
+              selectInput(ns("a_synonymsLanugage"), NULL, c("English",
+                                                      "no other implemented"), selected = "English", width = "200px")
+            ),
+            actionButton(
+              ns("a_synonymsStart"),
+              "search for synonyms",
+              style = "display: inline-block;"
+            ),
+          ),
+          tags$h3("Synonyms found:"),
+          tags$p(
+            "By searching for synonyms ",
+            tags$b(textOutput(ns(
+              "a_synonymsPercentageFound"
+            ), inline = TRUE)),
+            " percent of your unique concepts have been found in the synonym database."
+			),
+      tags$p(
+            "Your uploaded CAM dataset contains ",
+            tags$b(textOutput(ns(
+              "Nodes_unique"
+            ), inline = TRUE), " unique concepts"),
+            " , whereby on your current set of unique concepts (! only single words considered) ",
+            tags$b(
+              textOutput(ns("a_groupsSynonyms"), inline = TRUE),
+              " groups of synonyms"
+            ),
+            " have been found."
+            ),
+          tags$br(),
+          tags$p(
+            HTML("&nbsp;&nbsp;"),
+            " > ",
+            tags$b(textOutput(
+              ns("a_groupsSynonymsRound"), inline = TRUE
+            )),
+            " more groups of synonyms to look at."
+          ),
+          tags$br(),
+       tags$div(
+              HTML("Keep the words you want to summarize in the right lists:"),
+              style = "font-size:18px"
+            ),
+            tags$div(
+              HTML(
+                '<i>The first word is automatically selected as a possible superordinate word. If it contains a spelling error, you can 
+                correct it manually.
+                <br>
+                Important: all words will be saved in the following format: Word_positive for words with positive valence,
+                 Word_negative for words with negative valence and so on. 
+                 If you do not want to summarize a specific word please move it to the most left column. 
+                 If you do not want to summarize any words of the found synonyms just click on "skip":</i>'
+              ),
+              style = "font-size:14px"
+            ),
+            htmlOutput(ns("a_synonymsBucketlist")),
+            fluidRow(
+              column(
+                width = 6,
+                offset = 5,
+                textInput(
+                  ns("a_synonymsSupordinateWord"),
+                  "Superordinate word:",
+                  placeholder = "all words, which are not in the most left column"
+                ),
+                actionButton(ns("a_synonymsClickSummarize"), "summarize"),
+                actionButton(ns("a_synonymsClickSkip"), "skip")
+              )
+            ),
+            tags$br(),
+            tags$p(
+              "Your CAM dataset contains ",
+              tags$b(textOutput(ns(
+                "Nodes_unique_afterSynonyms"
+              ), inline = TRUE)),
+              " unique concepts AFTER summarzing."
+            ),
+            tags$div(
+              HTML(
+         'The following table shows you which words you have already summarized. You can use the search functionalities of the table:'
+              ),
+              style = "font-size:14px"
+            ),
+            dataTableOutput(ns("alreadyUsedWordsSynonyms")),
+        )
+      })
+
+
+      #> Server synonyms
+      #> Server
+synonym_rv <-
+  reactiveValues(
+    protocolCounter = 1L,
+          counterPos = 0L,
+          counterNeg = 0L,
+          counterNeutral = 0L,
+          counterAmbi = 0L,
+    df = NULL,
+    protocol = NULL,
+    usedWords = list(),
+    skip = FALSE
+  )
+
+## create data set for approximate matching
+reducedSynonymList <-
+  eventReactive(c(
+    input$a_synonymsStart), {
+
+    message("The choosen language is ",
+            input$a_synonymsLanugage)
+
+
+    ## get data input:
+    if(any(colnames(module_rv$df) == "text_summarized")){
+      # remove all suffix
+      tmp_text <- str_remove_all(string = module_rv$df[[1]]$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+      }else{
+        tmp_text <- module_rv$df[[1]]$text
+      }
+    
+    if (input$a_synonymsStart == 1) {
+      synonym_rv$df <- module_rv$df
+    }
+
+    ## get raw synonym list
+    raw_SynonymList <- RawSynonymList(vectorWords = tmp_text) # !!! IF language
+    
+    ## out perentage of matches
+    output$a_synonymsPercentageFound <- renderText({
+      raw_SynonymList[[2]]
+      })
+
+    ## reset counter:
+    synonym_rv$counterPos <- 0L
+    synonym_rv$counterNeg <- 0L
+        synonym_rv$counterNeutral <- 0L
+            synonym_rv$counterAmbi <- 0L
+  
+    ## get reduced synonym list
+reduced_SynonymList <- SummarizedSynonymList(listSynonyms = raw_SynonymList[[1]])
+for(i in 1:length(reduced_SynonymList)){
+  reduced_SynonymList <- SummarizedSynonymList(listSynonyms = reduced_SynonymList)
+}
+
+reduced_SynonymList
+  })
+
+
+        ## number of groups of synonyms
+      output$a_groupsSynonyms <- renderText({
+   req(reducedSynonymList())
+    length(reducedSynonymList())
+      })
+
+
+    ## number ofrounds to click:
+     output$a_groupsSynonymsRound <- renderText({
+        length(reducedSynonymList()) - synonym_rv$counterPos + 1
+      })
+        ## number of nodes after summarizing words using synonyms
+      output$a_groupsSynonyms <- renderText({
+   req(reducedSynonymList())
+    length(reducedSynonymList())
+      })
+
+
+
+      ## implement skip functionality
+      observeEvent(input$a_synonymsClickSkip, {
+        synonym_rv$skip <- TRUE
+      })
+
+
+### create labels for bucket list
+# > words with POSITIVE valence:
+labels_positive_synonym <-
+  eventReactive(c(
+    input$a_synonymsStart,
+    input$a_synonymsClickSummarize,
+    input$a_synonymsClickSkip
+  ),
+  {
+    req(reducedSynonymList())
+    synonym_rv$counterPos <- synonym_rv$counterPos + 1
+    
+    print("Counter positive:")
+    print(synonym_rv$counterPos)
+
+    ## get text variable
+    tmp_text <- str_remove_all(string = module_rv$df[[1]]$text_summarized, 
+                               pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+    tmp_text <- tolower(x = tmp_text)
+    
+    
+    ## avoid error
+    if (synonym_rv$counterPos <= length(reducedSynonymList())) {
+      labels_out <-
+        reducedSynonymList()[[synonym_rv$counterPos]]
+      
+      # print(module_rv$df[[1]][tmp_text %in% labels_out, ])
+      
+      labels_list <- list()
+      for (i in 1:length(labels_out)) {
+        tmp_dat <-
+          module_rv$df[[1]][tmp_text == labels_out[i], ]
+        
+        
+        for(w in unique(tmp_dat$text_summarized)){
+          tmp_dat_w <- tmp_dat[tmp_dat$text_summarized == w, ]
+          tmp_value <-
+            tmp_dat_w$value[tmp_dat_w$value > 0 &
+                              tmp_dat_w$value < 10]
+          
+          ## ignore zero value (if words are too similar)
+          if (length(tmp_value) != 0) {
+            ## compute N
+            tmp_N <- length(tmp_value)
+            ## compute mean
+            tmp_mean <-
+              round(x = mean(tmp_value), digits = 2)
+            ## compute SD
+            tmp_SD <-
+              round(x = sd(tmp_value), digits = 2)
+            
+            tmp_word <- str_remove_all(string = w, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+            labels_list[[tmp_word]] <-
+              htmltools::tags$div(paste0(
+                tmp_word,
+                "   (N=",
+                tmp_N,
+                ", M=",
+                tmp_mean,
+                ", SD=",
+                tmp_SD,
+                ")"
+              ))
+          }
+        }
+      }
+      
+      
+      ## reset skip condition
+      synonym_rv$skip <- FALSE
+      
+      labels_list
+    } else {
+      print("maximum reached")
+      synonym_rv$counterPos <- synonym_rv$counterPos - 1
+      NULL
+    }
+  })
+
+
+
+
+### create labels for bucket list
+# > words with NEGATIVE valence:
+labels_negative_synonym <-
+  eventReactive(c(
+    input$a_synonymsStart,
+    input$a_synonymsClickSummarize,
+    input$a_synonymsClickSkip
+  ),
+  {
+    req(reducedSynonymList())
+        synonym_rv$counterNeg <- synonym_rv$counterNeg + 1
+    
+    ## get text variable
+    tmp_text <- str_remove_all(string = module_rv$df[[1]]$text_summarized, 
+                               pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+    tmp_text <- tolower(x = tmp_text)
+    
+    
+    ## avoid error
+    if (synonym_rv$counterNeg <= length(reducedSynonymList())) {
+      labels_out <-
+        reducedSynonymList()[[synonym_rv$counterNeg]]
+      
+      labels_list <- list()
+      for (i in 1:length(labels_out)) {
+        tmp_dat <-
+          module_rv$df[[1]][tmp_text == labels_out[i], ]
+        
+        
+        for(w in unique(tmp_dat$text_summarized)){
+          tmp_dat_w <- tmp_dat[tmp_dat$text_summarized == w, ]
+          tmp_value <- tmp_dat_w$value[tmp_dat_w$value < 0]
+          
+          ## ignore zero value (if words are too similar)
+          if (length(tmp_value) != 0) {
+            ## compute N
+            tmp_N <- length(tmp_value)
+            ## compute mean
+            tmp_mean <-
+              round(x = mean(tmp_value), digits = 2)
+            ## compute SD
+            tmp_SD <-
+              round(x = sd(tmp_value), digits = 2)
+            
+            tmp_word <- str_remove_all(string = w, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+            labels_list[[tmp_word]] <-
+              htmltools::tags$div(paste0(
+                tmp_word,
+                "   (N=",
+                tmp_N,
+                ", M=",
+                tmp_mean,
+                ", SD=",
+                tmp_SD,
+                ")"
+              ))
+          }
+        }
+      }
+      
+      ## reset skip condition
+      synonym_rv$skip <- FALSE
+      
+      labels_list
+    } else {
+      print("maximum reached")
+            synonym_rv$counterNeg <- synonym_rv$counterNeg - 1
+      NULL
+    }
+  })
+
+
+
+
+### create labels for bucket list
+# > words with NEUTRAL valence:
+labels_neutral_synonym <-
+  eventReactive(c(
+    input$a_synonymsStart,
+    input$a_synonymsClickSummarize,
+    input$a_synonymsClickSkip
+  ),
+  {
+    req(reducedSynonymList())
+            synonym_rv$counterNeutral <- synonym_rv$counterNeutral + 1
+    
+    ## get text variable
+    tmp_text <- str_remove_all(string = module_rv$df[[1]]$text_summarized, 
+                               pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+    tmp_text <- tolower(x = tmp_text)
+    
+    
+    ## avoid error
+    if (synonym_rv$counterNeutral <= length(reducedSynonymList())) {
+      labels_out <-
+        reducedSynonymList()[[synonym_rv$counterNeutral]]
+      
+      labels_list <- list()
+      for (i in 1:length(labels_out)) {
+        tmp_dat <-
+          module_rv$df[[1]][tmp_text == labels_out[i], ]
+        
+        
+        for(w in unique(tmp_dat$text_summarized)){
+          tmp_dat_w <- tmp_dat[tmp_dat$text_summarized == w, ]
+          tmp_value <- tmp_dat_w$value[tmp_dat_w$value == 0]
+          
+          ## ignore zero value (if words are too similar)
+          if (length(tmp_value) != 0) {
+            ## compute N
+            tmp_N <- length(tmp_value)
+            ## compute mean
+            tmp_mean <-
+              round(x = mean(tmp_value), digits = 2)
+            ## compute SD
+            tmp_SD <-
+              round(x = sd(tmp_value), digits = 2)
+            
+            tmp_word <- str_remove_all(string = w, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+            labels_list[[tmp_word]] <-
+              htmltools::tags$div(paste0(
+                tmp_word,
+                "   (N=",
+                tmp_N,
+                ", M=",
+                tmp_mean,
+                ", SD=",
+                tmp_SD,
+                ")"
+              ))
+          }
+        }
+      }
+      
+      
+      ## reset skip condition
+      synonym_rv$skip <- FALSE
+      
+      labels_list
+    } else {
+      print("maximum reached")
+                  synonym_rv$counterNeutral <- synonym_rv$counterNeutral - 1
+      NULL
+    }
+  })
+
+
+### create labels for bucket list
+# > words with AMBIVALENT valence:
+labels_ambivalent_synonym <-
+  eventReactive(c(
+    input$a_synonymsStart,
+    input$a_synonymsClickSummarize,
+    input$a_synonymsClickSkip
+  ),
+  {
+    req(reducedSynonymList())
+                synonym_rv$counterAmbi <- synonym_rv$counterAmbi + 1
+    
+    ## get text variable
+    tmp_text <- str_remove_all(string = module_rv$df[[1]]$text_summarized, 
+                               pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+    tmp_text <- tolower(x = tmp_text)
+    
+    
+    ## avoid error
+    if (synonym_rv$counterAmbi <= length(reducedSynonymList())) {
+      labels_out <-
+        reducedSynonymList()[[synonym_rv$counterAmbi]]
+      
+      labels_list <- list()
+      for (i in 1:length(labels_out)) {
+        tmp_dat <-
+          module_rv$df[[1]][tmp_text == labels_out[i], ]
+        
+        
+        for(w in unique(tmp_dat$text_summarized)){
+          tmp_dat_w <- tmp_dat[tmp_dat$text_summarized == w, ]
+          tmp_value <- tmp_dat_w$value[tmp_dat_w$value == 10]
+          
+          ## ignore zero value (if words are too similar)
+          if (length(tmp_value) != 0) {
+            ## compute N
+            tmp_N <- length(tmp_value)
+            ## compute mean
+            tmp_mean <-
+              round(x = mean(tmp_value), digits = 2)
+            ## compute SD
+            tmp_SD <-
+              round(x = sd(tmp_value), digits = 2)
+            
+            tmp_word <- str_remove_all(string = w, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+            labels_list[[tmp_word]] <-
+              htmltools::tags$div(paste0(
+                tmp_word,
+                "   (N=",
+                tmp_N,
+                ", M=",
+                tmp_mean,
+                ", SD=",
+                tmp_SD,
+                ")"
+              ))
+          }
+        }
+      }
+      
+      
+      ## reset skip condition
+      synonym_rv$skip <- FALSE
+      
+      labels_list
+    } else {
+      print("maximum reached")
+                        synonym_rv$counterAmbi <- synonym_rv$counterAmbi - 1
+      NULL
+    }
+  })
+
+
+
+      ## number of nodes after summarizing words using synonyms
+      output$Nodes_unique_afterSynonyms <- renderText({
+        tmp_text_summarized <- str_remove_all(string = module_rv$df[[1]]$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+        length(unique(tmp_text_summarized))
+      })
+
+
+
+ ## update text field value of "a_synonymsSupordinateWord":
+      getSupordinateWord_synonyms <- function(){
+        if (!identical(input$matches_positive_synonyms, character(0))) {
+          updateTextInput(
+            session,
+            "a_synonymsSupordinateWord",
+            value = str_remove_all(
+              string = input$matches_positive_synonyms[1],
+              pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
+            )
+          )
+        } else if (!identical(input$matches_negative_synonyms, character(0))) {
+          updateTextInput(
+            session,
+            "a_synonymsSupordinateWord",
+            value = str_remove_all(
+              string = input$matches_negative_synonyms[1],
+              pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
+            )
+          )
+        } else if (!identical(input$matches_neutral_synonyms, character(0))) {
+          updateTextInput(
+            session,
+            "a_synonymsSupordinateWord",
+            value = str_remove_all(
+              string = input$matches_neutral_synonyms[1],
+              pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
+            )
+          )
+        } else if (!identical(input$matches_ambivalent_synonyms, character(0))) {
+          updateTextInput(
+            session,
+            "a_synonymsSupordinateWord",
+            value = str_remove_all(
+              string = input$matches_ambivalent_synonyms[1],
+              pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
+            )
+          )
+        }
+      }
+      
+      observe({
+       getSupordinateWord_synonyms()
+      })
+
+
+
+      ## Render bucket list
+      output$a_synonymsBucketlist <- renderUI({
+        bucket_list(
+          header = NULL,
+          group_name = ns("bucket_list_groupSynonym"),
+          orientation = "horizontal",
+          add_rank_list(
+            text = "move here to not summarize single words",
+            labels = NULL,
+            # labels from row selection
+            input_id = ns("matches_suggestion_synonyms"),
+            options = sortable_options(multiDrag = TRUE)
+          ),
+          add_rank_list(
+            text = "suggested synonymous words with POSITIVE valence:",
+            labels = labels_positive_synonym(),
+            input_id = ns("matches_positive_synonyms"),
+            options = sortable_options(multiDrag = TRUE)
+          ),
+          add_rank_list(
+            text = "suggested synonymous words with NEGATIVE valence:",
+            labels = labels_negative_synonym(),
+            input_id = ns("matches_negative_synonyms"),
+            options = sortable_options(multiDrag = TRUE)
+          ),
+          add_rank_list(
+            text = "suggested synonymous words with NEUTRAL valence:",
+            labels = labels_neutral_synonym(),
+            input_id = ns("matches_neutral_synonyms"),
+            options = sortable_options(multiDrag = TRUE)
+          ),
+          add_rank_list(
+            text = "suggested synonymous words with AMBIVALENT valence:",
+            labels = labels_ambivalent_synonym(),
+            input_id = ns("matches_ambivalent_synonyms"),
+            options = sortable_options(multiDrag = TRUE)
+          )
+        )
+      })
+
+
+
+
+## set protocol and overwrite data:
+observeEvent(input$a_synonymsClickSummarize, {
+  if (!isTRUE(synonym_rv$skip)) {
+    ## avoid adding multiple suffix
+    text_summarized_NoSuffix <- str_remove_all(
+      string = module_rv$df[[1]]$text_summarized,
+      pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
+    )
+    # positive valence
+    tmp_value_protocol_positive <-
+      module_rv$df[[1]]$value[text_summarized_NoSuffix %in% input$matches_positive_synonyms &
+                                module_rv$df[[1]]$value > 0 &
+                                module_rv$df[[1]]$value < 10]
+    # negative valence
+    tmp_value_protocol_negative <-
+      module_rv$df[[1]]$value[text_summarized_NoSuffix %in% input$matches_negative_synonyms &
+                                module_rv$df[[1]]$value < 0]
+    # neutral valence
+    tmp_value_protocol_neutral <-
+      module_rv$df[[1]]$value[text_summarized_NoSuffix %in% input$matches_neutral_synonyms &
+                                module_rv$df[[1]]$value == 0]
+    # ambivalent valence
+    tmp_value_protocol_ambivalent <-
+      module_rv$df[[1]]$value[text_summarized_NoSuffix %in% input$matches_ambivalent_synonyms &
+                                module_rv$df[[1]]$value == 10]
+    # tmp_value_protocol_ambivalent <- ifelse(test = tmp_value_protocol_ambivalent == 10, yes = 0, no = tmp_value_protocol_ambivalent)
+
+
+    tmp_protocol <- data.frame(
+      "time" = as.character(as.POSIXct(Sys.time())),
+      "searchRound" = synonym_rv$protocolCounter,
+      "Synonyms" = paste0( reducedSynonymList()[[synonym_rv$counterAmbi]], collapse = " // "), # ???
+      "superordinate" = input$a_synonymsSupordinateWord,
+      "subordinate_positive" = paste0(input$matches_positive_synonyms, collapse = " // "),
+      "N_positive" = length(tmp_value_protocol_positive),
+      "mean_positive" = round(
+        x = mean(tmp_value_protocol_positive),
+        digits = 2
+      ),
+      "sd_positive" = round(
+        x = sd(tmp_value_protocol_positive),
+        digits = 2
+      ),
+      "subordinate_negative" = paste0(input$matches_negative_synonyms, collapse = " // "),
+      "N_negative" = length(tmp_value_protocol_negative),
+      "mean_negative" = round(
+        x = mean(tmp_value_protocol_negative),
+        digits = 2
+      ),
+      "sd_negative" = round(
+        x = sd(tmp_value_protocol_negative),
+        digits = 2
+      ),
+      "subordinate_neutral" = paste0(input$matches_neutral_synonyms, collapse = " // "),
+      "N_neutral" = length(tmp_value_protocol_neutral),
+      "subordinate_ambivalent" = paste0(input$matches_ambivalent_synonyms, collapse = " // "),
+      "N_ambivalent" = length(tmp_value_protocol_ambivalent)
+    )
+
+
+    print("tmp_protocol")
+    print(tmp_protocol)
+    if (synonym_rv$protocolCounter == 1) {
+      synonym_rv$protocol <- tmp_protocol
+    } else {
+      #  tmp <- tmp_protocol
+      synonym_rv$protocol <-
+        rbind(synonym_rv$protocol, tmp_protocol)
+    }
+
+    #print("synonym_rv$protocol:")
+    #print(synonym_rv$protocol)
+    synonym_rv$protocolCounter <- synonym_rv$protocolCounter + 1
+
+
+
+    ## save changed text in
+    tmpWordsSummarized <- c()
+    if (!identical(input$matches_positive_synonyms, character(0))) {
+      ## remove suffix
+      matches_positive_NoSuffix <- str_remove_all(
+        string = input$matches_positive_synonyms,
+        pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
+      )
+
+      module_rv$df[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_positive_NoSuffix &
+                                          module_rv$df[[1]]$value > 0 &
+                                          module_rv$df[[1]]$value < 10] <-
+        paste0(input$a_synonymsSupordinateWord, "_positive")
+
+      tmpWordsSummarized <- paste0(matches_positive_NoSuffix, "_positive")
+      # which words have already been used?
+      # module_rv$usedWordsAM[["positive"]] <- append(module_rv$usedWordsAM[["positive"]] , input$a_synonymsSupordinateWord)
+      module_rv$usedWordsAM[["positive"]] <-
+        append(module_rv$usedWordsAM[["positive"]],
+               paste0(
+                 input$a_synonymsSupordinateWord,
+                 " (",
+                 paste0(matches_positive_NoSuffix, collapse = " // "),
+                 ")"
+               ))
+
+
+    }
+    if (!identical(input$matches_negative_synonyms, character(0))) {
+      ## remove suffix
+      matches_negative_NoSuffix <- str_remove_all(
+        string = input$matches_negative_synonyms,
+        pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
+      )
+      module_rv$df[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_negative_NoSuffix &
+                                          module_rv$df[[1]]$value < 0] <-
+        paste0(input$a_synonymsSupordinateWord, "_negative")
+
+      if (length(tmpWordsSummarized) == 0) {
+        tmpWordsSummarized <- paste0(matches_negative_NoSuffix, "_negative")
+      } else{
+        tmpWordsSummarized <- c(tmpWordsSummarized, paste0(matches_negative_NoSuffix, "_negative"))
+      }
+
+      # which words have already been used?
+      module_rv$usedWordsAM[["negative"]] <-
+        append(module_rv$usedWordsAM[["negative"]],
+               paste0(
+                 input$a_synonymsSupordinateWord,
+                 " (",
+                 paste0(matches_negative_NoSuffix, collapse = " // "),
+                 ")"
+               ))
+    }
+    if (!identical(input$matches_neutral_synonyms, character(0))) {
+      ## remove suffix
+      matches_neutral_NoSuffix <- str_remove_all(
+        string = input$matches_neutral_synonyms,
+        pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
+      )
+      module_rv$df[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_neutral_NoSuffix &
+                                          module_rv$df[[1]]$value == 0] <-
+        paste0(input$a_synonymsSupordinateWord, "_neutral")
+
+      if (length(tmpWordsSummarized) == 0) {
+        tmpWordsSummarized <- paste0(matches_neutral_NoSuffix, "_neutral")
+      } else{
+        tmpWordsSummarized <- c(tmpWordsSummarized, paste0(matches_neutral_NoSuffix, "_neutral"))
+      }
+      # which words have already been used?
+      module_rv$usedWordsAM[["neutral"]] <-
+        append(module_rv$usedWordsAM[["neutral"]],
+               paste0(
+                 input$a_synonymsSupordinateWord,
+                 " (",
+                 paste0(matches_neutral_NoSuffix, collapse = " // "),
+                 ")"
+               ))
+    }
+    if (!identical(input$matches_ambivalent_synonyms, character(0))) {
+      ## remove suffix
+      matches_ambivalent_NoSuffix <- str_remove_all(
+        string = input$matches_ambivalent_synonyms,
+        pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
+      )
+      module_rv$df[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_ambivalent_NoSuffix &
+                                          module_rv$df[[1]]$value == 10] <-
+        paste0(input$a_synonymsSupordinateWord, "_ambivalent")
+
+      if (length(tmpWordsSummarized) == 0) {
+        tmpWordsSummarized <- paste0(matches_ambivalent_NoSuffix, "_ambivalent")
+      } else{
+        tmpWordsSummarized <-
+          c(tmpWordsSummarized, paste0(matches_ambivalent_NoSuffix, "_ambivalent"))
+      }
+      # which words have already been used?
+      module_rv$usedWordsAM[["ambivalent"]] <-
+        append(module_rv$usedWordsAM[["ambivalent"]],
+               paste0(
+                 input$a_synonymsSupordinateWord,
+                 " (",
+                 paste0(matches_ambivalent_NoSuffix, collapse = " // "),
+                 ")"
+               ))
+    }
+
+    #print(module_rv$df[[1]])
+    #print("tmpWordsSummarized:")
+    #print(tmpWordsSummarized)
+
+  #   tmp_list = vector(mode = "list", length = 4)
+  #   tmp_list[[1]] = as.character(as.POSIXct(Sys.time()))
+  #   tmp_list[[2]] = tmpWordsSummarized
+  #   tmp_list[[3]] = input$a_synonymsSupordinateWord
+  #   tmp_list[[4]] = input$maxStringDis
+  #   names(tmp_list) <-
+  #     c("time",
+  #       "wordsFound",
+  #       "supordinateWord",
+  #       "stringDistance")
+  #   globals$protocol$approximateMatching[[length(globals$protocol$approximateMatching) + 1]] <-
+  #     tmp_list
+  #
+  #   #> change condition
+  #   globals$condition <-
+  #     c(globals$condition, "approximateMatching")
+
+  }
+})
+
+
+
+
+
+       #> UI b_word2vec
+      observeEvent(input$b_word2vec, {
+        ## change UI
+        outUI$elements <- tagList(
+          tags$h2("(b) Summarize concepts by applying a word2vec model"),
+          tags$br(),
+          tags$div(
             HTML(
               "Remark: To use this functionality you need to compute the pairwise similarity between concepts (written with a single word) using
               the provided Python code on GitHub. It is not possible to implement this procedure online, because trained word2vec models are 
-              relatively large (> 500mb) and it is technically difficult to implement Python Code within a Shiny Application.
+              relatively large (> 500mb) and it is technically difficult to implement Python Code within a Shiny Application written in R.
               <br>
               <br>
               To run the word2vec model, please do the following three steps: (1) download your summarized words as a text file using the button below 
@@ -1489,25 +2357,32 @@ tags$br(),
             ),
             style = "font-size:14px"
           ),
-          tags$h4("(1) Download summarized words:"),
-          tags$h4("(2) Download and run Python script:"),
+          tags$br(),
+          tags$h3("(1) Download summarized words:"),
+          tags$h3("(2) Download and run Python script:"),
                         tags$div(
             HTML(
               "...:"
             ),
             style = "font-size:14px"
           ),
-          tags$h4("(3) Upload the computed pairwise similarities:"),
+          tags$h3("(3) Upload the computed pairwise similarities:"),
                         tags$div(
             HTML(
               "...:"
             ),
             style = "font-size:14px"
           ),
-          tags$h5("Pairwise similarities (correlation matrix):"),
-          tags$h5("Suggested similar groups of concepts by computing a hierarchical clustering:"),
+          tags$h4("Pairwise similarities (correlation matrix):"),
+          tags$h4("Suggested similar groups of concepts by computing a hierarchical clustering:"),
         )
       })
+
+
+
+
+      #> Server word2vec
+
 
 
 

@@ -98,7 +98,10 @@ uploadServer <- function(id, parent, globals) {
           )
         )
       } else{
+        globals$clickedButton <- "startPreprocessing"
+
         shinyjs::disable(selector = '.navbar-nav a[data-value="upload data"')
+
 
         showTab(
           inputId = "tabs",
@@ -129,14 +132,58 @@ uploadServer <- function(id, parent, globals) {
           )
         )
       } else{
+        globals$clickedButton <- "startAnalysis"
+
         shinyjs::disable(selector = '.navbar-nav a[data-value="upload data"')
 
         showTab(
           inputId = "tabs",
-          target = "network indicators",
+          target = "draw CAM",
           select = TRUE,
           session = parent
         )
+
+        showTab(
+          inputId = "tabs",
+          target = "network indicators",
+          select = FALSE,
+          session = parent
+        )
+
+                showTab(
+          inputId = "tabs",
+          target = "word outputs",
+          select = FALSE,
+          session = parent
+        )
+
+                showTab(
+          inputId = "tabs",
+          target = "single terms",
+          select = FALSE,
+          session = parent
+        )
+
+                showTab(
+          inputId = "tabs",
+          target = "summarize CAMs",
+          select = FALSE,
+          session = parent
+        )
+
+         showTab(
+          inputId = "tabs",
+          target = "similarity algorithms",
+          select = FALSE,
+          session = parent
+        )
+
+
+        shinyjs::disable(selector = '.navbar-nav a[data-value="network indicators"')
+        shinyjs::disable(selector = '.navbar-nav a[data-value="word outputs"')
+        shinyjs::disable(selector = '.navbar-nav a[data-value="single terms"')
+        shinyjs::disable(selector = '.navbar-nav a[data-value="summarize CAMs"')
+        shinyjs::disable(selector = '.navbar-nav a[data-value="similarity algorithms"')
 
 
       }

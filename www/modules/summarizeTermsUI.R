@@ -18,16 +18,18 @@ summarizeTermsUI <- function(id) {
 
                     actionButton(inputId = ns("wordsNotSummarized"), label = "not summarized",
                                  icon = icon(name = "angle-right", lib = "font-awesome"),
-                                 class = "btn-sidebar", style="background-color: #93ffb7;"),
+                                 class = "btn-sidebar", style="background-color: #f3f14f;"),
 
-                    actionButton(inputId = ns("reliability"), label = "Reliability",
+                    actionButton(inputId = ns("reliability"), label = HTML("Train and Check<br>Reliability"),
                                  icon = icon(name = "angle-right", lib = "font-awesome"),
-                                 class = "btn-sidebar", style="background-color: #fdff5f;"),
+                                 class = "btn-sidebar", style="background-color: #c6e2ff;"),
 
                     actionButton(inputId = ns("informationSummarizeTerms"), label = "Information",
                                  icon = icon(name = "angle-right", lib = "font-awesome"),
                                  class = "btn-sidebar")
              ),
+
+       
              column(11,
                     uiOutput(ns("summarizeTermsOut"))
              )

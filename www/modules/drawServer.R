@@ -113,7 +113,7 @@ drawServer <- function(id, dataCAM, parent, globals) {
                       div(style="margin: 0 auto; text-align:left;",
                tags$div(HTML('After you have drawn and/ or deleted your CAMs you can continue with the
                               prepocessing part:')),
-                    actionButton(ns("continueDrawnPreprocessing"),  HTML('Continue<br>Preprocessing'), style="width: 150px;
+                    actionButton(ns("continueDrawnPreprocessingAnalysis"),  HTML('Continue'), style="width: 150px;
                                  height: 90px; font-size: 18px; padding: 10px")
                                  ))
             )
@@ -389,7 +389,7 @@ drawServer <- function(id, dataCAM, parent, globals) {
         ################
         ## switch to
         #> start preprocessing
-        observeEvent(input$continueDrawnPreprocessing, {
+        observeEvent(input$continueDrawnPreprocessingAnalysis, {
           #req(data())
           if(!rv$CAMsdrawn){
             showModal(modalDialog(
@@ -401,10 +401,27 @@ drawServer <- function(id, dataCAM, parent, globals) {
               )
             ))
           }else{
+            if(globals$clickedButton == "startPreprocessing"){
             shinyjs::disable(selector = '.navbar-nav a[data-value="draw CAM"')
 
             shinyjs::enable(selector = '.navbar-nav a[data-value="summarize terms"')
              showTab(inputId = "tabs", target = "summarize terms", select = TRUE, session = parent)
+            }else if(globals$clickedButton == "startAnalysis"){
+            shinyjs::disable(selector = '.navbar-nav a[data-value="draw CAM"')
+            
+            shinyjs::enable(selector = '.navbar-nav a[data-value="network indicators"')
+            shinyjs::enable(selector = '.navbar-nav a[data-value="word outputs"')
+            shinyjs::enable(selector = '.navbar-nav a[data-value="single terms"')
+            shinyjs::enable(selector = '.navbar-nav a[data-value="summarize CAMs"')
+            shinyjs::enable(selector = '.navbar-nav a[data-value="similarity algorithms"')
+
+
+            showTab(inputId = "tabs", target = "network indicators", select = TRUE, session = parent)
+            showTab(inputId = "tabs", target = "word outputs", select = FALSE, session = parent)
+            showTab(inputId = "tabs", target = "single terms", select = FALSE, session = parent)
+            showTab(inputId = "tabs", target = "summarize CAMs", select = FALSE, session = parent)
+            showTab(inputId = "tabs", target = "similarity algorithms", select = FALSE, session = parent)
+            }
           }
         })
 

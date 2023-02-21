@@ -91,9 +91,11 @@ source("./www/functions_CAM/protocolFunctions.R", encoding = "utf-8")
 # create wordlists
 source("./www/functions_CAM/create_wordlist2.R", encoding = "utf-8")
 
-# create wordlists
+# compute reliabilities
 source("./www/functions_CAM/compute_Reliabilities.R", encoding = "utf-8")
 
+# create create_ListSynonyms
+source("./www/functions_CAM/create_ListSynonyms.R", encoding = "utf-8")
 
 
 
@@ -118,6 +120,11 @@ source("./www/modules/summarizeTermsServer.R", local = TRUE)
 ########
 # analysis
 ########
+# network indicators
+source("./www/modules/networkIndicatorsUI.R", local = TRUE)
+source("./www/modules/networkIndicatorsServer.R", local = TRUE)
+
+
 
 ############################################################################
 # define UI, server, runApp
@@ -154,9 +161,20 @@ ui <- fluidPage(
     # analysis
     ########################################
     tabPanel("network indicators", {
+        fluidPage(networkIndicatorsUI("networkIndicators"))
+    }),
+        tabPanel("word outputs", {
       # fluidPage(networkIndicatorsUI("networkIndicators"))
     }),
-
+      tabPanel("single terms", {
+      # fluidPage(networkIndicatorsUI("networkIndicators"))
+    }),
+        tabPanel("summarize CAMs", {
+      # fluidPage(networkIndicatorsUI("networkIndicators"))
+    }),
+       tabPanel("similarity algorithms", {
+      # fluidPage(networkIndicatorsUI("networkIndicators"))
+    }),
       tags$script(
         HTML(
           "var header = $('.navbar > .container-fluid');
@@ -183,6 +201,11 @@ ui <- fluidPage(
 
     #> analysis
     hideTab(inputId = "tabs", target = "network indicators")
+    hideTab(inputId = "tabs", target = "word outputs")
+    hideTab(inputId = "tabs", target = "single terms")
+    hideTab(inputId = "tabs", target = "summarize CAMs")
+    hideTab(inputId = "tabs", target = "similarity algorithms")
+
 
 
     ## global variable for protocol
@@ -193,6 +216,7 @@ ui <- fluidPage(
       }) ## create session ID
 
     globals <- reactiveValues(
+      clickedButton = NULL,
       condition = NULL,
       protocol = list(
         sessionID = NULL,
@@ -201,7 +225,9 @@ ui <- fluidPage(
         deletedCAMs = NULL,
         currentCAMs = NULL,
         approximateMatching = NULL,
-        searchTerms = NULL
+        searchTerms = NULL,
+
+        networkIndicators = NULL # analysis part
       ),
       dataCAM = NULL,
       drawnCAM = NULL,
@@ -452,9 +478,16 @@ ui <- fluidPage(
         drawnCAM = globals$drawnCAM,
         parent = session,
         globals
-      ) # !!!
+      )
 
-
+    globals$networkIndicators <-
+      networkIndicatorsServer(
+        "networkIndicators",
+        dataCAM = globals$dataCAM,
+        drawnCAM = globals$drawnCAM,
+        parent = session,
+        globals
+      ) 
 
   }
 

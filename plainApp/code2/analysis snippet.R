@@ -73,10 +73,17 @@ sort(table(CAMfiles[[1]]$text))
 
 ### draw CAMs
 CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
-                     dat_nodes = CAMfiles[[1]],ids_CAMs = "all", plot_CAM = TRUE, useCoordinates = FALSE,
+                     dat_nodes = CAMfiles[[1]],ids_CAMs = "all", plot_CAM = FALSE, useCoordinates = TRUE,
                      relvertexsize = 3,
                      reledgesize = 1)
-plot(CAMdrawn[[3]])
+plot(CAMdrawn[[1]])
+plot(induced_subgraph(CAMdrawn[[1]], ego(CAMdrawn[[1]], 1, "ea1d471e-834d-4042-b550-1e5c5bfe6933")[[1]]))
+# plot(CAMdrawn[[3]])
+
+
+
+
+
 ### CAM indicators
 CAMindicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
                                        micro_degree = c("Bedingungsloses Grundeinkommen"),
