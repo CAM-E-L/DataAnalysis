@@ -71,6 +71,18 @@ barplot(table(CAMfiles[[1]]$value))
 sort(table(CAMfiles[[1]]$text))
 
 
+
+
+create_wordlist(dat_nodes = CAMfiles[[1]],
+                            dat_merged = CAMfiles[[3]],
+                            order = NULL,
+                            splitByValence = TRUE,
+                            comments = TRUE,
+                            rater=FALSE)
+
+
+
+
 ### draw CAMs
 CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
                      dat_nodes = CAMfiles[[1]],ids_CAMs = "all", plot_CAM = FALSE, useCoordinates = TRUE,

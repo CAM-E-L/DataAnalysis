@@ -411,16 +411,18 @@ drawServer <- function(id, dataCAM, parent, globals) {
             
             shinyjs::enable(selector = '.navbar-nav a[data-value="network indicators"')
             shinyjs::enable(selector = '.navbar-nav a[data-value="word outputs"')
-            shinyjs::enable(selector = '.navbar-nav a[data-value="single terms"')
             shinyjs::enable(selector = '.navbar-nav a[data-value="summarize CAMs"')
             shinyjs::enable(selector = '.navbar-nav a[data-value="similarity algorithms"')
+            shinyjs::enable(selector = '.navbar-nav a[data-value="slice CAMs"')
+            shinyjs::enable(selector = '.navbar-nav a[data-value="report"')
 
 
             showTab(inputId = "tabs", target = "network indicators", select = TRUE, session = parent)
             showTab(inputId = "tabs", target = "word outputs", select = FALSE, session = parent)
-            showTab(inputId = "tabs", target = "single terms", select = FALSE, session = parent)
             showTab(inputId = "tabs", target = "summarize CAMs", select = FALSE, session = parent)
             showTab(inputId = "tabs", target = "similarity algorithms", select = FALSE, session = parent)
+            showTab(inputId = "tabs", target = "slice CAMs", select = FALSE, session = parent)
+            showTab(inputId = "tabs", target = "report", select = FALSE, session = parent)
             }
           }
         })

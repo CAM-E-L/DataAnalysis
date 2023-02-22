@@ -18,11 +18,12 @@
 des_sigCorr <- function(indicatos_CAM = NULL, vars = NULL, printOut = FALSE){
   # check vars
   if(is.null(vars)){
-    cat("Your specified vars argument is null.\n")
+    print("Your specified vars argument is null.")
     stop("> please specify a variable / multiple variables")
   }
   if(!all(vars %in% colnames(indicatos_CAM))){
-    cat("Your specified vars argument is:", vars, "\n")
+    print("Your specified vars argument is:")
+    print(vars)
     stop("> which is no variable in your dataset")
   }
 
@@ -63,37 +64,58 @@ des_sigCorr <- function(indicatos_CAM = NULL, vars = NULL, printOut = FALSE){
 }
 
 
+
 ############################################################################
-##### des_summaryStats()
+##### getDescriptives()
 #
 ############################################################################
 ################################ !!! in function: summary statistics
-des_summaryStats <- function(indicatos_CAM = NULL, createHTML = TRUE){
-  vec_names <- indicatos_CAM %>%
+getDescriptives <- function(dataset = CAMindicators,
+                            nameAPAtable = NULL){
+
+
+  vec_names <- dataset %>%
     select_if(Negate(is.character)) %>%
     colnames()
 
-  mat <- matrix(NA, nrow = length(vec_names), ncol = 5)
-  for(i in 1:length(vec_names)){
-    tmp_mean <- round(x = mean(indicatos_CAM[, vec_names[i]], na.rm = TRUE), digits = 2)
-    tmp_sd <- round(x = sd(indicatos_CAM[, vec_names[i]], na.rm = TRUE), digits = 2)
-    tmp_min <- round(x = min(indicatos_CAM[, vec_names[i]], na.rm = TRUE), digits = 2)
-    tmp_max <- round(x = max(indicatos_CAM[, vec_names[i]], na.rm = TRUE), digits = 2)
 
-    mat[i,] <- c(vec_names[i], tmp_mean, tmp_sd, tmp_min, tmp_max)
+  x <- dataset[, vec_names]
+
+
+  ## table
+  tmp_descriptives <- sapply(x, function(x) c(
+    "Mean"= mean(x,na.rm=TRUE),
+    "SD" = sd(x,na.rm=TRUE),
+    "Median" = median(x,na.rm=TRUE),
+    "CoeffofVariation" = sd(x)/mean(x,na.rm=TRUE),
+    "Minimum" = min(x,na.rm=TRUE),
+    "Maximun" = max(x,na.rm=TRUE),
+    "Lower Quantile" = as.numeric(quantile(x,0,na.rm=TRUE)),
+    "Upper Quantile" = as.numeric(quantile(x,1,na.rm=TRUE)),
+    "Skewness" = moments::skewness(x = x,na.rm=TRUE),
+    "Kurtosis(-3)" = moments::kurtosis(x = x,na.rm=TRUE) -3,
+    "KS-Test" = ks.test(x = x, y = "pnorm", mean(x,na.rm=TRUE), sd(x,na.rm=TRUE))$p.value
+  )
+  )
+  tmp_descriptives <- round(x = tmp_descriptives, digits = 2)
+
+  # print(t(tmp_descriptives))
+
+
+  ## round digits
+  out_tmp <- round(x = t(tmp_descriptives), digits = 2)
+
+  ## stargazer
+  if(!is.null(nameAPAtable)){
+    notNeeded <- capture.output(stargazer(out_tmp, type = "html", summary = FALSE,
+                                          out = paste0(nameAPAtable, ".html")))
   }
 
-  colnames(mat) <- c("networkindicators", "mean", "sd", "min", "max")
-  if(createHTML){
-    stargazer::stargazer(mat, summary = FALSE,
-                         out = "summaryStats.html", type = "html")
-  }
-
-
-  mat <- as.data.frame(mat)
-  mat[2:5] <- sapply(mat[2:5],as.numeric)
-  return(mat)
+    notNeeded <- capture.output(stargazer(out_tmp, type = "html", summary = FALSE))
+  # return(out_tmp)
+  return(notNeeded)
 }
+
 
 
 ############################################################################

@@ -1,24 +1,23 @@
-networkIndicatorsUI <- function(id) {
+wordOutputs_overallUI <- function(id) {
   ns <- NS(id)
 
   tagList(
     fluidRow(class = "sidebar",
              column(1, tags$b("Module Options:"),
 
-                    actionButton(inputId =  ns("networkIndicators"), label = HTML('<b>get network<br>indicators</b>'),
+                    actionButton(inputId =  ns("wordlist_overall"), label = HTML('<b>get wordlist</b>'),
                                  icon = icon(name = "angle-right", lib = "font-awesome"),
                                  class = "btn-sidebar"),
-                    actionButton(inputId =  ns("networkIndicatorsDescriptives"), label = HTML('get network<br>descriptives'),
+                    actionButton(inputId =  ns("wordClouds_overall"), label = HTML('get wordcloud'),
                                  icon = icon(name = "angle-right", lib = "font-awesome"),
                                  class = "btn-sidebar"),
-                    actionButton(inputId = ns("informationNetworkIndicators"), label = "Information",
+                    actionButton(inputId = ns("informationWordsOverall"), label = "Information",
                                  icon = icon(name = "angle-right", lib = "font-awesome"),
                                  class = "btn-sidebar")
              ),
              column(11,
-                    uiOutput(ns("uploadOutNetworkIndicators"))
+                    uiOutput(ns("uploadOutWordsOverall"))
              )
-
     )
   )
 }

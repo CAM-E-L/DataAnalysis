@@ -34,6 +34,10 @@ library(xlsx)
 
 library(irr)
 
+
+library(stargazer)
+
+
 ########################################
 # load additional data
 ########################################
@@ -98,6 +102,10 @@ source("./www/functions_CAM/compute_Reliabilities.R", encoding = "utf-8")
 source("./www/functions_CAM/create_ListSynonyms.R", encoding = "utf-8")
 
 
+# summary functions
+source("./www/functions_CAM/summaryFunctions.R", encoding = "utf-8")
+
+
 
 
 ########################################
@@ -123,6 +131,10 @@ source("./www/modules/summarizeTermsServer.R", local = TRUE)
 # network indicators
 source("./www/modules/networkIndicatorsUI.R", local = TRUE)
 source("./www/modules/networkIndicatorsServer.R", local = TRUE)
+
+# Word Outputs - overall
+source("./www/modules/wordOutputs_overallUI.R", local = TRUE)
+source("./www/modules/wordOutputs_overallServer.R", local = TRUE)
 
 
 
@@ -163,16 +175,29 @@ ui <- fluidPage(
     tabPanel("network indicators", {
         fluidPage(networkIndicatorsUI("networkIndicators"))
     }),
-        tabPanel("word outputs", {
+        navbarMenu(
+        "word outputs",
+        tabPanel("by words overall", {
+            fluidPage(
+      fluidPage(wordOutputs_overallUI("wordOutputs_overall"))
+            )
+        }),
+        tabPanel("by single words", {
+            fluidPage(
       # fluidPage(networkIndicatorsUI("networkIndicators"))
-    }),
-      tabPanel("single terms", {
-      # fluidPage(networkIndicatorsUI("networkIndicators"))
-    }),
+            )
+        }),
+    ),
         tabPanel("summarize CAMs", {
       # fluidPage(networkIndicatorsUI("networkIndicators"))
     }),
        tabPanel("similarity algorithms", {
+      # fluidPage(networkIndicatorsUI("networkIndicators"))
+    }),
+       tabPanel("slice CAMs", {
+      # fluidPage(networkIndicatorsUI("networkIndicators"))
+    }),
+       tabPanel("report", {
       # fluidPage(networkIndicatorsUI("networkIndicators"))
     }),
       tags$script(
@@ -202,11 +227,10 @@ ui <- fluidPage(
     #> analysis
     hideTab(inputId = "tabs", target = "network indicators")
     hideTab(inputId = "tabs", target = "word outputs")
-    hideTab(inputId = "tabs", target = "single terms")
     hideTab(inputId = "tabs", target = "summarize CAMs")
     hideTab(inputId = "tabs", target = "similarity algorithms")
-
-
+    hideTab(inputId = "tabs", target = "slice CAMs")
+    hideTab(inputId = "tabs", target = "report")
 
     ## global variable for protocol
     # https://community.rstudio.com/t/best-practices-for-global-external-variables-used-in-a-module/5820/2
@@ -480,14 +504,22 @@ ui <- fluidPage(
         globals
       )
 
-    globals$networkIndicators <-
       networkIndicatorsServer(
         "networkIndicators",
         dataCAM = globals$dataCAM,
         drawnCAM = globals$drawnCAM,
         parent = session,
         globals
-      ) 
+      )
+
+
+      wordOutputs_overallServer(
+        "wordOutputs_overall",
+        dataCAM = globals$dataCAM,
+        drawnCAM = globals$drawnCAM,
+        parent = session,
+        globals
+      )
 
   }
 

@@ -159,13 +159,6 @@ uploadServer <- function(id, parent, globals) {
 
                 showTab(
           inputId = "tabs",
-          target = "single terms",
-          select = FALSE,
-          session = parent
-        )
-
-                showTab(
-          inputId = "tabs",
           target = "summarize CAMs",
           select = FALSE,
           session = parent
@@ -178,12 +171,28 @@ uploadServer <- function(id, parent, globals) {
           session = parent
         )
 
+         showTab(
+          inputId = "tabs",
+          target = "slice CAMs",
+          select = FALSE,
+          session = parent
+        )
+
+
+                 showTab(
+          inputId = "tabs",
+          target = "report",
+          select = FALSE,
+          session = parent
+        )
+
 
         shinyjs::disable(selector = '.navbar-nav a[data-value="network indicators"')
         shinyjs::disable(selector = '.navbar-nav a[data-value="word outputs"')
-        shinyjs::disable(selector = '.navbar-nav a[data-value="single terms"')
         shinyjs::disable(selector = '.navbar-nav a[data-value="summarize CAMs"')
         shinyjs::disable(selector = '.navbar-nav a[data-value="similarity algorithms"')
+        shinyjs::disable(selector = '.navbar-nav a[data-value="slice CAMs"')
+        shinyjs::disable(selector = '.navbar-nav a[data-value="report"')
 
 
       }

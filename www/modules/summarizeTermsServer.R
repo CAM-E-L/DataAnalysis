@@ -2665,21 +2665,12 @@ observeEvent(input$a_synonymsClickSummarize, {
 
           tmp_proportion
       })
+
+      
       })
 
       ## create wordlist
         wordlist <- eventReactive(input$a_createWordlistOut, {
-        if(any(colnames(module_rv$df) == "text_summarized")){
-          tmp_text <- str_remove_all(string = module_rv$df[[1]]$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
-        }else{
-          tmp_text <- module_rv$df[[1]]$text
-        }
-        tmp_text <- unique(x = tmp_text)
-        wordsOut <- sample(x = tmp_text, size = reliability_a_rv$numConcepts, replace = FALSE)
-
-        # print(wordsOut)
-
-
 
         ## define settings: 
         # > split by valence
@@ -2696,19 +2687,34 @@ observeEvent(input$a_synonymsClickSummarize, {
         }
 
 
+        if(any(colnames(module_rv$df) == "text_summarized")){
+          if(tmp_splitByValence){
+          tmp_text <- module_rv$df[[1]]$text_summarized
+          }else{
+          tmp_text <- str_remove_all(string = module_rv$df[[1]]$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+          }
+        }else{
+          tmp_text <- module_rv$df[[1]]$text
+        }
+        tmp_text <- unique(x = tmp_text)
+        wordsOut <- sample(x = tmp_text, size = reliability_a_rv$numConcepts, replace = FALSE)
+
+        # print(wordsOut)
+
+
         CAMwordlist <- create_wordlist(
           dat_nodes = module_rv$df[[1]],
           dat_merged = module_rv$df[[3]],
           order = input$a_Wordlist_Order,
           splitByValence = tmp_splitByValence,
           comments = tmp_includeComments,
+          raterSubsetWords = wordsOut,
           rater = TRUE
           )
 
           # print(head(CAMwordlist))
-          CAMwordlist <- CAMwordlist[CAMwordlist$Words %in% wordsOut, ]
+          # CAMwordlist <- CAMwordlist[CAMwordlist$Words %in% wordsOut, ]
           # print(head(CAMwordlist))
-
 
           #> change condition
           globals$condition <-
