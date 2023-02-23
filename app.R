@@ -115,15 +115,26 @@ source("./www/functions_CAM/summaryFunctions.R", encoding = "utf-8")
 source("./www/modules/uploadUI.R", local = TRUE)
 source("./www/modules/uploadServer.R", local = TRUE)
 
-########
-# preprocessing
-########
 # draw data
 source("./www/modules/drawUI.R", local = TRUE)
 source("./www/modules/drawServer.R", local = TRUE)
+
+
+
+########
+# preprocessing
+########
 # summarize terms
 source("./www/modules/summarizeTermsUI.R", local = TRUE)
 source("./www/modules/summarizeTermsServer.R", local = TRUE)
+
+# not summarized terms
+source("./www/modules/notSummarizedTermsUI.R", local = TRUE)
+source("./www/modules/notSummarizedTermsServer.R", local = TRUE)
+
+# reliability
+source("./www/modules/reliabilityUI.R", local = TRUE)
+source("./www/modules/reliabilityServer.R", local = TRUE)
 
 ########
 # analysis
@@ -160,14 +171,21 @@ ui <- fluidPage(
     tabPanel("upload data", {
       fluidPage(uploadUI("upload"))
     }),
-    ########################################
-    # preprocessing
-    ########################################
+
     tabPanel("draw CAM", {
       fluidPage(drawUI("draw"))
     }),
+    ########################################
+    # preprocessing
+    ########################################
     tabPanel("summarize terms", {
       fluidPage(summarizeTermsUI("summarizeTerms"))
+    }),
+    tabPanel("non-summarized terms", {
+      fluidPage(notSummarizedTermsUI("notSummarizedTerms"))
+    }),
+    tabPanel("reliability", {
+      fluidPage(reliabilityUI("reliability"))
     }),
     ########################################
     # analysis
@@ -219,10 +237,11 @@ ui <- fluidPage(
     ## elements to disable
     #> not implemented
     # shinyjs::disable(selector = '.navbar-nav a[data-value="word2vec"')
-
-    #> preprocessing
     hideTab(inputId = "tabs", target = "draw CAM")
+    #> preprocessing
     hideTab(inputId = "tabs", target = "summarize terms")
+    hideTab(inputId = "tabs", target = "non-summarized terms")
+    hideTab(inputId = "tabs", target = "reliability")
 
     #> analysis
     hideTab(inputId = "tabs", target = "network indicators")
@@ -495,7 +514,11 @@ ui <- fluidPage(
                  parent = session,
                  globals)
 
-    globals$summarizedData <-
+
+
+      ########
+# preprocessing
+########
       summarizeTermsServer(
         "summarizeTerms",
         dataCAM = globals$dataCAM,
@@ -504,6 +527,27 @@ ui <- fluidPage(
         globals
       )
 
+
+      notSummarizedTermsServer(
+        "notSummarizedTerms",
+        dataCAM = globals$dataCAM,
+        drawnCAM = globals$drawnCAM,
+        parent = session,
+        globals
+      )
+
+      reliabilityServer(
+        "reliability",
+        dataCAM = globals$dataCAM,
+        drawnCAM = globals$drawnCAM,
+        parent = session,
+        globals
+      )
+
+
+########
+# analysis
+########
       networkIndicatorsServer(
         "networkIndicators",
         dataCAM = globals$dataCAM,
@@ -527,5 +571,5 @@ ui <- fluidPage(
 
 
   ### run app
-# shinyApp(ui, server)
-runApp(shinyApp(ui, server), launch.browser = TRUE)
+shinyApp(ui, server)
+# runApp(shinyApp(ui, server), launch.browser = TRUE)

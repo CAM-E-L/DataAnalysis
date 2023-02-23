@@ -72,14 +72,15 @@ sort(table(CAMfiles[[1]]$text))
 
 
 
-
-create_wordlist(dat_nodes = CAMfiles[[1]],
+set.seed(123)
+a <- create_wordlist(dat_nodes = CAMfiles[[1]],
                             dat_merged = CAMfiles[[3]],
-                            order = NULL,
+                            order = "alphabetic",
                             splitByValence = TRUE,
                             comments = TRUE,
+                     raterSubsetWords = sample(x = unique(CAMfiles[[1]]$text), size = 3),
                             rater=FALSE)
-
+a
 
 
 

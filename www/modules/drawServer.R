@@ -20,7 +20,7 @@ drawServer <- function(id, dataCAM, parent, globals) {
             tags$ul(
               tags$li(HTML('<b>Draw R:</b> Draw CAMs using R (statistic software).')),
               tags$li(HTML('<b>Draw JS:</b> to be implemented. If you have uploaded CAMEL data you can draw your CAMs using Java Script to see the CAMs how they were drawn.')),
-              tags$li(HTML('<b>Information:</b> Further information regarding the module.'))
+              tags$li(HTML('<b>Information:</b> Further information regarding this module.'))
             )
           )
         )
@@ -112,7 +112,7 @@ drawServer <- function(id, dataCAM, parent, globals) {
               tags$br(),
                       div(style="margin: 0 auto; text-align:left;",
                tags$div(HTML('After you have drawn and/ or deleted your CAMs you can continue with the
-                              prepocessing part:')),
+                              next part:')),
                     actionButton(ns("continueDrawnPreprocessingAnalysis"),  HTML('Continue'), style="width: 150px;
                                  height: 90px; font-size: 18px; padding: 10px")
                                  ))
@@ -405,7 +405,16 @@ drawServer <- function(id, dataCAM, parent, globals) {
             shinyjs::disable(selector = '.navbar-nav a[data-value="draw CAM"')
 
             shinyjs::enable(selector = '.navbar-nav a[data-value="summarize terms"')
-             showTab(inputId = "tabs", target = "summarize terms", select = TRUE, session = parent)
+            shinyjs::enable(selector = '.navbar-nav a[data-value="non-summarized terms"')
+            shinyjs::enable(selector = '.navbar-nav a[data-value="reliability"')
+
+
+
+            showTab(inputId = "tabs", target = "summarize terms", select = TRUE, session = parent)
+            showTab(inputId = "tabs", target = "non-summarized terms", select = FALSE, session = parent)
+            showTab(inputId = "tabs", target = "reliability", select = FALSE, session = parent)
+
+
             }else if(globals$clickedButton == "startAnalysis"){
             shinyjs::disable(selector = '.navbar-nav a[data-value="draw CAM"')
             

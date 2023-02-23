@@ -109,6 +109,7 @@ uploadServer <- function(id, parent, globals) {
           select = TRUE,
           session = parent
         )
+
         showTab(
           inputId = "tabs",
           target = "summarize terms",
@@ -116,7 +117,24 @@ uploadServer <- function(id, parent, globals) {
           session = parent
         )
 
+        showTab(
+          inputId = "tabs",
+          target = "non-summarized terms",
+          select = FALSE,
+          session = parent
+        )
+
+        showTab(
+          inputId = "tabs",
+          target = "reliability",
+          select = FALSE,
+          session = parent
+        )
+
         shinyjs::disable(selector = '.navbar-nav a[data-value="summarize terms"')
+        shinyjs::disable(selector = '.navbar-nav a[data-value="non-summarized terms"')
+        shinyjs::disable(selector = '.navbar-nav a[data-value="reliability"')
+
       }
     })
 

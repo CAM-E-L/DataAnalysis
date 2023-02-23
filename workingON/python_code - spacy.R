@@ -2,11 +2,11 @@ setwd("C:/DATEN/PHD/CAMtools_CAMapp/workingON")
 
 
 library(reticulate)
-# use_condaenv("r-reticulate")
-# py_install("spacy")
+use_condaenv("r-reticulate")
+# py_install("matplotlib.pyplot")
 library(shiny)
-# plt <- import("matplotlib.pyplot")
-# rpytools <- import("rpytools")
+plt <- import("matplotlib.pyplot")
+rpytools <- import("rpytools")
 spacy <- import("spacy")
 nlp <- spacy$load(name = "en_core_web_md")
 # nlp = spacy.load("en_core_web_md")  # make sure to use larger package!
