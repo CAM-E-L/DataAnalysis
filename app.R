@@ -22,6 +22,8 @@ library(lubridate)
 
 
 library(rjson) # write JSON files
+library(jsonlite) # read JSON files
+
 
 
 library(igraph)
@@ -127,6 +129,11 @@ source("./www/modules/drawServer.R", local = TRUE)
 # summarize terms
 source("./www/modules/summarizeTermsUI.R", local = TRUE)
 source("./www/modules/summarizeTermsServer.R", local = TRUE)
+# > additional functions
+source("./www/modules/functions_bucketlists.R", local = TRUE)
+
+
+
 
 # not summarized terms
 source("./www/modules/notSummarizedTermsUI.R", local = TRUE)
@@ -261,6 +268,7 @@ ui <- fluidPage(
     globals <- reactiveValues(
       clickedButton = NULL,
       condition = NULL,
+
       protocol = list(
         sessionID = NULL,
         software = NULL,
@@ -270,12 +278,20 @@ ui <- fluidPage(
         approximateMatching = NULL,
         searchTerms = NULL,
 
-        networkIndicators = NULL # analysis part
+        networkIndicators = NULL # ??? analysis part
       ),
+
       dataCAM = NULL,
       drawnCAM = NULL,
-      summarizedData = NULL,
-      usedWords = NULL,
+      dataCAMsummarized = NULL,
+
+      usedWords = list(),
+      detailedProtocolAM = NULL,
+      detailedProtocolST = NULL,
+
+      # counter = NULL,
+      # summarizedData = NULL,
+
       # wordlist for Raters AND wordlist overall rated by raters
       wordlistRaters = NULL,
       wordlistOverallRated = NULL
@@ -304,7 +320,7 @@ ui <- fluidPage(
 
 
         # print(globals$protocol)
-        print(globals$condition)
+        print(unique(globals$condition))
 
         ## add files
         if ("uploadedData" %in% globals$condition) {
@@ -336,7 +352,7 @@ ui <- fluidPage(
           ## CAM_nodes_clean
           path <- paste0("CAM_nodes_clean", ".txt")
           fs <- c(fs, path)
-          vroom::vroom_write(globals$summarizedData$df()[[1]], path)
+          vroom::vroom_write(globals$dataCAMsummarized[[1]], path)
         }
 
 
@@ -345,7 +361,7 @@ ui <- fluidPage(
           print("long protocol approximate matching - check")
           path <- paste0("approximateMatching_protocol", ".txt")
           fs <- c(fs, path)
-          vroom::vroom_write(globals$summarizedData$protocolAM(), path)
+          vroom::vroom_write(globals$detailedProtocolAM, path)
         }
 
 
@@ -354,7 +370,7 @@ ui <- fluidPage(
           print("long protocol search terms - check")
           path <- paste0("searchTerms_protocol", ".txt")
           fs <- c(fs, path)
-          vroom::vroom_write(globals$summarizedData$protocolST(), path)
+          vroom::vroom_write(globals$detailedProtocolST, path)
         }
 
 
@@ -489,7 +505,10 @@ ui <- fluidPage(
         ## + add protocol file
         path <- paste0("protocol", ".txt")
         fs <- c(fs, path)
-        write(toJSON(globals$protocol), path)
+               write(toJSON(globals$protocol), path)
+       #  write(jsonlite::toJSON(globals$protocol), path)
+       # write(rjson::toJSON(globals$protocol), path)
+      #jsonlite::write_json(x = globals$protocol, path = path)
 
 
 
@@ -510,7 +529,7 @@ ui <- fluidPage(
 
     globals$drawnCAM <-
       drawServer("draw",
-                 dataCAM = globals$dataCAM,
+                 dataCAM = globals$dataCAM, # to define requirements
                  parent = session,
                  globals)
 
@@ -519,6 +538,10 @@ ui <- fluidPage(
       ########
 # preprocessing
 ########
+
+#        dataCAM = globals$dataCAM,
+#       drawnCAM = globals$drawnCAM,
+
       summarizeTermsServer(
         "summarizeTerms",
         dataCAM = globals$dataCAM,
@@ -571,5 +594,5 @@ ui <- fluidPage(
 
 
   ### run app
-shinyApp(ui, server)
-# runApp(shinyApp(ui, server), launch.browser = TRUE)
+# shinyApp(ui, server)
+runApp(shinyApp(ui, server), launch.browser = TRUE)

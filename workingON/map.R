@@ -1,94 +1,172 @@
-# https://www.r-bloggers.com/2018/05/three-ways-of-visualizing-a-graph-on-a-map/
-library(assertthat)
-library(dplyr)
-library(purrr)
-library(igraph)
-library(ggplot2)
-library(ggraph)
-library(ggmap)
+# ==============================================================================
+# R-Code - CAM
+# date of creation: December 2021
+# authors: Julius Fenn
+# function: draw_CAM()
+# ==============================================================================
 
 
-country_coords_txt <- "
- 1     7.588576  47.559601         Freiburg/Basel
- 2    7.842609  47.997791       NA
- 3    13.404954  52.520008       Berlin/Potsdam
- 4    13.063561  52.391842       NA
- 5    -77.859909  40.798214       PennStateUniversity
-"
-
-# nodes come from the above table and contain geo-coordinates for some
-# randomly picked countries
-nodes <- read.delim(text = country_coords_txt, header = FALSE,
-                    quote = "'", sep = "",
-                    col.names = c('id', 'lon', 'lat', 'name'))
-
-
-set.seed(123)  # set random generator state for the same output
-
-N_EDGES_PER_NODE_MIN <- 1
-N_EDGES_PER_NODE_MAX <- 1
-N_CATEGORIES <- 1
-
-# edges: create random connections between countries (nodes)
-edges <- map_dfr(nodes$id, function(id) {
-  n <- floor(runif(1, N_EDGES_PER_NODE_MIN, N_EDGES_PER_NODE_MAX+1))
-  to <- sample(1:max(nodes$id), n, replace = FALSE)
-  to <- to[to != id]
-  categories <- sample(1:N_CATEGORIES, length(to), replace = TRUE)
-  weights <- runif(length(to))
-  data_frame(from = id, to = to, weight = weights, category = categories)
-})
-
-edges <- edges %>% mutate(category = as.factor(category))
+############################################################################
+##### testIfJson()
+# test is a proper JSON file was uploaded as protocol
+############################################################################
+testIfJson <- function (file) {
+  result <-
+    suppressMessages(try(jsonlite::fromJSON(file), silent = TRUE)
+    )
+  # print(result)
+  if (class(result) != "try-error") {
+    return(TRUE)
+  } else{
+    return(FALSE)
+  }
+}
 
 
-g <- graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
+############################################################################
+##### overwriteTextNodes()
+# if summarize terms module was used overwrite raw node dataset
+###########################################################################
+protocolDat = protocol
+nodesDat = CAMfiles[[1]]
+overwriteTextNodes <- function(protocolDat, nodesDat) {
 
-# nodes <- as_tibble(nodes)
-# edges <- as_tibble(edges)
-edges_for_plot <- edges %>%
-  inner_join(nodes %>% dplyr::select(id, lon, lat), by = c('from' = 'id')) %>%
-  rename(x = lon, y = lat) %>%
-  inner_join(nodes %>% dplyr::select(id, lon, lat), by = c('to' = 'id')) %>%
-  rename(xend = lon, yend = lat)
-
-assert_that(nrow(edges_for_plot) == nrow(edges))
-
-
-nodes$weight =  .1 #degree(g)
-edges_for_plot$weight = .1
-
-maptheme <- theme(panel.grid = element_blank()) +
-  theme(axis.text = element_blank()) +
-  theme(axis.ticks = element_blank()) +
-  theme(axis.title = element_blank()) +
-  theme(legend.position = "none") +
-  theme(panel.grid = element_blank()) +
-  theme(panel.background = element_rect(fill = "#596673")) +
-  theme(plot.margin = unit(c(0, 0, 0.5, 0), 'cm'))
+  ##
+  list_usedWords <- list()
+  ## check approximate and search term was used
+  if(length(protocolDat$approximateMatching) > 0 && length(protocolDat$searchTerms) > 0){
+    list_summarizeTerms <-
+      c(protocolDat$approximateMatching, protocolDat$searchTerms)
+  }else if(length(protocolDat$approximateMatching) > 0){
+    list_summarizeTerms <- protocolDat$approximateMatching
+  }else if(length(protocolDat$searchTerms) > 0){
+    list_summarizeTerms <- protocolDat$searchTerms
+  }
 
 
-country_shapes <- geom_polygon(aes(x = long, y = lat, group = group),
-                               data = map_data('world'),
-                               fill = "#CECECE", color = "#515151",
-                               size = 0.05)
-mapcoords <- coord_fixed(xlim = c(-150, 180), ylim = c(-55, 80))
+  vec_time <- unlist(list_summarizeTerms$time)
+  t <- vec_time[1]
+  t <- vec_time[3]
+  cat("\n")
+  for (t in vec_time) {
+    print(t)
+    ## current first element
+    tmp_first_index <- which(vec_time %in% min(vec_time))
+
+
+    tmp_current <- list_summarizeTerms[[tmp_first_index]]
+
+    tmp_print <-
+      ifelse(
+        test = any(names(tmp_current) == "stringDistance"),
+        yes = "search terms",
+        no = "approximate matching"
+      )
+    cat("time",
+        t,
+        "at index",
+        tmp_first_index,
+        "for",
+        tmp_print ,
+        "\n")
+
+
+    tmp_current_words <- unlist(tmp_current$wordsFound)
 
 
 
-ggplot(nodes) + country_shapes +
-  geom_curve(aes(x = x, y = y, xend = xend, yend = yend,     # draw edges as arcs
-                 color = category, size = weight),
-             data = edges_for_plot, curvature = 0.33,
-             alpha = 0.2) +
-  scale_size_continuous(guide = FALSE, range = c(0.25, 2)) + # scale for edge widths
-  geom_point(aes(x = lon, y = lat, size = weight),           # draw nodes
-             shape = 1, fill = 'white',
-             color = 'black', stroke = 0.5) +
-  scale_size_continuous(guide = FALSE, range = c(1, 6)) +    # scale for node size
-  geom_text(aes(x = lon, y = lat, label = name),             # draw text labels
-            hjust = 0, nudge_x = 1, nudge_y = 4,
-            size = 5, color = "white", fontface = "bold") +
-  mapcoords + maptheme
-  # coord_cartesian(xlim=c(-150/zoomFactor,180/zoomFactor),
-  #                 ylim=c(-55/zoomFactor2, 80/zoomFactor2))
+    tmp_positive <- str_remove_all(string = str_subset(string = tmp_current_words, pattern = "_positive$"),
+                                   pattern =  "_positive$")
+    tmp_negative <- str_remove_all(string = str_subset(string = tmp_current_words, pattern = "_negative$"),
+                                   pattern =  "_negative$")
+    tmp_neutral <- str_remove_all(string = str_subset(string = tmp_current_words, pattern = "_neutral$"),
+                                  pattern =  "_neutral$")
+    tmp_ambivalent <- str_remove_all(string = str_subset(string = tmp_current_words, pattern = "_ambivalent$"),
+                                     pattern =  "_ambivalent$")
+
+    if(length(tmp_positive) > 0){
+      list_usedWords[["positive"]] <-
+        append(list_usedWords[["positive"]],
+               paste0(
+                 tmp_current$supordinateWord,
+                 " (",
+                 paste0(tmp_positive, collapse = " // "),
+                 ")"
+               ))
+    }
+    if(length(tmp_negative) > 0){
+      list_usedWords[["negative"]] <-
+        append(list_usedWords[["negative"]],
+               paste0(
+                 tmp_current$supordinateWord,
+                 " (",
+                 paste0(tmp_negative, collapse = " // "),
+                 ")"
+               ))
+    }
+    if(length(tmp_neutral) > 0){
+      list_usedWords[["neutral"]] <-
+        append(list_usedWords[["neutral"]],
+               paste0(
+                 tmp_current$supordinateWord,
+                 " (",
+                 paste0(tmp_neutral, collapse = " // "),
+                 ")"
+               ))
+    }
+    if(length(tmp_ambivalent) > 0){
+      list_usedWords[["ambivalent"]] <-
+        append(list_usedWords[["ambivalent"]],
+               paste0(
+                 tmp_current$supordinateWord,
+                 " (",
+                 paste0(tmp_ambivalent, collapse = " // "),
+                 ")"
+               ))
+    }
+
+
+
+    for (w in tmp_current_words) {
+      # print(w)
+
+      tmp_w <-
+        str_remove(string = w, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+      tmp_text_summarized <-
+        str_remove(string = nodesDat$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+      if (str_detect(string = w, pattern = "_positive$")) {
+        # print("_positive")
+        nodesDat$text_summarized[tmp_text_summarized == tmp_w &
+                                   nodesDat$value > 0 & nodesDat$value < 10] <-
+          paste0(unlist(tmp_current$supordinateWord), "_positive")
+
+      } else if (str_detect(string = w, pattern = "_negative$")) {
+        # print("_negative")
+        nodesDat$text_summarized[tmp_text_summarized == tmp_w &
+                                   nodesDat$value < 0] <-
+          paste0(unlist(tmp_current$supordinateWord), "_negative")
+
+      } else if (str_detect(string = w, pattern = "_neutral$")) {
+        # print("_neutral")
+        nodesDat$text_summarized[tmp_text_summarized == tmp_w &
+                                   nodesDat$value == 0] <-
+          paste0(unlist(tmp_current$supordinateWord), "_neutral")
+
+      } else if (str_detect(string = w, pattern = "_ambivalent$")) {
+        # print("_ambivalent")
+        nodesDat$text_summarized[tmp_text_summarized == tmp_w &
+                                   nodesDat$value == 10] <-
+          paste0(unlist(tmp_current$supordinateWord), "_ambivalent")
+
+
+      }
+
+    }
+
+    ## remove elements which have been processed
+    vec_time <- vec_time[-tmp_first_index]
+    list_summarizeTerms <- list_summarizeTerms[-tmp_first_index]
+  }
+
+  return(list(nodesDat, list_usedWords))
+}

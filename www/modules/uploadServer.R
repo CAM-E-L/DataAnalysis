@@ -291,14 +291,37 @@ uploadServer <- function(id, parent, globals) {
     #> Server
     ### upload protocol dataset
     protocol <- reactive({
-      if (testIfJson(file = input$uploadProtocol$datapath)) {
-        protocol <-
-          jsonlite::read_json(path = input$uploadProtocol$datapath)
-        return(protocol)
+      ## to test validity of JSON file
+      text <- readLines(input$uploadProtocol$datapath)
+      text <- readLines(textConnection(text, encoding="UTF-8"), encoding="UTF-8")
+      if (testIfJson(file = text)) {
+      protocol <- rjson::fromJSON(file = input$uploadProtocol$datapath)
+  
+      return(protocol)
       } else{
-        print("ERROR")
-        return(NULL)
+         print("ERROR")
+         return(NULL)
       }
+      
+
+      # ## alternative
+      # text <- readLines(input$uploadProtocol$datapath)
+      # text <- readLines(textConnection(text, encoding="UTF-8"), encoding="UTF-8")
+      # if (testIfJson(file = text)) {
+      #   protocol <- jsonlite::fromJSON(txt = text)
+      #   # jsonlite::read_json(path = input$uploadProtocol$datapath)
+      #   # rjson::fromJSON(file = input$uploadProtocol$datapath)
+      #   return(protocol)
+      # } else{
+      #   print("ERROR")
+      #   return(NULL)
+      # }
+      # 
+      # ## right encoding
+      # for(i in 1:length(protocol$approximateMatching)){
+      #   Encoding(x = protocol$approximateMatching[[i]]$wordsFound) <- "latin1"
+      #   Encoding(x = protocol$approximateMatching[[i]]$supordinateWord) <- "latin1"
+      # }
     })
 
     observeEvent(input$uploadProtocol, {
@@ -415,8 +438,6 @@ uploadServer <- function(id, parent, globals) {
             return(NULL)
           }
         }
-
-
 
         ## check: equal IDs
         if (v$boolContinue) {
@@ -558,13 +579,15 @@ if(!globals$protocol$cleanValence[[1]]){
                   dat_connectors =  CAMfiles[[2]],
                   dat_merged = CAMfiles[[3]],
                   verbose = FALSE)
+   message("successfully cleaned Valence data!")
+
 }
  
         
 
 # nodes_raw$text_summarized <- nodes_raw$text
 
-      return(CAMfiles)
+      return(v$df) ### ??? CAMfiles
     })
 
 

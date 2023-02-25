@@ -16,3 +16,13 @@ doc1$similarity(doc2)
 doc1 = nlp("baby")
 doc2 = nlp("child")
 doc1$similarity(doc2)
+
+
+
+
+
+library(igraph)
+g <- igraph::random.graph.game(n = 10, p.or.m = .9)
+plot(g)
+g <- igraph::random.graph.game(n = 10, p.or.m = .2)
+plot(g)

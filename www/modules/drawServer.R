@@ -401,6 +401,30 @@ drawServer <- function(id, dataCAM, parent, globals) {
               )
             ))
           }else{
+            ## initalize dataCAMsummarized
+             globals$dataCAMsummarized <- dataCAM()
+            ## set text_summarized variable
+            if(any(colnames(dataCAM()[[1]]) == "text_summarized")){
+             globals$dataCAMsummarized[[1]]$text_summarized <- dataCAM()[[1]]$text_summarized
+            }else{
+              globals$dataCAMsummarized[[1]]$text_summarized <- dataCAM()[[1]]$text
+            }
+
+            ## remove empty and deleted CAMs
+            globals$dataCAMsummarized[[1]] <-
+              globals$dataCAMsummarized[[1]][globals$dataCAMsummarized[[1]]$CAM %in% names(CAMs_drawnR()), ]
+            globals$dataCAMsummarized[[2]] <-
+              globals$dataCAMsummarized[[2]][globals$dataCAMsummarized[[2]]$CAM %in% names(CAMs_drawnR()), ]
+            globals$dataCAMsummarized[[3]] <-
+              globals$dataCAMsummarized[[3]][globals$dataCAMsummarized[[3]]$CAM.x %in% names(CAMs_drawnR()), ]  
+
+            #print("empty CAMs:")
+            #print(dataCAM()[[1]]$CAM[!dataCAM()[[1]]$CAM %in% names(CAMs_drawnR())])
+            #print(length(unique(dataCAM()[[1]]$CAM[!dataCAM()[[1]]$CAM %in% names(CAMs_drawnR())])))
+            #print("nrow draw CAMs:")
+            #print(nrow(dataCAM()[[1]]))
+            #print(nrow(globals$dataCAMsummarized[[1]]))
+ 
             if(globals$clickedButton == "startPreprocessing"){
             shinyjs::disable(selector = '.navbar-nav a[data-value="draw CAM"')
 

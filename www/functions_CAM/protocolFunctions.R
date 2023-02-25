@@ -28,67 +28,136 @@ testIfJson <- function (file) {
 # if summarize terms module was used overwrite raw node dataset
 ############################################################################
 # protocolDat = protocol
-# nodesDat = nodes_raw
+# nodesDat = CAMfiles[[1]]
 overwriteTextNodes <- function(protocolDat, nodesDat) {
 
-  ##
-  list_usedWords <- list()
-  ## check approximate and search term was used
-  if(length(protocolDat$approximateMatching) > 0 && length(protocolDat$searchTerms) > 0){
-    list_summarizeTerms <-
-      c(protocolDat$approximateMatching, protocolDat$searchTerms)
-  }else if(length(protocolDat$approximateMatching) > 0){
-    list_summarizeTerms <- protocolDat$approximateMatching
-  }else if(length(protocolDat$searchTerms) > 0){
-    list_summarizeTerms <- protocolDat$searchTerms
+  ##############################################
+  ## merge summarzing functions approximate matchting, search terms, ... AND adjust encoding ##
+  list_summarizeTerms <- c(protocolDat$approximateMatching, protocolDat$searchTerms)
+
+  ## right encoding
+  for(i in 1:length(list_summarizeTerms)){
+    Encoding(x = list_summarizeTerms[[i]]$wordsFound) <- "latin1"
+    Encoding(x = list_summarizeTerms[[i]]$superordinateWord) <- "latin1"
   }
+  ##############################################
 
 
+  ##############################################
+  ## remove suffix
+  tmp_text_summarized <-
+    str_remove(string = nodesDat$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+
+  ## list to collect already used words
+  list_usedWords <- list()
+
+  ## get vector of time
   vec_time <- c()
   for (i in 1:length(list_summarizeTerms)) {
     vec_time[i] <- unlist(list_summarizeTerms[[i]]$time)
   }
-
-  for (t in vec_time) {
-    ## current first element
-    tmp_first_index <- which(vec_time %in% min(vec_time))
+  ##############################################
 
 
-    tmp_current <- list_summarizeTerms[[tmp_first_index]]
 
+
+  r = 1; timeBefore = NULL
+  for (t in 1:length(vec_time)) {
+    ##############################################
+    ## get current first element ##
+    tmp_first_index <- which(vec_time %in% vec_time[t])
+
+
+    ## if people summarized words too fast multiple indices are the smallest
+    if(t >= 2){ # r counter is not increased too much
+      if(r >= 3 & vec_time[t] != vec_time[t-1]){
+        r = 1
+      }
+    }
+    if(length(tmp_first_index) > 1){
+      tmp_current <- list_summarizeTerms[[tmp_first_index[r]]]
+    }else{
+      tmp_current <- list_summarizeTerms[[tmp_first_index]]
+    }
+
+    ####
+    ## print to console which operation is running:
     tmp_print <-
       ifelse(
         test = any(names(tmp_current) == "stringDistance"),
-        yes = "search terms",
-        no = "approximate matching"
+        yes = "approximate matching",
+        no = "search terms"
       )
     cat("time",
-        t,
+        vec_time[t],
         "at index",
-        tmp_first_index,
+        tmp_first_index[r],
         "for",
         tmp_print ,
         "\n")
+    ####
 
+    ## reset r counter
+    if(length(tmp_first_index) > 1){
+      r = r + 1
+    }else{
+      r = 1
+    }
+    ##############################################
 
+    ##############################################
+    ## overwrite words in data set ##
     tmp_current_words <- unlist(tmp_current$wordsFound)
 
+    for (w in tmp_current_words) {
+      tmp_w <-
+        str_remove(string = w, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+
+      if (str_detect(string = w, pattern = "_positive$")) {
+        # print("_positive")
+        nodesDat$text_summarized[tmp_text_summarized == tmp_w &
+                                   nodesDat$value > 0 & nodesDat$value < 10] <-
+          paste0(unlist(tmp_current$superordinateWord), "_positive")
+
+      } else if (str_detect(string = w, pattern = "_negative$")) {
+        # print("_negative")
+        nodesDat$text_summarized[tmp_text_summarized == tmp_w &
+                                   nodesDat$value < 0] <-
+          paste0(unlist(tmp_current$superordinateWord), "_negative")
+
+      } else if (str_detect(string = w, pattern = "_neutral$")) {
+        # print("_neutral")
+        nodesDat$text_summarized[tmp_text_summarized == tmp_w &
+                                   nodesDat$value == 0] <-
+          paste0(unlist(tmp_current$superordinateWord), "_neutral")
+
+      } else if (str_detect(string = w, pattern = "_ambivalent$")) {
+        # print("_ambivalent")
+        nodesDat$text_summarized[tmp_text_summarized == tmp_w &
+                                   nodesDat$value == 10] <-
+          paste0(unlist(tmp_current$superordinateWord), "_ambivalent")
+      }
+    }
+    ##############################################
 
 
+
+    ##############################################
+    ## create list of already used words ##
     tmp_positive <- str_remove_all(string = str_subset(string = tmp_current_words, pattern = "_positive$"),
-                   pattern =  "_positive$")
+                                   pattern =  "_positive$")
     tmp_negative <- str_remove_all(string = str_subset(string = tmp_current_words, pattern = "_negative$"),
-                   pattern =  "_negative$")
+                                   pattern =  "_negative$")
     tmp_neutral <- str_remove_all(string = str_subset(string = tmp_current_words, pattern = "_neutral$"),
-                                   pattern =  "_neutral$")
+                                  pattern =  "_neutral$")
     tmp_ambivalent <- str_remove_all(string = str_subset(string = tmp_current_words, pattern = "_ambivalent$"),
-                                   pattern =  "_ambivalent$")
+                                     pattern =  "_ambivalent$")
 
     if(length(tmp_positive) > 0){
       list_usedWords[["positive"]] <-
         append(list_usedWords[["positive"]],
                paste0(
-                 tmp_current$supordinateWord,
+                 tmp_current$superordinateWord,
                  " (",
                  paste0(tmp_positive, collapse = " // "),
                  ")"
@@ -98,7 +167,7 @@ overwriteTextNodes <- function(protocolDat, nodesDat) {
       list_usedWords[["negative"]] <-
         append(list_usedWords[["negative"]],
                paste0(
-                 tmp_current$supordinateWord,
+                 tmp_current$superordinateWord,
                  " (",
                  paste0(tmp_negative, collapse = " // "),
                  ")"
@@ -108,7 +177,7 @@ overwriteTextNodes <- function(protocolDat, nodesDat) {
       list_usedWords[["neutral"]] <-
         append(list_usedWords[["neutral"]],
                paste0(
-                 tmp_current$supordinateWord,
+                 tmp_current$superordinateWord,
                  " (",
                  paste0(tmp_neutral, collapse = " // "),
                  ")"
@@ -118,54 +187,13 @@ overwriteTextNodes <- function(protocolDat, nodesDat) {
       list_usedWords[["ambivalent"]] <-
         append(list_usedWords[["ambivalent"]],
                paste0(
-                 tmp_current$supordinateWord,
+                 tmp_current$superordinateWord,
                  " (",
                  paste0(tmp_ambivalent, collapse = " // "),
                  ")"
                ))
     }
-
-
-
-    for (w in tmp_current_words) {
-      # print(w)
-
-      tmp_w <-
-        str_remove(string = w, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
-      tmp_text_summarized <-
-        str_remove(string = nodesDat$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
-      if (str_detect(string = w, pattern = "_positive$")) {
-        # print("_positive")
-        nodesDat$text_summarized[tmp_text_summarized == tmp_w &
-                                   nodesDat$value > 0 & nodesDat$value < 10] <-
-          paste0(unlist(tmp_current$supordinateWord), "_positive")
-
-      } else if (str_detect(string = w, pattern = "_negative$")) {
-        # print("_negative")
-        nodesDat$text_summarized[tmp_text_summarized == tmp_w &
-                                   nodesDat$value < 0] <-
-          paste0(unlist(tmp_current$supordinateWord), "_negative")
-
-      } else if (str_detect(string = w, pattern = "_neutral$")) {
-        # print("_neutral")
-        nodesDat$text_summarized[tmp_text_summarized == tmp_w &
-                                   nodesDat$value == 0] <-
-          paste0(unlist(tmp_current$supordinateWord), "_neutral")
-
-      } else if (str_detect(string = w, pattern = "_ambivalent$")) {
-        # print("_ambivalent")
-        nodesDat$text_summarized[tmp_text_summarized == tmp_w &
-                                   nodesDat$value == 10] <-
-          paste0(unlist(tmp_current$supordinateWord), "_ambivalent")
-
-
-      }
-
-    }
-
-    ## remove elements which have been processed
-    vec_time <- vec_time[-tmp_first_index]
-    list_summarizeTerms <- list_summarizeTerms[-tmp_first_index]
+    ##############################################
   }
 
   return(list(nodesDat, list_usedWords))
