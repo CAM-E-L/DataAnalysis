@@ -277,6 +277,7 @@ ui <- fluidPage(
         currentCAMs = NULL,
         approximateMatching = NULL,
         searchTerms = NULL,
+        findSynonyms = NULL,
 
         networkIndicators = NULL # ??? analysis part
       ),
@@ -288,6 +289,8 @@ ui <- fluidPage(
       usedWords = list(),
       detailedProtocolAM = NULL,
       detailedProtocolST = NULL,
+      detailedProtocolSynonyms = NULL,
+
 
       # counter = NULL,
       # summarizedData = NULL,
@@ -347,8 +350,10 @@ ui <- fluidPage(
           saveRDS(object = globals$drawnCAM, path)
         }
 
-        if ("approximateMatching" %in% globals$condition || "searchTerms" %in% globals$condition) {
-          print("approximateMatching OR searchTerms - check")
+        if ("approximateMatching" %in% globals$condition || 
+        "searchTerms" %in% globals$condition || 
+        "findSynonyms" %in% globals$condition) {
+          print("approximateMatching OR searchTerms OR findSynonyms - check")
           ## CAM_nodes_clean
           path <- paste0("CAM_nodes_clean", ".txt")
           fs <- c(fs, path)
@@ -371,6 +376,14 @@ ui <- fluidPage(
           path <- paste0("searchTerms_protocol", ".txt")
           fs <- c(fs, path)
           vroom::vroom_write(globals$detailedProtocolST, path)
+        }
+
+        if ("findSynonyms" %in% globals$condition) {
+          ## approximateMatching protocol
+          print("long protocol find synonyms - check")
+          path <- paste0("findSynonyms_protocol", ".txt")
+          fs <- c(fs, path)
+          vroom::vroom_write(globals$detailedProtocolSynonyms, path)
         }
 
 
@@ -439,7 +452,9 @@ ui <- fluidPage(
           )
         }
 
-        if ("approximateMatching" %in% globals$condition || "searchTerms" %in% globals$condition) {
+      if ("approximateMatching" %in% globals$condition || 
+        "searchTerms" %in% globals$condition || 
+        "findSynonyms" %in% globals$condition) {
           write(
             "\nCAM_nodes_clean: contains the data of all SUMMARIZED nodes included in the CAM dataset (see variable text_summarized)",
             path,
@@ -457,6 +472,15 @@ ui <- fluidPage(
         if ("searchTerms" %in% globals$condition) {
           write(
             "\nsearchTerms_protocol: a more detailed protocol including summary statistics of your summarizing steps regarding search terms (regular expressions)",
+            path,
+            append = TRUE
+          )
+        }
+
+
+        if ("findSynonyms" %in% globals$condition) {
+          write(
+            "\nfindSynonyms_protocol: a more detailed protocol including summary statistics of your summarizing steps regarding finding synonyms (database driven)",
             path,
             append = TRUE
           )

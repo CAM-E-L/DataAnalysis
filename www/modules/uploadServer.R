@@ -553,7 +553,9 @@ if(v$protocol){
         globals$protocol$currentCAMs <- protocol()$currentCAMs
     }
 
-        if(length(protocol()$approximateMatching) > 0 || length(protocol()$searchTerms) > 0 ){
+        if(length(protocol()$approximateMatching) > 0 
+        || length(protocol()$searchTerms) > 0 
+        || length(protocol()$findSynonyms) > 0 ){
         CAMfiles[[1]]$text_summarized <- CAMfiles[[1]]$text
         tmp_out <- overwriteTextNodes(protocolDat = protocol(), nodesDat = CAMfiles[[1]])     
         CAMfiles[[1]] <- tmp_out[[1]]
@@ -563,6 +565,7 @@ if(v$protocol){
         # overwrite protocol
        globals$protocol$approximateMatching <- protocol()$approximateMatching
        globals$protocol$searchTerms <- protocol()$searchTerms
+       globals$protocol$findSynonyms <- protocol()$findSynonyms
     }
 
         # print("globals$protocol:")
@@ -789,6 +792,8 @@ if(!globals$protocol$cleanValence[[1]]){
           tags$ul(
           tags$li("Number of times you have used approximate matching functions to summarize terms: ", textOutput(ns("approximateMatchingNumber"), inline = TRUE)),
           tags$li("Number of times you have used search functions to summarize terms: ", textOutput(ns("searchTermsNumber"), inline = TRUE)),
+                    tags$li("Number of times you have looped through the find synonyms function: ", textOutput(ns("findSynonymsNumber"), inline = TRUE)),
+
         )
         )
     })
@@ -809,16 +814,8 @@ if(!globals$protocol$cleanValence[[1]]){
 
     vev_time_Protocol <- reactive({
     ## check approximate and search term was used
-        if(length(protocol()$approximateMatching) > 0 && length(protocol()$searchTerms) > 0){
-            list_summarizeTerms <-
-            c(protocol()$approximateMatching, protocol()$searchTerms)
-        }else if(length(protocol()$approximateMatching) > 0){
-            list_summarizeTerms <- protocol()$approximateMatching
-        }else if(length(protocol()$searchTerms) > 0){
-            list_summarizeTerms <- protocol()$searchTerms
-        }else{
-            return(NULL)
-        }
+
+    list_summarizeTerms <- c(protocol()$approximateMatching, protocol()$searchTerms, protocol()$findSynonyms)
 
         vec_time <- c()
         for (i in 1:length(list_summarizeTerms)) {
@@ -852,6 +849,10 @@ max(vev_time_Protocol())
     })
 
 
+        output$findSynonymsNumber <-  renderText({
+        req(protocol())
+        length(protocol()$findSynonyms)
+    })
 
 ###### Clean Valence
     observeEvent(input$cleanValence, {
@@ -1026,7 +1027,8 @@ length(v$dfClean[[4]])
         tags$div(
           HTML(
             'Best regards and have fun
-            <br> Julius Fenn, supported by Florian Gouret and Andrea Kiesel (University of Freiburg)'
+            <br> Julius Fenn, supported by Florian Gouret, Lisa Reuter, Wilhelm Gros, Michael Gorki
+             and Andrea Kiesel (University of Freiburg)'
           )
         ),
         tags$br(),
@@ -1037,7 +1039,8 @@ length(v$dfClean[[4]])
           tags$ul(
             tags$li(
               HTML(
-                '<b>Upload - necessary step:</b> Upload your raw data (C.A.M.E.L. or Valence) and - if you already have - your protocol.'
+                '<b>Upload - necessary step:</b> Upload your raw data (C.A.M.E.L. or Valence) and - if you already have - your protocol 
+                before uploading your data.'
               )
             ),
             tags$li(

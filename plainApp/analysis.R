@@ -58,7 +58,9 @@ setwd("plainApp")
 dir()
 
 
-protocol <- jsonlite::read_json(path = "protocol.txt")
+# protocol <- jsonlite::read_json(path = "protocol.txt")
+protocol <- rjson::fromJSON(file = "protocol.txt")
+
 
 
 CAMfiles = list()
@@ -70,10 +72,27 @@ CAMfiles[[2]] <- vroom::vroom(file = "CAM_connectors_raw.txt", delim = "\t",
 CAMfiles[[3]] <- vroom::vroom(file = "CAM_merged_raw.txt", delim = "\t",
                               show_col_types = FALSE)
 
-# tmp_out <- overwriteTextNodes(protocolDat = protocol, nodesDat = CAMfiles[[1]])
+CAMfiles[[1]]$text_summarized <- CAMfiles[[1]]$text
+tmp_out <- overwriteTextNodes(protocolDat = protocol, nodesDat = CAMfiles[[1]])
 # CAMfiles[[1]] <- tmp_out[[1]]
 # tmp_out[[1]]$text_summarized
 # CAMfiles[[1]]$text_summarized
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

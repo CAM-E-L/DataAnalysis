@@ -30,44 +30,58 @@ testIfJson <- function (file) {
 # protocolDat = protocol
 # nodesDat = CAMfiles[[1]]
 overwriteTextNodes <- function(protocolDat, nodesDat) {
-
+  
   ##############################################
   ## merge summarzing functions approximate matchting, search terms, ... AND adjust encoding ##
-  list_summarizeTerms <- c(protocolDat$approximateMatching, protocolDat$searchTerms)
-
+  list_summarizeTerms <- c(protocolDat$approximateMatching, protocolDat$searchTerms, protocolDat$findSynonyms)
+  
   ## right encoding
   for(i in 1:length(list_summarizeTerms)){
     Encoding(x = list_summarizeTerms[[i]]$wordsFound) <- "latin1"
     Encoding(x = list_summarizeTerms[[i]]$superordinateWord) <- "latin1"
   }
   ##############################################
-
-
+  
+  
   ##############################################
   ## remove suffix
   tmp_text_summarized <-
     str_remove(string = nodesDat$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
-
+  
   ## list to collect already used words
   list_usedWords <- list()
-
+  
   ## get vector of time
   vec_time <- c()
   for (i in 1:length(list_summarizeTerms)) {
     vec_time[i] <- unlist(list_summarizeTerms[[i]]$time)
   }
+  vec_time_sorted <- sort(vec_time)
   ##############################################
-
-
-
-
+  
+  # cbind(vec_time, vec_time_sorted)
+  
+  
+  cat("\n")
+  
+  
+  
+  # for (t in 1:length(vec_time)) {
+    # print(t)
+   #  tmp_first_index <- which(vec_time_sorted[t] == vec_time)
+    # print(tmp_first_index)
+   #  }
+  
+  
   r = 1; timeBefore = NULL
   for (t in 1:length(vec_time)) {
     ##############################################
     ## get current first element ##
-    tmp_first_index <- which(vec_time %in% vec_time[t])
-
-
+    # tmp_first_index <- which(vec_time %in% vec_time[t])
+    # tmp_first_index <- which(vec_time[t] == vec_time)
+    tmp_first_index <- which(vec_time_sorted[t] == vec_time)
+    
+    
     ## if people summarized words too fast multiple indices are the smallest
     if(t >= 2){ # r counter is not increased too much
       if(r >= 3 & vec_time[t] != vec_time[t-1]){
@@ -79,24 +93,26 @@ overwriteTextNodes <- function(protocolDat, nodesDat) {
     }else{
       tmp_current <- list_summarizeTerms[[tmp_first_index]]
     }
-
+    
     ####
     ## print to console which operation is running:
-    tmp_print <-
-      ifelse(
-        test = any(names(tmp_current) == "stringDistance"),
-        yes = "approximate matching",
-        no = "search terms"
-      )
+    if(any(names(tmp_current) == "stringDistance")){
+      tmp_print <- "approximate matching"
+    }else  if(any(names(tmp_current) == "regularExpression")){
+      tmp_print <- "search terms"
+    }else  if(any(names(tmp_current) == "noneSearchArgument")){
+      tmp_print <- "synonyms or word2vec"
+    }
+    
     cat("time",
         vec_time[t],
         "at index",
         tmp_first_index[r],
         "for",
-        tmp_print ,
+        tmp_print,
         "\n")
     ####
-
+    
     ## reset r counter
     if(length(tmp_first_index) > 1){
       r = r + 1
@@ -104,33 +120,33 @@ overwriteTextNodes <- function(protocolDat, nodesDat) {
       r = 1
     }
     ##############################################
-
+    
     ##############################################
     ## overwrite words in data set ##
     tmp_current_words <- unlist(tmp_current$wordsFound)
-
+    
     for (w in tmp_current_words) {
       tmp_w <-
         str_remove(string = w, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
-
+      
       if (str_detect(string = w, pattern = "_positive$")) {
         # print("_positive")
         nodesDat$text_summarized[tmp_text_summarized == tmp_w &
                                    nodesDat$value > 0 & nodesDat$value < 10] <-
           paste0(unlist(tmp_current$superordinateWord), "_positive")
-
+        
       } else if (str_detect(string = w, pattern = "_negative$")) {
         # print("_negative")
         nodesDat$text_summarized[tmp_text_summarized == tmp_w &
                                    nodesDat$value < 0] <-
           paste0(unlist(tmp_current$superordinateWord), "_negative")
-
+        
       } else if (str_detect(string = w, pattern = "_neutral$")) {
         # print("_neutral")
         nodesDat$text_summarized[tmp_text_summarized == tmp_w &
                                    nodesDat$value == 0] <-
           paste0(unlist(tmp_current$superordinateWord), "_neutral")
-
+        
       } else if (str_detect(string = w, pattern = "_ambivalent$")) {
         # print("_ambivalent")
         nodesDat$text_summarized[tmp_text_summarized == tmp_w &
@@ -139,9 +155,9 @@ overwriteTextNodes <- function(protocolDat, nodesDat) {
       }
     }
     ##############################################
-
-
-
+    
+    
+    
     ##############################################
     ## create list of already used words ##
     tmp_positive <- str_remove_all(string = str_subset(string = tmp_current_words, pattern = "_positive$"),
@@ -152,7 +168,7 @@ overwriteTextNodes <- function(protocolDat, nodesDat) {
                                   pattern =  "_neutral$")
     tmp_ambivalent <- str_remove_all(string = str_subset(string = tmp_current_words, pattern = "_ambivalent$"),
                                      pattern =  "_ambivalent$")
-
+    
     if(length(tmp_positive) > 0){
       list_usedWords[["positive"]] <-
         append(list_usedWords[["positive"]],
@@ -195,6 +211,6 @@ overwriteTextNodes <- function(protocolDat, nodesDat) {
     }
     ##############################################
   }
-
+  
   return(list(nodesDat, list_usedWords))
 }

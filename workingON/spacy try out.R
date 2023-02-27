@@ -1,4 +1,49 @@
 
+
+tmp <- matrix(data = NA, nrow = 5, ncol = 5)
+
+rownames(tmp) <- 1:5
+colnames(tmp) <- 1:5
+
+
+for(c in 1:ncol(x = tmp)){
+  for(r in 1:nrow(x = tmp)){
+    cat("c:", c, "r:", r, "\n")
+    if(c != r && r > c){
+      tmp[r,c] <- paste0(r, c, collapse = " ")
+    }
+
+  }
+}
+
+tmp
+diag(x = tmp) <- 1
+
+library(stringr)
+
+
+
+
+
+tmp <- read.table(file = "summarizedWords(2).txt", header = TRUE, col.names = FALSE)
+# tmp <- sort(unique(tmp[,1]))
+tmp <- tmp$FALSE.
+
+tmpOneWords <- str_split(string = tmp, pattern = " ", simplify = TRUE)
+tmp <- tmp[rowSums(x = tmpOneWords != "") == 1]
+tmp <- tolower(tmp)
+tmp <- sort(unique(tmp))
+tmp[str_detect(string = tmp, pattern = regex("\\W+"), negate = TRUE)]
+
+tmp <- str_replace_all(string = tmp, pattern = regex("\\W+"), replacement = "")
+tmp <- tmp[nchar(tmp) >= 3]
+cat(tmp)
+
+
+str_split(str_squish((str_replace_all(tmp, regex("\\W+"), " "))), " ")
+
+cat(tmp$V1)
+###########################
 library(reticulate)
 sys <- import("sys")
 sys$path

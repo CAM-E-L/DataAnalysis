@@ -1,0 +1,7 @@
+time	searchRound	noneSearchArgument	superordinate	subordinate_positive	N_positive	mean_positive	sd_positive	subordinate_negative	N_negative	mean_negative	sd_negative	subordinate_neutral	N_neutral	subordinate_ambivalent	N_ambivalent
+2023-02-27 12:42:11	1	none	Peace	Peace // Ease	2	1	0		0	NA	NA		0		0
+2023-02-27 12:42:12	2	none	Effectiveness	Effectiveness	1	3	NA	Efficacy	1	-2	NA		0		0
+2023-02-27 12:42:13	3	none	inexpensive	inexpensive // cheap	2	2	1.41		0	NA	NA		0		0
+2023-02-27 12:42:14	4	none	Cost	Cost	5	2.4	0.89	damage // cost // Cost	4	-2	0.82	Cost	1	cost // Cost	3
+2023-02-27 12:42:15	5	none	Knowledge	Knowledge // learning // research	3	3	0	Research	1	-2	NA		0	research	1
+2023-02-27 12:42:15	6	none	Hope	Hope // hope // Trust	5	2	0.71	business // culpability // Responsibility	3	-1.67	0.58		0	Involvement // Responsibility	3

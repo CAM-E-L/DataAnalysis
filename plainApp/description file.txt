@@ -9,3 +9,7 @@ CAMs_drawn: contains the data of your drawn CAMs in .rds format (can be directly
 CAM_nodes_clean: contains the data of all SUMMARIZED nodes included in the CAM dataset (see variable text_summarized)
 
 approximateMatching_protocol: a more detailed protocol including summary statistics of your summarizing steps regarding approximate matching
+
+searchTerms_protocol: a more detailed protocol including summary statistics of your summarizing steps regarding search terms (regular expressions)
+
+findSynonyms_protocol: a more detailed protocol including summary statistics of your summarizing steps regarding finding synonyms (database driven)

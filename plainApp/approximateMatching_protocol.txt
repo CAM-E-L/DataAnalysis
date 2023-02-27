@@ -1,12 +1,9 @@
 time	searchRound	stringDistance	superordinate	subordinate_positive	N_positive	mean_positive	sd_positive	subordinate_negative	N_negative	mean_negative	sd_negative	subordinate_neutral	N_neutral	subordinate_ambivalent	N_ambivalent
-2023-02-24 16:00:17	1	6	Hohe Staatsausgaben		0	NA	NA	Hohe Staatsausgaben // Höhere Staatsausgaben	2	-2	1.41		0		0
-2023-02-24 16:00:18	2	6	weniger Bürkokratie	weniger Bürkokratie // weniger Bürokratie // Weniger Bürokratie	3	1	0	Bürokratie // Viel Bürokratie	3	-2.67	0.58		0		0
-2023-02-24 16:00:19	3	6	Weniger Arbeitslosigkeit	Weniger Arbeitslosigkeit	1	2	NA	Arbeitslosigkeit // Mehr Arbeitslosigkeit	2	-1.5	0.71		0		0
-2023-02-24 16:00:20	4	6	Weiterbildung	Weiterbildung // Zeit für Bildung	2	2.5	0.71		0	NA	NA		0		0
-2023-02-24 16:00:20	5	6	Finanzielle Freiheit	Finanzielle Freiheit // finanzielle Sicherheit // Finanzielle Sicherheit // Mehr finanzielle Freiheit	5	2.8	0.45		0	NA	NA		0		0
-2023-02-24 16:00:21	6	6	Fallende Löhne		0	NA	NA	Fallende Löhne // Sinkende Löhne	2	-2	1.41		0		0
-2023-02-24 16:00:23	7	6	Hobbies	Hobbies // Urlaub	2	2.5	0.71	Arbeiten // Armut // Egoismus // hohe Kosten // Kosten // Miete // Neid // Risiko // Steuern // Stress // teuer	15	-1.93	0.8	Aufstocken	1	Arbeit // Stress	2
-2023-02-24 16:00:24	8	6	Soziale Gerechtigkeit	Soziale Gerechtigkeit	1	3	NA	soziale Ungerechtigkeit	1	-2	NA		0		0
-2023-02-24 16:00:25	9	6	Mehr Geld	Mehr Geld	1	1	NA	mehr Konsum	1	-3	NA		0	Mehr Konsum	1
-2023-02-24 16:00:25	10	6	mehr Unabhängigkeit	mehr Unabhängigkeit // unabhängigkeit // Unabhängigkeit	4	2.5	1		0	NA	NA		0		0
-2023-02-24 16:00:26	11	6	keine finanziellen Sorgen	keine finanziellen Sorgen // weniger finanzielle Sorgen	3	3	0		0	NA	NA		0		0
+2023-02-27 12:41:34	1	2	Side affects		0	NA	NA	Side affects // side effects // Side effects // Side Effects	7	-2.86	0.38	side effects	1		0
+2023-02-27 12:41:35	2	2	Potential acid rain		0	NA	NA	Potential acid rain // Potential Acid Rain	2	-3	0		0		0
+2023-02-27 12:41:36	3	2	air pollution		0	NA	NA	air pollution // Air Pollution	3	-2.33	0.58		0		0
+2023-02-27 12:41:36	4	2	fear		0	NA	NA	fear // war // War // Wars	7	-2.86	0.38		0		0
+2023-02-27 12:41:38	5	2	positive feelings	positive feelings // Positive Feelings	40	2.08	0.89		0	NA	NA	positive feelings	11	positive feelings	2
+2023-02-27 12:42:25	6	2	acid rain		0	NA	NA	acid rain // Acid rain // Acid Rain // acid rain? // Acid rain? // acidic rain	25	-2.6	0.5		0		0
+2023-02-27 12:42:26	7	2	save animals	save animals // Saves animals	2	3	0		0	NA	NA		0		0
+2023-02-27 12:42:27	8	2	conflict		0	NA	NA	conflict // Conflict // Conflict? // conflicts	5	-2.8	0.45		0		0

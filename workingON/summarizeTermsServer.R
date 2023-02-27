@@ -1,64 +1,6 @@
 
 
 
-vroom::vroom_write(globals$summarizedData$df()[[1]], path)
-vroom::vroom_write(globals$summarizedData$protocolAM(), path)
-vroom::vroom_write(globals$summarizedData$protocolST(), path)
-
-
-
-###############################################
-
-
-actionButton(inputId =  ns("ST_approxMatch"), label = HTML('Approximate<br>matching'),
-             icon = icon(name = "angle-right", lib = "font-awesome"),
-             class = "btn-sidebar"),
-actionButton(inputId =  ns("ST_searchTerms"), label = "Searching terms",
-             icon = icon(name = "angle-right", lib = "font-awesome"),
-             class = "btn-sidebar"),
-actionButton(inputId = ns("ST_synonyms"), label = HTML("Search for<br>Synonyms"),
-             icon = icon(name = "angle-right", lib = "font-awesome"),
-             class = "btn-sidebar"),
-actionButton(inputId = ns("ST_wordVec"), label = HTML("Apply word2vec<br>model"),
-             icon = icon(name = "angle-right", lib = "font-awesome"),
-             class = "btn-sidebar"),
-actionButton(inputId = ns("ST_information"), label = "Information",
-             icon = icon(name = "angle-right", lib = "font-awesome"),
-             class = "btn-sidebar")
-
-
-
-###############################################
-
-
-
-
-      module_rv <- reactiveValues(df = NULL, usedWordsAM = list(), checkUsedWordsOnce = TRUE)
-
-
-      ################################
-      # single module options
-      ################################
-      observeEvent(c(
-        input$approxMatch,
-        input$searchTerms
-      ), {
-        req(dataCAM())
-        req(drawnCAM())
-
-        # print("clicked me")
-        if(module_rv$checkUsedWordsOnce){
-          module_rv$usedWordsAM <- globals$usedWords
-
-          module_rv$checkUsedWordsOnce = FALSE
-        }
-      })
-
-
-
-
-
-
 
 
       ############
@@ -94,63 +36,48 @@ actionButton(inputId = ns("ST_information"), label = "Information",
         )
       ## create data set for approximate matching
 
-      regularExpOut <-eventReactive(c(
-        input$regularExpSearch,
-        input$searchTerms # start when clicked on sidebar panel
-      ), {
-        req(dataCAM())
-        req(drawnCAM())
-
-        message("The value of input$regularExpSearch is ", input$regularExpSearch)
-
-        if(input$regularExpSearch == 1){
-          search_rv$df <- dataCAM()
-          ## remove deleted CAMs
-          search_rv$df[[1]] <- search_rv$df[[1]][search_rv$df[[1]]$CAM %in% names(drawnCAM()),]
-          search_rv$df[[2]] <- search_rv$df[[2]][search_rv$df[[2]]$CAM %in% names(drawnCAM()),]
-          search_rv$df[[3]] <- search_rv$df[[3]][search_rv$df[[3]]$CAM.x %in% names(drawnCAM()),]
-
-          ## set values ob all ambivalent nodes to 0:
-          # search_rv$df[[1]]$value <- ifelse(test = search_rv$df[[1]]$value == 10, yes = 0, no = search_rv$df[[1]]$value)
 
 
 
-          if(length(globals$protocol$approximateMatching) > 0 || length(globals$protocol$searchTerms) > 0 ){
-            search_rv$df[[1]]$text_summarized <- search_rv$df[[1]]$text_summarized
-          }else{
-            search_rv$df[[1]]$text_summarized <- search_rv$df[[1]]$text
-          }
 
 
-          if (is.null(module_rv$df)) {
-            module_rv$df <- search_rv$df
-          }
-        }
-
-        # print(input$regularExp)
-        if(nchar(x = input$regularExp) > 0){
-          ## remove X_positive, ...
-          #module_rv$df[[1]]$text <- str_remove_all(string = module_rv$df[[1]]$text, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
-          # words_out <- unique(str_subset(string = module_rv$df[[1]]$text, pattern = input$regularExp))
-          words_out <- unique(module_rv$df[[1]]$text_summarized[str_detect(string = str_remove_all(string = module_rv$df[[1]]$text_summarized,
-                                                                                                   pattern = "_positive$|_negative$|_neutral$|_ambivalent$"),
-                                                                           pattern = input$regularExp, negate = FALSE)])
-        }else{
-          words_out <- NULL
-        }
 
 
-        search_rv$counter <- 0
-        #print("words_out: ")
-        #print(words_out)
-        words_out
-      })
+
+      )
+      }
 
       ### show number of
-      # > unique concepts
-      output$Nodes_uniqueSearch <- renderText({
-        length(unique(module_rv$df[[1]]$text))
+
+      labels_positiveSearch <- eventReactive(c(input$clickSummarizeSearch, input$regularExpSearch), {
+        req(regularExpOut())
+
+        labels_out <- regularExpOut()
+        labels_list <- list()
+        for (i in 1:length(labels_out)) {
+          tmp_value <-  globals$dataCAMsummarized[[1]]$value[globals$dataCAMsummarized[[1]]$text_summarized == labels_out[i]]
+          tmp_value <- tmp_value[tmp_value > 0 & tmp_value < 10] # to positive
+
+
+          ## ignore zero value (if words are to similar)
+          if (length(tmp_value) != 0) {
+            ## compute N
+            tmp_N <- length(tmp_value)
+            ## compute mean
+            tmp_mean <- round(x = mean(tmp_value), digits = 2)
+            ## compute SD
+            tmp_SD <- round(x = sd(tmp_value), digits = 2)
+
+            ## remove X_positive, ...
+            tmp_labelout <- str_remove_all(string = labels_out[i], pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+            labels_list[[labels_out[i]]] = htmltools::tags$div(
+              paste0(tmp_labelout, " (N=", tmp_N,", M=", tmp_mean, ", SD=", tmp_SD, ")")
+            )
+          }
+        }
+        labels_list
       })
+
 
 
       ## create labels for bucket lists
@@ -161,7 +88,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
         labels_out <- regularExpOut()
         labels_list <- list()
         for (i in 1:length(labels_out)) {
-          tmp_value <-  module_rv$df[[1]]$value[module_rv$df[[1]]$text_summarized == labels_out[i]]
+          tmp_value <-  globals$dataCAMsummarized[[1]]$value[globals$dataCAMsummarized[[1]]$text_summarized == labels_out[i]]
           tmp_value <- tmp_value[tmp_value > 0 & tmp_value < 10] # to positive
 
 
@@ -191,7 +118,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
         labels_out <- regularExpOut()
         labels_list <- list()
         for (i in 1:length(labels_out)) {
-          tmp_value <-  module_rv$df[[1]]$value[module_rv$df[[1]]$text_summarized == labels_out[i]]
+          tmp_value <-  globals$dataCAMsummarized[[1]]$value[globals$dataCAMsummarized[[1]]$text_summarized == labels_out[i]]
           tmp_value <- tmp_value[tmp_value < 0] # to negative
 
           ## ignore zero value (if words are to similar)
@@ -221,7 +148,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
         labels_out <- regularExpOut()
         labels_list <- list()
         for (i in 1:length(labels_out)) {
-          tmp_value <-  module_rv$df[[1]]$value[module_rv$df[[1]]$text_summarized == labels_out[i]]
+          tmp_value <-  globals$dataCAMsummarized[[1]]$value[globals$dataCAMsummarized[[1]]$text_summarized == labels_out[i]]
           tmp_value <- tmp_value[tmp_value == 0] # to neutral
 
           ## ignore zero value (if words are to similar)
@@ -250,7 +177,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
         labels_out <- regularExpOut()
         labels_list <- list()
         for (i in 1:length(labels_out)) {
-          tmp_value <-  module_rv$df[[1]]$value[module_rv$df[[1]]$text_summarized == labels_out[i]]
+          tmp_value <-  globals$dataCAMsummarized[[1]]$value[globals$dataCAMsummarized[[1]]$text_summarized == labels_out[i]]
           tmp_value <- tmp_value[tmp_value == 10] # to ambivalent
           tmp_value <- rep(x = 0, times = length(tmp_value)) # set to 0
           ## ignore zero value (if words are to similar)
@@ -318,26 +245,26 @@ actionButton(inputId = ns("ST_information"), label = "Information",
 
         ## avoid adding multiple suffix
         text_summarized_NoSuffix <- str_remove_all(
-          string = module_rv$df[[1]]$text_summarized,
+          string = globals$dataCAMsummarized[[1]]$text_summarized,
           pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
         )
         # positive valence
         tmp_value_protocol_positive <-
-          module_rv$df[[1]]$value[text_summarized_NoSuffix %in% input$matches_positiveSearch &
-                                    module_rv$df[[1]]$value > 0 &
-                                    module_rv$df[[1]]$value < 10]
+          globals$dataCAMsummarized[[1]]$value[text_summarized_NoSuffix %in% input$matches_positiveSearch &
+                                    globals$dataCAMsummarized[[1]]$value > 0 &
+                                    globals$dataCAMsummarized[[1]]$value < 10]
         # negative valence
         tmp_value_protocol_negative <-
-          module_rv$df[[1]]$value[text_summarized_NoSuffix %in% input$matches_negativeSearch &
-                                    module_rv$df[[1]]$value < 0]
+          globals$dataCAMsummarized[[1]]$value[text_summarized_NoSuffix %in% input$matches_negativeSearch &
+                                    globals$dataCAMsummarized[[1]]$value < 0]
         # neutral valence
         tmp_value_protocol_neutral <-
-          module_rv$df[[1]]$value[text_summarized_NoSuffix %in% input$matches_neutralSearch &
-                                    module_rv$df[[1]]$value == 0]
+          globals$dataCAMsummarized[[1]]$value[text_summarized_NoSuffix %in% input$matches_neutralSearch &
+                                    globals$dataCAMsummarized[[1]]$value == 0]
         # ambivalent valence
         tmp_value_protocol_ambivalent <-
-          module_rv$df[[1]]$value[text_summarized_NoSuffix %in% input$matches_ambivalentSearch &
-                                    module_rv$df[[1]]$value == 10]
+          globals$dataCAMsummarized[[1]]$value[text_summarized_NoSuffix %in% input$matches_ambivalentSearch &
+                                    globals$dataCAMsummarized[[1]]$value == 10]
 
 
         tmp_protocol <- data.frame(
@@ -393,9 +320,9 @@ actionButton(inputId = ns("ST_information"), label = "Information",
             pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
           )
 
-          module_rv$df[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_positive_NoSuffix &
-                                              module_rv$df[[1]]$value > 0 &
-                                              module_rv$df[[1]]$value < 10] <-
+          globals$dataCAMsummarized[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_positive_NoSuffix &
+                                              globals$dataCAMsummarized[[1]]$value > 0 &
+                                              globals$dataCAMsummarized[[1]]$value < 10] <-
             paste0(input$supordinateWordSearch, "_positive")
 
           tmpWordsSummarized <- paste0(matches_positive_NoSuffix, "_positive")
@@ -418,8 +345,8 @@ actionButton(inputId = ns("ST_information"), label = "Information",
             string = input$matches_negativeSearch,
             pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
           )
-          module_rv$df[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_negative_NoSuffix &
-                                              module_rv$df[[1]]$value < 0] <-
+          globals$dataCAMsummarized[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_negative_NoSuffix &
+                                              globals$dataCAMsummarized[[1]]$value < 0] <-
             paste0(input$supordinateWordSearch, "_negative")
 
           if (length(tmpWordsSummarized) == 0) {
@@ -444,8 +371,8 @@ actionButton(inputId = ns("ST_information"), label = "Information",
             string = input$matches_neutralSearch,
             pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
           )
-          module_rv$df[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_neutral_NoSuffix &
-                                              module_rv$df[[1]]$value == 0] <-
+          globals$dataCAMsummarized[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_neutral_NoSuffix &
+                                              globals$dataCAMsummarized[[1]]$value == 0] <-
             paste0(input$supordinateWordSearch, "_neutral")
 
           if (length(tmpWordsSummarized) == 0) {
@@ -469,8 +396,8 @@ actionButton(inputId = ns("ST_information"), label = "Information",
             string = input$matches_ambivalentSearch,
             pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
           )
-          module_rv$df[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_ambivalent_NoSuffix &
-                                              module_rv$df[[1]]$value == 10] <-
+          globals$dataCAMsummarized[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_ambivalent_NoSuffix &
+                                              globals$dataCAMsummarized[[1]]$value == 10] <-
             paste0(input$supordinateWordSearch, "_ambivalent")
 
           if (length(tmpWordsSummarized) == 0) {
@@ -491,7 +418,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
         }
 
 
-        #print(module_rv$df[[1]])
+        #print(globals$dataCAMsummarized[[1]])
         #print("tmpWordsSummarized:")
         #print(tmpWordsSummarized)
         tmp_list = vector(mode = "list", length = 4)
@@ -500,6 +427,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
         tmp_list[[3]] = input$supordinateWordSearch
         tmp_list[[4]] = input$regularExp
         names(tmp_list) <-
+
           c("time",
             "wordsFound",
             "superordinateWord",
@@ -530,22 +458,6 @@ actionButton(inputId = ns("ST_information"), label = "Information",
           updateTextInput(session, "supordinateWordSearch",
                           value = str_remove_all(string = input$matches_ambivalentSearch[1], pattern = "_positive$|_negative$|_neutral$|_ambivalent$"))
         }
-      })
-
-
-      ## show already used words
-      output$usedwWordsSearch <- renderDataTable({
-        # https://stackoverflow.com/questions/27153979/converting-nested-list-unequal-length-to-data-frame
-        indx <- sapply(module_rv$usedWordsAM, length)
-        outdat <- as.data.frame(do.call(rbind,lapply(module_rv$usedWordsAM, `length<-`,
-                                                     max(indx))))
-        t(outdat)
-      })
-
-
-      output$Nodes_unique_afterSearch <- renderText({
-        tmp_text_summarized <- str_remove_all(string = module_rv$df[[1]]$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
-        length(unique(tmp_text_summarized))
       })
 
 
@@ -609,7 +521,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
 
       #> Server synonyms, word2vec general
       observeEvent(input$Synonyms_wordVec, {
-        if (is.null(module_rv$df)) {
+        if (is.null(globals$dataCAMsummarized)) {
           showModal(
             modalDialog(
               title = "Run Approximate matching or Searching terms",
@@ -620,7 +532,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
             )
           )
         }else{
-          tmpOneWords <- str_split(string = unique(module_rv$df[[1]]$text), pattern = " ", simplify = TRUE)
+          tmpOneWords <- str_split(string = unique(globals$dataCAMsummarized[[1]]$text), pattern = " ", simplify = TRUE)
 
           output$numOneWords <- renderText({
             sum(rowSums(x = tmpOneWords != "") == 1)
@@ -659,15 +571,15 @@ actionButton(inputId = ns("ST_information"), label = "Information",
 
 
             ## get data input:
-            if(any(colnames(module_rv$df) == "text_summarized")){
+            if(any(colnames(globals$dataCAMsummarized) == "text_summarized")){
               # remove all suffix
-              tmp_text <- str_remove_all(string = module_rv$df[[1]]$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+              tmp_text <- str_remove_all(string = globals$dataCAMsummarized[[1]]$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
             }else{
-              tmp_text <- module_rv$df[[1]]$text
+              tmp_text <- globals$dataCAMsummarized[[1]]$text
             }
 
             if (input$a_synonymsStart == 1) {
-              synonym_rv$df <- module_rv$df
+              synonym_rv$df <- globals$dataCAMsummarized
             }
 
             ## get raw synonym list
@@ -735,7 +647,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
           print(synonym_rv$counterPos)
 
           ## get text variable
-          tmp_text <- str_remove_all(string = module_rv$df[[1]]$text_summarized,
+          tmp_text <- str_remove_all(string = globals$dataCAMsummarized[[1]]$text_summarized,
                                      pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
           tmp_text <- tolower(x = tmp_text)
 
@@ -745,12 +657,12 @@ actionButton(inputId = ns("ST_information"), label = "Information",
             labels_out <-
               reducedSynonymList()[[synonym_rv$counterPos]]
 
-            # print(module_rv$df[[1]][tmp_text %in% labels_out, ])
+            # print(globals$dataCAMsummarized[[1]][tmp_text %in% labels_out, ])
 
             labels_list <- list()
             for (i in 1:length(labels_out)) {
               tmp_dat <-
-                module_rv$df[[1]][tmp_text == labels_out[i], ]
+                globals$dataCAMsummarized[[1]][tmp_text == labels_out[i], ]
 
 
               for(w in unique(tmp_dat$text_summarized)){
@@ -814,7 +726,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
           synonym_rv$counterNeg <- synonym_rv$counterNeg + 1
 
           ## get text variable
-          tmp_text <- str_remove_all(string = module_rv$df[[1]]$text_summarized,
+          tmp_text <- str_remove_all(string = globals$dataCAMsummarized[[1]]$text_summarized,
                                      pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
           tmp_text <- tolower(x = tmp_text)
 
@@ -827,7 +739,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
             labels_list <- list()
             for (i in 1:length(labels_out)) {
               tmp_dat <-
-                module_rv$df[[1]][tmp_text == labels_out[i], ]
+                globals$dataCAMsummarized[[1]][tmp_text == labels_out[i], ]
 
 
               for(w in unique(tmp_dat$text_summarized)){
@@ -888,7 +800,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
           synonym_rv$counterNeutral <- synonym_rv$counterNeutral + 1
 
           ## get text variable
-          tmp_text <- str_remove_all(string = module_rv$df[[1]]$text_summarized,
+          tmp_text <- str_remove_all(string = globals$dataCAMsummarized[[1]]$text_summarized,
                                      pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
           tmp_text <- tolower(x = tmp_text)
 
@@ -901,7 +813,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
             labels_list <- list()
             for (i in 1:length(labels_out)) {
               tmp_dat <-
-                module_rv$df[[1]][tmp_text == labels_out[i], ]
+                globals$dataCAMsummarized[[1]][tmp_text == labels_out[i], ]
 
 
               for(w in unique(tmp_dat$text_summarized)){
@@ -961,7 +873,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
           synonym_rv$counterAmbi <- synonym_rv$counterAmbi + 1
 
           ## get text variable
-          tmp_text <- str_remove_all(string = module_rv$df[[1]]$text_summarized,
+          tmp_text <- str_remove_all(string = globals$dataCAMsummarized[[1]]$text_summarized,
                                      pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
           tmp_text <- tolower(x = tmp_text)
 
@@ -974,7 +886,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
             labels_list <- list()
             for (i in 1:length(labels_out)) {
               tmp_dat <-
-                module_rv$df[[1]][tmp_text == labels_out[i], ]
+                globals$dataCAMsummarized[[1]][tmp_text == labels_out[i], ]
 
 
               for(w in unique(tmp_dat$text_summarized)){
@@ -1024,7 +936,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
 
       ## number of nodes after summarizing words using synonyms
       output$Nodes_unique_afterSynonyms <- renderText({
-        tmp_text_summarized <- str_remove_all(string = module_rv$df[[1]]$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+        tmp_text_summarized <- str_remove_all(string = globals$dataCAMsummarized[[1]]$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
         length(unique(tmp_text_summarized))
       })
 
@@ -1125,26 +1037,26 @@ actionButton(inputId = ns("ST_information"), label = "Information",
         if (!isTRUE(synonym_rv$skip)) {
           ## avoid adding multiple suffix
           text_summarized_NoSuffix <- str_remove_all(
-            string = module_rv$df[[1]]$text_summarized,
+            string = globals$dataCAMsummarized[[1]]$text_summarized,
             pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
           )
           # positive valence
           tmp_value_protocol_positive <-
-            module_rv$df[[1]]$value[text_summarized_NoSuffix %in% input$matches_positive_synonyms &
-                                      module_rv$df[[1]]$value > 0 &
-                                      module_rv$df[[1]]$value < 10]
+            globals$dataCAMsummarized[[1]]$value[text_summarized_NoSuffix %in% input$matches_positive_synonyms &
+                                      globals$dataCAMsummarized[[1]]$value > 0 &
+                                      globals$dataCAMsummarized[[1]]$value < 10]
           # negative valence
           tmp_value_protocol_negative <-
-            module_rv$df[[1]]$value[text_summarized_NoSuffix %in% input$matches_negative_synonyms &
-                                      module_rv$df[[1]]$value < 0]
+            globals$dataCAMsummarized[[1]]$value[text_summarized_NoSuffix %in% input$matches_negative_synonyms &
+                                      globals$dataCAMsummarized[[1]]$value < 0]
           # neutral valence
           tmp_value_protocol_neutral <-
-            module_rv$df[[1]]$value[text_summarized_NoSuffix %in% input$matches_neutral_synonyms &
-                                      module_rv$df[[1]]$value == 0]
+            globals$dataCAMsummarized[[1]]$value[text_summarized_NoSuffix %in% input$matches_neutral_synonyms &
+                                      globals$dataCAMsummarized[[1]]$value == 0]
           # ambivalent valence
           tmp_value_protocol_ambivalent <-
-            module_rv$df[[1]]$value[text_summarized_NoSuffix %in% input$matches_ambivalent_synonyms &
-                                      module_rv$df[[1]]$value == 10]
+            globals$dataCAMsummarized[[1]]$value[text_summarized_NoSuffix %in% input$matches_ambivalent_synonyms &
+                                      globals$dataCAMsummarized[[1]]$value == 10]
           # tmp_value_protocol_ambivalent <- ifelse(test = tmp_value_protocol_ambivalent == 10, yes = 0, no = tmp_value_protocol_ambivalent)
 
 
@@ -1205,9 +1117,9 @@ actionButton(inputId = ns("ST_information"), label = "Information",
               pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
             )
 
-            module_rv$df[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_positive_NoSuffix &
-                                                module_rv$df[[1]]$value > 0 &
-                                                module_rv$df[[1]]$value < 10] <-
+            globals$dataCAMsummarized[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_positive_NoSuffix &
+                                                globals$dataCAMsummarized[[1]]$value > 0 &
+                                                globals$dataCAMsummarized[[1]]$value < 10] <-
               paste0(input$a_synonymsSupordinateWord, "_positive")
 
             tmpWordsSummarized <- paste0(matches_positive_NoSuffix, "_positive")
@@ -1230,8 +1142,8 @@ actionButton(inputId = ns("ST_information"), label = "Information",
               string = input$matches_negative_synonyms,
               pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
             )
-            module_rv$df[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_negative_NoSuffix &
-                                                module_rv$df[[1]]$value < 0] <-
+            globals$dataCAMsummarized[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_negative_NoSuffix &
+                                                globals$dataCAMsummarized[[1]]$value < 0] <-
               paste0(input$a_synonymsSupordinateWord, "_negative")
 
             if (length(tmpWordsSummarized) == 0) {
@@ -1256,8 +1168,8 @@ actionButton(inputId = ns("ST_information"), label = "Information",
               string = input$matches_neutral_synonyms,
               pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
             )
-            module_rv$df[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_neutral_NoSuffix &
-                                                module_rv$df[[1]]$value == 0] <-
+            globals$dataCAMsummarized[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_neutral_NoSuffix &
+                                                globals$dataCAMsummarized[[1]]$value == 0] <-
               paste0(input$a_synonymsSupordinateWord, "_neutral")
 
             if (length(tmpWordsSummarized) == 0) {
@@ -1281,8 +1193,8 @@ actionButton(inputId = ns("ST_information"), label = "Information",
               string = input$matches_ambivalent_synonyms,
               pattern = "_positive$|_negative$|_neutral$|_ambivalent$"
             )
-            module_rv$df[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_ambivalent_NoSuffix &
-                                                module_rv$df[[1]]$value == 10] <-
+            globals$dataCAMsummarized[[1]]$text_summarized[text_summarized_NoSuffix %in% matches_ambivalent_NoSuffix &
+                                                globals$dataCAMsummarized[[1]]$value == 10] <-
               paste0(input$a_synonymsSupordinateWord, "_ambivalent")
 
             if (length(tmpWordsSummarized) == 0) {
@@ -1302,7 +1214,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
                      ))
           }
 
-          #print(module_rv$df[[1]])
+          #print(globals$dataCAMsummarized[[1]])
           #print("tmpWordsSummarized:")
           #print(tmpWordsSummarized)
 
@@ -1388,7 +1300,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
       #> Server
       observeEvent(input$clickGetWords, {
         print(input$selectValence)
-        if (is.null(module_rv$df)) {
+        if (is.null(globals$dataCAMsummarized)) {
           showModal(
             modalDialog(
               title = "Run Approximate matching or Searching terms",
@@ -1400,25 +1312,25 @@ actionButton(inputId = ns("ST_information"), label = "Information",
           )
         }
         output$outGetWords <- renderPrint({
-          if (!is.null(module_rv$df)) {
+          if (!is.null(globals$dataCAMsummarized)) {
 
             if(input$selectValence == "all"){
-              tmp <- str_subset(string = unique(module_rv$df[[1]]$text_summarized), pattern = "_positive$|_negative$|_neutral$|_ambivalent$", negate = TRUE)
+              tmp <- str_subset(string = unique(globals$dataCAMsummarized[[1]]$text_summarized), pattern = "_positive$|_negative$|_neutral$|_ambivalent$", negate = TRUE)
               tmp
             }else if(input$selectValence == "positive"){
-              tmp <- module_rv$df[[1]]$text_summarized[module_rv$df[[1]]$value > 0 & module_rv$df[[1]]$value < 10]
+              tmp <- globals$dataCAMsummarized[[1]]$text_summarized[globals$dataCAMsummarized[[1]]$value > 0 & globals$dataCAMsummarized[[1]]$value < 10]
               tmp <- str_subset(string = unique(tmp), pattern = "_positive$|_negative$|_neutral$|_ambivalent$", negate = TRUE)
               tmp
             }else if(input$selectValence == "negative"){
-              tmp <- module_rv$df[[1]]$text_summarized[module_rv$df[[1]]$value < 0]
+              tmp <- globals$dataCAMsummarized[[1]]$text_summarized[globals$dataCAMsummarized[[1]]$value < 0]
               tmp <- str_subset(string = unique(tmp), pattern = "_positive$|_negative$|_neutral$|_ambivalent$", negate = TRUE)
               tmp
             }else if(input$selectValence == "neutral"){
-              tmp <- module_rv$df[[1]]$text_summarized[module_rv$df[[1]]$value == 0]
+              tmp <- globals$dataCAMsummarized[[1]]$text_summarized[globals$dataCAMsummarized[[1]]$value == 0]
               tmp <- str_subset(string = unique(tmp), pattern = "_positive$|_negative$|_neutral$|_ambivalent$", negate = TRUE)
               tmp
             }else if(input$selectValence == "ambivalent"){
-              tmp <- module_rv$df[[1]]$text_summarized[module_rv$df[[1]]$value == 10]
+              tmp <- globals$dataCAMsummarized[[1]]$text_summarized[globals$dataCAMsummarized[[1]]$value == 10]
               tmp <- str_subset(string = unique(tmp), pattern = "_positive$|_negative$|_neutral$|_ambivalent$", negate = TRUE)
               tmp
             }
@@ -1429,8 +1341,8 @@ actionButton(inputId = ns("ST_information"), label = "Information",
       })
 
       output$numWordsNotSummarized <- renderText({
-        if (!is.null(module_rv$df)){
-          tmp <- str_subset(string = unique(module_rv$df[[1]]$text_summarized), pattern = "_positive$|_negative$|_neutral$|_ambivalent$", negate = TRUE)
+        if (!is.null(globals$dataCAMsummarized)){
+          tmp <- str_subset(string = unique(globals$dataCAMsummarized[[1]]$text_summarized), pattern = "_positive$|_negative$|_neutral$|_ambivalent$", negate = TRUE)
           length(tmp)
         }
       })
@@ -1591,7 +1503,7 @@ actionButton(inputId = ns("ST_information"), label = "Information",
 
       observeEvent(input$a_perctWordlist, {
         ## check if global data set is loaded
-        if (is.null(module_rv$df)) {
+        if (is.null(globals$dataCAMsummarized)) {
           showModal(
             modalDialog(
               title = "Run Approximate matching or Searching terms",
@@ -1604,10 +1516,10 @@ actionButton(inputId = ns("ST_information"), label = "Information",
 
         ## number of nodes after summarizing words
         output$a_wordsToSummarize <- renderText({
-          if(any(colnames(module_rv$df) == "text_summarized")){
-            tmp_text <- str_remove_all(string = module_rv$df[[1]]$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+          if(any(colnames(globals$dataCAMsummarized) == "text_summarized")){
+            tmp_text <- str_remove_all(string = globals$dataCAMsummarized[[1]]$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
           }else{
-            tmp_text <- module_rv$df[[1]]$text
+            tmp_text <- globals$dataCAMsummarized[[1]]$text
           }
           tmp_text <- unique(x = tmp_text)
           tmp_proportion <- ceiling(x = length(tmp_text) * input$a_perctWordlist / 100)
@@ -1639,14 +1551,14 @@ actionButton(inputId = ns("ST_information"), label = "Information",
         }
 
 
-        if(any(colnames(module_rv$df) == "text_summarized")){
+        if(any(colnames(globals$dataCAMsummarized) == "text_summarized")){
           if(tmp_splitByValence){
-            tmp_text <- module_rv$df[[1]]$text_summarized
+            tmp_text <- globals$dataCAMsummarized[[1]]$text_summarized
           }else{
-            tmp_text <- str_remove_all(string = module_rv$df[[1]]$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+            tmp_text <- str_remove_all(string = globals$dataCAMsummarized[[1]]$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
           }
         }else{
-          tmp_text <- module_rv$df[[1]]$text
+          tmp_text <- globals$dataCAMsummarized[[1]]$text
         }
         tmp_text <- unique(x = tmp_text)
         wordsOut <- sample(x = tmp_text, size = reliability_a_rv$numConcepts, replace = FALSE)
@@ -1655,8 +1567,8 @@ actionButton(inputId = ns("ST_information"), label = "Information",
 
 
         CAMwordlist <- create_wordlist(
-          dat_nodes = module_rv$df[[1]],
-          dat_merged = module_rv$df[[3]],
+          dat_nodes = globals$dataCAMsummarized[[1]],
+          dat_merged = globals$dataCAMsummarized[[3]],
           order = input$a_Wordlist_Order,
           splitByValence = tmp_splitByValence,
           comments = tmp_includeComments,
