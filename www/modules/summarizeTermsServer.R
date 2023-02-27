@@ -426,8 +426,8 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
         # print("globals$protocol$currentCAMs")
         # print(globals$protocol$currentCAMs)
 
-        print("globals$protocol$deletedCAMs")
-        print(globals$protocol$deletedCAMs)
+        # print("globals$protocol$deletedCAMs")
+        # print(globals$protocol$deletedCAMs)
 
       })
 
@@ -659,7 +659,8 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
         eventReactive(c(
           input$clickAproxStriMatch,
           input$clickSummarize,
-          input$clickSkip
+          input$clickSkip,
+        input$ST_approxMatch ## avoid interference with search function
         ),
         {
           req(optimalMatchSim())
@@ -680,7 +681,8 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
         eventReactive(c(
           input$clickAproxStriMatch,
           input$clickSummarize,
-          input$clickSkip
+          input$clickSkip,
+        input$ST_approxMatch
         ),
         {
           req(optimalMatchSim())
@@ -701,7 +703,8 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
         eventReactive(c(
           input$clickAproxStriMatch,
           input$clickSummarize,
-          input$clickSkip
+          input$clickSkip,
+        input$ST_approxMatch
         ),
         {
           req(optimalMatchSim())
@@ -722,7 +725,8 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
         eventReactive(c(
           input$clickAproxStriMatch,
           input$clickSummarize,
-          input$clickSkip
+          input$clickSkip,
+        input$ST_approxMatch
         ),
         {
           req(optimalMatchSim())
@@ -1263,7 +1267,8 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
 ## create data set for approximate matching
 reducedSynonymList <-
   eventReactive(c(
-    input$synonymsStart), {
+    input$synonymsStart,
+    input$ST_synonyms), {  ## initialize by clicking on sidebar
     req(drawnCAM())
 
     message("The choosen language is ",
@@ -1332,7 +1337,8 @@ labels_positive_Synonyms <-
   eventReactive(c(
     input$synonymsStart,
     input$synonymsClickSummarize,
-    input$synonymsClickSkip
+    input$synonymsClickSkip,
+        input$ST_synonyms ## avoid interference with search function
   ),
   {
     req(reducedSynonymList())
@@ -1354,7 +1360,8 @@ labels_negative_Synonyms <-
   eventReactive(c(
     input$synonymsStart,
     input$synonymsClickSummarize,
-    input$synonymsClickSkip
+    input$synonymsClickSkip,
+        input$ST_synonyms
   ),
   {
     req(reducedSynonymList())
@@ -1376,7 +1383,8 @@ labels_neutral_Synonyms <-
   eventReactive(c(
     input$synonymsStart,
     input$synonymsClickSummarize,
-    input$synonymsClickSkip
+    input$synonymsClickSkip,
+        input$ST_synonyms
   ),
   {
     req(reducedSynonymList())
@@ -1398,7 +1406,8 @@ labels_ambivalent_Synonyms <-
   eventReactive(c(
     input$synonymsStart,
     input$synonymsClickSummarize,
-    input$synonymsClickSkip
+    input$synonymsClickSkip,
+        input$ST_synonyms
   ),
   {
     req(reducedSynonymList())
@@ -1522,8 +1531,8 @@ observeEvent(input$synonymsClickSummarize, {
       #> change condition
       globals$condition <- c(globals$condition, "findSynonyms")
       
-      print("length(unique(globals$dataCAMsummarized[[1]]$text_summarized))")
-      print(length(unique(globals$dataCAMsummarized[[1]]$text_summarized)))
+      # print("length(unique(globals$dataCAMsummarized[[1]]$text_summarized))")
+      # print(length(unique(globals$dataCAMsummarized[[1]]$text_summarized)))
 
 
       # print("globals$detailedProtocolSynonyms")

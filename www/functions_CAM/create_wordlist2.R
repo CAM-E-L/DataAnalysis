@@ -170,6 +170,7 @@ create_wordlist <- function(dat_nodes = CAMfiles[[1]],
   ## keep only selected words
   if(!is.null(raterSubsetWords)){
     freq_terms <- freq_terms[freq_terms$Words %in% raterSubsetWords, ]
+    freq_terms <- freq_terms[,   apply(freq_terms, 2, checkEmpty)]
   }
   
   
