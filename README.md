@@ -13,4 +13,4 @@ E-Mail: <cam.contact@drawyourminds.de>
 
 Best,
 
-Julius & Florian
+Julius Fenn, supported by Florian Gouret, Lisa Reuter, Wilhelm Gros, Michael Gorki and Andrea Kiesel (University of Freiburg)
