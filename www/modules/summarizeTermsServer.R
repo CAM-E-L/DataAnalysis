@@ -68,7 +68,8 @@ summarizeTermsServer <-
           skip = FALSE,
           protocolCounter_appMatch = 1L, # for detailed protocols different protocol counter
           protocolCounter_Search = 1L,
-          protocolCounter_Synonyms = 1L
+          protocolCounter_Synonyms = 1L,
+          protocolCounter_word2vec = 1L
         )
 
 
@@ -138,7 +139,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
   }
 
   tmp_lengthInput <- c(input[[label_Pos]], input[[label_Neg]], input[[label_Neut]], input[[label_Ambi]])
-  if(searchType == "approximate" || searchType == "synonyms"){
+  if(searchType == "approximate" || searchType == "synonyms" || searchType == "word2vec"){
     if(length(tmp_lengthInput) == 1){
       print("Only one word found (clicked too often summarize for non-search summarize functions).")
       return(NULL)
@@ -214,7 +215,10 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
     colnames(tmp_protocol)[3] <- "regularExpression"
   }else if(searchType == "synonyms"){
     colnames(tmp_protocol)[3] <- "noneSearchArgument"
+  }else if(searchType == "word2vec"){
+    colnames(tmp_protocol)[3] <- "noneSearchArgument"
   }
+  
   
   # save protocol
   if (protocolCounter == 1) {
@@ -390,10 +394,14 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
       c("time",
         "wordsFound",
         "superordinateWord",
-        "noneSearchArgument")
+        "noneSearchArgumentSynonyms")
+  }else if(searchType == "word2vec"){
+    names(protocolJsonOut) <-
+      c("time",
+        "wordsFound",
+        "superordinateWord",
+        "noneSearchArgumentWordVec")
   }
-  
-  
   
   
   ##############################################
@@ -880,9 +888,13 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
         outUI$elements <-
           tagList(tags$h2("Summarize by searching terms"),
                   tags$div(
-                    HTML(
-                      "By using so called regular expression you can search your CAM concepts for semantically identical or similar terms
-              (high likeness of their meaning). For more details see Information."
+                    HTML('By using so called regular expression you can search your CAM concepts for semantically identical or 
+                      similar terms. Important regular expressions:
+                <ul>
+                <li>write "^" and / or "$" to match the beginning / end of your concept (e.g. ^inexp -> inexpensive but not expensive)</li>
+                <li>write "|" to search for multiple words at once (e.g. cost|cheap -> low cost, cheap, ...)</li>
+              </ul>
+              For more details see Information.'
                     ),
               style = "font-size:14px"
                   ),
@@ -1278,8 +1290,13 @@ reducedSynonymList <-
     tmp_text <- str_remove_all(string = globals$dataCAMsummarized[[1]]$text_summarized, 
     pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
     ## get raw synonym list
-    raw_SynonymList <- RawSynonymList(vectorWords = tmp_text) # !!! IF language
+    raw_SynonymList <- SynonymList(vectorWords = tmp_text) # !!! IF language
     
+
+        # print("raw_SynonymList")
+    # print(raw_SynonymList)
+
+    if(!is.null(raw_SynonymList)){
     ## out perentage of matches
     output$synonymsPercentageFound <- renderText({
       raw_SynonymList[[2]]
@@ -1287,18 +1304,16 @@ reducedSynonymList <-
 
     ## reset counter:
     ST_rv$counter <- 0L
-    # synonym_rv$counterPos <- 0L
-    # synonym_rv$counterNeg <- 0L
-    # synonym_rv$counterNeutral <- 0L
-    # synonym_rv$counterAmbi <- 0L
-  
+    
     ## get reduced synonym list
     reduced_SynonymList <- SummarizedSynonymList(listSynonyms = raw_SynonymList[[1]])
     for(i in 1:length(reduced_SynonymList)){
       reduced_SynonymList <- SummarizedSynonymList(listSynonyms = reduced_SynonymList)
     }
-
     reduced_SynonymList
+    }else{
+      NULL
+    }
   })
 
 ###############################
@@ -1564,7 +1579,7 @@ observeEvent(input$synonymsClickSummarize, {
       observeEvent(input$ST_wordVec, {
         ## change UI
         outUI$elements <- tagList(
-          tags$h2("(b) Summarize concepts by applying a word2vec model"),
+          tags$h2("Summarize concepts by applying a word2vec model"),
           tags$br(),
           tags$div(
             HTML(
@@ -1599,23 +1614,127 @@ observeEvent(input$synonymsClickSummarize, {
           tags$h3("(2) Download and run Python script:"),
           tags$div(
             HTML(
-              "...:"
+              'Please download the Python code from GitHub and run the Python script (see for more details readme page on GitHub): 
+              <a href="https://github.com/FennStatistics/CAMtools_CAMapp/tree/main/Python_word2vec" target="_blank">GitHub Python Code</a>'
             ),
             style = "font-size:14px"
           ),
           tags$h3("(3) Upload the computed pairwise similarities:"),
           tags$div(
             HTML(
-              "...:"
+              'After running the Python Script you should have created a .txt file called "distanceMatrix", please upload this file:'
             ),
             style = "font-size:14px"
           ),
-          tags$h4("Pairwise similarities (correlation matrix):"),
-          tags$h4("Suggested similar groups of concepts by computing a hierarchical clustering:"),
+                  fileInput(
+          ns("uploadDistanceMatrix"),
+          NULL,
+          accept = c(".txt"),
+          placeholder = "upload your file distanceMatrix",
+          multiple = FALSE
+        ),
+              tags$p(
+            "Of your provided concepts ",
+            tags$b(textOutput(ns(
+              "word2vecPercentageFound_distanceMatrix"
+            ), inline = TRUE)),
+            " percent matches were found for the word2vec model (the rest are non-words)."
+          ),
+     
+                  fluidRow(
+          column(7,plotOutput(ns("plotDendrogram"), width="100%")),  
+          column(3,verbatimTextOutput(ns("numberGroups")))
+        ),
+             tags$div(HTML("Please cut the dendrogram by specifying the cutting height (horizontal red line):"), style="font-size:14px"),
+       div(
+            style = "margin: 0 auto; width: 100%; text-align:left;",
+            div(
+              style = "display: inline-block; vertical-align: top;",
+ numericInput(ns("cuttingDendrogram"), label = NULL, value = .5, min = .2, max = 3, step = .1, width = "150px"),
+            ),
+            actionButton(
+              ns("word2vecStart"),
+              "search for similar words",
+              style = "display: inline-block;"
+            ),
+          ),  
+          tags$h4("Suggested similar groups of concepts by using hierarchical clustering:"),
+              tags$p(
+      "Your uploaded CAM dataset contains ",
+      tags$b(textOutput(ns(
+        "Nodes_unique"
+      ), inline = TRUE), " unique concepts"),
+      " , whereby on your specified cutting height ",
+      tags$b(
+        textOutput(ns("word2vecGroups"), inline = TRUE),
+        " groups of similar words"
+      ),
+      " , identified by word2vec, have been found."
+    ),
+    tags$p(
+      HTML("&nbsp;&nbsp;"),
+      " > ",
+      tags$b(textOutput(
+        ns("word2vecGroupsRounds"), inline = TRUE
+      )),
+      " more groups of similar words to look at."
+    ),
+        tags$br(),
+    tags$div(
+      HTML("Keep the words you want to summarize in the right lists:"),
+      style = "font-size:18px"
+    ),
+    tags$div(
+      HTML(
+        '<i>The first word is automatically selected as a possible superordinate word. If it contains a spelling error, you can
+                correct it manually.
+                <br>
+                Important: all words will be saved in the following format: Word_positive for words with positive valence,
+                 Word_negative for words with negative valence and so on.
+                 If you do not want to summarize a specific word please move it to the most left column.
+                 If you do not want to summarize any words of the found by word2vec just click on "skip":</i>'
+      ),
+      style = "font-size:14px"
+    ),
+    htmlOutput(ns("word2vecBucketlist")),
+    fluidRow(
+      column(
+        width = 6,
+        offset = 5,
+        textInput(
+          ns("word2vecSupordinateWord"),
+          "Superordinate word:",
+          placeholder = "all words, which are not in the most left column"
+        ),
+        actionButton(ns("word2vecClickSummarize"), "summarize"),
+        actionButton(ns("word2vecClickSkip"), "skip")
+      )
+    ),
+    tags$br(),
+    tags$p(
+      "Your CAM dataset contains ",
+      tags$b(textOutput(ns(
+        "Nodes_unique_after"
+      ), inline = TRUE)),
+      " unique concepts AFTER summarzing (ignoring valence)."
+    ),
+    tags$div(
+      HTML(
+        'The following table shows you which words you have already summarized. You can use the search functionalities of the table:'
+      ),
+      style = "font-size:14px"
+    ),
+    dataTableOutput(ns("alreadyUsedWords"))
         )
       })
 
       #> Server
+      ###############################
+      ### (1) Download summarized words
+
+
+
+
 outword2vecWords <-
   eventReactive(c(
     input$ST_wordVec
@@ -1645,7 +1764,7 @@ tmp_text_summarized
               round(x = length(outword2vecWords()) /  length(unique(tmp_text_summarized)), digits = 2) * 100
               })
 
-        ## download network indicator file:
+        ## download suitable summarized words:
         output$download_summarizedWords <- downloadHandler(
             filename = function() {
                 paste0("summarizedWords", ".txt")
@@ -1657,8 +1776,341 @@ req(outword2vecWords())
               file = file, row.names = FALSE, col.names = FALSE)
               }
         )
-
+      ###############################
     
+      ###############################
+## (3) Upload the computed pairwise similarities
+        distanceMatrix <- reactive({
+          distanceMatrix <- read.table(file = input$uploadDistanceMatrix$datapath)
+distanceMatrix
+    })
+
+
+
+
+    observeEvent(input$uploadDistanceMatrix, {
+      if (!is.null(distanceMatrix())) {
+        ## get percentage of words found:
+        output$word2vecPercentageFound_distanceMatrix <- renderText({
+          round(x = length(distanceMatrix()) /  length(outword2vecWords()), digits = 2) * 100
+          })
+
+        cosine_sim <- 1-as.dist(distanceMatrix()) # create similarity  using euclidean distance
+        cluster_solution <- hclust(cosine_sim, method = "ward.D2") # Ward's method
+
+        minHeight <- round(min(cluster_solution$height), digits = 2) + 0.01
+
+        print("minHeight !!!")
+        print(minHeight)
+
+        ## get dendogram
+        output$plotDendrogram <- renderPlot({
+          plot(cluster_solution)
+          abline(h = input$cuttingDendrogram, col = "red", lty = 2)
+          rect.hclust(cluster_solution, h=input$cuttingDendrogram, border = "tomato")
+        })
+
+
+        ## get number of groups found
+        output$numberGroups <- renderPrint({
+          groups<-cutree(cluster_solution, h=input$cuttingDendrogram)
+          groupsOut <- names(table(groups))[table(groups) >= 2]
+
+          print("total number of groups >= 2:")
+          print(length(groupsOut))
+          })
+      }
+    })
+
+
+      ## get groups out final
+           groupsOutFinal <- eventReactive(c(input$uploadDistanceMatrix,
+           input$cuttingDendrogram,
+           input$word2vecStart), {
+           if (!is.null(distanceMatrix())) {
+               cosine_sim <- 1-as.dist(distanceMatrix()) # create similarity  using euclidean distance
+        cluster_solution <- hclust(cosine_sim, method = "ward.D2") # Ward's method
+
+                       groups<-cutree(cluster_solution, h=input$cuttingDendrogram)
+groupsOut <- names(table(groups))[table(groups) >= 2]
+ list_word2vec <- list()
+for(i in 1:length(groupsOut)){
+  list_word2vec[[i]] <- names(groups)[groups == groupsOut[i]]
+}
+
+list_word2vec
+           }
+        })
+
+
+###############################
+### show number of
+# > see global
+
+#> number of groups of word2vec
+output$word2vecGroups <- renderText({
+  if(is.null(input$uploadDistanceMatrix)){
+    NULL
+  }else{
+  length(groupsOutFinal())
+  }
+})
+
+#> number of rounds to click:
+output$word2vecGroupsRounds <- renderText({
+    if(is.null(input$uploadDistanceMatrix)){
+    NULL
+  }else{
+  length(groupsOutFinal())  - ST_rv$counter + 1
+  }
+})
+
+## implement skip functionality
+observeEvent(input$word2vecClickSkip, {
+  ST_rv$skip <- TRUE
+})
+
+
+## implement skip functionality
+observeEvent(input$word2vecStart, {
+  # reset counter
+  ST_rv$counter <- 0
+})
+###############################
+
+
+###############################
+### create labels for bucket list AND render bucketlist AND update superordinate word
+## create labels for bucket list ##
+# > words with positive valence:
+labels_positive_word2vec <-
+  eventReactive(c(
+
+    input$word2vecClickSummarize,
+    input$word2vecClickSkip,
+               input$word2vecStart
+  ),
+  {
+  if(is.null(input$uploadDistanceMatrix)){
+    NULL
+  }else{
+    tmp_labels_out <- getlabels_Synonyms(typeLabels = "positive",
+                                         getInput = groupsOutFinal(),
+                                         counter = ST_rv$counter, skipCond = ST_rv$skip,
+                                         dataSummarized = globals$dataCAMsummarized)
+    
+    ST_rv$counter <- tmp_labels_out[[2]] # update counter
+    ST_rv$skip <- tmp_labels_out[[3]] # update skip condition
+    
+    tmp_labels_out[[1]]
+  }
+
+  })
+
+  # > words with negative valence:
+labels_negative_word2vec <-
+  eventReactive(c(
+
+    input$word2vecClickSummarize,
+    input$word2vecClickSkip,
+               input$word2vecStart
+  ),
+  {
+  if(is.null(input$uploadDistanceMatrix)){
+    NULL
+  }else{
+    tmp_labels_out <- getlabels_Synonyms(typeLabels = "negative",
+                                         getInput = groupsOutFinal(),
+                                         counter = ST_rv$counter-1, skipCond = ST_rv$skip,
+                                         dataSummarized = globals$dataCAMsummarized)
+    
+    ST_rv$counter <- tmp_labels_out[[2]] # update counter
+    ST_rv$skip <- tmp_labels_out[[3]] # update skip condition
+    
+    tmp_labels_out[[1]]
+  }
+
+  })
+
+  # > words with neutral valence:
+labels_neutral_word2vec <-
+  eventReactive(c(
+
+    input$word2vecClickSummarize,
+    input$word2vecClickSkip,
+               input$word2vecStart
+  ),
+  {
+  if(is.null(input$uploadDistanceMatrix)){
+    NULL
+  }else{
+    tmp_labels_out <- getlabels_Synonyms(typeLabels = "neutral",
+                                         getInput = groupsOutFinal(),
+                                         counter = ST_rv$counter-1, skipCond = ST_rv$skip,
+                                         dataSummarized = globals$dataCAMsummarized)
+    
+    ST_rv$counter <- tmp_labels_out[[2]] # update counter
+    ST_rv$skip <- tmp_labels_out[[3]] # update skip condition
+    
+    tmp_labels_out[[1]]
+  }
+
+  })
+
+  # > words with ambivalent valence:
+labels_ambivalent_word2vec <-
+  eventReactive(c(
+
+    input$word2vecClickSummarize,
+    input$word2vecClickSkip,
+               input$word2vecStart
+  ),
+  {
+  if(is.null(input$uploadDistanceMatrix)){
+    NULL
+  }else{
+    tmp_labels_out <- getlabels_Synonyms(typeLabels = "ambivalent",
+                                         getInput = groupsOutFinal(),
+                                         counter = ST_rv$counter-1, skipCond = ST_rv$skip,
+                                         dataSummarized = globals$dataCAMsummarized)
+    
+    ST_rv$counter <- tmp_labels_out[[2]] # update counter
+    ST_rv$skip <- tmp_labels_out[[3]] # update skip condition
+    
+    tmp_labels_out[[1]]
+  }
+
+  })
+      
+
+        ## render bucket list ##
+## Render bucket list
+output$word2vecBucketlist <- renderUI({
+  bucket_list(
+    header = NULL,
+    group_name = ns("bucket_list_groupword2vec"),
+    orientation = "horizontal",
+    add_rank_list(
+      text = "move here to not summarize single words",
+      labels = NULL,
+      # labels from row selection
+      input_id = ns("matches_suggestion_word2vec"),
+      options = sortable_options(multiDrag = TRUE)
+    ),
+    add_rank_list(
+      text = "suggested similar words with POSITIVE valence:",
+      labels = labels_positive_word2vec(),
+      input_id = ns("matches_positive_word2vec"),
+      options = sortable_options(multiDrag = TRUE)
+    ),
+    add_rank_list(
+      text = "suggested similar words with NEGATIVE valence:",
+      labels = labels_negative_word2vec(),
+      input_id = ns("matches_negative_word2vec"),
+      options = sortable_options(multiDrag = TRUE)
+    ),
+    add_rank_list(
+      text = "suggested similar words with NEUTRAL valence:",
+      labels = labels_neutral_word2vec(),
+      input_id = ns("matches_neutral_word2vec"),
+      options = sortable_options(multiDrag = TRUE)
+    ),
+    add_rank_list(
+      text = "suggested similar words with AMBIVALENT valence:",
+      labels = labels_ambivalent_word2vec(),
+      input_id = ns("matches_ambivalent_word2vec"),
+      options = sortable_options(multiDrag = TRUE)
+    )
+  )
+})
+
+
+## update superordinate word ##
+observe({
+  req(drawnCAM())
+  getSuperordinateWord(label_superordinate = "word2vecSupordinateWord",
+                       label_Pos = "matches_positive_word2vec",
+                       label_Neg = "matches_negative_word2vec",
+                       label_Neut = "matches_neutral_word2vec",
+                       label_Ambi = "matches_ambivalent_word2vec")
+})
+###############################
+
+
+
+###############################
+### overwrite summarized words AND set JSON protocol // get detailed protocol AND list of used words
+## set protocol and overwrite data:
+observeEvent(input$word2vecClickSummarize, {
+  req(drawnCAM())
+  
+  print("summarize - skip")
+  print(ST_rv$skip)
+  if (!isTRUE(ST_rv$skip)) {
+    tmp_overwriteData_getProtocols <- overwriteData_getProtocols(protocolCounter = ST_rv$protocolCounter_word2vec,
+                                                                 protocolDetailedOut = globals$detailedProtocolword2vec, # !!!
+                                                                 list_usedWords = globals$usedWords,
+                                                                 dataSummarized = globals$dataCAMsummarized,
+                                                                 
+                                                                 searchArgument = "none",
+                                                                 searchType = "word2vec",
+                                                                 label_superordinate = "word2vecSupordinateWord",
+                       label_Pos = "matches_positive_word2vec",
+                       label_Neg = "matches_negative_word2vec",
+                       label_Neut = "matches_neutral_word2vec",
+                       label_Ambi = "matches_ambivalent_word2vec")
+    
+    # print("names(tmp_overwriteData_getProtocols)")
+    # print(names(tmp_overwriteData_getProtocols))
+    
+    if(!is.null(tmp_overwriteData_getProtocols)){
+      ## overwrite global data
+      globals$dataCAMsummarized <- tmp_overwriteData_getProtocols$summarizedData
+      ## overwrite protocol counter (detailed)
+      ST_rv$protocolCounter_word2vec <- tmp_overwriteData_getProtocols$counterProtocol
+      ## overwrite detailed protocol
+      globals$detailedProtocolword2vec <- tmp_overwriteData_getProtocols$detailedProtocol
+      ## overwrite already used words
+      globals$usedWords <- tmp_overwriteData_getProtocols$usedWordsList
+      
+      ## append JSON protocol
+      globals$protocol$modelwordVec[[length(globals$protocol$modelwordVec) + 1]] <-
+        tmp_overwriteData_getProtocols$jsonProtocol
+      #> change condition
+      globals$condition <- c(globals$condition, "word2vec")
+      
+      print("length(unique(globals$dataCAMsummarized[[1]]$text_summarized))")
+      print(length(unique(globals$dataCAMsummarized[[1]]$text_summarized)))
+      
+      
+      print("globals$detailedProtocolword2vec")
+      print(globals$detailedProtocolword2vec)
+      
+      print("globals$protocol$modelwordVec")
+      print(globals$protocol$modelwordVec)
+    }
+  }
+})
+###############################
+
+## list of used words
+# > see global
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       ############
       # information summarize terms

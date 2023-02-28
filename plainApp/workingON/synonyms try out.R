@@ -68,7 +68,9 @@ word(string = CAMfiles[[1]]$text[1], start = 1L, end = 1, sep = fixed(" "))
 
 
 ###################################
-RawSynonymList <- function(vectorWords = NULL){
+###################################
+# vectorWords <- CAMfiles[[1]]$text
+SynonymList <- function(vectorWords = NULL){
 
   singleWords <- vectorWords
   singleWords <- tolower(x = singleWords)
@@ -142,15 +144,16 @@ SummarizedSynonymList <- function(listSynonyms = NULL){
 }
 
 
-raw_SynonymList <- RawSynonymList(vectorWords = CAMfiles[[1]]$text)
+raw_SynonymList <- SynonymList(vectorWords = CAMfiles[[1]]$text)
 raw_SynonymList
 reduced_SynonymList <- SummarizedSynonymList(listSynonyms = raw_SynonymList[[1]])
 for(i in 1:length(reduced_SynonymList)){
   reduced_SynonymList <- SummarizedSynonymList(listSynonyms = reduced_SynonymList)
 }
-
-
 reduced_SynonymList
+
+
+
 
 
 tmp_text <- CAMfiles[[1]]$text

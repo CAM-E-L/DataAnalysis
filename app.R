@@ -20,6 +20,7 @@ library(shinyjs)
 library(tidyverse)
 library(lubridate)
 
+library(magrittr)
 
 library(rjson) # write JSON files
 library(jsonlite) # read JSON files
@@ -38,6 +39,10 @@ library(irr)
 
 
 library(stargazer)
+
+# library(qdap)
+library(qdap, include.only = c('syn')) # include multiple functions
+library(qdapDictionaries)
 
 
 ########################################
@@ -278,6 +283,7 @@ ui <- fluidPage(
         approximateMatching = NULL,
         searchTerms = NULL,
         findSynonyms = NULL,
+        modelwordVec = NULL,
 
         networkIndicators = NULL # ??? analysis part
       ),
@@ -290,6 +296,7 @@ ui <- fluidPage(
       detailedProtocolAM = NULL,
       detailedProtocolST = NULL,
       detailedProtocolSynonyms = NULL,
+      detailedProtocolword2vec = NULL,
 
 
       # counter = NULL,
@@ -350,9 +357,10 @@ ui <- fluidPage(
           saveRDS(object = globals$drawnCAM, path)
         }
 
-        if ("approximateMatching" %in% globals$condition || 
-        "searchTerms" %in% globals$condition || 
-        "findSynonyms" %in% globals$condition) {
+        if ("approximateMatching" %in% globals$condition ||
+        "searchTerms" %in% globals$condition ||
+        "findSynonyms" %in% globals$condition ||
+        "word2vec" %in% globals$condition) {
           print("approximateMatching OR searchTerms OR findSynonyms - check")
           ## CAM_nodes_clean
           path <- paste0("CAM_nodes_clean", ".txt")
@@ -384,6 +392,14 @@ ui <- fluidPage(
           path <- paste0("findSynonyms_protocol", ".txt")
           fs <- c(fs, path)
           vroom::vroom_write(globals$detailedProtocolSynonyms, path)
+        }
+
+        if ("word2vec" %in% globals$condition) {
+          ## approximateMatching protocol
+          print("long protocol word2vec - check")
+          path <- paste0("word2vec_protocol", ".txt")
+          fs <- c(fs, path)
+          vroom::vroom_write(globals$detailedProtocolword2vec, path)
         }
 
 
@@ -452,9 +468,10 @@ ui <- fluidPage(
           )
         }
 
-      if ("approximateMatching" %in% globals$condition || 
-        "searchTerms" %in% globals$condition || 
-        "findSynonyms" %in% globals$condition) {
+      if ("approximateMatching" %in% globals$condition ||
+        "searchTerms" %in% globals$condition ||
+        "findSynonyms" %in% globals$condition ||
+        "word2vec" %in% globals$condition) {
           write(
             "\nCAM_nodes_clean: contains the data of all SUMMARIZED nodes included in the CAM dataset (see variable text_summarized)",
             path,
@@ -481,6 +498,14 @@ ui <- fluidPage(
         if ("findSynonyms" %in% globals$condition) {
           write(
             "\nfindSynonyms_protocol: a more detailed protocol including summary statistics of your summarizing steps regarding finding synonyms (database driven)",
+            path,
+            append = TRUE
+          )
+        }
+
+        if ("word2vec" %in% globals$condition) {
+          write(
+            "\nword2vec_protocol: a more detailed protocol including summary statistics of your summarizing steps regarding word2vec (database driven)",
             path,
             append = TRUE
           )
@@ -618,5 +643,5 @@ ui <- fluidPage(
 
 
   ### run app
-# shinyApp(ui, server)
-runApp(shinyApp(ui, server), launch.browser = TRUE)
+ # shinyApp(ui, server)
+ runApp(shinyApp(ui, server), launch.browser = TRUE)

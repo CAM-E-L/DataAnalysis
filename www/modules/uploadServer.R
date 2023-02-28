@@ -555,7 +555,8 @@ if(v$protocol){
 
         if(length(protocol()$approximateMatching) > 0 
         || length(protocol()$searchTerms) > 0 
-        || length(protocol()$findSynonyms) > 0 ){
+        || length(protocol()$findSynonyms) > 0
+        || length(protocol()$modelwordVec) > 0){
         CAMfiles[[1]]$text_summarized <- CAMfiles[[1]]$text
         tmp_out <- overwriteTextNodes(protocolDat = protocol(), nodesDat = CAMfiles[[1]])     
         CAMfiles[[1]] <- tmp_out[[1]]
@@ -566,6 +567,7 @@ if(v$protocol){
        globals$protocol$approximateMatching <- protocol()$approximateMatching
        globals$protocol$searchTerms <- protocol()$searchTerms
        globals$protocol$findSynonyms <- protocol()$findSynonyms
+       globals$protocol$modelwordVec <- protocol()$modelwordVec
     }
 
         # print("globals$protocol:")
@@ -792,7 +794,9 @@ if(!globals$protocol$cleanValence[[1]]){
           tags$ul(
           tags$li("Number of times you have used approximate matching functions to summarize terms: ", textOutput(ns("approximateMatchingNumber"), inline = TRUE)),
           tags$li("Number of times you have used search functions to summarize terms: ", textOutput(ns("searchTermsNumber"), inline = TRUE)),
-                    tags$li("Number of times you have looped through the find synonyms function: ", textOutput(ns("findSynonymsNumber"), inline = TRUE)),
+          tags$li("Number of times you have looped through the find synonyms function: ", textOutput(ns("findSynonymsNumber"), inline = TRUE)),
+          tags$li("Number of times you have looped through the word2vec function: ", textOutput(ns("findword2vecNumber"), inline = TRUE)),
+
 
         )
         )
@@ -815,7 +819,7 @@ if(!globals$protocol$cleanValence[[1]]){
     vev_time_Protocol <- reactive({
     ## check approximate and search term was used
 
-    list_summarizeTerms <- c(protocol()$approximateMatching, protocol()$searchTerms, protocol()$findSynonyms)
+    list_summarizeTerms <- c(protocol()$approximateMatching, protocol()$searchTerms, protocol()$findSynonyms, protocol()$modelwordVec)
 
         vec_time <- c()
         for (i in 1:length(list_summarizeTerms)) {
@@ -853,6 +857,13 @@ max(vev_time_Protocol())
         req(protocol())
         length(protocol()$findSynonyms)
     })
+
+        output$findword2vecNumber <-  renderText({
+        req(protocol())
+        length(protocol()$modelwordVec)
+    })
+
+
 
 ###### Clean Valence
     observeEvent(input$cleanValence, {

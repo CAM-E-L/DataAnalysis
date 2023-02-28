@@ -1,5 +1,5 @@
 ###################################
-RawSynonymList <- function(vectorWords = NULL){
+SynonymList <- function(vectorWords = NULL){
 
   singleWords <- vectorWords
   singleWords <- tolower(x = singleWords)
@@ -10,6 +10,9 @@ RawSynonymList <- function(vectorWords = NULL){
   singleWords_found <- singleWords[singleWords %in% qdapDictionaries::key.syn$x]
   outPercent <- round(x = length(singleWords_found) / length(singleWords) * 100, digits = 2)
 
+  if (identical(singleWords_found, character(0))) {
+    return(NULL)
+  }
 
   ### create synonyms
   # syn::syns()

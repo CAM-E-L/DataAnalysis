@@ -33,7 +33,10 @@ overwriteTextNodes <- function(protocolDat, nodesDat) {
   
   ##############################################
   ## merge summarzing functions approximate matchting, search terms, ... AND adjust encoding ##
-  list_summarizeTerms <- c(protocolDat$approximateMatching, protocolDat$searchTerms, protocolDat$findSynonyms)
+  list_summarizeTerms <- c(protocolDat$approximateMatching, 
+  protocolDat$searchTerms, 
+  protocolDat$findSynonyms, 
+  protocolDat$modelwordVec)
   
   ## right encoding
   for(i in 1:length(list_summarizeTerms)){
@@ -100,10 +103,12 @@ overwriteTextNodes <- function(protocolDat, nodesDat) {
       tmp_print <- "approximate matching"
     }else  if(any(names(tmp_current) == "regularExpression")){
       tmp_print <- "search terms"
-    }else  if(any(names(tmp_current) == "noneSearchArgument")){
-      tmp_print <- "synonyms or word2vec"
+    }else  if(any(names(tmp_current) == "noneSearchArgumentSynonyms")){
+      tmp_print <- "synonyms"
+    }else  if(any(names(tmp_current) == "noneSearchArgumentWordVec")){
+      tmp_print <- "word2vec"
     }
-    
+
     cat("time",
         vec_time[t],
         "at index",
