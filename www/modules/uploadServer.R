@@ -480,14 +480,24 @@ uploadServer <- function(id, parent, globals) {
           for (i in 1:length(input$upload[, 1])) {
             ## load blocks
             if (str_detect(string = input$upload[[i, "name"]], pattern = "blocks")) {
+              if(str_detect(string = input$upload[[i, "name"]], pattern = "blocks_c")){  # adjustment Lars
               blocks[[b]] <-
+                utils::read.csv(
+                  file = input$upload[[i, "datapath"]],
+                  sep = ";",
+                  encoding = "UTF-8"
+                )
+              }else{
+                blocks[[b]] <-
                 utils::read.csv(
                   file = input$upload[[i, "datapath"]],
                   sep = ",",
                   encoding = "UTF-8"
                 )
+              }
+
               blocks[[b]]$participantCAM <-
-                str_extract(string = input$upload[[i, "name"]], pattern = ".*(?=_blocks)")
+                str_extract(string = input$upload[[i, "name"]], pattern = ".*(?=_blocks)|.*(?=_blocks_c)") # adjustment Lars
               b <- b + 1
             }
             ## load links

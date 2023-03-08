@@ -112,6 +112,9 @@ source("./www/functions_CAM/create_ListSynonyms.R", encoding = "utf-8")
 # summary functions
 source("./www/functions_CAM/summaryFunctions.R", encoding = "utf-8")
 
+# slice CAMs
+source("./www/functions_CAM/slice_CAM.R", encoding = "utf-8")
+
 
 
 
@@ -283,9 +286,8 @@ ui <- fluidPage(
         approximateMatching = NULL,
         searchTerms = NULL,
         findSynonyms = NULL,
-        modelwordVec = NULL,
-
-        networkIndicators = NULL # ??? analysis part
+        modelwordVec = NULL
+# analysis part # ???
       ),
 
       dataCAM = NULL,
@@ -297,7 +299,8 @@ ui <- fluidPage(
       detailedProtocolST = NULL,
       detailedProtocolSynonyms = NULL,
       detailedProtocolword2vec = NULL,
-
+# analysis part #
+dataNetworkIndicators = NULL, 
 
       # counter = NULL,
       # summarizedData = NULL,
@@ -357,6 +360,8 @@ ui <- fluidPage(
           saveRDS(object = globals$drawnCAM, path)
         }
 
+
+        ### preprocessing part ###
         if ("approximateMatching" %in% globals$condition ||
         "searchTerms" %in% globals$condition ||
         "findSynonyms" %in% globals$condition ||
@@ -429,6 +434,29 @@ ui <- fluidPage(
           fs <- c(fs, path)
           xlsx::write.xlsx2(globals$wordlistOverallRated, path, row.names = FALSE)
         }
+
+
+### analysis part ###
+        if ("networkIndicators" %in% globals$condition) {
+                    print("networkIndicators - check")
+          ## networkIndicators as txt file
+          path <- paste0("networkIndicators", ".txt")
+          fs <- c(fs, path)
+          vroom::vroom_write(globals$dataNetworkIndicators, path)
+
+          ## networkIndicators as xlsx file
+          path <- paste0("networkIndicators", ".xlsx")
+          fs <- c(fs, path)
+          xlsx::write.xlsx2(globals$dataNetworkIndicators, path, row.names = FALSE)
+
+
+
+          ## networkIndicators APA table
+          print("networkIndicators APA table - check !!!!")
+        }
+
+
+
 
         ## + add description file
         path <- paste0("description file", ".txt")
@@ -541,6 +569,24 @@ ui <- fluidPage(
             append = TRUE
           )
         }
+
+
+
+                if ("networkIndicators" %in% globals$condition) {
+        write(
+            "\nnetworkIndicators: .txt file of all computed network indicators",
+            path,
+            append = TRUE
+          )
+
+        write(
+            "networkIndicators: .xlsx (Excel) file of all computed network indicators",
+            path,
+            append = TRUE
+          )
+        }
+
+
         ## add protocol
         #> add unique session id
         if (is.null(globals$protocol$sessionID)) {
@@ -644,4 +690,4 @@ ui <- fluidPage(
 
   ### run app
  # shinyApp(ui, server)
- runApp(shinyApp(ui, server), launch.browser = TRUE)
+  runApp(shinyApp(ui, server), launch.browser = TRUE)

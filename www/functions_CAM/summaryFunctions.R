@@ -107,8 +107,10 @@ getDescriptives <- function(dataset = CAMindicators,
 
   ## stargazer
   if(!is.null(nameAPAtable)){
-    notNeeded <- capture.output(stargazer(out_tmp, type = "html", summary = FALSE,
-                                          out = paste0(nameAPAtable, ".html")))
+    #notNeeded <- capture.output(stargazer(out_tmp, type = "html", summary = FALSE,
+    #                                      out = paste0(nameAPAtable, ".html")))
+     notNeeded <- capture.output(stargazer(out_tmp, type = "html", summary = FALSE,
+                                          out = nameAPAtable,))
   }
 
     notNeeded <- capture.output(stargazer(out_tmp, type = "html", summary = FALSE))

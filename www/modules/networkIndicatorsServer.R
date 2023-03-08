@@ -81,8 +81,10 @@ networkIndicatorsServer <-
             }
 
 
-
-    globals$networkIndicators <- tmp_NI
+            #> change condition
+            globals$condition <- c(globals$condition, "networkIndicators")
+            #> add global data set
+    globals$dataNetworkIndicators <- tmp_NI
             tmp_NI
         })
 
@@ -152,8 +154,8 @@ networkIndicatorsServer <-
 
         #> Server
       output$APAtable_NIdes <- renderText(
-        if (!is.null(globals$networkIndicators)) {
-          getDescriptives(dataset = globals$networkIndicators, nameAPAtable = NULL)
+        if (!is.null(globals$dataNetworkIndicators)) {
+          getDescriptives(dataset = globals$dataNetworkIndicators, nameAPAtable = NULL)
           }else{
             NULL
             }
@@ -163,8 +165,8 @@ networkIndicatorsServer <-
 
         ## plot CAM
         output$corPlot_NIdes <- renderPlot({
-     if (!is.null(globals$networkIndicators)) {
-      psych::cor.plot(r = globals$networkIndicators[, unlist(lapply(globals$networkIndicators, is.numeric))], xlas = 2)
+     if (!is.null(globals$dataNetworkIndicators)) {
+      psych::cor.plot(r = globals$dataNetworkIndicators[, unlist(lapply(globals$dataNetworkIndicators, is.numeric))], xlas = 2)
           }else{
             NULL
             }
@@ -176,8 +178,8 @@ networkIndicatorsServer <-
                 ## choices CAMs for selectInput
         uniqueNumericNI_NIdes <- reactive({
 
-                  if (!is.null(globals$networkIndicators)) {
-                      vec_names <- globals$networkIndicators %>%
+                  if (!is.null(globals$dataNetworkIndicators)) {
+                      vec_names <- globals$dataNetworkIndicators %>%
     select_if(Negate(is.character)) %>%
     colnames()
     vec_names
@@ -199,9 +201,9 @@ networkIndicatorsServer <-
         if(is.null(input$SearchSigCorr_NIdes)){
           print("Please specifiy network indicators to check for significant correlations.")
         }else{
-        if (!is.null(globals$networkIndicators)) {
+        if (!is.null(globals$dataNetworkIndicators)) {
 
-  des_sigCorr(indicatos_CAM = globals$networkIndicators, vars = input$SearchSigCorr_NIdes)
+  des_sigCorr(indicatos_CAM = globals$dataNetworkIndicators, vars = input$SearchSigCorr_NIdes)
           }else{
             print("Please compute network indicators before checking for significant correlations.")
             }
@@ -210,6 +212,72 @@ networkIndicatorsServer <-
 
 
 
+
+        ###### neighborhoodIndicators
+        #> UI
+        observeEvent(input$neighborhoodIndicators, {
+
+          ## change UI
+          outUI$elements <- tagList(
+          tags$h2("Compute neighborhood indicators of single concepts"),
+          tags$br(),
+                  uiOutput(ns("selectNeighborhood_NI")),
+        tags$div(
+          HTML("Click on button to run function to get the neighborhood indicators of your CAMs. Please click only once and
+                      wait few seconds:"), 
+                      style="font-size:14px"),
+        actionButton(ns("clickNeighborhoodIndicators"), "Compute neighborhood indicators"),
+                tags$p(
+            "You computed the neighborhood indicators of ",
+            tags$b(textOutput(ns("numCAMsDrawnNI"), inline = TRUE), " CAMs.")
+        ),
+        tags$div(HTML("Dynamic table of neighborhood indicators:"), style="font-size:14px"),
+        dataTableOutput(ns("neighborhoodIndicatorsTable")),
+        tags$br(),
+        tags$div(HTML("<i>To download the neighborhood indicators download all your files globally using the button top right.</i>"), 
+        style="font-size:14px")
+          )
+        })
+
+        #> Server
+        output$selectNeighborhood_NI <- renderUI({
+          selectInput(ns("neighborhood_NI"),
+                      "For which concepts do you want to get neighborhood indicators?",
+                      choices = as.list(uniqueConcepts_NI()), width = "50%",   multiple = TRUE
+          )
+        })
+
+
+
+NeighborhoodIndicators <- eventReactive(input$clickNeighborhoodIndicators, {
+  req(drawnCAM())
+
+  print("input$neighborhood_NI")
+  print(input$neighborhood_NI)
+  
+  if(is.null(input$neighborhood_NI)){
+return(NULL)
+  }else{
+    tmp_NI <- compute_neighborhoodIndicatorsCAM(drawn_CAM = drawnCAM(),
+                                   weightSecondOrder = .5,
+                                   consideredConcepts = input$neighborhood_NI,
+                                              sliceCAMbool = FALSE,
+                                              removeConnectionCAM = NULL,
+                                              removeNodeCAM = NULL)
+  }
+  
+  
+  #> change condition
+  globals$condition <- c(globals$condition, "networkNeighborhoodIndicators")
+  #> add global data set
+  # globals$dataNetworkIndicators <- tmp_NI
+  tmp_NI
+})
+
+## dynamic table network indicators
+output$neighborhoodIndicatorsTable <- renderDataTable({
+  NeighborhoodIndicators()
+})
 
         ###### information
         observeEvent(input$informationNetworkIndicators, {
