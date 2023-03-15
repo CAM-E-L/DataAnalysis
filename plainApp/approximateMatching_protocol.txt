@@ -1,9 +1,0 @@
-time	searchRound	stringDistance	superordinate	subordinate_positive	N_positive	mean_positive	sd_positive	subordinate_negative	N_negative	mean_negative	sd_negative	subordinate_neutral	N_neutral	subordinate_ambivalent	N_ambivalent
-2023-02-27 12:41:34	1	2	Side affects		0	NA	NA	Side affects // side effects // Side effects // Side Effects	7	-2.86	0.38	side effects	1		0
-2023-02-27 12:41:35	2	2	Potential acid rain		0	NA	NA	Potential acid rain // Potential Acid Rain	2	-3	0		0		0
-2023-02-27 12:41:36	3	2	air pollution		0	NA	NA	air pollution // Air Pollution	3	-2.33	0.58		0		0
-2023-02-27 12:41:36	4	2	fear		0	NA	NA	fear // war // War // Wars	7	-2.86	0.38		0		0
-2023-02-27 12:41:38	5	2	positive feelings	positive feelings // Positive Feelings	40	2.08	0.89		0	NA	NA	positive feelings	11	positive feelings	2
-2023-02-27 12:42:25	6	2	acid rain		0	NA	NA	acid rain // Acid rain // Acid Rain // acid rain? // Acid rain? // acidic rain	25	-2.6	0.5		0		0
-2023-02-27 12:42:26	7	2	save animals	save animals // Saves animals	2	3	0		0	NA	NA		0		0
-2023-02-27 12:42:27	8	2	conflict		0	NA	NA	conflict // Conflict // Conflict? // conflicts	5	-2.8	0.45		0		0
