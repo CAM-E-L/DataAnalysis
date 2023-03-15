@@ -45,6 +45,8 @@ library(qdap, include.only = c('syn')) # include multiple functions
 library(qdapDictionaries)
 
 
+library(kableExtra) # APA 7 tables
+
 ########################################
 # load additional data
 ########################################
@@ -299,15 +301,17 @@ ui <- fluidPage(
       detailedProtocolST = NULL,
       detailedProtocolSynonyms = NULL,
       detailedProtocolword2vec = NULL,
-# analysis part #
-dataNetworkIndicators = NULL, 
 
-      # counter = NULL,
-      # summarizedData = NULL,
-
-      # wordlist for Raters AND wordlist overall rated by raters
+            # wordlist for Raters AND wordlist overall rated by raters
       wordlistRaters = NULL,
-      wordlistOverallRated = NULL
+      wordlistOverallRated = NULL,
+
+
+# analysis part #
+#> network indicators
+dataNetworkIndicators = NULL,
+dataNetworkNeighborhoodIndicators = NULL
+
     )
 
     ## set up download function:
@@ -453,9 +457,26 @@ dataNetworkIndicators = NULL,
 
           ## networkIndicators APA table
           print("networkIndicators APA table - check !!!!")
+          tmpAPA <- getDescriptives(dataset = globals$dataNetworkIndicators, nameAPAtable = NULL)
+
+          path <- paste0("networkIndicators_APAtable", ".png")
+          fs <- c(fs, path)
+          tmpAPA %>% save_kable(file = path, density = 600)
         }
 
 
+        if ("networkNeighborhoodIndicators" %in% globals$condition) {
+                    print("networkNeighborhoodIndicators - check")
+          ## networkIndicators as txt file
+          path <- paste0("networkNeighborhoodIndicators", ".txt")
+          fs <- c(fs, path)
+          vroom::vroom_write(globals$dataNetworkNeighborhoodIndicators, path)
+
+          ## networkIndicators as xlsx file
+          path <- paste0("networkNeighborhoodIndicators", ".xlsx")
+          fs <- c(fs, path)
+          xlsx::write.xlsx2(globals$dataNetworkNeighborhoodIndicators, path, row.names = FALSE)
+        }
 
 
         ## + add description file
@@ -587,6 +608,20 @@ dataNetworkIndicators = NULL,
         }
 
 
+                if ("networkNeighborhoodIndicators" %in% globals$condition) {
+        write(
+            "\nnetworkNeighborhoodIndicators: .txt file of all computed neighborhood indicators",
+            path,
+            append = TRUE
+          )
+
+        write(
+            "networkNeighborhoodIndicators: .xlsx (Excel) file of all computed neighborhood indicators",
+            path,
+            append = TRUE
+          )
+        }
+
         ## add protocol
         #> add unique session id
         if (is.null(globals$protocol$sessionID)) {
@@ -689,5 +724,5 @@ dataNetworkIndicators = NULL,
 
 
   ### run app
- # shinyApp(ui, server)
+# shinyApp(ui, server)
   runApp(shinyApp(ui, server), launch.browser = TRUE)

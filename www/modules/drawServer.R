@@ -205,22 +205,32 @@ drawServer <- function(id, dataCAM, parent, globals) {
         CAM_choicesR <- reactive({
           req(CAMs_drawnR())
 
+          ## set participantCAM as default ID if unique and all IDs are provided
+          if(length(unique(rv$networkIndicators$participantCAM)) == nrow(rv$networkIndicators) & 
+          !any(rv$networkIndicators$participantCAM == "NO ID PROVIDED")){
+            print("== participantCAM")
+            rv$networkIndicators$CAM_ID_use <- rv$networkIndicators$participantCAM
+          }else{
+            print("== CAM_ID")
+            rv$networkIndicators$CAM_ID_use <- rv$networkIndicators$CAM_ID
+          }
+
           print(input$orderCAMR)
           if(input$orderCAMR == "# of nodes"){
             print("# of nodes")
-            rv$networkIndicators$CAM_ID[order(rv$networkIndicators$num_nodes_macro)]
+            rv$networkIndicators$CAM_ID_use[order(rv$networkIndicators$num_nodes_macro)]
           }else if(input$orderCAMR == "# of connectors"){
             print("# of connectors")
-            rv$networkIndicators$CAM_ID[order(rv$networkIndicators$num_edges_macro)]
+            rv$networkIndicators$CAM_ID_use[order(rv$networkIndicators$num_edges_macro)]
           }else if(input$orderCAMR == "density"){
             print("density")
-            rv$networkIndicators$CAM_ID[order(rv$networkIndicators$density_macro)]
+            rv$networkIndicators$CAM_ID_use[order(rv$networkIndicators$density_macro)]
           }else if(input$orderCAMR == "assortativity"){
             print("assortativity")
-            rv$networkIndicators$CAM_ID[order(rv$networkIndicators$assortativity_valence_macro)]
+            rv$networkIndicators$CAM_ID_use[order(rv$networkIndicators$assortativity_valence_macro)]
           }else{  # default
             print("mean valence")
-            rv$networkIndicators$CAM_ID[order(rv$networkIndicators$mean_valence_macro)]
+            rv$networkIndicators$CAM_ID_use[order(rv$networkIndicators$mean_valence_macro)]
           }
         })
 
@@ -409,14 +419,29 @@ drawServer <- function(id, dataCAM, parent, globals) {
             }else{
               globals$dataCAMsummarized[[1]]$text_summarized <- dataCAM()[[1]]$text
             }
+      # Encoding(x = globals$dataCAMsummarized[[1]]$text_summarized) <- "latin1"
+
 
             ## remove empty and deleted CAMs
+          if(length(unique(rv$networkIndicators$participantCAM)) == nrow(rv$networkIndicators) & 
+          !any(rv$networkIndicators$participantCAM == "NO ID PROVIDED")){
+            print("== participantCAM delete")
+            globals$dataCAMsummarized[[1]] <-
+              globals$dataCAMsummarized[[1]][globals$dataCAMsummarized[[1]]$participantCAM %in% names(CAMs_drawnR()), ]
+            globals$dataCAMsummarized[[2]] <-
+              globals$dataCAMsummarized[[2]][globals$dataCAMsummarized[[2]]$participantCAM %in% names(CAMs_drawnR()), ]
+            globals$dataCAMsummarized[[3]] <-
+              globals$dataCAMsummarized[[3]][globals$dataCAMsummarized[[3]]$participantCAM.x %in% names(CAMs_drawnR()), ] 
+          }else{
+            print("== CAM_ID delete")
             globals$dataCAMsummarized[[1]] <-
               globals$dataCAMsummarized[[1]][globals$dataCAMsummarized[[1]]$CAM %in% names(CAMs_drawnR()), ]
             globals$dataCAMsummarized[[2]] <-
               globals$dataCAMsummarized[[2]][globals$dataCAMsummarized[[2]]$CAM %in% names(CAMs_drawnR()), ]
             globals$dataCAMsummarized[[3]] <-
-              globals$dataCAMsummarized[[3]][globals$dataCAMsummarized[[3]]$CAM.x %in% names(CAMs_drawnR()), ]  
+              globals$dataCAMsummarized[[3]][globals$dataCAMsummarized[[3]]$CAM.x %in% names(CAMs_drawnR()), ] 
+          }
+ 
 
             #print("empty CAMs:")
             #print(dataCAM()[[1]]$CAM[!dataCAM()[[1]]$CAM %in% names(CAMs_drawnR())])

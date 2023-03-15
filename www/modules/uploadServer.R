@@ -597,8 +597,6 @@ if(!globals$protocol$cleanValence[[1]]){
    message("successfully cleaned Valence data!")
 
 }
- 
-        
 
 # nodes_raw$text_summarized <- nodes_raw$text
 

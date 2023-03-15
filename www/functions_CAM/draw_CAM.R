@@ -189,7 +189,15 @@ draw_CAM <- function(dat_merged = CAMfiles[[3]],
     
     list_g[[i]] <- g_own
   }
-  
-  names(list_g) <- paste0(ids_CAMs)
+    
+    ## set participantCAM as default ID if unique and all IDs are provided
+      if(length(unique(dat_merged$participantCAM.x)) == length(unique(dat_merged$CAM.x)) & 
+          !any(dat_merged$participantCAM.x == "NO ID PROVIDED")){
+            print("== participantCAM in drawnCAM")
+             names(list_g) <- unique(dat_merged$participantCAM.x)
+          }else{
+            print("== ids_CAMs in drawnCAM")
+       names(list_g) <- paste0(ids_CAMs)
+          }
   return(list_g)
 }

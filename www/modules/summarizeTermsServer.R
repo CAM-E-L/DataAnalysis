@@ -1782,7 +1782,7 @@ req(outword2vecWords())
 ## (3) Upload the computed pairwise similarities
         distanceMatrix <- reactive({
           distanceMatrix <- read.table(file = input$uploadDistanceMatrix$datapath)
-distanceMatrix
+          distanceMatrix
     })
 
 

@@ -5,10 +5,10 @@ account: fennapps
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 6575045
-bundleId: 6896539
+bundleId: 6957379
 url: https://fennapps.shinyapps.io/shinyCAMEL_v02/
-when: 1677577321.42158
-lastSyncTime: 1677577321.42158
+when: 1678812818.4843
+lastSyncTime: 1678812818.4843
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: plainApp
