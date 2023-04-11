@@ -175,16 +175,16 @@ uploadServer <- function(id, parent, globals) {
           session = parent
         )
 
-                showTab(
+       showTab(
           inputId = "tabs",
           target = "summarize CAMs",
           select = FALSE,
           session = parent
         )
 
-         showTab(
+        showTab(
           inputId = "tabs",
-          target = "similarity algorithms",
+          target = "clustering CAMs",
           select = FALSE,
           session = parent
         )
@@ -208,7 +208,7 @@ uploadServer <- function(id, parent, globals) {
         shinyjs::disable(selector = '.navbar-nav a[data-value="network indicators"')
         shinyjs::disable(selector = '.navbar-nav a[data-value="word outputs"')
         shinyjs::disable(selector = '.navbar-nav a[data-value="summarize CAMs"')
-        shinyjs::disable(selector = '.navbar-nav a[data-value="similarity algorithms"')
+        shinyjs::disable(selector = '.navbar-nav a[data-value="clustering CAMs"')
         shinyjs::disable(selector = '.navbar-nav a[data-value="slice CAMs"')
         shinyjs::disable(selector = '.navbar-nav a[data-value="report"')
 
@@ -555,9 +555,22 @@ if(v$protocol){
     
     ## keep only CAMs which have not been deleted
     if(length(protocol()$currentCAMs) > 0){
+      # if participants IDs have been used in the draw CAM step
+if(all(unlist(protocol()$currentCAMs) %in% CAMfiles[[1]]$CAM)){
         CAMfiles[[1]] <- CAMfiles[[1]][CAMfiles[[1]]$CAM %in% unlist(protocol()$currentCAMs), ]
         CAMfiles[[2]] <- CAMfiles[[2]][CAMfiles[[2]]$CAM %in% unlist(protocol()$currentCAMs), ]
         CAMfiles[[3]] <- CAMfiles[[3]][CAMfiles[[3]]$CAM.x %in% unlist(protocol()$currentCAMs), ]
+}else{
+          CAMfiles[[1]] <- CAMfiles[[1]][CAMfiles[[1]]$participantCAM %in% unlist(protocol()$currentCAMs), ]
+        CAMfiles[[2]] <- CAMfiles[[2]][CAMfiles[[2]]$participantCAM %in% unlist(protocol()$currentCAMs), ]
+        CAMfiles[[3]] <- CAMfiles[[3]][CAMfiles[[3]]$participantCAM.x %in% unlist(protocol()$currentCAMs), ]
+}
+
+
+print("AAAAAAAAAAAAAA!!!V")
+print(dim(CAMfiles[[1]]))
+print(dim(CAMfiles[[2]]))
+print(dim(CAMfiles[[3]]))
         # overwrite protocol
         globals$protocol$deletedCAMs <- protocol()$deletedCAMs
         globals$protocol$currentCAMs <- protocol()$currentCAMs

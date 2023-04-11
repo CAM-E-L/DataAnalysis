@@ -47,6 +47,13 @@ library(qdapDictionaries)
 
 library(kableExtra) # APA 7 tables
 
+## for heatmap
+library(stats)
+library(heatmaply)
+library(plotly)
+library(RColorBrewer)
+
+
 ########################################
 # load additional data
 ########################################
@@ -117,6 +124,8 @@ source("./www/functions_CAM/summaryFunctions.R", encoding = "utf-8")
 # slice CAMs
 source("./www/functions_CAM/slice_CAM.R", encoding = "utf-8")
 
+# co-occurrences of concepts
+source("./www/functions_CAM/co_occurrences_concept.R", encoding = "utf-8")
 
 
 
@@ -163,6 +172,21 @@ source("./www/modules/networkIndicatorsServer.R", local = TRUE)
 # Word Outputs - overall
 source("./www/modules/wordOutputs_overallUI.R", local = TRUE)
 source("./www/modules/wordOutputs_overallServer.R", local = TRUE)
+# Word Outputs - single
+source("./www/modules/wordOutputs_singleUI.R", local = TRUE)
+source("./www/modules/wordOutputs_singleServer.R", local = TRUE)
+
+# summarize CAMs
+source("./www/modules/summarizeCAMsUI.R", local = TRUE)
+source("./www/modules/summarizeCAMsServer.R", local = TRUE)
+
+# Clustering CAMs - on concept level
+source("./www/modules/clusteringCAMs_conceptLevelUI.R", local = TRUE)
+source("./www/modules/clusteringCAMs_conceptLevelServer.R", local = TRUE)
+# Clustering CAMs - on overall level
+source("./www/modules/clusteringCAMs_overallLevelUI.R", local = TRUE)
+source("./www/modules/clusteringCAMs_overallLevelServer.R", local = TRUE)
+
 
 
 
@@ -174,6 +198,11 @@ source("./www/modules/wordOutputs_overallServer.R", local = TRUE)
 
 ### UI
 ui <- fluidPage(
+  ## include favicon
+          tags$head(
+    tags$link(rel = "icon", type = "image/png", href = "www/image/favicon_logoCAM2.PNG")
+          ),
+
   ## include CSS
   includeCSS("www/css/css_file.css"),
   shinyjs::useShinyjs(),
@@ -210,7 +239,8 @@ ui <- fluidPage(
     tabPanel("network indicators", {
         fluidPage(networkIndicatorsUI("networkIndicators"))
     }),
-        navbarMenu(
+
+    navbarMenu(
         "word outputs",
         tabPanel("by words overall", {
             fluidPage(
@@ -219,20 +249,37 @@ ui <- fluidPage(
         }),
         tabPanel("by single words", {
             fluidPage(
-      # fluidPage(networkIndicatorsUI("networkIndicators"))
+      fluidPage(wordOutputs_singleUI("wordOutputs_single"))
             )
         }),
     ),
-        tabPanel("summarize CAMs", {
-      # fluidPage(networkIndicatorsUI("networkIndicators"))
+
+       tabPanel("summarize CAMs", {
+      fluidPage(summarizeCAMsUI("summarizeCAMs"))
     }),
-       tabPanel("similarity algorithms", {
-      # fluidPage(networkIndicatorsUI("networkIndicators"))
-    }),
+
+    navbarMenu(
+        "clustering CAMs",
+        tabPanel("on concept level", {
+            fluidPage(
+      fluidPage(clusteringCAMs_conceptLevelUI("clusteringCAMs_conceptLevel"))
+            )
+        }),
+        tabPanel("on overall level", {
+fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
+        }),
+    ),
        tabPanel("slice CAMs", {
+              tags$i("will be implemented soon...")
+
       # fluidPage(networkIndicatorsUI("networkIndicators"))
     }),
+
+
+
        tabPanel("report", {
+              tags$i("will be implemented soon...")
+
       # fluidPage(networkIndicatorsUI("networkIndicators"))
     }),
       tags$script(
@@ -264,7 +311,7 @@ ui <- fluidPage(
     hideTab(inputId = "tabs", target = "network indicators")
     hideTab(inputId = "tabs", target = "word outputs")
     hideTab(inputId = "tabs", target = "summarize CAMs")
-    hideTab(inputId = "tabs", target = "similarity algorithms")
+    hideTab(inputId = "tabs", target = "clustering CAMs")
     hideTab(inputId = "tabs", target = "slice CAMs")
     hideTab(inputId = "tabs", target = "report")
 
@@ -718,11 +765,44 @@ dataNetworkNeighborhoodIndicators = NULL
         globals
       )
 
+      wordOutputs_singleServer(
+        "wordOutputs_single",
+        dataCAM = globals$dataCAM,
+        drawnCAM = globals$drawnCAM,
+        parent = session,
+        globals
+      )
+
+      summarizeCAMsServer(
+        "summarizeCAMs",
+        dataCAM = globals$dataCAM,
+        drawnCAM = globals$drawnCAM,
+        parent = session,
+        globals
+      )
+
+      clusteringCAMs_conceptLevelServer(
+        "clusteringCAMs_conceptLevel",
+        dataCAM = globals$dataCAM,
+        drawnCAM = globals$drawnCAM,
+        parent = session,
+        globals
+      )
+
+      clusteringCAMs_overallLevelServer(
+        "clusteringCAMs_overallLevel",
+        dataCAM = globals$dataCAM,
+        drawnCAM = globals$drawnCAM,
+        parent = session,
+        globals
+      )
+
+
   }
 
 
 
 
   ### run app
-# shinyApp(ui, server)
-  runApp(shinyApp(ui, server), launch.browser = TRUE)
+shinyApp(ui, server)
+  # runApp(shinyApp(ui, server), launch.browser = TRUE)

@@ -1,0 +1,7 @@
+protocol: contains all the steps you have done (upload this file plus your raw dataset to continue your preprocessing / analysis)
+
+CAM_nodes_raw: contains the data of all nodes included in the CAM dataset
+CAM_connectors_raw: contains the data of all connectors included in the CAM dataset
+CAM_merged_raw: contains the merged data of all nodes and connectors included in the CAM dataset
+
+CAMs_drawn: contains the data of your drawn CAMs in .rds format (can be directly loaded by R)

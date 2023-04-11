@@ -1,0 +1,1064 @@
+Words	raw	percent	mean_valence	sd_valence	mean_degree	sd_degree
+???	1	1.28	0	NA	3	NA
+3rd World Countrys	1	1.28	0	NA	2	NA
+A new idea	1	1.28	1	NA	1	NA
+A viable solution	1	1.28	3	NA	6	NA
+abuse of power	1	1.28	-3	NA	4	NA
+acceptability of SAI	78	100	0.01282051282051282	0.496575016071838	8.741379310344827	6.66375465742109
+Acceptance	1	1.28	-1	NA	3	NA
+acceptance in society	1	1.28	0	NA	2	NA
+Accountabilty	1	1.28	-2	NA	1	NA
+accountable for disaster	1	1.28	-1	NA	1	NA
+acid rain	12	15.38	-2.4166666666666665	0.514928650544437	1.9166666666666667	0.996204919895622
+Acid rain	7	8.97	-2.7142857142857144	0.487950036474267	7.285714285714286	8.09761869758194
+Acid Rain	3	3.85	-3	0	3	3.46410161513775
+Acid rain increase	1	1.28	-3	NA	1	NA
+Acid Rain possibility	1	1.28	-3	NA	1	NA
+acid rain?	1	1.28	-3	NA	2	NA
+Acid rain?	1	1.28	-2	NA	1	NA
+acid rainfall	1	1.28	-3	NA	4	NA
+acidic rain	1	1.28	-3	NA	1	NA
+acidity in ocean	1	1.28	-2	NA	2	NA
+acidity ocean stay	1	1.28	-3	NA	1	NA
+acidity of ocean	1	1.28	-3	NA	4	NA
+Acidity of oceans	1	1.28	0	NA	23	NA
+Action being taken	1	1.28	2	NA	1	NA
+Action over inaction	1	1.28	3	NA	5	NA
+Actual benefits	1	1.28	3	NA	6	NA
+actual risks	1	1.28	-3	NA	4	NA
+Address concerns	1	1.28	3	NA	2	NA
+Advances in technology	1	1.28	1	NA	6	NA
+affect sollar power	1	1.28	-3	NA	1	NA
+affects whole earth	1	1.28	-2	NA	2	NA
+affects whole world	1	1.28	-3	NA	2	NA
+affordable	1	1.28	2	NA	1	NA
+Affordable	1	1.28	3	NA	6	NA
+agreement general population	1	1.28	0	NA	3	NA
+Agricultural impact	1	1.28	-1	NA	7	NA
+air pollution	1	1.28	-3	NA	1	NA
+Air Pollution	2	2.56	-2	0	3	1.4142135623731
+airplanes	1	1.28	-3	NA	2	NA
+Airspace Disagreement	1	1.28	-3	NA	1	NA
+Allow it	1	1.28	-2	NA	2	NA
+Allows time	1	1.28	1	NA	2	NA
+Alterior Motives	1	1.28	-3	NA	1	NA
+alternative solutions	1	1.28	0	NA	3	NA
+alters temperature fast	1	1.28	3	NA	5	NA
+Animal extinction	1	1.28	-2	NA	2	NA
+Animals Dieing	1	1.28	-3	NA	1	NA
+Aquatic life endangered	1	1.28	-3	NA	1	NA
+aside effects	1	1.28	0	NA	1	NA
+assessment team	1	1.28	0	NA	4	NA
+atmosphere	1	1.28	-1	NA	1	NA
+available technology	1	1.28	2	NA	1	NA
+Avoid climate migration	1	1.28	3	NA	1	NA
+Avoid sea rising	1	1.28	3	NA	4	NA
+avoids root problem	1	1.28	-2	NA	5	NA
+Backlash	1	1.28	-3	NA	2	NA
+Backup	1	1.28	0	NA	2	NA
+bad habit reinforcement	1	1.28	-2	NA	3	NA
+Bad outcomes	1	1.28	-2	NA	12	NA
+Bandaid	1	1.28	0	NA	3	NA
+Behaviours must change	1	1.28	-1	NA	26	NA
+Benefit	1	1.28	3	NA	6	NA
+Benefits	1	1.28	0	NA	6	NA
+benefits start quickly	1	1.28	2	NA	2	NA
+benefits take time	1	1.28	-1	NA	2	NA
+Benefits to groups	1	1.28	3	NA	1	NA
+Better alternative options	1	1.28	3	NA	1	NA
+better available methods?	1	1.28	0	NA	3	NA
+Better EcoSystem	1	1.28	1	NA	3	NA
+better energy education	1	1.28	3	NA	8	NA
+better future	1	1.28	2	NA	3	NA
+better harvests	1	1.28	2	NA	2	NA
+better options	1	1.28	3	NA	2	NA
+Better Tech	1	1.28	-2	NA	1	NA
+better understanding	1	1.28	0	NA	4	NA
+Beyond hope	1	1.28	-2	NA	1	NA
+biodiversity protected	1	1.28	3	NA	2	NA
+Bring Countries Together	1	1.28	2	NA	6	NA
+Brings Hope	1	1.28	3	NA	2	NA
+Broken Promises	1	1.28	-3	NA	1	NA
+Build new industries	1	1.28	3	NA	2	NA
+business	1	1.28	-1	NA	2	NA
+Buy more time	1	1.28	1	NA	1	NA
+buys time	5	6.41	1	0	1	0
+Buys time	1	1.28	3	NA	2	NA
+Can implement worldwide	1	1.28	3	NA	2	NA
+can never stop	1	1.28	-2	NA	3	NA
+can start immediately	1	1.28	1	NA	2	NA
+can use cars	1	1.28	1	NA	1	NA
+can we influence?	1	1.28	0	NA	1	NA
+cancer	1	1.28	-3	NA	1	NA
+carcinogenic	1	1.28	-3	NA	3	NA
+carrying on regardless	1	1.28	-3	NA	5	NA
+cause	1	1.28	0	NA	2	NA
+cause acid rain?	1	1.28	-3	NA	5	NA
+Cause more damage?	1	1.28	0	NA	5	NA
+Cause other problems	1	1.28	-3	NA	2	NA
+Cause War?	1	1.28	-3	NA	3	NA
+Centuries or decades	1	1.28	-3	NA	3	NA
+Change lifestyle	1	1.28	0	NA	2	NA
+change lifestyles	1	1.28	0	NA	2	NA
+Changing governments	1	1.28	-1	NA	1	NA
+Changing lifestyles	1	1.28	-3	NA	1	NA
+cheap	1	1.28	3	NA	2	NA
+Cheaper than alternatives	1	1.28	1	NA	1	NA
+Chemical manufacturing	1	1.28	2	NA	1	NA
+Chemical Usage	1	1.28	-1	NA	2	NA
+chronic diseases	1	1.28	-3	NA	1	NA
+civil unrest	1	1.28	-3	NA	5	NA
+Climate change	1	1.28	-1	NA	5	NA
+climate change continuation	1	1.28	-3	NA	2	NA
+climate change denial	1	1.28	0	NA	3	NA
+Climate change denial	1	1.28	-2	NA	2	NA
+Climate change reverse	1	1.28	0	NA	4	NA
+Climate poverty	1	1.28	-2	NA	2	NA
+climate problems	1	1.28	-3	NA	1	NA
+Climate solution	1	1.28	1	NA	6	NA
+Co-operation?	1	1.28	1	NA	6	NA
+Co-ordination between countries	1	1.28	-3	NA	2	NA
+CO2 concentration unaffected	1	1.28	-2	NA	1	NA
+CO2 emissions continue	1	1.28	-2	NA	2	NA
+CO2 Levels	1	1.28	-2	NA	1	NA
+CO2 not reduced	1	1.28	0	NA	2	NA
+CO2 rises still	1	1.28	-2	NA	3	NA
+coastal communities protected	1	1.28	2	NA	3	NA
+collaboration with industries	1	1.28	0	NA	2	NA
+Coller planet	1	1.28	0	NA	3	NA
+Comes with risks	1	1.28	-3	NA	2	NA
+Communication	1	1.28	-2	NA	2	NA
+community tax increase	1	1.28	-3	NA	3	NA
+Comparatively low cost	1	1.28	3	NA	1	NA
+conflict	1	1.28	-3	NA	2	NA
+Conflict	2	2.56	-3	0	3.5	2.12132034355964
+Conflict across globe	1	1.28	0	NA	9	NA
+conflict around costings	1	1.28	-2	NA	2	NA
+conflict between countries	1	1.28	-2	NA	1	NA
+conflict in opinions	1	1.28	-2	NA	1	NA
+Conflict?	1	1.28	-2	NA	6	NA
+conflicting interests	1	1.28	-2	NA	5	NA
+conflicts	1	1.28	-3	NA	2	NA
+conflicts of interest	1	1.28	-2	NA	2	NA
+conspiracy theories	2	2.56	-1.5	0.707106781186548	3.5	2.12132034355964
+Conspiracy theories	2	2.56	-2	0	3.5	0.707106781186548
+constant briefing	1	1.28	0	NA	2	NA
+continuous	1	1.28	-3	NA	3	NA
+continuous applications	1	1.28	-1	NA	1	NA
+contrail conspiracy	1	1.28	-3	NA	2	NA
+Cool the planet	1	1.28	0	NA	2	NA
+Cooler environment	1	1.28	2	NA	4	NA
+Cooler planet	1	1.28	3	NA	3	NA
+cooling earth	1	1.28	2	NA	1	NA
+Cooling effect	1	1.28	1	NA	4	NA
+cools temperature	1	1.28	3	NA	1	NA
+Cools the Earth	1	1.28	3	NA	1	NA
+Cools the planet	1	1.28	2	NA	3	NA
+Cooperation Needed	1	1.28	0	NA	2	NA
+Coral	1	1.28	-2	NA	23	NA
+coral reef damage	1	1.28	-2	NA	1	NA
+coral reef destruction	2	2.56	-3	0	2	1.4142135623731
+coral reef protection	1	1.28	3	NA	2	NA
+Coral reefs	1	1.28	-3	NA	6	NA
+corruption	1	1.28	-3	NA	1	NA
+Corruption	1	1.28	-3	NA	1	NA
+cost	3	3.85	-1	1	2	1
+Cost	9	11.54	1.1111111111111112	1.76383420737639	3.4444444444444446	2.185812841434
+cost-effective method	1	1.28	3	NA	3	NA
+Cost Effective	1	1.28	2	NA	2	NA
+Cost Effective Transport	1	1.28	3	NA	2	NA
+Cost of deployment	1	1.28	-2	NA	1	NA
+Cost of intervention	1	1.28	0	NA	3	NA
+Cost of living	1	1.28	-1	NA	4	NA
+Cost of not	1	1.28	-2	NA	1	NA
+Cost of Project	1	1.28	-2	NA	2	NA
+Cost of SAI	1	1.28	-1	NA	3	NA
+Cost to economy	1	1.28	0	NA	2	NA
+Cost to humans	1	1.28	0	NA	2	NA
+Cost to institutions	1	1.28	0	NA	2	NA
+costings	1	1.28	0	NA	2	NA
+could boost economies	1	1.28	2	NA	3	NA
+Could bring unity	1	1.28	3	NA	4	NA
+Could create employment	1	1.28	3	NA	2	NA
+could create negativity	1	1.28	2	NA	1	NA
+could fail	1	1.28	-3	NA	1	NA
+could reduce temperature	1	1.28	3	NA	2	NA
+could save planet	1	1.28	3	NA	3	NA
+could use soon	1	1.28	2	NA	2	NA
+could worsen it	1	1.28	-3	NA	2	NA
+Counteacts warming	1	1.28	3	NA	1	NA
+counteracting global warming	1	1.28	3	NA	1	NA
+counteracts global warming	1	1.28	3	NA	3	NA
+Countries agreement	1	1.28	-3	NA	2	NA
+Countries fighting	1	1.28	-3	NA	3	NA
+countries must agree	2	2.56	0	0	2.5	2.12132034355964
+Countries not agree	1	1.28	-3	NA	2	NA
+Countries United	1	1.28	-3	NA	5	NA
+Country Commitments	1	1.28	-2	NA	1	NA
+create air pollution	1	1.28	-2	NA	2	NA
+creater gets praise	1	1.28	1	NA	1	NA
+Creates additional problems	1	1.28	-3	NA	1	NA
+creates demand	1	1.28	3	NA	2	NA
+creating positive image	1	1.28	2	NA	3	NA
+crop damage	1	1.28	-3	NA	2	NA
+crop destruction	1	1.28	-1	NA	2	NA
+culpability	1	1.28	-2	NA	1	NA
+damage	1	1.28	-3	NA	2	NA
+Damage Aquatic Life	1	1.28	-2	NA	4	NA
+damage atmosphere	1	1.28	-3	NA	1	NA
+Damage of infrastructure	1	1.28	-1	NA	1	NA
+damage to crops	1	1.28	-3	NA	2	NA
+damage to flora	1	1.28	-3	NA	1	NA
+Dangerous Game	1	1.28	-3	NA	2	NA
+Data	1	1.28	-1	NA	1	NA
+Death	1	1.28	-3	NA	4	NA
+Death of Wildlife	1	1.28	-3	NA	1	NA
+Decrease damage	1	1.28	3	NA	3	NA
+Decrease in events	1	1.28	3	NA	1	NA
+delivery method	1	1.28	-3	NA	1	NA
+democracy	1	1.28	3	NA	5	NA
+deployed constantly	1	1.28	-2	NA	1	NA
+deployed for decades	1	1.28	-1	NA	1	NA
+Deployed for years	1	1.28	-1	NA	1	NA
+deployed immediately	1	1.28	3	NA	1	NA
+deployed quckily	1	1.28	1	NA	2	NA
+deployed quickly	1	1.28	3	NA	3	NA
+Deployment is fast	1	1.28	3	NA	1	NA
+deployment speed	1	1.28	3	NA	1	NA
+desire to change	2	2.56	2.5	0.707106781186548	3	2.82842712474619
+destoying farms	1	1.28	-2	NA	1	NA
+Destrution of ecoystems	1	1.28	-3	NA	4	NA
+determined to succeed	1	1.28	3	NA	1	NA
+different impact	1	1.28	0	NA	2	NA
+different opinions	1	1.28	-2	NA	1	NA
+difficulty to understand	1	1.28	1	NA	2	NA
+Disagreement of countries	1	1.28	-1	NA	2	NA
+displaced peoples	1	1.28	-3	NA	4	NA
+dispute over resources	1	1.28	-3	NA	3	NA
+Distraction	1	1.28	-3	NA	1	NA
+does it work?	1	1.28	-3	NA	4	NA
+Doesn't encourage innovation	1	1.28	-1	NA	2	NA
+doesn't fix	1	1.28	-1	NA	1	NA
+doesn't help seas	1	1.28	-3	NA	2	NA
+doesn't solve problem	3	3.85	-2.3333333333333335	0.577350269189626	1	0
+Doesn't stop CC	1	1.28	-2	NA	1	NA
+doesn't warm earth	1	1.28	1	NA	1	NA
+doesn't warm sea	1	1.28	1	NA	1	NA
+doesnt fix everything	1	1.28	-1	NA	4	NA
+Doesnt Tackle Issues	1	1.28	-3	NA	5	NA
+Doing something	1	1.28	3	NA	1	NA
+Dominant Nation	1	1.28	-3	NA	1	NA
+Dramatic Emergency Solution	1	1.28	-3	NA	1	NA
+Dramatic Temperature Rise	1	1.28	-3	NA	1	NA
+durability	1	1.28	0	NA	3	NA
+Duration and lifespan	1	1.28	-1	NA	2	NA
+Early Use	1	1.28	1	NA	23	NA
+earth temp reduction	1	1.28	3	NA	3	NA
+Ease	1	1.28	1	NA	1	NA
+Easier to fund	1	1.28	3	NA	2	NA
+easy	1	1.28	3	NA	1	NA
+Easy	1	1.28	3	NA	23	NA
+easy solution	1	1.28	0	NA	7	NA
+easy to get	1	1.28	2	NA	1	NA
+Ecological issues	1	1.28	-2	NA	9	NA
+Economic Impact	1	1.28	2	NA	1	NA
+economic opportunity	1	1.28	2	NA	2	NA
+Ecosystem protection	1	1.28	2	NA	1	NA
+Effect on Oceans	1	1.28	-2	NA	4	NA
+Effect planet	1	1.28	0	NA	1	NA
+effective	1	1.28	2	NA	4	NA
+Effective 1 year	1	1.28	2	NA	1	NA
+Effective Electric Transport	1	1.28	3	NA	2	NA
+Effective Globally	1	1.28	0	NA	3	NA
+effective technique	1	1.28	1	NA	1	NA
+Effective technique	2	2.56	2.5	0.707106781186548	2	1.4142135623731
+Effectiveness	1	1.28	3	NA	1	NA
+effectiveness could vary	1	1.28	-1	NA	1	NA
+effects of SAI	1	1.28	0	NA	1	NA
+Effects on fertility	1	1.28	0	NA	1	NA
+Effects seen quickly	1	1.28	3	NA	1	NA
+effects start soon	1	1.28	3	NA	2	NA
+Efficacy	1	1.28	-2	NA	1	NA
+Elongated timeline	1	1.28	-2	NA	1	NA
+Emergency only	1	1.28	1	NA	21	NA
+emergency scenario only	1	1.28	0	NA	3	NA
+emergency solution	2	2.56	-0.5	0.707106781186548	2	0
+Emergency solution	1	1.28	0	NA	2	NA
+Emergency Solution Only	1	1.28	-1	NA	1	NA
+encourage collaboration	1	1.28	3	NA	2	NA
+end of conflicts?	1	1.28	2	NA	3	NA
+enough testing?	1	1.28	0	NA	1	NA
+Enviromental Effect	1	1.28	-1	NA	1	NA
+Enviromental Issues	1	1.28	2	NA	2	NA
+environmental benefits	1	1.28	2	NA	1	NA
+environmental costs	1	1.28	-1	NA	2	NA
+environmental damage	1	1.28	-3	NA	2	NA
+Environmental damage	1	1.28	-3	NA	3	NA
+environmental impact	1	1.28	-2	NA	1	NA
+Environmental Repercussions	1	1.28	-3	NA	6	NA
+Environmental Side Effects	1	1.28	-3	NA	5	NA
+Environmentally Based	1	1.28	1	NA	1	NA
+Essentially polluting more	1	1.28	-3	NA	1	NA
+Everyone must cooperate	1	1.28	-1	NA	2	NA
+everyone won't agree	1	1.28	-2	NA	1	NA
+Evidence It Works	1	1.28	3	NA	2	NA
+evidence of effect	1	1.28	0	NA	2	NA
+excutive team	1	1.28	1	NA	8	NA
+existing technology	1	1.28	1	NA	3	NA
+expense and responsibility	1	1.28	-2	NA	1	NA
+expensive	3	3.85	-2	0	3.3333333333333335	3.21455025366432
+Expensive	1	1.28	-2	NA	1	NA
+experimenting on nature	1	1.28	-1	NA	1	NA
+experts not trusted	1	1.28	0	NA	6	NA
+Experts targeted	1	1.28	-2	NA	1	NA
+Extends planets life	1	1.28	3	NA	2	NA
+Extra pollution	1	1.28	-2	NA	1	NA
+Extraordinary rain	1	1.28	-2	NA	28	NA
+Extraordinary rain occurance	1	1.28	-3	NA	3	NA
+extraordinary rain occurances	1	1.28	-2	NA	1	NA
+Extreme campaigners	1	1.28	-2	NA	5	NA
+extreme weather risks	1	1.28	-3	NA	2	NA
+Faciliation	1	1.28	-2	NA	1	NA
+fairly low cost	1	1.28	2	NA	2	NA
+faith in politics	1	1.28	3	NA	3	NA
+Fake Global Warming	1	1.28	0	NA	1	NA
+fake news	1	1.28	-3	NA	3	NA
+false hope	1	1.28	-2	NA	2	NA
+Farm land	1	1.28	0	NA	2	NA
+Fast deployment	1	1.28	2	NA	1	NA
+fear	1	1.28	-3	NA	2	NA
+Fear of Misuse	1	1.28	-3	NA	9	NA
+Fear of unknown	1	1.28	-1	NA	2	NA
+fearful	1	1.28	-3	NA	4	NA
+feasible + effective	1	1.28	1	NA	4	NA
+Feasible and effective	1	1.28	2	NA	1	NA
+feasible technique	1	1.28	1	NA	2	NA
+Feasible technique	1	1.28	2	NA	1	NA
+feasible to deploy	1	1.28	2	NA	4	NA
+Feel good factor	1	1.28	2	NA	2	NA
+fewer deaths	1	1.28	3	NA	3	NA
+fewer droughts	1	1.28	3	NA	2	NA
+fewer floods	1	1.28	3	NA	2	NA
+financial cost	1	1.28	-1	NA	4	NA
+financial help	1	1.28	-1	NA	2	NA
+Financial impact	1	1.28	0	NA	3	NA
+financial implications	1	1.28	-2	NA	1	NA
+Financial implications	1	1.28	-1	NA	2	NA
+firms doing good	1	1.28	2	NA	1	NA
+Flooding	1	1.28	-2	NA	5	NA
+floods	1	1.28	-3	NA	1	NA
+Food Growth Impact	1	1.28	-2	NA	2	NA
+Food shortage	1	1.28	-1	NA	3	NA
+food shortages	1	1.28	-3	NA	2	NA
+Forced action	1	1.28	-2	NA	1	NA
+frustrated	1	1.28	-3	NA	3	NA
+full uptake	1	1.28	-3	NA	6	NA
+funding	1	1.28	0	NA	8	NA
+Funding	3	3.85	-1.6666666666666667	0.577350269189626	1.6666666666666667	1.15470053837925
+Funding needed	1	1.28	0	NA	3	NA
+Funding Origin	1	1.28	-2	NA	1	NA
+Further research	1	1.28	0	NA	5	NA
+Further research needed	1	1.28	1	NA	4	NA
+further thinking	1	1.28	0	NA	2	NA
+future	1	1.28	3	NA	1	NA
+future benefits	1	1.28	1	NA	1	NA
+Future Generations Safe?	1	1.28	3	NA	1	NA
+future harm	1	1.28	-2	NA	3	NA
+G7 Countries	1	1.28	3	NA	2	NA
+general feedback	1	1.28	0	NA	1	NA
+general public opinion	1	1.28	1	NA	5	NA
+Generational behaviour	1	1.28	3	NA	4	NA
+Generations	1	1.28	2	NA	1	NA
+Geopolitical conflict	1	1.28	-3	NA	3	NA
+geopolitical harmony	1	1.28	-1	NA	1	NA
+Gives me hope	1	1.28	1	NA	2	NA
+Global	1	1.28	1	NA	1	NA
+global agreement	2	2.56	-1.5	2.12132034355964	4	1.4142135623731
+global buy-in unlikely	1	1.28	-2	NA	2	NA
+Global Cooperation	1	1.28	-2	NA	3	NA
+Global disagreements	1	1.28	-1	NA	2	NA
+Global Effect	1	1.28	-1	NA	2	NA
+Global poverty	1	1.28	-2	NA	5	NA
+Global supply chains	1	1.28	0	NA	3	NA
+Global Temperature Reduction	1	1.28	3	NA	3	NA
+Global Tension	1	1.28	-2	NA	2	NA
+global viability	1	1.28	2	NA	3	NA
+Global War	1	1.28	-3	NA	6	NA
+global warming	1	1.28	2	NA	1	NA
+Global warming	1	1.28	-3	NA	4	NA
+Global Warming Solution	1	1.28	1	NA	1	NA
+God Complex	1	1.28	-3	NA	2	NA
+good health	1	1.28	3	NA	2	NA
+Good outcomes	1	1.28	0	NA	3	NA
+Goverment buyin	1	1.28	1	NA	1	NA
+Governance?	1	1.28	-2	NA	1	NA
+Government resentment	1	1.28	-3	NA	3	NA
+Great Future	1	1.28	1	NA	2	NA
+greater good	1	1.28	2	NA	5	NA
+greed	1	1.28	-2	NA	1	NA
+Green credentials	1	1.28	1	NA	1	NA
+Greener Technology	1	1.28	3	NA	5	NA
+Greenwashing	1	1.28	-3	NA	1	NA
+Growth over climate	1	1.28	-2	NA	1	NA
+Happy people	1	1.28	3	NA	2	NA
+Harm food supplies	1	1.28	-3	NA	2	NA
+Harm on public	1	1.28	-2	NA	2	NA
+Harm to ecosystems	1	1.28	-3	NA	7	NA
+harmful to birds	1	1.28	-3	NA	1	NA
+Harness don't reflect	1	1.28	3	NA	1	NA
+Hastened architecture destruction	1	1.28	-3	NA	1	NA
+health	1	1.28	-2	NA	3	NA
+health risk	1	1.28	-3	NA	1	NA
+health risks	1	1.28	-3	NA	4	NA
+Health Risks	1	1.28	-1	NA	1	NA
+Healthier planet	1	1.28	3	NA	6	NA
+heat stroke prevention	1	1.28	1	NA	2	NA
+Help Wildlife	1	1.28	3	NA	4	NA
+Helping the planet	1	1.28	3	NA	2	NA
+helping wildlife	1	1.28	2	NA	3	NA
+helps climate change	2	2.56	2.5	0.707106781186548	2	1.4142135623731
+Helps Reduce GlobalWarming	1	1.28	2	NA	7	NA
+Helps Reflect Sunlight	1	1.28	2	NA	5	NA
+helps with draught	1	1.28	2	NA	1	NA
+high acidity	1	1.28	-2	NA	2	NA
+high CO2	1	1.28	-2	NA	2	NA
+Higher Food Quality	1	1.28	3	NA	1	NA
+Higher Poverty Rates	1	1.28	-3	NA	3	NA
+highly effective	1	1.28	3	NA	1	NA
+Historical actions	1	1.28	-3	NA	1	NA
+Homes destroyed	1	1.28	-3	NA	1	NA
+hope	3	3.85	2	1	1.6666666666666667	0.577350269189626
+Hope	1	1.28	2	NA	1	NA
+hope for future	1	1.28	2	NA	3	NA
+Hope for future	1	1.28	1	NA	1	NA
+hopeful	1	1.28	3	NA	5	NA
+Hopeful	1	1.28	1	NA	1	NA
+hospital admissions reduced	1	1.28	1	NA	1	NA
+How	1	1.28	2	NA	2	NA
+human action reduced	1	1.28	-2	NA	1	NA
+Human benefit	1	1.28	2	NA	1	NA
+human cost	1	1.28	-2	NA	4	NA
+Human factor	1	1.28	0	NA	1	NA
+Human Side Effects	1	1.28	-3	NA	5	NA
+humanity coming together	1	1.28	3	NA	6	NA
+Ice caps maintained	1	1.28	3	NA	4	NA
+Iceburgs Melting	1	1.28	-1	NA	1	NA
+idea abandonment	1	1.28	-3	NA	5	NA
+Ignore climate targets	1	1.28	-1	NA	1	NA
+ignores main cause	1	1.28	-2	NA	2	NA
+Ill health	1	1.28	-3	NA	4	NA
+immediate effcet	1	1.28	2	NA	2	NA
+Immediate Impact	1	1.28	3	NA	2	NA
+immediate peril	1	1.28	-3	NA	1	NA
+Immediate solution	1	1.28	1	NA	7	NA
+Impact on poor	1	1.28	-3	NA	4	NA
+Impact on rich	1	1.28	0	NA	3	NA
+Impact wildlife nature?	1	1.28	-2	NA	1	NA
+Impacting all countries	1	1.28	0	NA	11	NA
+Implemented	1	1.28	0	NA	2	NA
+Implemented internationally	1	1.28	2	NA	4	NA
+improve global health	1	1.28	2	NA	1	NA
+Improve lives	1	1.28	2	NA	1	NA
+improved health	1	1.28	2	NA	2	NA
+Inability to grow	1	1.28	-3	NA	3	NA
+incomplete	1	1.28	-1	NA	2	NA
+increase deaths	1	1.28	-3	NA	3	NA
+Increase in crime	1	1.28	-2	NA	1	NA
+Increase in deaths	1	1.28	-2	NA	2	NA
+Increase in Icecaps	1	1.28	3	NA	2	NA
+increase in migration	1	1.28	-2	NA	4	NA
+increase plant production	1	1.28	3	NA	1	NA
+increase public awareness	1	1.28	2	NA	1	NA
+increased anxiety	1	1.28	-1	NA	2	NA
+increased flood risk	1	1.28	-2	NA	3	NA
+increased oceanic acidity	1	1.28	-3	NA	3	NA
+Increases rain possibility	1	1.28	0	NA	3	NA
+Indecisiveness	1	1.28	-1	NA	1	NA
+individual responsibility	1	1.28	0	NA	2	NA
+ineffective	1	1.28	-2	NA	5	NA
+inequality	1	1.28	-3	NA	3	NA
+inexpensive	1	1.28	1	NA	1	NA
+infrastructure damage	1	1.28	-2	NA	1	NA
+inherent cause	1	1.28	-3	NA	1	NA
+inherent causes	1	1.28	-3	NA	1	NA
+Inherent climate change	1	1.28	-2	NA	3	NA
+initiation of SAI	1	1.28	0	NA	1	NA
+innovative	2	2.56	2	1.4142135623731	1.5	0.707106781186548
+innovative future solutions	1	1.28	2	NA	3	NA
+innovative idea	1	1.28	2	NA	2	NA
+Inspire Other Ideas	1	1.28	1	NA	5	NA
+instability	1	1.28	-3	NA	3	NA
+Institutions change	1	1.28	-3	NA	5	NA
+interfering with nature	1	1.28	-2	NA	3	NA
+Interfering with nature	1	1.28	-2	NA	5	NA
+Interim solution	1	1.28	-3	NA	1	NA
+International agreement	1	1.28	-1	NA	3	NA
+International agreements	1	1.28	-3	NA	1	NA
+introduction of SAI	1	1.28	0	NA	2	NA
+Invention of Tech	1	1.28	3	NA	2	NA
+investigation climate change	1	1.28	0	NA	1	NA
+Involvement	1	1.28	0	NA	6	NA
+Is it feasible	1	1.28	0	NA	4	NA
+Job Creation	1	1.28	2	NA	2	NA
+Jobs	1	1.28	3	NA	2	NA
+killing ocean animales	1	1.28	-3	NA	1	NA
+Knowledge	1	1.28	3	NA	3	NA
+Lack of consensus	1	1.28	-1	NA	4	NA
+lack of credibility	1	1.28	-3	NA	1	NA
+lack of education	1	1.28	-1	NA	1	NA
+Lack of Funding	1	1.28	-3	NA	2	NA
+Lack of Research?	1	1.28	-1	NA	2	NA
+Lack of understanding	1	1.28	-3	NA	5	NA
+Last chance	1	1.28	1	NA	1	NA
+Lead Time	1	1.28	3	NA	1	NA
+lead to increase	1	1.28	-3	NA	1	NA
+Leadership	1	1.28	0	NA	3	NA
+learning	1	1.28	3	NA	3	NA
+Length of time	1	1.28	-2	NA	1	NA
+length of use	1	1.28	-3	NA	5	NA
+less climate action	1	1.28	-2	NA	2	NA
+less costal protection	1	1.28	-2	NA	1	NA
+less environmental change	1	1.28	2	NA	7	NA
+less extreme weather	2	2.56	2.5	0.707106781186548	2.5	2.12132034355964
+less flooding	1	1.28	1	NA	1	NA
+Less global warming	1	1.28	3	NA	1	NA
+less human burden	1	1.28	1	NA	1	NA
+less impactful	1	1.28	2	NA	4	NA
+less life impact	1	1.28	1	NA	2	NA
+Less panic worldwide	1	1.28	3	NA	2	NA
+less prevention costs	1	1.28	1	NA	2	NA
+lessens economic burden	1	1.28	0	NA	2	NA
+lessens storm erosion	1	1.28	2	NA	2	NA
+Lifestyle Changes Needed	1	1.28	-2	NA	2	NA
+Lifestyle to continue	1	1.28	1	NA	2	NA
+limited duration	1	1.28	-3	NA	1	NA
+limited effect	1	1.28	-3	NA	1	NA
+Limited effect	1	1.28	-2	NA	1	NA
+Limited Options	1	1.28	1	NA	1	NA
+Limited temperature effectiveness	1	1.28	0	NA	3	NA
+Limits rising temps	1	1.28	3	NA	4	NA
+Little countries ignored	1	1.28	-2	NA	1	NA
+Localised cooling	1	1.28	-2	NA	1	NA
+Long term	2	2.56	-3	0	1.5	0.707106781186548
+Long Term	1	1.28	-1	NA	23	NA
+long term benefit	1	1.28	2	NA	3	NA
+long term commitment	2	2.56	-1	0	1.5	0.707106781186548
+Long term commitment	1	1.28	-2	NA	5	NA
+Long Term Commitment	1	1.28	-3	NA	1	NA
+long term committment	1	1.28	-1	NA	4	NA
+Long term deployment	1	1.28	-3	NA	1	NA
+long term effects	3	3.85	-0.6666666666666666	1.15470053837925	1.6666666666666667	0.577350269189626
+long term plan	1	1.28	-2	NA	2	NA
+Long term projects	1	1.28	2	NA	1	NA
+long term requirement	1	1.28	-1	NA	3	NA
+long term solution	1	1.28	3	NA	5	NA
+longer-term problems persist	1	1.28	-3	NA	1	NA
+Longer lasting Planet	1	1.28	3	NA	2	NA
+longevity of effects	1	1.28	0	NA	1	NA
+longterm committment	1	1.28	-2	NA	1	NA
+Loss of diversity	1	1.28	-3	NA	5	NA
+Loss of habitats	1	1.28	-3	NA	5	NA
+low cost	4	5.13	2.5	0.577350269189626	1.25	0.5
+Low cost	3	3.85	2.3333333333333335	0.577350269189626	12	12.1655250605964
+Low Cost	2	2.56	2.5	0.707106781186548	3	0
+low cost technology	1	1.28	1	NA	2	NA
+low costs	2	2.56	1.5	0.707106781186548	1.5	0.707106781186548
+Low costs	2	2.56	2	1.4142135623731	1	0
+low relative cost	1	1.28	2	NA	2	NA
+Low Temperatures	1	1.28	1	NA	2	NA
+lower costs	1	1.28	3	NA	2	NA
+Lower Sea Levels	1	1.28	3	NA	1	NA
+lower temperatures	1	1.28	1	NA	5	NA
+lung issues	1	1.28	-3	NA	1	NA
+magic solution	1	1.28	0	NA	7	NA
+main cause remains	1	1.28	-3	NA	1	NA
+Maintain biodiversity	1	1.28	3	NA	2	NA
+make it worse	1	1.28	-3	NA	1	NA
+makes things better	1	1.28	2	NA	1	NA
+makes things worse	1	1.28	-3	NA	1	NA
+Making a change	1	1.28	3	NA	7	NA
+manufacturing tech	1	1.28	0	NA	1	NA
+Mass fatalities	1	1.28	-3	NA	2	NA
+Mass Starvation	1	1.28	-3	NA	1	NA
+May be ineffective	1	1.28	-3	NA	4	NA
+may impact environment	1	1.28	-2	NA	4	NA
+May Not Work	1	1.28	-3	NA	1	NA
+me be unpopular	1	1.28	-1	NA	2	NA
+Meets temperature target	1	1.28	1	NA	1	NA
+messing with nature	1	1.28	-3	NA	2	NA
+mimics natural process	1	1.28	0	NA	1	NA
+Mimics natural process	1	1.28	2	NA	8	NA
+minimal wildfires risk	1	1.28	2	NA	3	NA
+misinformation	1	1.28	-3	NA	3	NA
+Misinformation	2	2.56	-3	0	2.5	0.707106781186548
+mistrust between nations	1	1.28	-2	NA	8	NA
+Misuse or politicisation	1	1.28	-3	NA	4	NA
+money diverted	1	1.28	-3	NA	3	NA
+Money freed up	1	1.28	2	NA	1	NA
+Money in politics	1	1.28	-3	NA	3	NA
+Money not important	1	1.28	3	NA	2	NA
+money oriented	1	1.28	-2	NA	1	NA
+money wasted	1	1.28	-3	NA	1	NA
+More acidic ocean	1	1.28	-3	NA	7	NA
+more benefits	1	1.28	2	NA	2	NA
+more could deploy	1	1.28	1	NA	1	NA
+more countries commit	1	1.28	3	NA	1	NA
+more funding	1	1.28	0	NA	4	NA
+more individual efforts	1	1.28	3	NA	3	NA
+More rain?	1	1.28	-2	NA	1	NA
+More research funding	1	1.28	3	NA	1	NA
+more scientific research	1	1.28	2	NA	2	NA
+More taxes	1	1.28	-3	NA	6	NA
+more wildlife survives	1	1.28	3	NA	5	NA
+move right direction	1	1.28	1	NA	2	NA
+Must be consistent	1	1.28	-1	NA	2	NA
+Must be Universal	1	1.28	-1	NA	26	NA
+nations disagreeing	1	1.28	-2	NA	3	NA
+nations working together	1	1.28	-3	NA	5	NA
+Natural Chemical Substance	1	1.28	3	NA	1	NA
+Nature source	1	1.28	0	NA	1	NA
+Nature vs Nurture	1	1.28	-1	NA	2	NA
+need more experts	1	1.28	0	NA	3	NA
+need multiple solutions	1	1.28	3	NA	1	NA
+Needs full agreement	1	1.28	-1	NA	4	NA
+negative feelings	72	92.31	-1.3194444444444444	1.30897647240919	5.211538461538462	3.2074456177227
+Negative Fellings	1	1.28	-3	NA	2	NA
+Negative Politics	1	1.28	-2	NA	2	NA
+Negative Side effects	1	1.28	-1	NA	1	NA
+nervous	1	1.28	-3	NA	2	NA
+new technology	1	1.28	3	NA	2	NA
+new technology risks	1	1.28	-2	NA	1	NA
+next generation	1	1.28	0	NA	5	NA
+no action taken	1	1.28	-3	NA	2	NA
+No guarantee	1	1.28	-1	NA	1	NA
+no other solution	1	1.28	0	NA	4	NA
+No rare metals	1	1.28	0	NA	4	NA
+No Summers?	1	1.28	-2	NA	1	NA
+Non human factor	1	1.28	0	NA	1	NA
+not a solution	1	1.28	-3	NA	1	NA
+Not Effective	1	1.28	-3	NA	2	NA
+Not enough	1	1.28	-1	NA	1	NA
+not enough known	1	1.28	1	NA	1	NA
+not enough research	1	1.28	-1	NA	1	NA
+not exploring options	1	1.28	-3	NA	3	NA
+Not fully proven	1	1.28	-1	NA	26	NA
+not fully researched	1	1.28	-1	NA	4	NA
+not fully tested	1	1.28	-2	NA	2	NA
+not fully understood	1	1.28	0	NA	1	NA
+Not helpful	1	1.28	-3	NA	9	NA
+not much time	1	1.28	-1	NA	1	NA
+Not Much Time	1	1.28	0	NA	6	NA
+Not our problem	1	1.28	0	NA	6	NA
+Not sure	1	1.28	0	NA	1	NA
+not thoroughly studied	1	1.28	-3	NA	2	NA
+not work	1	1.28	-2	NA	4	NA
+nothing really changes	1	1.28	-3	NA	1	NA
+ocean acidity	1	1.28	-1	NA	1	NA
+Ocean Acidity	1	1.28	-2	NA	5	NA
+Ocean Acidity Unaffected	1	1.28	-1	NA	1	NA
+Ocean acidity unresolved	1	1.28	-3	NA	2	NA
+ocean level rising	1	1.28	-3	NA	4	NA
+Ocean PH Levels	1	1.28	-2	NA	1	NA
+ocean water acidity	1	1.28	-2	NA	2	NA
+Oceanic photosysthesys	1	1.28	3	NA	2	NA
+oceanic problems	1	1.28	-3	NA	3	NA
+oceanic temp reduction	1	1.28	3	NA	2	NA
+oceans still affected	1	1.28	-3	NA	3	NA
+Only emergency solution	1	1.28	-1	NA	1	NA
+only one country	1	1.28	0	NA	2	NA
+operation team	1	1.28	1	NA	3	NA
+optimism	1	1.28	1	NA	2	NA
+other considerations	1	1.28	0	NA	2	NA
+other weather	1	1.28	-3	NA	2	NA
+over-hasty	1	1.28	0	NA	3	NA
+Overall implementation	1	1.28	0	NA	6	NA
+Ozone depletion	1	1.28	-2	NA	3	NA
+Panic	1	1.28	-3	NA	3	NA
+parliamentary discussion	1	1.28	0	NA	2	NA
+party division	1	1.28	-2	NA	1	NA
+passive solution	1	1.28	-2	NA	3	NA
+paying for it	1	1.28	-2	NA	4	NA
+Peace	1	1.28	1	NA	6	NA
+people getting ill	1	1.28	-3	NA	1	NA
+People killed	1	1.28	-3	NA	1	NA
+perceived benefits	73	93.59	1.1095890410958904	1.17333385222072	4.90566037735849	2.33916611492377
+perceived risks	74	94.87	-1.1756756756756757	1.24260120569172	5.555555555555555	3.04473976746328
+Pessimism	1	1.28	-1	NA	1	NA
+PEST factors	1	1.28	-2	NA	1	NA
+photosynthesis	1	1.28	3	NA	3	NA
+Pioneering	1	1.28	1	NA	4	NA
+Planes	1	1.28	2	NA	3	NA
+planes used	1	1.28	0	NA	1	NA
+Planetary impact	1	1.28	0	NA	2	NA
+Plastic Pollution	1	1.28	2	NA	2	NA
+Polar Ice Caps	1	1.28	2	NA	6	NA
+Polarised world	1	1.28	-2	NA	7	NA
+Polictical Conflict	1	1.28	-3	NA	2	NA
+political conflict	1	1.28	-3	NA	5	NA
+political conflicts	2	2.56	-2	1.4142135623731	3	1.4142135623731
+Political conflicts	1	1.28	-2	NA	24	NA
+Political conflicts possible	1	1.28	-3	NA	2	NA
+Political consensus	1	1.28	-2	NA	1	NA
+political cooperation	1	1.28	1	NA	1	NA
+Political gain	1	1.28	-3	NA	1	NA
+political harmony	1	1.28	1	NA	1	NA
+Political issues	2	2.56	-2.5	0.707106781186548	4.5	0.707106781186548
+political leanings	1	1.28	0	NA	1	NA
+Political Lethargy	1	1.28	-3	NA	5	NA
+political selfishness	1	1.28	-3	NA	3	NA
+political social conflicts	1	1.28	-3	NA	1	NA
+Political social conflicts	1	1.28	-2	NA	4	NA
+political unrest	2	2.56	-2.5	0.707106781186548	1.5	0.707106781186548
+Political unrest	1	1.28	-3	NA	4	NA
+Political views	1	1.28	0	NA	4	NA
+Political/Social Conflict	1	1.28	-2	NA	1	NA
+Politicians Decide	1	1.28	-1	NA	3	NA
+Poosible internation; unrest	1	1.28	-2	NA	2	NA
+positive feelings	72	92.31	1.1111111111111112	1.21673258551891	4.423076923076923	2.63718621474133
+Positive Feelings	1	1.28	3	NA	2	NA
+Positive Impact	1	1.28	2	NA	2	NA
+possible conflicts	1	1.28	-2	NA	1	NA
+possible corruption	1	1.28	-2	NA	6	NA
+possible future alternatives	1	1.28	0	NA	3	NA
+possible reduction	1	1.28	3	NA	1	NA
+Possible temperature rise	1	1.28	-3	NA	4	NA
+possible weather chages	1	1.28	-3	NA	1	NA
+Possibly Ineffective	1	1.28	-2	NA	1	NA
+Potential acid rain	1	1.28	-3	NA	2	NA
+Potential Acid Rain	1	1.28	-3	NA	4	NA
+potential conflicts	1	1.28	-1	NA	3	NA
+Potential Disasters?	1	1.28	-3	NA	6	NA
+potential pollutant	1	1.28	-3	NA	2	NA
+Potential Side effects	1	1.28	-1	NA	5	NA
+Potential Side Effects	1	1.28	-2	NA	2	NA
+Potential Sollution	1	1.28	3	NA	4	NA
+Potential unequal effects	1	1.28	-2	NA	1	NA
+Potentially life saving	1	1.28	1	NA	4	NA
+potentially positive outcomes	1	1.28	2	NA	3	NA
+potentially unsafe	1	1.28	0	NA	1	NA
+Poverty	1	1.28	-2	NA	3	NA
+Power grabbing politics	1	1.28	-2	NA	2	NA
+Pre-existing technology available	1	1.28	2	NA	5	NA
+preference for alternatives	1	1.28	0	NA	4	NA
+Present Technique	1	1.28	2	NA	1	NA
+Preservation	1	1.28	3	NA	2	NA
+preservation of glaciers	1	1.28	3	NA	2	NA
+Preserve Biodiversity	1	1.28	3	NA	1	NA
+prevent climate change	1	1.28	3	NA	10	NA
+prevent extinction	1	1.28	2	NA	1	NA
+Prevent global catastrophe	1	1.28	3	NA	5	NA
+Prevent Sea Level	1	1.28	3	NA	4	NA
+prevent warming seas	1	1.28	3	NA	3	NA
+Prevents food shortages	1	1.28	3	NA	1	NA
+Prevents further warming	1	1.28	3	NA	4	NA
+prevents meaningful change	1	1.28	-2	NA	6	NA
+proactive	1	1.28	2	NA	2	NA
+Productive factor	1	1.28	0	NA	1	NA
+prolong human existence	1	1.28	2	NA	5	NA
+protects ice caps	1	1.28	2	NA	3	NA
+Protects nature	1	1.28	3	NA	2	NA
+Protects the planet	1	1.28	3	NA	3	NA
+Protests	1	1.28	-2	NA	1	NA
+Pulling together	1	1.28	2	NA	2	NA
+Quick acting	1	1.28	2	NA	4	NA
+Quick fix	1	1.28	1	NA	3	NA
+Quick implementation	1	1.28	2	NA	1	NA
+quick results	2	2.56	2	0	2.5	0.707106781186548
+Quick results	1	1.28	2	NA	24	NA
+Quick solution	1	1.28	3	NA	3	NA
+quick to deploy	1	1.28	3	NA	1	NA
+Quick to deploy	1	1.28	3	NA	1	NA
+quickly adopted	1	1.28	2	NA	3	NA
+Quickly Reversed?	1	1.28	-3	NA	4	NA
+Quickness	1	1.28	3	NA	2	NA
+Radiation risks	1	1.28	0	NA	2	NA
+Rain Occurences	1	1.28	-3	NA	1	NA
+Raising of taxes	1	1.28	-3	NA	1	NA
+Rapid changes	1	1.28	-3	NA	24	NA
+rapid results	1	1.28	3	NA	2	NA
+rapidity	1	1.28	1	NA	3	NA
+Rapidly effective technology	1	1.28	1	NA	3	NA
+Reduce Carbon Footprint?	1	1.28	0	NA	2	NA
+reduce climate change	1	1.28	3	NA	5	NA
+Reduce Extinction	1	1.28	3	NA	3	NA
+Reduce Extreme Weather	1	1.28	2	NA	1	NA
+reduce global warming	1	1.28	3	NA	5	NA
+Reduce global warming	1	1.28	3	NA	7	NA
+Reduce heating	1	1.28	3	NA	5	NA
+Reduce Ice Melting	1	1.28	3	NA	4	NA
+Reduce Ocean Height	1	1.28	1	NA	5	NA
+Reduce planet heating	1	1.28	2	NA	1	NA
+reduce sea melting	1	1.28	3	NA	1	NA
+reduce sea rising	1	1.28	2	NA	1	NA
+Reduce temperature	1	1.28	1	NA	6	NA
+reduce tempreture	1	1.28	1	NA	1	NA
+Reduce temps	1	1.28	3	NA	3	NA
+Reduce the risk	1	1.28	3	NA	1	NA
+Reduce warming	2	2.56	1.5	0.707106781186548	2	1.4142135623731
+Reduced global Temperature	1	1.28	2	NA	1	NA
+Reduces carbon emissions	1	1.28	-2	NA	5	NA
+Reduces environmental damage	1	1.28	1	NA	1	NA
+reduces flood risk	1	1.28	2	NA	1	NA
+Reduces global warming	1	1.28	3	NA	1	NA
+Reduces suns impact	1	1.28	0	NA	4	NA
+Reducing Commissions	1	1.28	3	NA	2	NA
+Reducing Emissons	1	1.28	2	NA	1	NA
+Reducing Global Temperature	1	1.28	1	NA	4	NA
+reducing global warming	1	1.28	3	NA	1	NA
+Reducing Temperature Fast	1	1.28	3	NA	2	NA
+Reduction Fossil Fuels	1	1.28	2	NA	3	NA
+reduction in temperature	1	1.28	2	NA	2	NA
+reduction of CO2	1	1.28	3	NA	3	NA
+regulation	1	1.28	-1	NA	2	NA
+Regulation	1	1.28	1	NA	1	NA
+Rejecting Science	1	1.28	-3	NA	3	NA
+rejection of SAI	1	1.28	0	NA	3	NA
+Relative low cost	1	1.28	2	NA	1	NA
+relatively cheap	1	1.28	3	NA	2	NA
+Relatively inexpensive	1	1.28	2	NA	1	NA
+Relatively low cost	1	1.28	3	NA	2	NA
+relaxed approach	1	1.28	-2	NA	1	NA
+relieved	1	1.28	1	NA	2	NA
+Repeated Use Needed	1	1.28	0	NA	1	NA
+Repopulation	1	1.28	3	NA	2	NA
+requires further research	1	1.28	-2	NA	4	NA
+requires global effort	1	1.28	-2	NA	3	NA
+Requires much planning	1	1.28	0	NA	2	NA
+research	2	2.56	1.5	2.12132034355964	2	0
+Research	1	1.28	-2	NA	1	NA
+resolves problem	1	1.28	2	NA	2	NA
+Resource intensive	1	1.28	-1	NA	3	NA
+Responsibility	3	3.85	-0.6666666666666666	1.15470053837925	7	2.64575131106459
+reversable?	1	1.28	0	NA	1	NA
+Reverse Global Warming	1	1.28	3	NA	1	NA
+Rich v Poor?	1	1.28	-2	NA	1	NA
+rising prices	1	1.28	-3	NA	4	NA
+risk management	1	1.28	0	NA	1	NA
+Risk of death	1	1.28	-3	NA	1	NA
+Risk of inaction	1	1.28	1	NA	1	NA
+Risk of inertia	1	1.28	-3	NA	3	NA
+Risk to future	1	1.28	-2	NA	3	NA
+Risk to life	1	1.28	-2	NA	12	NA
+Risks	1	1.28	0	NA	7	NA
+risks temperature rise	1	1.28	-3	NA	2	NA
+rocking the boat	1	1.28	-2	NA	2	NA
+Root Cause	1	1.28	-2	NA	1	NA
+Rules	1	1.28	2	NA	2	NA
+Safe for environment	1	1.28	2	NA	1	NA
+safeguards	1	1.28	0	NA	1	NA
+safer	1	1.28	3	NA	2	NA
+SAI	1	1.28	-2	NA	4	NA
+SAI Misuse	1	1.28	-3	NA	1	NA
+save animals	1	1.28	3	NA	3	NA
+Save Coral Reefs	1	1.28	1	NA	3	NA
+save earth	1	1.28	2	NA	1	NA
+save ice caps	1	1.28	3	NA	3	NA
+Save ice caps	1	1.28	3	NA	3	NA
+Save life	1	1.28	1	NA	1	NA
+Save the planet?	1	1.28	2	NA	4	NA
+save the world	1	1.28	3	NA	2	NA
+Saves animals	1	1.28	3	NA	3	NA
+saves ice caps	1	1.28	1	NA	1	NA
+saves planet	1	1.28	1	NA	1	NA
+Saves time	1	1.28	1	NA	1	NA
+Saving the Climate	1	1.28	3	NA	2	NA
+Saving the planet	1	1.28	3	NA	5	NA
+Scalable	1	1.28	2	NA	2	NA
+Sceptics	1	1.28	-2	NA	1	NA
+scientific advancement	1	1.28	1	NA	4	NA
+Scientific Breakthrough	1	1.28	2	NA	2	NA
+Scientific Community	1	1.28	0	NA	2	NA
+Scientist team	1	1.28	2	NA	1	NA
+scientists opinons	1	1.28	3	NA	6	NA
+self centered	1	1.28	-2	NA	1	NA
+sense of control	1	1.28	0	NA	6	NA
+Set Goals	1	1.28	-2	NA	1	NA
+short-termism	1	1.28	-3	NA	1	NA
+Side affects	1	1.28	-3	NA	5	NA
+side effects	4	5.13	-2.25	1.5	1.5	0.577350269189626
+Side effects	2	2.56	-3	0	6.5	0.707106781186548
+Side Effects	1	1.28	-2	NA	2	NA
+Side effects unknown	1	1.28	-3	NA	1	NA
+side effects unsure	1	1.28	-1	NA	2	NA
+Sideline, distraction	1	1.28	-3	NA	4	NA
+Size of commitment	1	1.28	-1	NA	1	NA
+slows environmental change	1	1.28	3	NA	4	NA
+smelly	1	1.28	-1	NA	1	NA
+Social Backlash	1	1.28	-2	NA	1	NA
+social conflicts	1	1.28	-1	NA	1	NA
+Social conflicts	1	1.28	-2	NA	23	NA
+Social Conflicts	1	1.28	-3	NA	1	NA
+Social impact	1	1.28	0	NA	4	NA
+Social media	1	1.28	0	NA	4	NA
+Social Project	1	1.28	1	NA	1	NA
+social unrest	1	1.28	-1	NA	1	NA
+Socially divisive	1	1.28	-2	NA	2	NA
+Solar energy	1	1.28	3	NA	5	NA
+Solar Energy	2	2.56	0.5	2.12132034355964	1	0
+Solution	1	1.28	1	NA	1	NA
+Solves current issues	1	1.28	3	NA	6	NA
+Something is happening	1	1.28	1	NA	1	NA
+Source of food	1	1.28	-3	NA	5	NA
+sourcing sulfur	1	1.28	0	NA	2	NA
+Species die out	1	1.28	-3	NA	3	NA
+Species extinction	1	1.28	-3	NA	4	NA
+spread of viruses	1	1.28	-3	NA	1	NA
+Stabilize Global Temperature	1	1.28	3	NA	6	NA
+Start needed immediately	1	1.28	0	NA	3	NA
+Start now	1	1.28	3	NA	2	NA
+Start of Movement	1	1.28	2	NA	5	NA
+Start of wars	1	1.28	-3	NA	4	NA
+Start soon	1	1.28	2	NA	1	NA
+Starvation	1	1.28	-2	NA	2	NA
+stop-gap emergency measure	1	1.28	0	NA	7	NA
+Stopping	1	1.28	-3	NA	24	NA
+stops behaviour change	1	1.28	-2	NA	3	NA
+Stops icecaps melting	1	1.28	3	NA	3	NA
+Sub Groups	1	1.28	1	NA	2	NA
+Sulfur Impact	1	1.28	0	NA	2	NA
+sulfur maintenance replacement	1	1.28	0	NA	2	NA
+sulfur particles	1	1.28	0	NA	3	NA
+Sulfuric acid	1	1.28	-3	NA	4	NA
+sulphur	1	1.28	-2	NA	3	NA
+Sulphur Mining Danger	1	1.28	-3	NA	2	NA
+Sulphur mining polution	1	1.28	-3	NA	2	NA
+suspicious	1	1.28	-3	NA	5	NA
+sustaniblity	1	1.28	1	NA	1	NA
+tackle climate change	1	1.28	2	NA	5	NA
+Takes effect quickly	1	1.28	2	NA	2	NA
+taking action	2	2.56	1.5	0.707106781186548	2	1.4142135623731
+team investment	1	1.28	0	NA	1	NA
+team structure	1	1.28	0	NA	1	NA
+Tech Development	1	1.28	-1	NA	1	NA
+Tech improvement	1	1.28	2	NA	3	NA
+technologies	1	1.28	3	NA	4	NA
+Temperature	1	1.28	3	NA	1	NA
+temperature decrease	1	1.28	3	NA	1	NA
+temperature increase	1	1.28	-1	NA	1	NA
+Temperature reduction	1	1.28	3	NA	3	NA
+temperature reductions	1	1.28	3	NA	2	NA
+Temperature Rising	1	1.28	-3	NA	3	NA
+temperatures may rise	1	1.28	-1	NA	2	NA
+temporary	1	1.28	-1	NA	2	NA
+Terrestrial imapct	1	1.28	-3	NA	5	NA
+testing new technology	1	1.28	0	NA	2	NA
+the unknowns	1	1.28	0	NA	2	NA
+things going wrong	1	1.28	-2	NA	1	NA
+This could work	1	1.28	1	NA	2	NA
+time frame	1	1.28	-1	NA	1	NA
+Time Limited	1	1.28	-2	NA	4	NA
+time scale	1	1.28	-3	NA	1	NA
+Time to Make	1	1.28	-1	NA	1	NA
+timelag	1	1.28	-3	NA	1	NA
+Tine Constraints?	1	1.28	0	NA	1	NA
+Too late	1	1.28	-3	NA	1	NA
+Too late?	2	2.56	-1.5	2.12132034355964	4	2.82842712474619
+Too little	1	1.28	-3	NA	1	NA
+too many unknowns	1	1.28	-2	NA	1	NA
+Too risky	1	1.28	-2	NA	1	NA
+treats symptoms	1	1.28	-2	NA	2	NA
+Treats Symptoms	1	1.28	-2	NA	2	NA
+trial runs	1	1.28	0	NA	2	NA
+Trust	1	1.28	2	NA	27	NA
+trust in governments	1	1.28	-2	NA	4	NA
+trust in policitical institutions	74	94.87	-0.527027027027027	1.11309728276704	4.351851851851852	2.45070192030086
+Trust is low	1	1.28	-3	NA	6	NA
+trying something new	1	1.28	1	NA	2	NA
+UN	1	1.28	0	NA	1	NA
+Unable to eat	1	1.28	-3	NA	1	NA
+unacceptable natural interference	1	1.28	-3	NA	4	NA
+Unbreathable Air	1	1.28	-1	NA	2	NA
+uncertainty	2	2.56	-1.5	0.707106781186548	3.5	2.12132034355964
+Unequal Coverage	1	1.28	-1	NA	2	NA
+unforeseen factors	1	1.28	-3	NA	1	NA
+Unforseen side-effects	1	1.28	-3	NA	1	NA
+unhealthy planet	1	1.28	-3	NA	3	NA
+United Front	1	1.28	1	NA	1	NA
+united world	1	1.28	2	NA	4	NA
+Unknown	2	2.56	-2.5	0.707106781186548	4	4.24264068711928
+Unknown Climate risks	1	1.28	-3	NA	1	NA
+unknown concept	1	1.28	-2	NA	1	NA
+unknown consequences	1	1.28	-3	NA	1	NA
+Unknown consequences	1	1.28	-3	NA	2	NA
+Unknown Consequences	1	1.28	-2	NA	1	NA
+Unknown Effects	2	2.56	-1.5	0.707106781186548	2	1.4142135623731
+unknown outcomes	2	2.56	-2	1.4142135623731	7	0
+unknown results	1	1.28	-1	NA	1	NA
+Unknown side effects	1	1.28	-3	NA	4	NA
+unknown technology	1	1.28	0	NA	1	NA
+unknown wind-down strategy	1	1.28	-3	NA	2	NA
+Unkown	1	1.28	-2	NA	6	NA
+Unkown factor	1	1.28	0	NA	4	NA
+unkown side effect	1	1.28	-3	NA	6	NA
+Unpredictable weather	1	1.28	-2	NA	4	NA
+unreduced ocean acidity	1	1.28	-2	NA	1	NA
+unresolved side-effects	1	1.28	-3	NA	2	NA
+unsafe	1	1.28	-3	NA	4	NA
+Unsure of effectiveness	1	1.28	-1	NA	1	NA
+unsustainable	1	1.28	-1	NA	1	NA
+untested	3	3.85	-1.3333333333333333	1.52752523165195	2.3333333333333335	2.3094010767585
+Untested	1	1.28	-2	NA	6	NA
+Untested solution	1	1.28	-2	NA	1	NA
+Untested technolgoy	1	1.28	-3	NA	3	NA
+untested technology	1	1.28	-3	NA	3	NA
+Use of chemicals	1	1.28	-3	NA	6	NA
+Use sulfur	1	1.28	0	NA	11	NA
+use without agreement	1	1.28	-3	NA	5	NA
+Uses existing technology	1	1.28	1	NA	6	NA
+Value for money	1	1.28	0	NA	26	NA
+very effective	1	1.28	3	NA	1	NA
+Very effective Technique	1	1.28	3	NA	4	NA
+Very Effective Technique	1	1.28	3	NA	1	NA
+vested interests	1	1.28	0	NA	3	NA
+Viewed as unimportant	1	1.28	-3	NA	2	NA
+Volcanic Eruptions	1	1.28	1	NA	2	NA
+Volcanoes	1	1.28	2	NA	25	NA
+Voting Against SAI	1	1.28	-3	NA	1	NA
+war	2	2.56	-2.5	0.707106781186548	2	1.4142135623731
+War	3	3.85	-3	0	2.3333333333333335	1.52752523165195
+Warfare threat	1	1.28	-1	NA	1	NA
+Warming world natural	1	1.28	-2	NA	1	NA
+Wars	1	1.28	-3	NA	2	NA
+waste	1	1.28	-3	NA	2	NA
+waste of tax	1	1.28	-3	NA	1	NA
+Waste of time	1	1.28	0	NA	1	NA
+water level stabilized	1	1.28	3	NA	4	NA
+we need hope	1	1.28	2	NA	1	NA
+weak implementation	1	1.28	-3	NA	4	NA
+Weather	1	1.28	-2	NA	2	NA
+Weather balloons	1	1.28	2	NA	3	NA
+weather could affect	1	1.28	-2	NA	2	NA
+weather instability	1	1.28	-2	NA	2	NA
+weathering	1	1.28	-3	NA	1	NA
+weird weather	1	1.28	-2	NA	1	NA
+What cost?	1	1.28	0	NA	3	NA
+when to implement	1	1.28	0	NA	1	NA
+Which country	1	1.28	0	NA	4	NA
+who owns technology	1	1.28	0	NA	2	NA
+who pays	2	2.56	-1	1.4142135623731	1	0
+who pays?	1	1.28	-2	NA	1	NA
+Who pays?	1	1.28	0	NA	4	NA
+Who Pays?	1	1.28	-2	NA	6	NA
+Who performs it?	1	1.28	0	NA	1	NA
+who profits	1	1.28	-2	NA	3	NA
+Who Runs it?	1	1.28	0	NA	8	NA
+who should pay	1	1.28	0	NA	3	NA
+who takes charge?	1	1.28	-2	NA	3	NA
+Who will Pay	1	1.28	0	NA	4	NA
+will it work	1	1.28	0	NA	2	NA
+Will it work?	2	2.56	0.5	0.707106781186548	4	2.82842712474619
+Wind Farms	1	1.28	3	NA	1	NA
+Won't Reverse Damage	1	1.28	-2	NA	1	NA
+works immediately	1	1.28	1	NA	1	NA
+world awareness	1	1.28	3	NA	1	NA
+World Coming together	1	1.28	0	NA	3	NA
+World Leaders	1	1.28	2	NA	3	NA
+World peace	1	1.28	3	NA	3	NA
+World temperature rises	1	1.28	-3	NA	1	NA
+Worse no action	1	1.28	0	NA	4	NA
+worsened ozone depletion	1	1.28	-3	NA	1	NA
+worsens problem	1	1.28	-2	NA	2	NA
+Would countries cooperate?	1	1.28	-2	NA	2	NA
+Would they agree?	1	1.28	-2	NA	2	NA
+Would they?	1	1.28	-2	NA	3	NA
+wouldn't commit	1	1.28	-3	NA	4	NA

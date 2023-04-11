@@ -5,10 +5,10 @@ account: fennapps
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 6575045
-bundleId: 6957379
+bundleId: 7075706
 url: https://fennapps.shinyapps.io/shinyCAMEL_v02/
-when: 1678812818.4843
-lastSyncTime: 1678812818.4843
+when: 1681222646.01524
+lastSyncTime: 1681222646.01524
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: plainApp
+ignoredFiles: Python_word2vec/w2vec.py|Python_word2vec/word2vec.ipynb|plainApp
