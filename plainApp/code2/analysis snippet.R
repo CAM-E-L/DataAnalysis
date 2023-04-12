@@ -86,7 +86,8 @@ a
 
 ### draw CAMs
 CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
-                     dat_nodes = CAMfiles[[1]],ids_CAMs = "all", plot_CAM = FALSE, useCoordinates = TRUE,
+                     dat_nodes = CAMfiles[[1]],ids_CAMs = "all", plot_CAM = FALSE,
+                     useCoordinates = TRUE,
                      relvertexsize = 3,
                      reledgesize = 1)
 plot(CAMdrawn[[1]])
@@ -108,15 +109,21 @@ hist(CAMindicators$mean_valence_macro)
 summary(CAMindicators$mean_valence_macro)
 
 
-write.xlsx2(x = CAMindicators, file = "CAMindicators.xlsx")
+# write.xlsx2(x = CAMindicators, file = "CAMindicators.xlsx")
 
 
+CAMfiles[[1]]$text_summarized <- CAMfiles[[1]]$text
 
+CAMfiles[[1]]$text_summarized[str_detect(string = CAMfiles[[1]]$text_summarized, pattern = "a")] <- "aaa"
+CAMfiles[[1]]$text_summarized[str_detect(string = CAMfiles[[1]]$text_summarized, pattern = "b")] <- "bbb"
+CAMfiles[[1]]$text_summarized[str_detect(string = CAMfiles[[1]]$text_summarized, pattern = "c")] <- "ccc"
+
+CAMfiles[[1]] <- rename_identicalTerms(dat_nodes = CAMfiles[[1]], drawn_CAM = CAMdrawn)
 
 ### aggregated CAM
 sel_ids <- unique(CAMfiles[[1]]$CAM)
 CAMaggregated <- aggregate_CAMs(dat_merged = CAMfiles[[3]], dat_nodes = CAMfiles[[1]],
-                                ids_CAMs = sel_ids, )
+                                ids_CAMs = sel_ids)
 
 plot(CAMaggregated[[2]], vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*20, edge.arrow.size=0.01)
 plot(CAMaggregated[[2]], vertex.size=(abs(V(CAMaggregated[[2]])$value)+1)*5, edge.arrow.size=0.01)
@@ -138,7 +145,9 @@ V(g2)$shape <- ifelse(test = V(g2)$color == "yellow", yes = "square", no = "circ
 
 
 
-
+plot(g2, edge.arrow.size = .5,
+     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
+     vertex.size = 5, vertex.label.cex = .9)
 ############################################################################
 # run code -> to upload CAMs
 ############################################################################

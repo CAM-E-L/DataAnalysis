@@ -228,6 +228,9 @@ wordlist <- eventReactive(input$a_createWordlistOut, {
     raterSubsetWords = wordsOut,
     rater = TRUE
   )
+
+
+
   
   # print(head(CAMwordlist))
   # CAMwordlist <- CAMwordlist[CAMwordlist$Words %in% wordsOut, ]

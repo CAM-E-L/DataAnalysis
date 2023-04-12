@@ -21,11 +21,11 @@ draw_CAM <- function(dat_merged = CAMfiles[[3]],
                      relvertexsize = 5,
                      reledgesize = 1){
   
-  
-  ## check ids_CAMs argument + create ids_CAMs
+   ## check ids_CAMs argument + create ids_CAMs
   if(length(ids_CAMs) == 1 && ids_CAMs == "all"){
     ids_CAMs <- unique(dat_merged$CAM.x)
-  }else if(is.character(ids_CAMs) && !all(ids_CAMs %in% unique(dat_merged$CAM.x))){
+  }else if(is.character(ids_CAMs) && (!all(ids_CAMs %in% unique(dat_merged$CAM.x) || 
+  !all(ids_CAMs %in% unique(dat_merged$participantCAM.x))))){
     cat("Your specified ids are:", ids_CAMs, ", which is / are not matching the ids of the dataset (seperated by '//'):" ,"\n")
     cat(paste0(unique(dat_merged$CAM.x), collapse = " // "), "\n")
     stop("> Redefine ids")
@@ -193,11 +193,20 @@ draw_CAM <- function(dat_merged = CAMfiles[[3]],
     ## set participantCAM as default ID if unique and all IDs are provided
       if(length(unique(dat_merged$participantCAM.x)) == length(unique(dat_merged$CAM.x)) & 
           !any(dat_merged$participantCAM.x == "NO ID PROVIDED")){
+            if(length(ids_CAMs) < length(unique(dat_merged$participantCAM.x))){
+            print("provided participantCAM ID in drawnCAM")
+             names(list_g) <-  paste0(ids_CAMs)
+            }else{
             print("== participantCAM in drawnCAM")
              names(list_g) <- unique(dat_merged$participantCAM.x)
+            }
+
           }else{
             print("== ids_CAMs in drawnCAM")
        names(list_g) <- paste0(ids_CAMs)
           }
+
+
+
   return(list_g)
 }

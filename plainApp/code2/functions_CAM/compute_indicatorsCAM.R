@@ -35,7 +35,14 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
   # tmp_mat <- matrix(data = NA, nrow = length(drawn_CAM), ncol = 46)
 
   out_netind <- data.frame(CAM_ID =  names(drawn_CAM))
-  nrow(out_netind)
+  # nrow(out_netind)
+
+
+  ################
+  # unique ID
+  ################
+  out_netind["participantCAM"]  <- NA
+
 
   ################
   # structural coefficients: MACRO hole network:
@@ -77,9 +84,9 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
   # structural coefficients: MEZZO part of network:
   ################
   if(largestClique){
-  out_netind["largest_clique_length_mezzo"]  <- NA
-  out_netind["largest_clique_nums_mezzo"]  <- NA
-  out_netind["largest_clique_names_mezzo"]  <- NA
+    out_netind["largest_clique_length_mezzo"]  <- NA
+    out_netind["largest_clique_nums_mezzo"]  <- NA
+    out_netind["largest_clique_names_mezzo"]  <- NA
   }
 
   ################
@@ -118,6 +125,13 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
     V(drawn_CAM[[i]])$value <- ifelse(test = V(drawn_CAM[[i]])$value == 10, yes = 0, no = V(drawn_CAM[[i]])$value)
 
     # cat("processing:", names(out_g)[i], "\n")
+
+    ################
+    # unique ID
+    ################
+    out_netind[i, "participantCAM"] <- unique(V(drawn_CAM[[i]])$participantCAM)
+
+
     ################
     # structural coefficients: MACRO hole network:
     ################
@@ -267,3 +281,210 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
 
   return(out_netind)
 }
+
+
+
+############################################################################
+# compute_neighborhoodIndicatorsCAM()
+#
+############################################################################
+# drawn_CAM = CAMdrawn
+# weightSecondOrder = .5
+# sliceCAMbool = TRUE
+# consideredConcepts = c("Eigener Pkw", "Öffentliche Verkehrsmittel", "Kosten")
+# removeConnectionCAM = c("Eigener Pkw", "Öffentliche Verkehrsmittel")
+# removeNodeCAM = NULL
+compute_neighborhoodIndicatorsCAM <- function(drawn_CAM = NULL,
+                                              weightSecondOrder = .5,
+                                              consideredConcepts = NULL,
+                                              sliceCAMbool = FALSE,
+                                              removeConnectionCAM = NULL,
+                                              removeNodeCAM = NULL){
+  # check drawn_CAM
+  if(!(typeof(drawn_CAM) == "list" & class(drawn_CAM[[1]]) == "igraph")){
+    cat("Your specified drawn_CAM argument is of type:", typeof(drawn_CAM), "\n")
+    cat("and / or the first list entry is of class:",  class(drawn_CAM[[1]]), "\n")
+    stop("> specify a list with igraph classes")
+  }
+  #
+  # second check -> useless micro indicators?
+
+  ### loop over single igraph objects within list
+
+  # tmp_mat <- matrix(data = NA, nrow = length(drawn_CAM), ncol = 46)
+
+  out_netind <- data.frame(CAM_ID =  names(drawn_CAM))
+  # nrow(out_netind)
+
+
+  ################
+  # unique ID
+  ################
+  out_netind["participantCAM"]  <- NA
+
+
+  # out_netind["mean_1"]  <- NA
+  # out_netind["mean_2"]  <- NA
+
+  # out_netind["mean_1_dashed"]  <- NA
+  # out_netind["mean_2_dashed"]  <- NA
+
+  # out_netind["mean_2_weighted"]  <- NA
+  # out_netind["mean_2_weighted_dashed"]  <- NA
+
+
+  ### degree total of single vertices
+  if(!is.null(consideredConcepts)){
+    ################
+    # neighborhood of order 1 / 2 no adjustments
+    ################
+    tmp_name <- paste0("mean_1_", str_replace_all(string=consideredConcepts, pattern=" ", repl=""))
+    for(m in 1:length(consideredConcepts)){
+      out_netind[tmp_name[m]]  <- NA
+    }
+
+    tmp_name <- paste0("mean_2_", str_replace_all(string=consideredConcepts, pattern=" ", repl=""))
+    for(m in 1:length(consideredConcepts)){
+      out_netind[tmp_name[m]]  <- NA
+    }
+
+    ################
+    # neighborhood of order 1 / 2  adjust for dashed lines IF green
+    ################
+    tmp_name <- paste0("mean_1_dashed_", str_replace_all(string=consideredConcepts, pattern=" ", repl=""))
+    for(m in 1:length(consideredConcepts)){
+      out_netind[tmp_name[m]]  <- NA
+    }
+
+    tmp_name <- paste0("mean_2_dashed_", str_replace_all(string=consideredConcepts, pattern=" ", repl=""))
+    for(m in 1:length(consideredConcepts)){
+      out_netind[tmp_name[m]]  <- NA
+    }
+
+    ################
+    # neighborhood of order 1 / 2  adjust for weighting AND / OR dashed lines IF green
+    ################
+    tmp_name <- paste0("mean_2_weighted_", str_replace_all(string=consideredConcepts, pattern=" ", repl=""))
+    for(m in 1:length(consideredConcepts)){
+      out_netind[tmp_name[m]]  <- NA
+    }
+
+    tmp_name <- paste0("mean_2_weighted_dashed_", str_replace_all(string=consideredConcepts, pattern=" ", repl=""))
+    for(m in 1:length(consideredConcepts)){
+      out_netind[tmp_name[m]]  <- NA
+    }
+  }
+
+  for(i in 1:length(drawn_CAM)){
+    V(drawn_CAM[[i]])$value <- ifelse(test = V(drawn_CAM[[i]])$value == 10, yes = 0, no = V(drawn_CAM[[i]])$value)
+
+    ################
+    # unique ID
+    ################
+    out_netind[i, "participantCAM"] <- unique(V(drawn_CAM[[i]])$participantCAM)
+
+
+    ################################
+    # slice CAMs
+    ################################
+    if(sliceCAMbool){
+      tmp_CAM <- sliceCAM(singleCAM = drawn_CAM[[i]], singleCAMid = names(drawn_CAM)[i],
+                          removeConnection = removeConnectionCAM,
+                          removeNode = removeNodeCAM, plot = FALSE, verbose = FALSE)
+    }else{
+      tmp_CAM <- drawn_CAM[[i]]
+    }
+
+
+    if(!is.null(tmp_CAM)){
+      ### !!! adjust if concepts are deleted
+      ################################
+      # get vectors
+      ################################
+      for(m in 1:length(consideredConcepts)){
+        currentLabel <- consideredConcepts[m]
+
+        ### only if concept exist only once within network
+        if(sum(V(tmp_CAM)$label == currentLabel) == 1){
+          ## compute neighborhoods
+          tmp_neighborhood_1 <- neighborhood(graph = tmp_CAM, order = 1,
+                                             nodes = V(tmp_CAM)$name[V(tmp_CAM)$label == currentLabel])
+          tmp_neighborhood_2 <- neighborhood(graph = tmp_CAM, order = 2,
+                                             nodes = V(tmp_CAM)$name[V(tmp_CAM)$label == currentLabel])
+
+          ## get induced subgraphs
+          tmp_subgraph_1 <- induced_subgraph(graph = tmp_CAM, vids = unlist(tmp_neighborhood_1))
+          tmp_subgraph_2 <- induced_subgraph(graph = tmp_CAM, vids = unlist(tmp_neighborhood_2))
+
+          ## get value vectors
+          tmp_value_1 <- V(tmp_subgraph_1)$value
+          tmp_value_2 <- V(tmp_subgraph_2)$value
+
+          # > for dashed
+          tmp_value_1_dashed <- tmp_value_1
+
+          ## get label vectors
+          tmp_labels_1 <- V(tmp_subgraph_1)$label
+          tmp_labels_2 <- V(tmp_subgraph_2)$label
+
+          # > for weighted
+          tmp_value_2_weighted <- c(tmp_value_2[tmp_labels_2 %in% tmp_labels_1],
+                                    tmp_value_2[!tmp_labels_2 %in% tmp_labels_1] * weightSecondOrder)
+
+          ################
+          # neighborhood of order 1 / 2 no adjustments
+          ################
+          tmp_name <- paste0("mean_1_", str_replace_all(string=currentLabel, pattern=" ", repl=""))
+          out_netind[i , tmp_name] <- mean(tmp_value_1)
+          tmp_name <- paste0("mean_2_", str_replace_all(string=currentLabel, pattern=" ", repl=""))
+          out_netind[i , tmp_name] <- mean(tmp_value_2)
+
+
+          ################
+          # neighborhood of order 1 / 2  adjust for dashed lines IF green
+          ################
+          nameOut <- V(tmp_subgraph_1)$name[V(tmp_subgraph_1)$label == currentLabel]
+
+          ## not change valence of given concept in currentLabel
+          for(w in which(E(tmp_subgraph_1)$lty == 2)){
+            tmp <- as.vector(ends(graph = tmp_subgraph_1, es = E(tmp_subgraph_1)[w]))
+
+            if(any(tmp %in% nameOut)){
+              tmp <- tmp[tmp != nameOut]
+              if(length(tmp_value_1_dashed[V(tmp_subgraph_1)$name %in% tmp]) > 1){
+                print(i)
+              }
+              if(tmp_value_1_dashed[V(tmp_subgraph_1)$name %in% tmp] > 0){
+                tmp_value_1_dashed[V(tmp_subgraph_1)$name %in% tmp] <- tmp_value_1_dashed[V(tmp_subgraph_1)$name %in% tmp] * -1
+              }
+            }
+          }
+
+
+          tmp_name <- paste0("mean_1_dashed_", str_replace_all(string=currentLabel, pattern=" ", repl=""))
+          out_netind[i , tmp_name] <- mean(tmp_value_1_dashed)
+
+          tmp_name <- paste0("mean_2_dashed_", str_replace_all(string=currentLabel, pattern=" ", repl=""))
+          out_netind[i , tmp_name] <- mean(c(tmp_value_1_dashed,
+                                             tmp_value_2[!tmp_labels_2 %in% tmp_labels_1]))
+
+
+
+          ################
+          # neighborhood of order 1 / 2  adjust for weighting AND / OR dashed lines IF green
+          ################
+          tmp_name <- paste0("mean_2_weighted_", str_replace_all(string=currentLabel, pattern=" ", repl=""))
+          out_netind[i , tmp_name] <- sum(tmp_value_2_weighted) / (sum(tmp_labels_2 %in% tmp_labels_1) +
+                                                                     sum(!tmp_labels_2 %in% tmp_labels_1) / weightSecondOrder^-1)
+
+          tmp_name <- paste0("mean_2_weighted_dashed_", str_replace_all(string=currentLabel, pattern=" ", repl=""))
+          out_netind[i , tmp_name] <- mean(c(tmp_value_1_dashed,
+                                             tmp_value_2[!tmp_labels_2 %in% tmp_labels_1] /  weightSecondOrder^-1))
+        }
+      }
+    }
+  }
+
+  return(out_netind)
+}
+

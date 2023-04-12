@@ -54,6 +54,9 @@ library(plotly)
 library(RColorBrewer)
 
 
+library(tm)
+library(visNetwork)
+library(wordcloud)
 ########################################
 # load additional data
 ########################################
@@ -126,6 +129,13 @@ source("./www/functions_CAM/slice_CAM.R", encoding = "utf-8")
 
 # co-occurrences of concepts
 source("./www/functions_CAM/co_occurrences_concept.R", encoding = "utf-8")
+
+# aggregate CAMs
+source("./www/functions_CAM/helperFunctions.R", encoding = "utf-8")
+source("./www/functions_CAM/aggregate_CAMs.R", encoding = "utf-8")
+
+
+
 
 
 
@@ -804,5 +814,5 @@ dataNetworkNeighborhoodIndicators = NULL
 
 
   ### run app
-shinyApp(ui, server)
-  # runApp(shinyApp(ui, server), launch.browser = TRUE)
+# shinyApp(ui, server)
+  runApp(shinyApp(ui, server), launch.browser = TRUE)

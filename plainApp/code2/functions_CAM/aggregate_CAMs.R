@@ -44,6 +44,12 @@ aggregate_CAMs <- function(dat_merged = CAMfiles[[3]],
                         relvertexsize = 5,
                         reledgesize = 1)
 
+  if(any(colnames(sel_dat_nodes) == "text_summarized")){
+    print("text_summarized column identified")
+    sel_dat_nodes$text_backup <- sel_dat_nodes$text
+    sel_dat_nodes$text <- sel_dat_nodes$text_summarized
+  }
+
 
 
   adjmat <- matrix(data = 0, nrow = length(unique(sel_dat_nodes$text)),

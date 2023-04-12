@@ -17,11 +17,16 @@
 # reledgesize = 1
 draw_CAM <- function(dat_merged = CAMfiles[[3]],
                      dat_nodes = CAMfiles[[1]],
-                     ids_CAMs = "all", plot_CAM = TRUE,
+                     ids_CAMs = "all", plot_CAM = FALSE, useCoordinates = TRUE,
                      relvertexsize = 5,
                      reledgesize = 1){
 
 
+if(!all(ids_CAMs %in% dat_nodes$CAM)){
+  print("draw_CAM: using participant CAM ids")
+  dat_merged$CAM.x <- dat_merged$participantCAM.x
+  dat_nodes$CAM <-   dat_nodes$participantCAM
+}
   ## check ids_CAMs argument + create ids_CAMs
   if(length(ids_CAMs) == 1 && ids_CAMs == "all"){
     ids_CAMs <- unique(dat_merged$CAM.x)
@@ -67,19 +72,34 @@ draw_CAM <- function(dat_merged = CAMfiles[[3]],
     #################
     # aesthetical attributes
     #################
+    ### unique ID
+    V(g_own)$participantCAM <- unique(tmp_dat_nodes$participantCAM)
     ###################### > for vertex / vertices
     tmp_V_title <- c()
     tmp_V_value <- c()
     tmp_V_timestamp <- c()
+
+    tmp_V_x_Pos <- c()
+    tmp_V_y_Pos <- c()
     for(j in 1:length(V(g_own))){
       ## match by ID names in block data set
-      tmp_V_title[j] <- dat_nodes$text[names(V(g_own))[j] == dat_nodes$id ]
-      tmp_V_value[j] <- dat_nodes$value[names(V(g_own))[j] == dat_nodes$id ]
+      if(any(colnames(tmp_dat_nodes) == "text_summarized")){
+        tmp_V_title[j] <- tmp_dat_nodes$text_summarized[names(V(g_own))[j] == tmp_dat_nodes$id ]
+      }else{
+        tmp_V_title[j] <- tmp_dat_nodes$text[names(V(g_own))[j] == tmp_dat_nodes$id ]
+      }
+
+      tmp_V_value[j] <- tmp_dat_nodes$value[names(V(g_own))[j] == tmp_dat_nodes$id ]
 
       ## match by ID shape in block data set
       # tmp_V_shape[j] <- tmp_data_blocks$shape[names(V(g_own))[j] == tmp_data_blocks$id ]
       ## match by ID timestamp in block data set
-      tmp_V_timestamp[j] <- dat_nodes$date[names(V(g_own))[j] == dat_nodes$id ]
+      tmp_V_timestamp[j] <- tmp_dat_nodes$date[names(V(g_own))[j] == tmp_dat_nodes$id ]
+
+      ## add coordinates
+      tmp_V_x_Pos[j] <- tmp_dat_nodes$x_pos[names(V(g_own))[j] == tmp_dat_nodes$id ]
+      tmp_V_y_Pos[j] <- tmp_dat_nodes$y_pos[names(V(g_own))[j] == tmp_dat_nodes$id ]
+
     }
 
     ## title vertex attributes:
@@ -90,6 +110,12 @@ draw_CAM <- function(dat_merged = CAMfiles[[3]],
                              ifelse(test = tmp_V_value == 0, yes = "yellow",
                                     no = ifelse(test = tmp_V_value == 10, yes = "purple",
                                                 no = ifelse(test = tmp_V_value > 0 & tmp_V_value < 10, yes = "green", no = "ERROR"))))
+
+
+
+    ## position vertex attributes
+    V(g_own)$xPos <- tmp_V_x_Pos
+    V(g_own)$yPos <- tmp_V_y_Pos
 
 
     ## colour vertex attributes:
@@ -114,11 +140,11 @@ draw_CAM <- function(dat_merged = CAMfiles[[3]],
     V(g_own)$timestamp <- tmp_V_timestamp
 
     ## size vertex attributes based on defined relvertexsize:
-    V(g_own)$size <- as.numeric(ifelse(test = abs(tmp_V_value) == 3, yes = relvertexsize*2.5,
-                                       ifelse(test = abs(tmp_V_value) == 2, yes =relvertexsize*2,
-                                              no = ifelse(test = abs(tmp_V_value) == 1, yes =relvertexsize*1.5,
-                                                          no = ifelse(test = abs(tmp_V_value) == 10, yes =relvertexsize,
-                                                                      no = ifelse(abs(tmp_V_value) == 0, yes =relvertexsize, no = "ERROR"))))))
+    V(g_own)$size <- as.numeric(ifelse(test = abs(tmp_V_value) == 3, yes = relvertexsize*4,
+                                       ifelse(test = abs(tmp_V_value) == 2, yes =relvertexsize*3,
+                                              no = ifelse(test = abs(tmp_V_value) == 1, yes =relvertexsize*2,
+                                                          no = ifelse(test = abs(tmp_V_value) == 10, yes = relvertexsize*1,
+                                                                      no = ifelse(abs(tmp_V_value) == 0, yes =relvertexsize*1, no = "ERROR"))))))
 
 
 
@@ -154,14 +180,30 @@ draw_CAM <- function(dat_merged = CAMfiles[[3]],
     #################
     ############### > static graph
     if(plot_CAM){
-      # adjust?
-      plot(g_own, edge.arrow.size = .1, layout=layout_nicely, vertex.frame.color="black")
+      if(useCoordinates){
+        plot(g_own, edge.arrow.size = .1, layout=cbind(V(g_own)$xPos, V(g_own)$yPos),
+             vertex.frame.color="black")
+      }else{
+        # adjust?
+        plot(g_own, edge.arrow.size = .1, layout=layout_nicely, vertex.frame.color="black")
+        title(paste0("CAM:", ids_CAMs[i]), cex.main=1)
+      }
       title(paste0("CAM:", ids_CAMs[i]), cex.main=1)
     }
+
 
     list_g[[i]] <- g_own
   }
 
-  names(list_g) <- paste0(ids_CAMs)
+    ## set participantCAM as default ID if unique and all IDs are provided
+      if(length(unique(dat_merged$participantCAM.x)) == length(unique(dat_merged$CAM.x)) &
+          !any(dat_merged$participantCAM.x == "NO ID PROVIDED") &
+         !any(dat_merged$participantCAM.x == "-77")){
+            print("== participantCAM in drawnCAM")
+             names(list_g) <- unique(dat_merged$participantCAM.x)
+          }else{
+            print("== ids_CAMs in drawnCAM")
+       names(list_g) <- paste0(ids_CAMs)
+          }
   return(list_g)
 }

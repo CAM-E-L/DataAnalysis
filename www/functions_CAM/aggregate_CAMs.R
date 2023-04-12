@@ -23,6 +23,12 @@ aggregate_CAMs <- function(dat_merged = CAMfiles[[3]],
    stop("> please respecify the \"dat_merged\" AND / OR \"dat_nodes\" argument")
  }
 
+if(!all(ids_CAMs %in% dat_nodes$CAM)){
+  print("aggregate_CAMs: using participant CAM ids")
+  dat_merged$CAM.x <- dat_merged$participantCAM.x
+  dat_nodes$CAM <-   dat_nodes$participantCAM
+}
+
   ## check ids_CAMs argument + create ids_CAMs
   if(length(ids_CAMs) == 1 && ids_CAMs == "all"){
     ids_CAMs <- unique(dat_merged$CAM.x)
@@ -43,6 +49,12 @@ aggregate_CAMs <- function(dat_merged = CAMfiles[[3]],
                         dat_nodes = dat_nodes,ids_CAMs = ids_CAMs, plot_CAM = FALSE,
                         relvertexsize = 5,
                         reledgesize = 1)
+
+  if(any(colnames(sel_dat_nodes) == "text_summarized")){
+    print("text_summarized column identified")
+    sel_dat_nodes$text_backup <- sel_dat_nodes$text
+    sel_dat_nodes$text <- sel_dat_nodes$text_summarized
+  }
 
 
 
@@ -111,7 +123,7 @@ aggregate_CAMs <- function(dat_merged = CAMfiles[[3]],
 
 
 
-  out_list <- list(adjmat, g_agg)
+  out_list <- list(adjmat, g_agg, sel_dat_nodes)
 
   return(out_list)
 }

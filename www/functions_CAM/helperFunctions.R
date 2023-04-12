@@ -35,6 +35,13 @@ rename_identicalTerms <- function(dat_nodes = CAMfiles[[1]],
                                   drawn_CAM = CAMdrawn){
 
   vec_ids <- c(); h = 1
+  if(any(colnames(dat_nodes) == "text_summarized")){
+    print("text_summarized column identified")
+    dat_nodes$text_backup <- dat_nodes$text
+    dat_nodes$text <- dat_nodes$text_summarized
+  }
+
+
   ## rename terms if any terms is > 1x time within one CAM
   for(i in 1:length(unique(dat_nodes$CAM))){
     if(any(table(dat_nodes$text[dat_nodes$CAM == unique(dat_nodes$CAM)[i]]) > 1)){
@@ -46,7 +53,15 @@ rename_identicalTerms <- function(dat_nodes = CAMfiles[[1]],
       tmp_err_name <- names(table(dat_nodes$text[dat_nodes$CAM == unique(dat_nodes$CAM)[i]]))[
         table(dat_nodes$text[dat_nodes$CAM == unique(dat_nodes$CAM)[i]]) > 1]
       # print(tmp_err_name)
+
+
+
+if(all(names(drawn_CAM) %in% unique(dat_nodes$CAM))){
       ref_CAM_igraph <- drawn_CAM[[c(1:length(drawn_CAM))[names(drawn_CAM) == unique(dat_nodes$CAM)[i]]]]
+}else{
+      ref_CAM_igraph <- drawn_CAM[[c(1:length(drawn_CAM))[names(drawn_CAM) == unique(dat_nodes$participantCAM)[i]]]]
+}
+
 
       # table(dat_nodes$text[dat_nodes$CAM == unique(dat_nodes$CAM)[i]])
 
@@ -99,6 +114,12 @@ rename_identicalTerms <- function(dat_nodes = CAMfiles[[1]],
         vec_ids)
   }
 
+  if(any(colnames(dat_nodes) == "text_summarized")){
+    dat_nodes$text_summarized <- dat_nodes$text
+    dat_nodes$text <- dat_nodes$text_backup
+    dat_nodes$text_backup <- NULL
+  }
+
+
   return(dat_nodes)
 }
-

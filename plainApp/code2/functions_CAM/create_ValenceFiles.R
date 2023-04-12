@@ -10,7 +10,7 @@
 #
 ############################################################################
 #
-create_ValenceFiles <- function(datBlocks = blocks, datLinks = links){
+create_ValenceFiles <- function(datBlocks = blocks, datLinks = links, verbose=FALSE){
   ### create block dataset
   for(i in 1:length(datBlocks)){
     tmp <- datBlocks[[i]]$shape
@@ -105,6 +105,7 @@ create_ValenceFiles <- function(datBlocks = blocks, datLinks = links){
 
 
     ## > check: isolated vertex
+       if(verbose){
     if(sum(!tmp_nodes$id %in% tmp_connectors$daughterID &
            !tmp_nodes$id %in% tmp_connectors$motherID) > 0){
       cat("following CAM sets containing ",
@@ -115,6 +116,7 @@ create_ValenceFiles <- function(datBlocks = blocks, datLinks = links){
           paste0(tmp_nodes$text[!tmp_nodes$id %in% tmp_connectors$daughterID &
                                   !tmp_nodes$id %in% tmp_connectors$motherID], collapse = " // "),"\n\n")
     }
+       }
 
     ## merge
     tmp_dat_ending <- dplyr::left_join(x = tmp_nodes,
