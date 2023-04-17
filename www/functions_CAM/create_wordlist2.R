@@ -20,6 +20,7 @@
 # rater = FALSE
 create_wordlist <- function(dat_nodes = CAMfiles[[1]],
                             dat_merged = CAMfiles[[3]],
+                            useSummarized = TRUE,
                             order = NULL,
                             splitByValence = TRUE,
                             comments = TRUE,
@@ -38,9 +39,16 @@ create_wordlist <- function(dat_nodes = CAMfiles[[1]],
     stop("> Use \"alphabetic\" for alphabetic order of wordlist, or \"frequency\" for sorting according to frequency")
   }
   
-  if("text_summarized" %in% colnames(dat_nodes)){
+
+  if(useSummarized){
+    if("text_summarized" %in% colnames(dat_nodes)){
     dat_nodes$text <-   dat_nodes$text_summarized
+    print("create_wordlist - use summarized words")
+    }
+  }else{
+    print("create_wordlist - use raw words")
   }
+
   
   
   

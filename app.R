@@ -367,7 +367,9 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
 # analysis part #
 #> network indicators
 dataNetworkIndicators = NULL,
-dataNetworkNeighborhoodIndicators = NULL
+dataNetworkNeighborhoodIndicators = NULL,
+#> word outputs -> overall
+      wordlistOverall = NULL
 
     )
 
@@ -815,4 +817,4 @@ dataNetworkNeighborhoodIndicators = NULL
 
   ### run app
 # shinyApp(ui, server)
-  runApp(shinyApp(ui, server), launch.browser = TRUE)
+   runApp(shinyApp(ui, server), launch.browser = TRUE)
