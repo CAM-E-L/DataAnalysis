@@ -1,4 +1,0 @@
-time	searchRound	regularExpression	superordinate	subordinate_positive	N_positive	mean_positive	sd_positive	subordinate_negative	N_negative	mean_negative	sd_negative	subordinate_neutral	N_neutral	subordinate_ambivalent	N_ambivalent
-2023-02-27 12:41:49	1	tt	better future	better future // better options // Better EcoSystem // better energy education // makes things better // Better alternative options // better harvests	7	2.29	0.76	longterm committment // Too little // people getting ill // Better Tech // Little countries ignored // long term committment	6	-2.17	0.75	better understanding	1	better available methods?	1
-2023-02-27 12:42:03	2	very	very	very effective	1	3	NA	delivery method // doesnt fix everything // everyone won't agree // Everyone must cooperate	4	-1.75	0.96		0		0
-2023-02-27 12:42:40	3	help	help	helps with draught // helps climate change // helping wildlife	4	2.25	0.5	doesn't help seas // financial help // Not helpful	3	-2.33	1.15		0		0

@@ -1,3 +1,0 @@
-time	searchRound	stringDistance	superordinate	subordinate_positive	N_positive	mean_positive	sd_positive	subordinate_negative	N_negative	mean_negative	sd_negative	subordinate_neutral	N_neutral	subordinate_ambivalent	N_ambivalent
-2022-11-26 14:20:51	1	1	teuer		0	NA	NA	teuer // Teuer	45	-1.93	0.84		0		0
-2022-11-26 14:21:45	2	1	Freiheit	freiheit // Freiheit	23	2.48	0.79		0	NA	NA		0		0
