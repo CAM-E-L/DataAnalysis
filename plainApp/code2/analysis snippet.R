@@ -25,7 +25,7 @@ p_load('tidyverse', 'jsonlite', 'magrittr', 'xlsx',
 ### read CAM
 
 # '02_jatos_results_20220108121141.txt'
-read_file('jatos_results_20221215131103.txt') %>%
+read_file('jatos_results_data_20230504154051.txt') %>%
   # ... split it into lines ...
   str_split('\n') %>% first() %>%
   # ... filter empty rows ...
@@ -46,7 +46,7 @@ setwd("functions_CAM")
 source("create_CAMfiles.R", encoding="utf-8")
 source("compute_indicatorsCAM.R", encoding="utf-8")
 source("draw_CAM.R", encoding="utf-8")
-source("create_wordlist.R", encoding="utf-8")
+source("create_wordlist2.R", encoding="utf-8")
 source("summaryFunctions.R", encoding="utf-8")
 source("aggregate_CAMs.R", encoding="utf-8")
 
@@ -62,6 +62,8 @@ setwd("..")
 ############################################################################
 ### create CAM single files (nodes, connectors, merged)
 CAMfiles <- create_CAMfiles(datCAM = raw_CAM, reDeleted = TRUE)
+
+
 ## Anzahl Knoten pro CAM:
 table(CAMfiles[[1]]$CAM)
 ## Verteilung Valenz
@@ -73,20 +75,18 @@ sort(table(CAMfiles[[1]]$text))
 
 
 set.seed(123)
-a <- create_wordlist(dat_nodes = CAMfiles[[1]],
-                            dat_merged = CAMfiles[[3]],
+a <- create_wordlist(dat_nodes = df_CAMEL[[1]],
+                            dat_merged = df_CAMEL[[3]],
                             order = "alphabetic",
                             splitByValence = TRUE,
-                            comments = TRUE,
-                     raterSubsetWords = sample(x = unique(CAMfiles[[1]]$text), size = 3),
-                            rater=FALSE)
+                            comments = TRUE)
 a
 
 
 
 ### draw CAMs
-CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
-                     dat_nodes = CAMfiles[[1]],ids_CAMs = "all", plot_CAM = FALSE,
+CAMdrawn <- draw_CAM(dat_merged = df_CAMEL[[3]],
+                     dat_nodes = df_CAMEL[[1]],ids_CAMs = "all", plot_CAM = FALSE,
                      useCoordinates = TRUE,
                      relvertexsize = 3,
                      reledgesize = 1)

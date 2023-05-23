@@ -147,7 +147,7 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
 
     ### transitivity (ratio of triangles)
     # type = "global": undirected, not weighted
-    out_netind[i, "transitivity_macro"] <- transitivity(graph = drawn_CAM[[i]], weights = NA, type = "global")
+    out_netind[i, "transitivity_macro"] <- igraph::transitivity(graph = drawn_CAM[[i]], weights = NA, type = "global")
 
     ### centrality measures degree, closeness, betweenness, eigenvector
     out_netind[i, "centr_degree_macro"]  <- igraph::centr_degree(graph = drawn_CAM[[i]], mode = "all", loops = TRUE, normalized = TRUE)$centralization

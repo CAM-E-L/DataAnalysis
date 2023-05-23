@@ -6,6 +6,20 @@
 # ==============================================================================
 
 ############################################################################
+##### ggplot APA 7 settings
+############################################################################
+ggplot_theme <- theme(axis.title.x = element_text(size=14),
+                      axis.title.y = element_text(size=14),
+                      axis.text.x = element_text(size=12,hjust=0.5,vjust=0.5,face="plain", colour = "black"),
+                      axis.text.y = element_text(size=12,face="plain", colour = "black"),
+                      panel.border = element_blank(),
+                      axis.line = element_line(colour = "black"),
+                      panel.grid.major = element_blank(),
+                      panel.grid.minor = element_blank(),
+                      panel.background = element_blank())
+
+
+############################################################################
 ##### save_graphic()
 # save graphic object as png file
 ############################################################################
@@ -29,7 +43,7 @@ save_graphic <- function(filename){
 # > often occurs after summarizing terms
 ############################################################################
 ### args:
-# dat_nodes = CAMfiles[[1]]
+# dat_nodes = df_CAMEL[[1]]
 # drawn_CAM = CAMdrawn
 rename_identicalTerms <- function(dat_nodes = CAMfiles[[1]],
                                   drawn_CAM = CAMdrawn){

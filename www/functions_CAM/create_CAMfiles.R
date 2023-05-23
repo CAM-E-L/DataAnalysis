@@ -14,9 +14,10 @@
 # verbose=TRUE
 create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
   ### create block dataset
+  sn = 1 # no i index
   for(i in 1:length(datCAM)){
     if(length(datCAM[[i]]$nodes) == 0){
-      
+
       cat("following CAM containing zero nodes: ",
           datCAM[[i]]$creator, "\n")
     }
@@ -35,25 +36,32 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
                         date = lubridate::as_datetime(datCAM[[i]]$nodes$date / 1000),
                         x_pos = datCAM[[i]]$nodes$position$x,
                         y_pos = datCAM[[i]]$nodes$position$y,
-                        predefinedConcept = ifelse(test = datCAM[[i]]$nodes$isDraggable == FALSE | 
+                        predefinedConcept = ifelse(test = datCAM[[i]]$nodes$isDraggable == FALSE |
                                                      datCAM[[i]]$nodes$isDeletable == FALSE |
                                                      datCAM[[i]]$nodes$isTextChangeable == FALSE, yes = TRUE, no = FALSE),
                         isDraggable = as.numeric(datCAM[[i]]$nodes$isDraggable),
                         isDeletable = as.numeric(datCAM[[i]]$nodes$isDeletable),
                         isTextChangeable = as.numeric(datCAM[[i]]$nodes$isTextChangeable),
                         isActive = datCAM[[i]]$nodes$isActive)
-      if(i == 1){
+      if(sn == 1){
         dat_nodes <- tmp
+        sn = sn + 1
       }else{
         dat_nodes <- rbind(dat_nodes, tmp)
       }
     }
   }
-  
-  
-  
+
+
+
   ### create connectors dataset
+  sc = 1 # no i index
   for(i in 1:length(datCAM)){
+    if(length(datCAM[[i]]$connectors) == 0){
+
+      cat("following CAM containing zero connectors: ",
+          datCAM[[i]]$creator, "\n")
+    }
     if(length(datCAM[[i]]$connectors) > 0){
       if(!is.null(datCAM[[i]]$creator)){
         tmp_participantCAM = rep(x = datCAM[[i]]$creator, times = nrow(datCAM[[i]]$connectors))
@@ -71,15 +79,16 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
                         isBidirectional = as.numeric(datCAM[[i]]$connectors$isBidirectional),
                         isDeletable = as.numeric(datCAM[[i]]$connectors$isDeletable),
                         isActive = datCAM[[i]]$connectors$isActive)
-      if(i == 1){
+      if(sc == 1){
         dat_connectors <- tmp
+        sc = sc + 1
       }else{
         dat_connectors <- rbind(dat_connectors, tmp)
       }
     }
   }
-  
-  
+
+
   ## if true then remove non active nodes
   if(reDeleted){
     cat("Nodes and connectors, which were deleted by participants were removed.", "\n",
@@ -88,16 +97,16 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
     dat_nodes <- dat_nodes[dat_nodes$isActive,]
     dat_connectors <- dat_connectors[dat_connectors$isActive,]
   }
-  
-  
+
+
   ### merge data sets
   for(i in 1:length(unique(dat_nodes$CAM))){
-    
+
     tmp_nodes <- dat_nodes %>%
       filter(CAM == unique(dat_nodes$CAM)[i])
     tmp_connectors <- dat_connectors %>%
       filter(CAM == unique(dat_nodes$CAM)[i])
-    
+
     ## > check: isolated vertex
     if(verbose){
       if(sum(!tmp_nodes$id %in% tmp_connectors$daughterID &
@@ -112,40 +121,40 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
                                     !tmp_nodes$id %in% tmp_connectors$motherID], collapse = " // "),"\n\n")
       }
     }
-    
-    
+
+
     ## merge
     tmp_dat_ending <- dplyr::left_join(x = tmp_nodes,
                                        y = tmp_connectors, by = c("id" = "motherID"))
     tmp_dat_starting <- dplyr::left_join(x = tmp_nodes,
                                          y = tmp_connectors, by = c("id" = "daughterID"))
-    
+
     ## remove missing
     tmp_dat_ending <- tmp_dat_ending[!is.na(tmp_dat_ending$CAM.y),]
     tmp_dat_starting <- tmp_dat_starting[!is.na(tmp_dat_starting$CAM.y),]
-    
+
     ## keep only bidirectional
     # > uni directional is: ending_block -> starting_block
     tmp_dat_starting <- tmp_dat_starting[tmp_dat_starting$isBidirectional == 1,]
-    
-    
-    
-    
+
+
+
+
     # colnames(tmp_dat_ending)[colnames(tmp_dat_ending) != colnames(tmp_dat_starting)]
     # colnames(tmp_dat_starting)[colnames(tmp_dat_starting) != colnames(tmp_dat_ending)]
     colnames(tmp_dat_ending)[colnames(tmp_dat_ending) == "daughterID"]  <- "idending"
     colnames(tmp_dat_starting)[colnames(tmp_dat_starting) == "motherID"]  <- "idending"
-    
-    
+
+
     tmp_dat_merged <- rbind(tmp_dat_ending,tmp_dat_starting) # final data set
-    
-    
+
+
     if(i == 1){
       tmp_dat_out <- tmp_dat_merged
     }else{
       tmp_dat_out <- rbind(tmp_dat_out, tmp_dat_merged)
     }
   }
-  
+
   return(list(dat_nodes, dat_connectors, tmp_dat_out))
 }
