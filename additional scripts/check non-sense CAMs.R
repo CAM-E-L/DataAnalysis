@@ -10,8 +10,26 @@ if(!exists(x = "raw_CAM")){
 
 
 ########################################
-# create CAM files, draw CAMs
+# load dictionaries
 ########################################
+### open-office dictionaries:
+# see: https://extensions.openoffice.org/en/project/german-de-de-frami-dictionaries
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### create CAM single files (nodes, connectors, merged)
 CAMfiles <- create_CAMfiles(datCAM = raw_CAM, reDeleted = TRUE)
 
