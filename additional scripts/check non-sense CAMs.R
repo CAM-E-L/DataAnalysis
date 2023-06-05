@@ -18,51 +18,86 @@ if(!exists(x = "raw_CAM")){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+########################################
+# create CAM files, draw CAMs
+########################################
 ### create CAM single files (nodes, connectors, merged)
 CAMfiles <- create_CAMfiles(datCAM = raw_CAM, reDeleted = TRUE)
+
+### draw CAMs
+CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
+                     dat_nodes = CAMfiles[[1]],ids_CAMs = "all", plot_CAM = FALSE,
+                     useCoordinates = TRUE,
+                     relvertexsize = 3,
+                     reledgesize = 1)
+
+
+########################################
+# dictionary
+########################################
+setwd("data dictionaries")
+### english
+dict_english <- readr::read_table(file = "en_frami.txt", col_names = TRUE)
+
+dict_english <- str_subset(string = dict_english$words, pattern = "/")
+dict_english <- str_remove_all(string = dict_english, pattern = "/.*$")
+dict_english <- str_subset(string = dict_english, pattern = "^[[:alpha:]]{2,}")
+dict_english <- c(dict_english, "markets", "statistical", "Processing",
+                  "components", "models", "Sustainable", "Anthropocene", "Sustainability",
+                  "Renewable", "geoengineering", "BECCS", "Fearful")
+dict_english <- tolower(x = dict_english)
+dict_english <- dict_english[nchar(x = dict_english) >= 5]
+dict_english <- c(dict_english, "the", "are")
+dict_english <- unique(dict_english)
+
+# nchar(x = dict_english[1:10])
+# dict_english[1:10]
+
+### german
+dict_german <- readr::read_table(file = "de_frami.txt", col_names = TRUE)
+
+dict_german <- str_subset(string = dict_german$words, pattern = "/")
+dict_german <- str_remove_all(string = dict_german, pattern = "/.*$")
+dict_german <- str_subset(string = dict_german, pattern = "^[[:alpha:]]{2,}")
+dict_german <- c(dict_german, "globale", "KOGNITIVE", "Modelle", "Nutzeneffekte", "Faktoren", "Soziale")
+dict_german <- tolower(x = dict_german)
+dict_german <- dict_german[nchar(x = dict_german) >= 5]
+dict_german <- unique(dict_german)
+setwd("..")
+
+
+
 
 
 ########################################
 # create aggregated CAM
 ########################################
-### aggregated CAM
-sel_ids <- unique(CAMfiles[[1]]$participantCAM)
-CAMaggregated <- aggregate_CAMs(dat_merged = CAMfiles[[3]], dat_nodes = CAMfiles[[1]],
-                                ids_CAMs = sel_ids)
-
-plot(CAMaggregated[[2]], vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*20, edge.arrow.size=0.01)
-plot(CAMaggregated[[2]], vertex.size=(abs(V(CAMaggregated[[2]])$value)+1)*5, edge.arrow.size=0.01)
-
-
-g = CAMaggregated[[2]]
-g2 = simplify(CAMaggregated[[2]])
-# plot(g2, edge.arrow.size=0.01,
-#      vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*20)
-
-E(g2)$weight = sapply(E(g2), function(e) {
-  length(all_shortest_paths(g, from=ends(g2, e)[1], to=ends(g2, e)[2])$res) } )
-E(g2)$weight = E(g2)$weight / 2
-
-V(g2)$color[V(g2)$value <= .5 & V(g2)$value >= -.5] <- "yellow"
-
-V(g2)$shape <- NA
-V(g2)$shape <- ifelse(test = V(g2)$color == "yellow", yes = "square", no = "circle")
+## the function draw_CAM creates a list
+length(x = CAMdrawn)
+## every element in the list is an igraph object and has so called vertex (and edge) attributes
+vertex.attributes(graph = CAMdrawn[[1]])
+## writing a for loop + using the %in% operator you can check if the text of drawn concepts are existing words
+V(CAMdrawn[[1]])$label
 
 
 
-plot(g2, edge.arrow.size = .5,
-     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
-     vertex.size = 5, vertex.label.cex = .9)
+vec_fakeCAMs <- rep(x = FALSE, times = length(CAMdrawn))
+vec_IDs_fakeCAMs <- rep(x = NA, times = length(CAMdrawn))
+for(i in 1:length(CAMdrawn)){
+  tmpSingleWords <- stringr::str_split(string = V(CAMdrawn[[i]])$label , pattern = " ", simplify = TRUE)
+  tmpSingleWords <- tmpSingleWords[tmpSingleWords != ""]
+  tmpSingleWords <- unique(tmpSingleWords)
+
+  if(any(tmpSingleWords %in% dict_english)){
+    cat('\nI am a real CAM - words found:\n')
+    cat(tmpSingleWords[tmpSingleWords %in% dict_english])
+
+  }else{
+    print("I am a fake CAM")
+    vec_fakeCAMs[i] <- TRUE
+    vec_IDs_fakeCAMs[i] <- names(CAMdrawn)[i]
+  }
+}
+
+
 
