@@ -1,6 +1,6 @@
 # ==============================================================================
 # Shiny app
-# date of creation: January 2022 - June 2022
+# date of creation: January 2022 - June 2023
 # authors: Julius Fenn, University of Freiburg
 # ==============================================================================
 
