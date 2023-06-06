@@ -80,7 +80,7 @@ devtools::session_info()
 ########################################
 setwd("../../additional scripts/data")
 dir()
-myDataset <- "SAI study.txt"
+myDataset <- "SAI study.txt" # "SAI study.txt"
 read_file(myDataset) %>%
   # ... split it into lines ...
   str_split('\n') %>% first() %>%

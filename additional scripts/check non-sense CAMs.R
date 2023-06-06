@@ -87,10 +87,11 @@ for(i in 1:length(CAMdrawn)){
   tmpSingleWords <- stringr::str_split(string = V(CAMdrawn[[i]])$label , pattern = " ", simplify = TRUE)
   tmpSingleWords <- tmpSingleWords[tmpSingleWords != ""]
   tmpSingleWords <- unique(tmpSingleWords)
+  tmpSingleWords <- tolower(tmpSingleWords)
 
-  if(any(tmpSingleWords %in% dict_english)){
+  if(any(tmpSingleWords %in% dict_german)){
     cat('\nI am a real CAM - words found:\n')
-    cat(tmpSingleWords[tmpSingleWords %in% dict_english])
+    cat(tmpSingleWords[tmpSingleWords %in% dict_german])
 
   }else{
     print("I am a fake CAM")
@@ -100,4 +101,12 @@ for(i in 1:length(CAMdrawn)){
 }
 
 
+vec_IDs_fakeCAMs <- vec_IDs_fakeCAMs[!is.na(vec_IDs_fakeCAMs)]
+length(vec_IDs_fakeCAMs)
 
+
+
+
+plot(CAMdrawn[[vec_IDs_fakeCAMs[4]]], edge.arrow.size = .7,
+     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
+     vertex.size = 10, vertex.label.cex = .9)
