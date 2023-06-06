@@ -1,0 +1,22 @@
+
+cff-version: 1.2.1
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Fenn
+    given-names: Julius
+  - family-names: Gouret
+    given-names: Florian
+  - family-names: Gorki
+    given-names: Michael
+  - family-names: Hüttner
+    given-names: Paul
+  - family-names: Reuter
+    given-names: Lisa
+  - family-names: Gros
+    given-names: Wilhelm
+  - family-names: Kiesel
+    given-names: Andrea
+url: https://github.com/Camel-app/DataAnalysis
+title: "CAM-App"
+version: 2.2
+date-released: 2023-06-01
