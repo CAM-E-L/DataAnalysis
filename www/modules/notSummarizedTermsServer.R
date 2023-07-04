@@ -17,7 +17,7 @@ notSummarizedTermsServer <-
         tags$br(),
         tags$br(),
         HTML(
-          'To start the module please click on one of the the module option on the sidebar panel. The options for
+          'To start the module please click on one of the module options on the sidebar panel. The options for
                      this module are the following:'
         ),
         tags$ul(

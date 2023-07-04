@@ -17,14 +17,14 @@ summarizeTermsServer <-
         tags$br(),
         tags$br(),
         HTML(
-          'To start the module please click on one of the the module option on the sidebar panel. The options for
+          'To start the module please click on one of the module options on the sidebar panel. The options for
                      this module are the following:'
         ),
         tags$ul(
           tags$li(
             HTML(
               '<b>Approximate matching:</b> By using approximate string matching you can compute the string distances between all your unique concepts
-              in the dataset (using optimal string alignment) to find words, which have been written slightly differently.'
+              in the dataset (using optimal string alignment) to find words which have been written slightly differently.'
             )
           ),
           tags$li(
@@ -39,7 +39,7 @@ summarizeTermsServer <-
           ),
           tags$li(
             HTML(
-              '<b>Apply word2vec model:</b> The word2vec is a neural network, which learnd word associations from a large corpus of text.
+              '<b>Apply word2vec model:</b> The word2vec is a neural network, which learned word associations from a large corpus of text.
               Based on these word associations get groups of similar terms (e.g. "happiness" is similar to "joy").'
             )
           ),
@@ -458,7 +458,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
           tags$div(
             HTML(
               "By using approximate string matching you can compute the string distances between all your unique concepts
-              in the dataset (using optimal string aligment) to find words, which have been written slightly differently."
+              in the dataset (using optimal string alignment) to find words which have been written slightly differently."
             ),
             style = "font-size:14px"
           ),
@@ -523,7 +523,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
               '<i>The first word is automatically selected. If it contains a spelling error, you can correct it manually.
                                 Important: all words will be saved in the following format: "Word_positive" for words with positive valence,
                                 "Word_negative" for words with negative valence and so on.
-                                 If you do not want to summarize a specific word please move it to the most left column.
+                                 If you do not want to summarize a specific word please move it to the leftmost column.
                                  If you do not want to summarize any words just click on "skip":</i>'
             ),
             style = "font-size:14px"
@@ -925,7 +925,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
                   '<i>The first word is automatically selected. If it contains a spelling error, you can correct it manually.
                                 Important: all words will be saved in the following format: Word_positive for words with positive valence,
                                 Word_negative for words with negative valence and so on.
-                                 If you do not want to summarize a specific word please move it to the most left column.
+                                 If you do not want to summarize a specific word please move it to the leftmost column.
                                  If you do not want to summarize any words just do not click on "summarize" and start a new search:</i>'
                 ),
                 style = "font-size:14px"
@@ -1235,7 +1235,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
                 <br>
                 Important: all words will be saved in the following format: Word_positive for words with positive valence,
                  Word_negative for words with negative valence and so on.
-                 If you do not want to summarize a specific word please move it to the most left column.
+                 If you do not want to summarize a specific word please move it to the leftmost column.
                  If you do not want to summarize any words of the found synonyms just click on "skip":</i>'
             ),
             style = "font-size:14px"
@@ -1691,7 +1691,7 @@ observeEvent(input$synonymsClickSummarize, {
                 <br>
                 Important: all words will be saved in the following format: Word_positive for words with positive valence,
                  Word_negative for words with negative valence and so on.
-                 If you do not want to summarize a specific word please move it to the most left column.
+                 If you do not want to summarize a specific word please move it to the leftmost column.
                  If you do not want to summarize any words of the found by word2vec just click on "skip":</i>'
       ),
       style = "font-size:14px"
@@ -2126,7 +2126,7 @@ observeEvent(input$word2vecClickSummarize, {
                       tags$li(
                         HTML(
                           '<b>Approximate matching:</b> By using approximate string matching you can compute the string distances between all your unique concepts
-              in the dataset (using optimal string alignment) to find words, which have been written slightly differently.'
+              in the dataset (using optimal string alignment) to find words which have been written slightly differently.'
                         )
                       ),
               tags$li(

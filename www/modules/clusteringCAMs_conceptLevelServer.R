@@ -15,7 +15,7 @@ clusteringCAMs_conceptLevelServer <-
         tags$br(),
         tags$br(),
         HTML(
-          'To start the module please click on one of the the module option on the sidebar panel. The options for
+          'To start the module please click on one of the module options on the sidebar panel. The options for
                      this module are the following:'
         ),
               tags$ul(
@@ -40,7 +40,7 @@ clusteringCAMs_conceptLevelServer <-
           outUI$elements <- tagList(
           tags$h2("Concept co-occurrences"),
           tags$br(),
-          tags$div(HTML("After choosen your settings (in most cases the default is recommended), please click on the draw heatmap button. 
+          tags$div(HTML("After choosing your settings (in most cases the default is recommended), please click on the draw heatmap button. 
           Please click only once and wait few seconds:"), style="font-size:14px"),
             tags$h3("Your Settings:"),
                      tags$div(

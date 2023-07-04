@@ -15,7 +15,7 @@ summarizeCAMsServer <-
         tags$br(),
         tags$br(),
         HTML(
-          'To start the module please click on one of the the module option on the sidebar panel. The options for
+          'To start the module please click on one of the module options on the sidebar panel. The options for
                      this module are the following:'
         ),
               tags$ul(
@@ -39,7 +39,7 @@ summarizeCAMsServer <-
           outUI$elements <- tagList(
           tags$h2("Aggregate CAMs"),
               tags$br(),
-          tags$div(HTML("After choosen your settings (in most cases the default is recommended), please click on the aggregate CAMs button. 
+          tags$div(HTML("After choosing your settings (in most cases the default is recommended), please click on the aggregate CAMs button. 
           Please click only once and wait few seconds. It is recommended that you summarise the concepts before aggregating the CAM data:"), style="font-size:14px"),
             tags$h3("Your Settings:"),
                      tags$div(

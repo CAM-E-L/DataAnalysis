@@ -15,7 +15,7 @@ drawServer <- function(id, dataCAM, parent, globals) {
             h1("Draw CAM module"),
             tags$br(),
             tags$br(),
-            HTML('To start the module please click on one of the the module option on the sidebar panel. The options for
+            HTML('To start the module please click on one of the module options on the sidebar panel. The options for
                      this module are the following:'),
             tags$ul(
               tags$li(HTML('<b>Draw R:</b> Draw CAMs using R (statistic software).')),
@@ -41,13 +41,13 @@ drawServer <- function(id, dataCAM, parent, globals) {
           outUI$elements <- tagList(
             tags$h2("Draw CAMs using R (statistic software)"),
             tags$br(),
-            tags$div(HTML("After choosen your settings (in most cases the default is recommended), please click on the draw CAMs button 
+            tags$div(HTML("After choosing your settings (in most cases the default is recommended), please click on the draw CAMs button 
             to draw your CAMs. Please click only once and wait few seconds. If you have deleted a single or multiple CAMs please 
             click on this button again to update your drawn CAMs:"), style="font-size:14px"),
             tags$h3("Your Settings:"),
          tags$div(
             HTML(
-              'Please select if you want to drawn the concepts on the same positions as the participants, else a so called 
+              'Please select if you want to draw the concepts on the same positions as the participants, else a so called 
               <a href="https://en.wikipedia.org/wiki/Force-directed_graph_drawing" target="_blank">force-directed graph drawing algorithm</a> 
               is applied. Further you can change the relative size of the vertices and edges (only needed if you have large CAMs):'
             ),
@@ -111,7 +111,7 @@ drawServer <- function(id, dataCAM, parent, globals) {
               column(width = 11,
               tags$br(),
                       div(style="margin: 0 auto; text-align:left;",
-               tags$div(HTML('After you have drawn and/ or deleted your CAMs you can continue with the
+               tags$div(HTML('After you have drawn and / or deleted your CAMs you can continue with the
                               next part:')),
                     actionButton(ns("continueDrawnPreprocessingAnalysis"),  HTML('Continue'), style="width: 150px;
                                  height: 90px; font-size: 18px; padding: 10px")
@@ -404,7 +404,7 @@ drawServer <- function(id, dataCAM, parent, globals) {
           if(!rv$CAMsdrawn){
             showModal(modalDialog(
               title = "No CAMs drawn",
-              paste0("Please drawn and/ or delete CAMs to continue."),
+              paste0("Please drawn and / or delete CAMs to continue."),
               easyClose = TRUE,
               footer = tagList(
                 modalButton("Ok")

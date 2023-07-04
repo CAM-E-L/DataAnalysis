@@ -15,7 +15,7 @@ wordOutputs_overallServer <-
         tags$br(),
         tags$br(),
         HTML(
-          'To start the module please click on one of the the module option on the sidebar panel. The options for
+          'To start the module please click on one of the module options on the sidebar panel. The options for
                      this module are the following:'
         ),
               tags$ul(
@@ -40,7 +40,7 @@ wordOutputs_overallServer <-
           outUI$elements <- tagList(
           tags$h2("Wordlists"),
           tags$br(),
-                    tags$div(HTML("After choosen your settings (in most cases the default is recommended), please click on the 
+                    tags$div(HTML("After choosing your settings (in most cases the default is recommended), please click on the 
                     create wordlist button. 
           Please click only once and wait few seconds:"), style="font-size:14px"),
             tags$h3("Your Settings:"),
@@ -160,7 +160,7 @@ output$wordlistTable_WordsOverall <- renderDataTable({
           outUI$elements <- tagList(
           tags$h2("Wordclouds"),
           tags$br(),
-          tags$div(HTML("After choosen your settings (in most cases the default is recommended), please click on the 
+          tags$div(HTML("After choosing your settings (in most cases the default is recommended), please click on the 
                     create wordcloud button. 
           Please click only once and wait few seconds:"), style="font-size:14px"),
           tags$h3("Your Settings:"),
