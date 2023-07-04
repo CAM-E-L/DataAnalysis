@@ -817,42 +817,54 @@ if(!globals$protocol$cleanValence[[1]]){
     ###### Protocol stats
     observeEvent(input$getProtocolStats, {
       ## change UI
-      outUI$elements <- tagList(tags$h2("Protocol statistics"),
-             tags$div(
-          HTML(
-            "If you have created already and uploaded your protocol you see here your protocol statistics: "
+      # check if a protocol has in fact been uploaded
+      if(v$protocol) {
+        outUI$elements <- tagList(tags$h2("Protocol statistics"),
+               tags$div(
+            HTML(
+              "Here are your protocol statistics: "
+            ),
+            style = "font-size:14px"
           ),
-          style = "font-size:14px"
-        ),
-        tags$br(),
-       tags$div(
-          HTML(
-            "Software and time statistics:"
+          tags$br(),
+         tags$div(
+            HTML(
+              "Software and time statistics:"
+            ),
+            style = "font-size:14px"
           ),
-          style = "font-size:14px"
-        ),
-          tags$ul(
-          tags$li("You are using the ", tags$b(textOutput(ns("softwareProto"), inline = TRUE)), " software and you have used this software the last time at: ", 
-          textOutput(ns("softwareLastTime"), inline = TRUE)),
-          tags$li("First time you have applied the summarize terms functions: ", textOutput(ns("summarizeFirstTime"), inline = TRUE)),
-          tags$li("Last time you have applied the summarize terms functions: ", textOutput(ns("summarizeLastTime"), inline = TRUE)),
-        ),
-        tags$div(
-          HTML(
-            "Number of steps using summarize terms functions:"
+                      tags$ul(
+            tags$li("You are using the ", tags$b(textOutput(ns("softwareProto"), inline = TRUE)), " software and you have used this software the last time at: ", 
+            textOutput(ns("softwareLastTime"), inline = TRUE)),
+            tags$li("First time you have applied the summarize terms functions: ", textOutput(ns("summarizeFirstTime"), inline = TRUE)),
+            tags$li("Last time you have applied the summarize terms functions: ", textOutput(ns("summarizeLastTime"), inline = TRUE)),
           ),
-          style = "font-size:14px"
-        ),
-          tags$ul(
-          tags$li("Number of times you have used approximate matching functions to summarize terms: ", textOutput(ns("approximateMatchingNumber"), inline = TRUE)),
-          tags$li("Number of times you have used search functions to summarize terms: ", textOutput(ns("searchTermsNumber"), inline = TRUE)),
-          tags$li("Number of times you have looped through the find synonyms function: ", textOutput(ns("findSynonymsNumber"), inline = TRUE)),
-          tags$li("Number of times you have looped through the word2vec function: ", textOutput(ns("findword2vecNumber"), inline = TRUE)),
+          tags$div(
+            HTML(
+              "Number of steps using summarize terms functions:"
+            ),
+            style = "font-size:14px"
+          ),
+            tags$ul(
+            tags$li("Number of times you have used approximate matching functions to summarize terms: ", textOutput(ns("approximateMatchingNumber"), inline = TRUE)),
+            tags$li("Number of times you have used search functions to summarize terms: ", textOutput(ns("searchTermsNumber"), inline = TRUE)),
+            tags$li("Number of times you have looped through the find synonyms function: ", textOutput(ns("findSynonymsNumber"), inline = TRUE)),
+            tags$li("Number of times you have looped through the word2vec function: ", textOutput(ns("findword2vecNumber"), inline = TRUE)),
 
 
-        )
-        )
+          )
+          )
+        # no protocol uploaded so far
+      } else {
+             outUI$elements <- tagList(tags$h2("Protocol statistics"),
+                     tags$div(
+         HTML("If you have created and uploaded a protocol, you see your protocol statistics here. You don't appear to have uploaded a protocol yet."
+          ),
+          style = "font-size:14px"
+        ))
+      }
     })
+
 
     #> Server
     ## summary stats:
