@@ -182,15 +182,18 @@ drawServer <- function(id, dataCAM, parent, globals) {
           }
           ####
 
+          if(length(tmp_CAMs) > 0) {
+            rv$networkIndicators <- compute_indicatorsCAM(drawn_CAM = tmp_CAMs,
+                                  micro_degree = NULL,
+                                  micro_valence = NULL,
+                                  micro_centr_clo = NULL,
+                                  largestClique = FALSE)
+            rv$networkIndicators$assortativity_valence_macro[is.na(rv$networkIndicators$assortativity_valence_macro)] <- 0
 
-          rv$networkIndicators <- compute_indicatorsCAM(drawn_CAM = tmp_CAMs,
-                                micro_degree = NULL,
-                                micro_valence = NULL,
-                                micro_centr_clo = NULL,
-                                largestClique = FALSE)
-          rv$networkIndicators$assortativity_valence_macro[is.na(rv$networkIndicators$assortativity_valence_macro)] <- 0
-
-          tmp_CAMs
+            tmp_CAMs
+          } else {
+            NULL
+          }
         })
 
 
