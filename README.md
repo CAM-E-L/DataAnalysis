@@ -20,6 +20,7 @@ This software has been developed by
 * Julius Fenn
 * Florian Gouret
 * Michael Gorki
+* Paul Sölder
 * Paul Hüttner
 * Lisa Reuter
 * Wilhelm Gros
