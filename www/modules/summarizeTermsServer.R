@@ -458,7 +458,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
           tags$div(
             HTML(
               "By using approximate string matching you can compute the string distances between all your unique concepts
-              in the dataset (using optimal string alignment) to find words which have been written slightly differently."
+              in the dataset (using optimal string alignment) to find words, which have been written slightly differently."
             ),
             style = "font-size:14px"
           ),
@@ -925,7 +925,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
                   '<i>The first word is automatically selected. If it contains a spelling error, you can correct it manually.
                                 Important: all words will be saved in the following format: Word_positive for words with positive valence,
                                 Word_negative for words with negative valence and so on.
-                                 If you do not want to summarize a specific word please move it to the leftmost column.
+                                 If you do not want to summarize a specific word please move it to the most left column.
                                  If you do not want to summarize any words just do not click on "summarize" and start a new search:</i>'
                 ),
                 style = "font-size:14px"
@@ -973,11 +973,50 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
 
         # print(input$regularExp)
         if(nchar(x = input$regularExp) > 0){
-          words_out <- unique(globals$dataCAMsummarized[[1]]$text_summarized[
+
+          words_out <- tryCatch(
+            # expression
+            unique(globals$dataCAMsummarized[[1]]$text_summarized[
             str_detect(string = str_remove_all(string = globals$dataCAMsummarized[[1]]$text_summarized,
                                                pattern = "_positive$|_negative$|_neutral$|_ambivalent$"),
-                       pattern = input$regularExp, negate = FALSE)])
-        }else{
+                       pattern = input$regularExp, negate = FALSE)]),
+            warning = function(cond) {
+              cond <- gsub("Error in stri_detect_regex(string, pattern, negate = negate, opts_regex = opts(pattern)): ", "",
+                           cond$message)
+              showModal(
+                modalDialog(
+                  title = "Invalid search term",
+                  paste0(
+                    "The search term you have entered does not appear to be a valid regular expression: ",
+                    cond,
+                    " - Please check your syntax."
+                  ),
+                  easyClose = TRUE,
+                  footer = tagList(modalButton("Ok"))
+                )
+              )
+              return(NULL)
+            },
+            error = function(cond) {
+              cond <- gsub("Error in stri_detect_regex(string, pattern, negate = negate, opts_regex = opts(pattern)): ", "",
+                           cond$message)
+              showModal(
+                modalDialog(
+                  title = "Invalid search term",
+                  paste0(
+                    "The search term you have entered does not appear to be a valid regular expression: ",
+                    cond,
+                    " - Please check your syntax."
+                  ),
+                  easyClose = TRUE,
+                  footer = tagList(modalButton("Ok"))
+                )
+              )
+              return(NULL)
+            }
+          )
+
+        } else{
           words_out <- NULL
         }
 
@@ -1235,7 +1274,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
                 <br>
                 Important: all words will be saved in the following format: Word_positive for words with positive valence,
                  Word_negative for words with negative valence and so on.
-                 If you do not want to summarize a specific word please move it to the leftmost column.
+                 If you do not want to summarize a specific word please move it to the most left column.
                  If you do not want to summarize any words of the found synonyms just click on "skip":</i>'
             ),
             style = "font-size:14px"
@@ -1691,7 +1730,7 @@ observeEvent(input$synonymsClickSummarize, {
                 <br>
                 Important: all words will be saved in the following format: Word_positive for words with positive valence,
                  Word_negative for words with negative valence and so on.
-                 If you do not want to summarize a specific word please move it to the leftmost column.
+                 If you do not want to summarize a specific word please move it to the most left column.
                  If you do not want to summarize any words of the found by word2vec just click on "skip":</i>'
       ),
       style = "font-size:14px"
@@ -2126,7 +2165,7 @@ observeEvent(input$word2vecClickSummarize, {
                       tags$li(
                         HTML(
                           '<b>Approximate matching:</b> By using approximate string matching you can compute the string distances between all your unique concepts
-              in the dataset (using optimal string alignment) to find words which have been written slightly differently.'
+              in the dataset (using optimal string alignment) to find words, which have been written slightly differently.'
                         )
                       ),
               tags$li(
@@ -2152,4 +2191,3 @@ observeEvent(input$word2vecClickSummarize, {
 
     })
   }
-
