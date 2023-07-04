@@ -64,11 +64,11 @@ notSummarizedTermsServer <-
           tags$br(),
           tags$div(
             HTML(
-              'When using the module options of "summarize" you are summarizing the concepts and thereby you decreasing the total number
+              'When using the module options of "summarize" you are summarizing the concepts and thereby decreasing the total number
               of unique concepts in the dataset. During this process it is highly likely that you will miss some concepts, which can 
-              be checked if you click on click on the button get words. 
+              be checked if you click on the button get words.
               Additionally, you can choose if you only want to get the concepts with a specific valence 
-              (default is all concepts). Please click only once and wait few seconds:'
+              (default is all concepts). Please click only once and wait a few seconds:'
             ),
             style = "font-size:14px"
           ),
@@ -155,7 +155,7 @@ output$outGetWords <- renderPrint({
       ###############################
       ###############################
 
-      ###### click trough not summarized words ######
+      ###### click through not summarized words ######
       #> UI
       observeEvent(input$NST_clickThroughNonSummarized, {
                ## change UI
@@ -164,13 +164,13 @@ output$outGetWords <- renderPrint({
           tags$br(),
           tags$div(
             HTML(
-              'Using this function you can click trough all non summarized words, which you have missed by using the module options of 
+              'Using this function you can click through all non summarized words, which you have missed by using the module options of 
               "summarize". However, this process should still be theoretically driven and you should not too hastily summarize concepts:'
             ),
             style = "font-size:14px"
           ),
           tags$br(),
-          actionButton(ns("clickThrough"), "start clicking trough"),
+          actionButton(ns("clickThrough"), "start clicking through"),
           tags$p(
               "Your current CAM dataset contains ",
               tags$b(textOutput(ns(

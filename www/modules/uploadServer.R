@@ -292,14 +292,14 @@ uploadServer <- function(id, parent, globals) {
     ### upload protocol dataset
     protocol <- reactive({
       ## to test validity of JSON file
-      text <- readLines(input$uploadProtocol$datapath)
+      text <- readLines(input$uploadProtocol$datapath, warn = FALSE)
       text <- readLines(textConnection(text, encoding="UTF-8"), encoding="UTF-8")
       if (testIfJson(file = text)) {
       protocol <- rjson::fromJSON(file = input$uploadProtocol$datapath)
   
       return(protocol)
       } else{
-         print("ERROR")
+         print("Invalid protocol uploaded")
          return(NULL)
       }
       
