@@ -31,9 +31,7 @@ To run the Python source code, you have two options: **without** or **with** a *
 # Details and ressources
 1. How to install libraries for python: https://docs.python.org/3/installing/index.html
 2. How to run a python (.py) file once you have installed python and libraries for python (there are more ways) on [www.pythonbasics.org](https://pythonbasics.org/execute-python-scripts/) 
-3. The module for downloading the list of summarized words in the *Shiny App* is part of the preprocessing part and is named "apply word2vec model". 
-...
-
+3. The module for downloading the list of summarized words in the *Shiny App* is part of the preprocessing part and is named "apply word2vec model".
 
 
 Thank you for checking out our tools! We’d love to hear from you! Feel free to contact us anytime. 
