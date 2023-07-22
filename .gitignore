@@ -29,7 +29,7 @@ yarn-error.log*
 .env*.local
 
 # files not needed
-Python_word2vec/
+# Python_word2vec/
 plainApp/
 rsconnect/
 .idea/
