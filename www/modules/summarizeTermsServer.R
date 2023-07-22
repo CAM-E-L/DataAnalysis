@@ -1161,6 +1161,19 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
           print("length(unique(tmp_vecFindings))")
           print(length(unique(tmp_vecFindings)))
 
+          if(length(unique(tmp_vecFindings)) == 1){
+                        showModal(
+                          modalDialog(
+                            title = "You cannot summarize identical words",
+                            paste0(
+                              "Please change your search term or the name of the superordinate word to summarize your words by searching."
+                            ),
+                            easyClose = TRUE,
+                            footer = tagList(modalButton("Ok"))
+                          )
+                        )
+          tmp_overwriteData_getProtocols <- NULL             
+          }
 
           if(!is.null(tmp_overwriteData_getProtocols)){
 
