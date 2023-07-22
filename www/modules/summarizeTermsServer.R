@@ -129,11 +129,14 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
                                        label_Pos = NULL,  label_Neg = NULL, label_Neut = NULL, label_Ambi = NULL){
   
   
-  
   if(all(c(identical(input[[label_Pos]], character(0)),
            identical(input[[label_Neg]], character(0)),
            identical(input[[label_Neut]], character(0)),
-           identical(input[[label_Ambi]], character(0))))){
+           identical(input[[label_Ambi]], character(0)))) ||
+           all(c(is.null(input[[label_Pos]]),
+       is.null(input[[label_Neg]]),
+       is.null(input[[label_Neut]]),
+       is.null(input[[label_Ambi]])))){
     print("No further words found, empty input lists (end of search, clicked too often summarize).")
     return(NULL)
   }
@@ -1332,8 +1335,8 @@ reducedSynonymList <-
     raw_SynonymList <- SynonymList(vectorWords = tmp_text) # !!! IF language
     
 
-  print("raw_SynonymList")
-  print(raw_SynonymList)
+    # print("raw_SynonymList")
+    # print(raw_SynonymList)
 
     if(!is.null(raw_SynonymList)){
     ## out perentage of matches
@@ -1371,9 +1374,6 @@ reducedSynonymList <-
     #> number of rounds to click:
      output$synonymsGroupsRounds <- renderText({
          req(reducedSynonymList())
-         print("aaaaa")
-         print(reducedSynonymList())
-                  print("aaaaa")
         length(reducedSynonymList())  - ST_rv$counter + 1
       })
 
@@ -1555,6 +1555,7 @@ observeEvent(input$synonymsClickSummarize, {
   
   print("summarize - skip")
   print(ST_rv$skip)
+
   if (!isTRUE(ST_rv$skip)) {
     tmp_overwriteData_getProtocols <- overwriteData_getProtocols(protocolCounter = ST_rv$protocolCounter_Synonyms,
                                                                  protocolDetailedOut = globals$detailedProtocolSynonyms, # !!!
@@ -1571,7 +1572,8 @@ observeEvent(input$synonymsClickSummarize, {
     
     # print("names(tmp_overwriteData_getProtocols)")
     # print(names(tmp_overwriteData_getProtocols))
-    
+
+
     if(!is.null(tmp_overwriteData_getProtocols)){
       ## overwrite global data
       globals$dataCAMsummarized <- tmp_overwriteData_getProtocols$summarizedData
