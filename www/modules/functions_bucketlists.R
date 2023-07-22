@@ -89,6 +89,9 @@
 
 
         labels_out <- getInput
+        ## remove suffix
+        labels_out <- str_remove(string = labels_out, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+
         labels_list <- list()
         for (i in 1:length(labels_out)) {
           tmp_dat <-

@@ -1150,8 +1150,20 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
 
           # print("names(tmp_overwriteData_getProtocols)")
           # print(names(tmp_overwriteData_getProtocols))
+          tmp_vecFindings <- c(input$matches_positiveSearch,
+          input$matches_negativeSearch,
+          input$matches_neutralSearch,
+          input$matches_ambivalentSearch,
+          input$supordinateWordSearch)
+          
+          print("tmp_vecFindings")
+          print(tmp_vecFindings)
+          print("length(unique(tmp_vecFindings))")
+          print(length(unique(tmp_vecFindings)))
+
 
           if(!is.null(tmp_overwriteData_getProtocols)){
+
             ## overwrite global data
             globals$dataCAMsummarized <- tmp_overwriteData_getProtocols$summarizedData
             ## overwrite protocol counter (detailed)
