@@ -5,8 +5,7 @@ SynonymList <- function(vectorWords = NULL){
   singleWords <- tolower(x = singleWords)
   singleWords <- unique(singleWords)
 
-  ## check if single words are in the dictionary
-  # data(key.syn) # ???
+  ## check if single words are in the dictionary data(key.syn)
   singleWords_found <- singleWords[singleWords %in% qdapDictionaries::key.syn$x]
   outPercent <- round(x = length(singleWords_found) / length(singleWords) * 100, digits = 2)
 
