@@ -1654,7 +1654,7 @@ observeEvent(input$synonymsClickSummarize, {
           tags$div(
             HTML(
               'Please download the Python code from GitHub and run the Python script (see for more details readme page on GitHub): 
-              <a href="https://github.com/FennStatistics/CAMtools_CAMapp/tree/main/Python_word2vec" target="_blank">GitHub Python Code</a>'
+              <a href="https://github.com/Camel-app/DataAnalysis/tree/main/Python_word2vec" target="_blank">GitHub Python Code</a>'
             ),
             style = "font-size:14px"
           ),
