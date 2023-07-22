@@ -1332,8 +1332,8 @@ reducedSynonymList <-
     raw_SynonymList <- SynonymList(vectorWords = tmp_text) # !!! IF language
     
 
-        # print("raw_SynonymList")
-    # print(raw_SynonymList)
+  print("raw_SynonymList")
+  print(raw_SynonymList)
 
     if(!is.null(raw_SynonymList)){
     ## out perentage of matches
@@ -1371,6 +1371,9 @@ reducedSynonymList <-
     #> number of rounds to click:
      output$synonymsGroupsRounds <- renderText({
          req(reducedSynonymList())
+         print("aaaaa")
+         print(reducedSynonymList())
+                  print("aaaaa")
         length(reducedSynonymList())  - ST_rv$counter + 1
       })
 

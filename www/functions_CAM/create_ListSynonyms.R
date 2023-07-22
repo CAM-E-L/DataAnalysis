@@ -21,20 +21,21 @@ SynonymList <- function(vectorWords = NULL){
     singleWords_found_list[[w]] <- c(qdap::syn(terms = w, return.list = FALSE), w)
   }
 
-
   ### get overlapping words
   mat_synonym <- matrix(data = NA, nrow = length(singleWords_found), ncol = length(singleWords))
   for(i in 1:length(singleWords_found)){
     mat_synonym[i,] <- singleWords %in% singleWords_found_list[[singleWords_found[i]]]
   }
 
-
   colnames(x = mat_synonym) <- singleWords
 
   out_mat_synonym <- mat_synonym[rowSums(x = mat_synonym) >= 2, ]
   out_mat_synonym <- unique(x = out_mat_synonym)
-  # dim(out_mat_synonym)
-
+  # print("DIM out_mat_synonym")
+  # print(dim(out_mat_synonym))
+  if (nrow(out_mat_synonym) == 0) {
+    return(NULL)
+  }
 
   ### reduce number of overlapping words (which in itself are overlapping)
   list_out_mat_synonym <- list()
