@@ -57,11 +57,13 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
   ### create connectors dataset
   sc = 1 # no i index
   for(i in 1:length(datCAM)){
-    if(length(datCAM[[i]]$connectors) == 0){
-
-      cat("following CAM containing zero connectors: ",
-          datCAM[[i]]$creator, "\n")
+    if(verbose){
+      if(length(datCAM[[i]]$connectors) == 0){
+        cat("following CAM containing zero connectors: ",
+            datCAM[[i]]$creator, "\n")
+      }
     }
+
     if(length(datCAM[[i]]$connectors) > 0){
       if(!is.null(datCAM[[i]]$creator)){
         tmp_participantCAM = rep(x = datCAM[[i]]$creator, times = nrow(datCAM[[i]]$connectors))

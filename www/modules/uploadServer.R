@@ -401,7 +401,7 @@ uploadServer <- function(id, parent, globals) {
           }
         }
         CAMfiles <-
-          create_CAMfiles(datCAM = raw_CAM, reDeleted = TRUE)
+          create_CAMfiles(datCAM = raw_CAM, reDeleted = TRUE, verbose = FALSE)
 
        # check if parsing CAMs was successful
         if(is.null(CAMfiles)) {
