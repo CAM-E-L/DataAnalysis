@@ -57,6 +57,8 @@ library(RColorBrewer)
 library(tm)
 library(visNetwork)
 library(wordcloud)
+
+library(shinyvalidate)
 ########################################
 # load additional data
 ########################################

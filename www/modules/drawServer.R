@@ -5,6 +5,11 @@ drawServer <- function(id, dataCAM, parent, globals) {
         ## reactive values
         outUI <- reactiveValues(elements = NULL)
 
+        # input validator for settings
+        iv <- InputValidator$new()
+        iv$add_rule("drawCAM_setting_relVertices", sv_between(1, 10))
+        iv$add_rule("drawCAM_setting_relEdges", sv_between(.1, 1.5))
+        iv$enable()
 
         ################
         # default text + set output
@@ -120,7 +125,6 @@ drawServer <- function(id, dataCAM, parent, globals) {
           )
         })
 
-
         #> Server
         ## reactive values (to track deleted CAMs; counter)
         rv <- reactiveValues(deleted = NULL, diffdeleted = NULL, counter = 1L, networkIndicators = NULL, CAMsdrawn = FALSE)
@@ -132,6 +136,7 @@ drawServer <- function(id, dataCAM, parent, globals) {
         ## draw CAMs
         CAMs_drawnR <- eventReactive(input$clickDrawR, {
                req(dataCAM())
+               req(iv$is_valid())
           if (rv$counter == 1) {
             tmp_CAMs <- draw_CAM(
               dat_merged = dataCAM()[[3]],
