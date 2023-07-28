@@ -9,7 +9,6 @@ drawServer <- function(id, dataCAM, parent, globals) {
         iv <- InputValidator$new()
         iv$add_rule("drawCAM_setting_relVertices", sv_between(1, 10))
         iv$add_rule("drawCAM_setting_relEdges", sv_between(.1, 1.5))
-        iv$enable()
 
         ################
         # default text + set output
@@ -125,6 +124,9 @@ drawServer <- function(id, dataCAM, parent, globals) {
               ) #tags.div()
 			      )
           )
+
+        # enable InputValidator for the drawing settings (drawCAM_setting_relVertices and Edges)
+        iv$enable()
         })
 
         #> Server
