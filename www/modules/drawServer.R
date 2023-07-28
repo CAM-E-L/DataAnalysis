@@ -15,11 +15,11 @@ drawServer <- function(id, dataCAM, parent, globals) {
             h1("Draw CAM module"),
             tags$br(),
             tags$br(),
-            HTML('To start the module please click on one of the module options on the sidebar panel. The options for
+            HTML('To start the module, please click on one of the module options on the sidebar panel. The options for
                      this module are the following:'),
             tags$ul(
               tags$li(HTML('<b>Draw R:</b> Draw CAMs using R (statistic software).')),
-              tags$li(HTML('<b>Draw JS:</b> to be implemented. If you have uploaded CAMEL data you can draw your CAMs using Java Script to see the CAMs how they were drawn.')),
+              tags$li(HTML('<b>Draw JS:</b> to be implemented. If you have uploaded CAMEL data, you can draw your CAMs using JavaScript to see how the CAMs were drawn.')),
               tags$li(HTML('<b>Information:</b> Further information regarding this module.'))
             )
           )
