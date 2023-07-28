@@ -82,46 +82,48 @@ drawServer <- function(id, dataCAM, parent, globals) {
 
             tags$h3("Draw CAMs:"),
             actionButton(ns("clickDrawR"), "draw CAMs"),
-            tags$p(
-              "You have drawn ",
-              tags$b(textOutput(ns("numCAMsDrawnR"), inline = TRUE), " CAMs"), ". If you hover over the drawn CAM with your mouse
-              you can increase the size."
-            ),
-            tags$br(),
-            tags$br(),
-            fluidRow(
-              column(width = 7,
-                     plotOutput(ns("plotR"), width = "95%"),
-                     htmlOutput(ns("textR"))
+			      tags$div(id = "drawnCAMsDiv", style = "visibility: hidden",
+              tags$p(
+                "You have drawn ",
+                tags$b(textOutput(ns("numCAMsDrawnR"), inline = TRUE), " CAMs"), ". If you hover over the drawn CAM with your mouse
+                you can increase the size."
               ),
-              column(width = 4,
-                     uiOutput(ns("selectCAMR")),
-                     actionButton(ns("prevCAMR"), "Previous"),
-                     actionButton(ns("nextCAMR"), "Next"),
-                     tags$br(),
-                     tags$span(HTML("order your drawn CAMs according to: "), style="font-size:14px;"),
-
-                     selectInput(ns("orderCAMR"), NULL, c("mean valence",
-                                                      "# of nodes",
-                                                      "# of connectors",
-                                                      "density",
-                                                      "assortativity"), width = "200px"),
-                     tableOutput(ns('tableR')),
-                     tags$div(HTML("Click if you want to delete the displayed CAM (click again to keep it). After you have marked all CAMs you want to delete, draw the CAMs again:"), style="font-size:14px"),
-                     actionButton(ns("deleteCAMR"), "un/delete CAM"),
-                     tags$div(HTML("When you delete CAMs, you can save them as PDFs to upload them for example on OSF:"), style="font-size:14px"),
-                     textInput(ns("renamefileR"), "Filename (PDF):", placeholder = "e.g. reason for the deletion"),
-                     downloadButton(outputId = ns('PDFdownloadR'), label = "Download CAM as PDF")
-              ),
-              column(width = 11,
               tags$br(),
-                      div(style="margin: 0 auto; text-align:left;",
-               tags$div(HTML('After you have drawn and / or deleted your CAMs you can continue with the
-                              next part:')),
-                    actionButton(ns("continueDrawnPreprocessingAnalysis"),  HTML('Continue'), style="width: 150px;
-                                 height: 90px; font-size: 18px; padding: 10px")
-                                 ))
-            )
+              tags$br(),
+              fluidRow(
+                column(width = 7,
+                       plotOutput(ns("plotR"), width = "95%"),
+                       htmlOutput(ns("textR"))
+                ),
+                column(width = 4,
+                       uiOutput(ns("selectCAMR")),
+                       actionButton(ns("prevCAMR"), "Previous"),
+                       actionButton(ns("nextCAMR"), "Next"),
+                       tags$br(),
+                       tags$span(HTML("order your drawn CAMs according to: "), style="font-size:14px;"),
+
+                       selectInput(ns("orderCAMR"), NULL, c("mean valence",
+                                                        "# of nodes",
+                                                        "# of connectors",
+                                                        "density",
+                                                        "assortativity"), width = "200px"),
+                       tableOutput(ns('tableR')),
+                       tags$div(HTML("Click if you want to delete the displayed CAM (click again to keep it). After you have marked all CAMs you want to delete, draw the CAMs again:"), style="font-size:14px"),
+                       actionButton(ns("deleteCAMR"), "un/delete CAM"),
+                       tags$div(HTML("When you delete CAMs, you can save them as PDFs to upload them for example on OSF:"), style="font-size:14px"),
+                       textInput(ns("renamefileR"), "Filename (PDF):", placeholder = "e.g. reason for the deletion"),
+                       downloadButton(outputId = ns('PDFdownloadR'), label = "Download CAM as PDF")
+                ),
+                column(width = 11,
+                tags$br(),
+                        div(style="margin: 0 auto; text-align:left;",
+                 tags$div(HTML('After you have drawn and / or deleted your CAMs you can continue with the
+                                next part:')),
+                      actionButton(ns("continueDrawnPreprocessingAnalysis"),  HTML('Continue'), style="width: 150px;
+                                   height: 90px; font-size: 18px; padding: 10px")
+                                   ))
+              ) #tags.div()
+			      )
           )
         })
 
@@ -137,6 +139,10 @@ drawServer <- function(id, dataCAM, parent, globals) {
         CAMs_drawnR <- eventReactive(input$clickDrawR, {
                req(dataCAM())
                req(iv$is_valid())
+
+          # show div container that is initially hidden
+          runjs("document.getElementById('drawnCAMsDiv').style.visibility = 'visible'")
+
           if (rv$counter == 1) {
             tmp_CAMs <- draw_CAM(
               dat_merged = dataCAM()[[3]],
