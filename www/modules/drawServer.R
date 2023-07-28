@@ -498,7 +498,7 @@ drawServer <- function(id, dataCAM, parent, globals) {
         observeEvent(input$drawCAMJS, {
           ## change UI
           outUI$elements <- tagList(
-            tags$h2("Draw CAMs using Java Script (programming language)"),
+            tags$h2("Draw CAMs using JavaScript (programming language)"),
             tags$br(),
             HTML('<i>to be implemented</i>')
           )
