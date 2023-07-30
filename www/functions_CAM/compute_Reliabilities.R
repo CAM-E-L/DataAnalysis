@@ -60,6 +60,8 @@ computeCohensKappa <- function(files = NULL, numberRaters = NULL){
 
 ## compute Reliability while maximizing overlapping words
 # > search for the largest overlap when giving words
+# files = files
+# numberRaters = length(files)
 computeCohensKappaMaximized <- function(files = NULL, numberRaters = NULL){
   ## add Rating column
   files <- addRatingColum(filesRater = files)
@@ -73,10 +75,11 @@ computeCohensKappaMaximized <- function(files = NULL, numberRaters = NULL){
   for(i in 1:length(files)){
     # files[[i]] <- add_column(files[[i]], Rating_Word = NA, .after = "Rating")
 
-
+     # r <- 1; c <- 2
     for(r in 1:nrow(cohensKappasMaximized)){
       for(c in 1:ncol(cohensKappasMaximized)){
         if(c != r){
+          # cat("r:", r, "c:", c, "\n")
           tmp_row <- unique(str_split(string = files[[r]]$Rating, pattern = "r", simplify = TRUE))
           tmp_row <- tmp_row[, colSums(x = tmp_row == "") != nrow(tmp_row)]
 
@@ -106,11 +109,11 @@ computeCohensKappaMaximized <- function(files = NULL, numberRaters = NULL){
 
 
           for(t in 1:nrow(tmp_longer)){
-            # cat("t:", t, "\n")
+            cat("t:", t, "\n")
 
             for(u in 1:nrow(tmp_smaller)){
               tmp_sum[u] <- sum(tmp_longer[t,!is.na(tmp_longer[t,])] %in% tmp_smaller[u,])
-              # print(sum(tmp_sum[u]))
+              print(sum(tmp_sum[u]))
             }
             tmpRaterA[tmpRaterA %in% tmp_longer[t,]] <- paste0("word", t)
             tmpRaterB[tmpRaterB %in% tmp_smaller[tmp_sum == max(tmp_sum),]] <- paste0("word", t)

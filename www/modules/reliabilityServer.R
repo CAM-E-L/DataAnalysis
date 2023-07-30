@@ -441,6 +441,7 @@ observeEvent(input$b_upload, {
   cohensKappas <- computeCohensKappa(files = data(), numberRaters = length(data()))
   rownames(x = cohensKappas) <- tmp_namesRater
   colnames(x = cohensKappas) <- tmp_namesRater
+  
   output$b_CohensKappaMatrix <- renderPrint({
     round(x = cohensKappas, digits = 2)
   })  
