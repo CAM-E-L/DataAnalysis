@@ -94,7 +94,7 @@ getDescriptives <- function(dataset = CAMindicators,
     "Upper Quantile" = as.numeric(quantile(x,1,na.rm=TRUE)),
     "Skewness" = moments::skewness(x = x,na.rm=TRUE),
     "Kurtosis(-3)" = moments::kurtosis(x = x,na.rm=TRUE) -3,
-    "KS-Test" = ks.test(x = x, y = "pnorm", mean(x,na.rm=TRUE), sd(x,na.rm=TRUE))$p.value
+    "KS-Test" = suppressWarnings(ks.test(x = x, y = "pnorm", mean(x,na.rm=TRUE), sd(x,na.rm=TRUE))$p.value)
   )
   )
   tmp_descriptives <- round(x = tmp_descriptives, digits = 2)
