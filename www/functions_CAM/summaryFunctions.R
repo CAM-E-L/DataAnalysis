@@ -115,7 +115,7 @@ getDescriptives <- function(dataset = CAMindicators,
 
     notNeeded <- capture.output(stargazer(out_tmp, type = "html", summary = FALSE))
   # return(out_tmp)
-  return(notNeeded)
+  return(data.frame(out_tmp) %>% rownames_to_column("Variable"))
 }
 
 
