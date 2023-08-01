@@ -39,7 +39,7 @@ clusteringCAMs_overallLevelServer <-
           outUI$elements <- tagList(
           tags$h2("compute network similarities"),
           tags$br(),
-         tags$i("Network similarity algorithms will be implemented in the future (e.g. NetSmile, Random Walk approaches) in a seperate article...")
+         tags$i("Coming soon. Network similarity algorithms will be implemented in the future (e.g. NetSmile, Random Walk approaches) in a seperate article...")
           )
         })
 
@@ -57,7 +57,7 @@ clusteringCAMs_overallLevelServer <-
             tags$div(
               HTML('The options for this module are the following:'),
               tags$ul(
-                tags$li(HTML('<b>get network similarities:</b> ...'))
+                tags$li(HTML('<b>get network similarities:</b> <i>coming soon</i>'))
             )
           )
           )
