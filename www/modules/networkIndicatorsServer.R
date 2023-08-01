@@ -71,12 +71,14 @@ networkIndicatorsServer <-
                                   micro_degree = NULL,
                                   micro_valence = NULL,
                                   micro_centr_clo = NULL,
+                                  micro_transitivity = NULL,
                                   largestClique = FALSE)
             }else{
               tmp_NI <- compute_indicatorsCAM(drawn_CAM = drawnCAM(),
                                   micro_degree = input$micro_NI,
                                   micro_valence = input$micro_NI,
                                   micro_centr_clo = input$micro_NI,
+                                  micro_transitivity = input$micro_NI,
                                   largestClique = FALSE)
             }
 
