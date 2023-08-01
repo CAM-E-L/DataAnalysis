@@ -13,13 +13,18 @@
 # micro_degree = NULL
 # micro_valence = NULL
 # micro_centr_clo = NULL
-# micro_degree = c("technological implant", "medical benefits")
-# micro_valence = c("technological implant", "medical benefits")
-# micro_centr_clo = c("technological implant", "medical benefits")
+# micro_transitivity = NULL
+# largestClique = FALSE
+# micro_degree = c("acceptability of SAI")
+# micro_valence = c("acceptability of SAI")
+# micro_centr_clo = c("acceptability of SAI")
+# micro_transitivity = c("acceptability of SAI")
+
 compute_indicatorsCAM <- function(drawn_CAM = NULL,
                                   micro_degree = NULL,
                                   micro_valence = NULL,
                                   micro_centr_clo = NULL,
+                                  micro_transitivity = NULL,
                                   largestClique = FALSE){
   # check drawn_CAM
   if(!(typeof(drawn_CAM) == "list" & class(drawn_CAM[[1]]) == "igraph")){
@@ -118,6 +123,14 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
     }
   }
 
+  ### transitivity measures / local clustering coefficient of single vertices (if 1 == max)
+  if(!is.null(micro_transitivity)){
+    tmp_name <- paste0("transitivity_micro_", str_replace_all(string=micro_transitivity, pattern=" ", repl=""))
+    for(m in 1:length(micro_transitivity)){
+      out_netind[tmp_name[m]]  <- NA
+    }
+  }
+
 
   for(i in 1:length(drawn_CAM)){
 
@@ -181,7 +194,7 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
     out_netind[i, "num_edges_solid_macro"]  <- sum(str_detect(string = E(drawn_CAM[[i]])$lty, pattern = "1")) # solid
     out_netind[i, "num_edges_dashed_macro"]  <- sum(str_detect(string = E(drawn_CAM[[i]])$lty, pattern = "2")) # dashed
     ## invalid dashed edges
-    tmp_dat_edges <- as_data_frame(drawn_CAM[[i]])
+    tmp_dat_edges <- igraph::as_data_frame(drawn_CAM[[i]])
     tmp_dat_vertex <- data.frame(name = V(graph = drawn_CAM[[i]])$name,
                                  label = V(graph = drawn_CAM[[i]])$label,
                                  color = V(graph = drawn_CAM[[i]])$color,
@@ -276,6 +289,22 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
         }
       }
     }
+
+
+  ## transitivity measures / local clustering coefficient of single vertices (if 1 == max)
+  if(!is.null(micro_transitivity)){
+    tmp_name <- paste0("transitivity_micro_", str_replace_all(string=micro_transitivity, pattern=" ", repl=""))
+    for(m in 1:length(micro_transitivity)){
+      ### transitivity measure local
+      transitivity_tmp <- igraph::transitivity(graph = as.undirected(drawn_CAM[[i]]),
+                                               type = "local")
+
+      tmp <- cbind(V(drawn_CAM[[i]])$label, transitivity_tmp)
+      if(any(str_detect(string = tmp[,1], pattern = paste0("^", micro_transitivity[m], "$")))){
+        out_netind[i, tmp_name[m]] <- as.numeric(tmp[,2][str_detect(string = tmp[,1], pattern = paste0("^", micro_transitivity[m], "$"))])
+      }
+    }
+  }
   }
 
 

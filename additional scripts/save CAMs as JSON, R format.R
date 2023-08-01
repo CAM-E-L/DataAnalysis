@@ -17,7 +17,8 @@ CAMfiles <- create_CAMfiles(datCAM = raw_CAM, reDeleted = TRUE)
 
 ### draw CAMs
 CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
-                     dat_nodes = CAMfiles[[1]],ids_CAMs = "all", plot_CAM = FALSE,
+                     dat_nodes = CAMfiles[[1]],ids_CAMs = "all",
+                     plot_CAM = FALSE,
                      useCoordinates = TRUE,
                      relvertexsize = 3,
                      reledgesize = 1)
