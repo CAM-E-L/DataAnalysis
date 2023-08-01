@@ -185,7 +185,7 @@ source("./www/modules/wordOutputs_overallServer.R", local = TRUE)
 source("./www/modules/wordOutputs_singleUI.R", local = TRUE)
 source("./www/modules/wordOutputs_singleServer.R", local = TRUE)
 
-# summarize CAMs
+# summarize / aggregate CAMs
 source("./www/modules/summarizeCAMsUI.R", local = TRUE)
 source("./www/modules/summarizeCAMsServer.R", local = TRUE)
 
@@ -263,7 +263,7 @@ ui <- fluidPage(
         }),
     ),
 
-       tabPanel("summarize CAMs", {
+       tabPanel("aggregate CAMs", {
       fluidPage(summarizeCAMsUI("summarizeCAMs"))
     }),
 
@@ -319,7 +319,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
     #> analysis
     hideTab(inputId = "tabs", target = "network indicators")
     hideTab(inputId = "tabs", target = "word outputs")
-    hideTab(inputId = "tabs", target = "summarize CAMs")
+    hideTab(inputId = "tabs", target = "aggregate CAMs")
     hideTab(inputId = "tabs", target = "clustering CAMs")
     hideTab(inputId = "tabs", target = "slice CAMs")
     hideTab(inputId = "tabs", target = "report")

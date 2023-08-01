@@ -11,7 +11,7 @@ summarizeCAMsServer <-
       ################
       ## default text
       outUI$elements <- tagList(tags$div(
-        h1("Summarize CAMs Module"),
+        h1("Aggregate CAMs Module"),
         tags$br(),
         tags$br(),
         HTML(
