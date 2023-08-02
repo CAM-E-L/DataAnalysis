@@ -33,3 +33,6 @@ yarn-error.log*
 plainApp/
 rsconnect/
 .idea/
+
+# exclude data of recent study
+/additional scripts/data/Covid19_perception/

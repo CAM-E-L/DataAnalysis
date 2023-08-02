@@ -114,7 +114,6 @@ wordlist <- eventReactive(input$createWordlist_WordsOverall, {
   
     if(input$summarizedWordlist_setting_WordsOverall == "no"){
     tmp_useSummarized = FALSE
-    tmp_splitByValence = FALSE
   }else{
     tmp_useSummarized = TRUE
     # > split by valence
