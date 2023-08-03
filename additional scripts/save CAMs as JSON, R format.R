@@ -1,32 +1,25 @@
+########################################
+# Script to save CAMs as .json and .png (using igraph and Cairo package)
+#> Remarks: you can upload your .json files of your CAM to
+#> https://camgalaxy.github.io/?ShowResearcherButtons=true&fullScreen=false
+########################################
+
 # sets the directory of location of this script as the current directory
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
 
-if(!exists(x = "raw_CAM")){
+if(!exists(x = "CAMfiles") && !exists(x = "CAMdrawn")){
   cat('\n
-      please run script "01_load_everything" before running this script and load your dataset
+      please run script "aa_start_load_draw" before running this script
       \n')
 }
 
 
-########################################
-# create CAM files, draw CAMs
-########################################
-### create CAM single files (nodes, connectors, merged)
-CAMfiles <- create_CAMfiles(datCAM = raw_CAM, reDeleted = TRUE)
-
-### draw CAMs
-CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
-                     dat_nodes = CAMfiles[[1]],ids_CAMs = "all",
-                     plot_CAM = FALSE,
-                     useCoordinates = TRUE,
-                     relvertexsize = 3,
-                     reledgesize = 1)
 
 ########################################
 # save CAMs as JSON, R format
 ########################################
-setwd("saved CAMs as JSON, R format")
+setwd("output/saved CAMs as JSON, R format")
 if(length(list.files()) >= 1){
   file.remove(list.files())
   cat('\n!
@@ -61,12 +54,5 @@ for(i in 1:length(raw_CAM)){
   }
 }
 
-dev.off()
 
-setwd("..")
-
-
-
-
-### upload your json files to:
-# https://camgalaxy.github.io/?ShowResearcherButtons=true&fullScreen=false
+setwd("../..")

@@ -1,10 +1,16 @@
+########################################
+# Script to automatically check "non-sense" CAMs (CAMs which include no )
+#> Remarks: currently implemented for German
+#> https://camgalaxy.github.io/?ShowResearcherButtons=true&fullScreen=false
+########################################
+
 # sets the directory of location of this script as the current directory
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
 
-if(!exists(x = "raw_CAM")){
+if(!exists(x = "CAMfiles") && !exists(x = "CAMdrawn")){
   cat('\n
-      please run script "01_load_everything" before running this script and load your dataset
+      please run script "aa_start_load_draw" before running this script
       \n')
 }
 
@@ -14,27 +20,6 @@ if(!exists(x = "raw_CAM")){
 ########################################
 ### open-office dictionaries:
 # see: https://extensions.openoffice.org/en/project/german-de-de-frami-dictionaries
-
-
-
-
-########################################
-# create CAM files, draw CAMs
-########################################
-### create CAM single files (nodes, connectors, merged)
-CAMfiles <- create_CAMfiles(datCAM = raw_CAM, reDeleted = TRUE)
-
-### draw CAMs
-CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
-                     dat_nodes = CAMfiles[[1]],ids_CAMs = "all", plot_CAM = FALSE,
-                     useCoordinates = TRUE,
-                     relvertexsize = 3,
-                     reledgesize = 1)
-
-
-########################################
-# dictionary
-########################################
 setwd("data dictionaries")
 ### english
 dict_english <- readr::read_table(file = "en_frami.txt", col_names = TRUE)
@@ -103,8 +88,6 @@ for(i in 1:length(CAMdrawn)){
 
 vec_IDs_fakeCAMs <- vec_IDs_fakeCAMs[!is.na(vec_IDs_fakeCAMs)]
 length(vec_IDs_fakeCAMs)
-
-
 
 
 plot(CAMdrawn[[vec_IDs_fakeCAMs[4]]], edge.arrow.size = .7,

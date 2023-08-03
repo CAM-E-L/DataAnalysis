@@ -62,9 +62,12 @@ library(shinyvalidate)
 
 library(moments)
 
+library(psych)
 library(rempsyc) # APA tables with nice_table()
 library(flextable) # dependency of rempsyc
 library(officer) # landscape mode for docx export
+
+library(Cairo) # save CAMs as .png file
 ########################################
 # load additional data
 ########################################
@@ -528,9 +531,9 @@ dataNetworkNeighborhoodIndicators = NULL,
           path <- paste0("networkIndicators_APAtable", ".docx")
           fs <- c(fs, path)
 
-          nice_table(tmpAPA,
+          rempsyc::nice_table(tmpAPA,
                      title = c("Table 1", "Descriptive statistics of network indicators"),
-                     note = c("Just a test")) %>%
+                     note = c("If needed feel free to adjust the table.")) %>%
           fontsize(size = 8, part = "all") %>%
           line_spacing(space = 1, part = "all") -> tmpAPAflex
 

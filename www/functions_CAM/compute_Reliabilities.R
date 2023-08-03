@@ -109,11 +109,11 @@ computeCohensKappaMaximized <- function(files = NULL, numberRaters = NULL){
 
 
           for(t in 1:nrow(tmp_longer)){
-            cat("t:", t, "\n")
+            # cat("t:", t, "\n")
 
             for(u in 1:nrow(tmp_smaller)){
               tmp_sum[u] <- sum(tmp_longer[t,!is.na(tmp_longer[t,])] %in% tmp_smaller[u,])
-              print(sum(tmp_sum[u]))
+              # print(sum(tmp_sum[u]))
             }
             tmpRaterA[tmpRaterA %in% tmp_longer[t,]] <- paste0("word", t)
             tmpRaterB[tmpRaterB %in% tmp_smaller[tmp_sum == max(tmp_sum),]] <- paste0("word", t)
