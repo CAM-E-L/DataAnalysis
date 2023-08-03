@@ -43,17 +43,20 @@ des_sigCorr <- function(indicatos_CAM = NULL, vars = NULL, printOut = FALSE){
     }
 
     for(i in 1:length(vec_names)){
-      tmp_test <- cor.test(indicatos_CAM[, vars[v]], indicatos_CAM[, vec_names[i]])
-      if(tmp_test$p.value < .05){
-        if(printOut){
-          cat("   <-->", vec_names[i]," r:", tmp_test$estimate,"\n")
+      if(!is.na(cor(indicatos_CAM[, vars[v]], indicatos_CAM[, vec_names[i]]))) { # unequal zero (e.g. "reciprocity_macro" can contain only 0)
+        tmp_test <- cor.test(indicatos_CAM[, vars[v]], indicatos_CAM[, vec_names[i]])
+        if(tmp_test$p.value < .05){
+          if(printOut){
+            cat("   <-->", vec_names[i]," r:", tmp_test$estimate,"\n")
+          }
+          tmp_vars[h] <- vars[v]
+          tmp_vars2[h] <- vec_names[i]
+          tmp_estimate[h] <- round(x = tmp_test$estimate, digits = 2)
+          tmp_pvalue[h] <- round(x = tmp_test$p.value, digits = 2)
+          h=h+1
         }
-        tmp_vars[h] <- vars[v]
-        tmp_vars2[h] <- vec_names[i]
-        tmp_estimate[h] <- round(x = tmp_test$estimate, digits = 2)
-        tmp_pvalue[h] <- round(x = tmp_test$p.value, digits = 2)
-        h=h+1
       }
+
     }
     cat("\n\n")
   }
@@ -80,8 +83,6 @@ getDescriptives <- function(dataset = CAMindicators,
 
 
   x <- dataset[, vec_names]
-
-
   ## table
   tmp_descriptives <- sapply(x, function(x) c(
     "Mean"= mean(x,na.rm=TRUE),
@@ -113,7 +114,7 @@ getDescriptives <- function(dataset = CAMindicators,
                                           out = nameAPAtable,))
   }
 
-    notNeeded <- capture.output(stargazer(out_tmp, type = "html", summary = FALSE))
+   notNeeded <- capture.output(stargazer(out_tmp, type = "html", summary = FALSE))
   # return(out_tmp)
   return(data.frame(out_tmp) %>% rownames_to_column("Variable"))
 }

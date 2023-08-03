@@ -130,7 +130,7 @@ networkIndicatorsServer <-
                   tags$div(
           HTML("If you have computed the network indicators you will see an APA table with multiple summary statistics:"),
                       style="font-size:14px"),
-          uiOutput(ns("APAtable_NIdes")),
+          dataTableOutput(ns("APAtable_NIdes")),
                     tags$br(),
                   tags$div(
           HTML("If you have computed the network indicators you will see a plot of the correlational matrix of
@@ -151,10 +151,8 @@ networkIndicatorsServer <-
 
 
         #> Server
-      output$APAtable_NIdes <- renderText(
+      output$APAtable_NIdes <- renderDataTable(
         if (!is.null(globals$dataNetworkIndicators)) {
-
-          
           getDescriptives(dataset = globals$dataNetworkIndicators, nameAPAtable = NULL)
           }else{
             NULL
@@ -359,7 +357,7 @@ output$neighborhoodIndicatorsTable <- renderDataTable({
                   tags$div(
           HTML("If you have computed the neighborhood indicators you will see an APA table with multiple summary statistics:"),
                       style="font-size:14px"),
-          uiOutput(ns("APAtable_NIdes_neighborhood")),
+          dataTableOutput(ns("APAtable_NIdes_neighborhood")),
                     tags$br(),
                   tags$div(
           HTML("If you have computed the neighborhood indicators you will see a plot of the correlational matrix of
@@ -371,7 +369,7 @@ output$neighborhoodIndicatorsTable <- renderDataTable({
 
 
         #> Server
-      output$APAtable_NIdes_neighborhood <- renderText(
+      output$APAtable_NIdes_neighborhood <- renderDataTable(
         if (!is.null(globals$dataNetworkNeighborhoodIndicators)) {
           getDescriptives(dataset = globals$dataNetworkNeighborhoodIndicators, nameAPAtable = NULL)
           }else{
@@ -394,54 +392,7 @@ output$neighborhoodIndicatorsTable <- renderDataTable({
 
 
 
-                ## choices CAMs for selectInput
-        uniqueNumericNI_NIdes <- reactive({
-
-                  if (!is.null(globals$dataNetworkIndicators)) {
-                      vec_names <- globals$dataNetworkIndicators %>%
-    select_if(Negate(is.character)) %>%
-    colnames()
-    vec_names
-                  }else{
-                    NULL
-                  }
-        })
-
-        output$selectSearchSigCorr_NIdes <- renderUI({
-          selectInput(ns("SearchSigCorr_NIdes"),
-                      "For which network indicators do you want to search for significiant correlations?",
-                      choices = as.list(uniqueNumericNI_NIdes()), width = "50%",   multiple = TRUE
-          )
-        })
-
-
-       ## dynamic table network indicators
-        output$SigCorrelations_NIdes <- renderDataTable({
-        if(is.null(input$SearchSigCorr_NIdes)){
-          print("Please specifiy network indicators to check for significant correlations.")
-        }else{
-        if (!is.null(globals$dataNetworkIndicators)) {
-
-  des_sigCorr(indicatos_CAM = globals$dataNetworkIndicators, vars = input$SearchSigCorr_NIdes)
-          }else{
-            print("Please compute network indicators before checking for significant correlations.")
-            }
-        }
-        })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+               
 
         ###### information
         observeEvent(input$informationNetworkIndicators, {
