@@ -57,6 +57,14 @@ library(RColorBrewer)
 library(tm)
 library(visNetwork)
 library(wordcloud)
+
+library(shinyvalidate)
+
+library(moments)
+
+library(rempsyc) # APA tables with nice_table()
+library(flextable) # dependency of rempsyc
+library(officer) # landscape mode for docx export
 ########################################
 # load additional data
 ########################################
@@ -517,9 +525,24 @@ dataNetworkNeighborhoodIndicators = NULL,
           print("networkIndicators APA table - check !!!!")
           tmpAPA <- getDescriptives(dataset = globals$dataNetworkIndicators, nameAPAtable = NULL)
 
-          path <- paste0("networkIndicators_APAtable", ".png")
+          path <- paste0("networkIndicators_APAtable", ".docx")
           fs <- c(fs, path)
-          tmpAPA %>% save_kable(file = path, density = 600)
+
+          nice_table(tmpAPA,
+                     title = c("Table 1", "Descriptive statistics of network indicators"),
+                     note = c("Just a test")) %>%
+          fontsize(size = 8, part = "all") %>%
+          line_spacing(space = 1, part = "all") -> tmpAPAflex
+
+
+          sect_properties <- prop_section(
+            page_size = page_size(orient = "landscape"),
+            type = "continuous",
+            page_margins = page_mar()
+          )
+
+
+          flextable::save_as_docx(tmpAPAflex, path = path, pr_section = sect_properties)
         }
 
 

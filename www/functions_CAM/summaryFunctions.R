@@ -89,12 +89,12 @@ getDescriptives <- function(dataset = CAMindicators,
     "Median" = median(x,na.rm=TRUE),
     "CoeffofVariation" = sd(x)/mean(x,na.rm=TRUE),
     "Minimum" = min(x,na.rm=TRUE),
-    "Maximun" = max(x,na.rm=TRUE),
+    "Maximum" = max(x,na.rm=TRUE),
     "Lower Quantile" = as.numeric(quantile(x,0,na.rm=TRUE)),
     "Upper Quantile" = as.numeric(quantile(x,1,na.rm=TRUE)),
     "Skewness" = moments::skewness(x = x,na.rm=TRUE),
     "Kurtosis(-3)" = moments::kurtosis(x = x,na.rm=TRUE) -3,
-    "KS-Test" = ks.test(x = x, y = "pnorm", mean(x,na.rm=TRUE), sd(x,na.rm=TRUE))$p.value
+    "KS-Test" = suppressWarnings(ks.test(x = x, y = "pnorm", mean(x,na.rm=TRUE), sd(x,na.rm=TRUE))$p.value)
   )
   )
   tmp_descriptives <- round(x = tmp_descriptives, digits = 2)
@@ -115,7 +115,7 @@ getDescriptives <- function(dataset = CAMindicators,
 
     notNeeded <- capture.output(stargazer(out_tmp, type = "html", summary = FALSE))
   # return(out_tmp)
-  return(notNeeded)
+  return(data.frame(out_tmp) %>% rownames_to_column("Variable"))
 }
 
 
