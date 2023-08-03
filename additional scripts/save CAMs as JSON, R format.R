@@ -28,10 +28,16 @@ CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
 ########################################
 setwd("saved CAMs as JSON, R format")
 if(length(list.files()) >= 1){
+  file.remove(list.files())
   cat('\n!
       all former files have been deleted')
-  file.remove(list.files())
 }
+
+
+if(all(CAMfiles[[3]]$participantCAM.x == "noID")){
+  CAMfiles[[3]]$participantCAM.x <- CAMfiles[[3]]$CAM.x
+}
+
 
 
 ids_CAMs <- unique(CAMfiles[[3]]$participantCAM.x); length(ids_CAMs)

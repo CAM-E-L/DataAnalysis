@@ -71,7 +71,7 @@ for(i in 1:length(dir())){
 ########################################
 # get session info
 ########################################
-devtools::session_info()
+# devtools::session_info()
 
 
 
@@ -80,7 +80,10 @@ devtools::session_info()
 ########################################
 setwd("../../additional scripts/data")
 dir()
-myDataset <- "SAI study.txt" # "example_CAMEL_subset_broken.txt"
+
+
+
+myDataset <- "CAMdata.txt" # "example_CAMEL_subset_broken.txt"
 read_file(myDataset) %>%
   # ... split it into lines ...
   str_split('\n') %>% first() %>%
