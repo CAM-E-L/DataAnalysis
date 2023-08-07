@@ -37,7 +37,5 @@ psych::cor.plot(r = networkIndicators[, unlist(lapply(networkIndicators, is.nume
                 main = "Correlation Plot of Network Indicators")
 
 ggcorrplot(corr = cor(networkIndicators[, unlist(lapply(networkIndicators, is.numeric))]),
-           hc.order = FALSE, type = "lower", lab = TRUE, lab_size = 2,
+           hc.order = FALSE, type = "lower", lab = TRUE, lab_size = 1,
            title = "Correlation Plot of Network Indicators")
-
-

@@ -834,7 +834,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
         ## + add protocol file
         path <- paste0("protocol", ".txt")
         fs <- c(fs, path)
-               write(toJSON(globals$protocol), path)
+        write(toJSON(globals$protocol), path)
        #  write(jsonlite::toJSON(globals$protocol), path)
        # write(rjson::toJSON(globals$protocol), path)
       #jsonlite::write_json(x = globals$protocol, path = path)

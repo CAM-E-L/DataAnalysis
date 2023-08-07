@@ -21,11 +21,18 @@ draw_CAM <- function(dat_merged = CAMfiles[[3]],
                      relvertexsize = 5,
                      reledgesize = 1){
 
+
+
+  if(!all(ids_CAMs %in% dat_nodes$CAM)){
+    print("draw_CAM: using participant CAM ids")
+    dat_merged$CAM.x <- dat_merged$participantCAM.x
+    dat_nodes$CAM <-   dat_nodes$participantCAM
+  }
+
    ## check ids_CAMs argument + create ids_CAMs
   if(length(ids_CAMs) == 1 && ids_CAMs == "all"){
     ids_CAMs <- unique(dat_merged$CAM.x)
-  }else if(is.character(ids_CAMs) && (!all(ids_CAMs %in% unique(dat_merged$CAM.x)) ||
-  !all(ids_CAMs %in% unique(dat_merged$participantCAM.x)))){
+  }else if(is.character(ids_CAMs) && (!all(ids_CAMs %in% unique(dat_merged$CAM.x)))){
     cat("Your specified ids are:", ids_CAMs, ", which is / are not matching the ids of the dataset (seperated by '//'):" ,"\n")
     cat(paste0(unique(dat_merged$CAM.x), collapse = " // "), "\n")
     stop("> Redefine ids")
