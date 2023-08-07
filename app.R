@@ -11,8 +11,8 @@
 # load packages
 ########################################
 # for deploying Shiny App online
-# options(rsconnect.packrat = TRUE)
 # remotes::install_version("rsconnect", "0.8.29")
+# see issue: https://github.com/rstudio/rsconnect/issues/926
 
 library(shiny)
 
