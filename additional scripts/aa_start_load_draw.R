@@ -9,9 +9,8 @@ graphics.off()
 # please define!
 #> put everything in the "data" folder (your data set and protocol if you have one)
 ########################################
-CAMdataset <- "Fenn_2023_CAMtools.txt" # Fenn_2023_SAIstudy_subset.txt
+CAMdataset <- "Fenn_2023_SAIstudy_subset.txt" # Fenn_2023_CAMtools.txt
 consider_Protocol <- FALSE
-
 
 
 

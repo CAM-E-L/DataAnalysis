@@ -255,7 +255,7 @@ for(c in unique(globals$dataCAMsummarized[[1]]$CAM)){
       ## add N
       conceptOverall_dat[conceptOverall_dat$CAM == c, paste0("N_", varName_w)] <- nrow(tmp_CAM_nodes_w)
 
-      if(any(tmp_CAM_nodes_w$value > 0 && tmp_CAM_nodes_w$value < 10)){
+      if(any(tmp_CAM_nodes_w$value > 0 & tmp_CAM_nodes_w$value < 10)){
         conceptOverall_dat[conceptOverall_dat$CAM == c, paste0("Npositive_", varName_w)] <- sum(tmp_CAM_nodes_w$value > 0 && tmp_CAM_nodes_w$value < 10)
       }
 
