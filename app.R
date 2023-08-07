@@ -581,7 +581,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
 
 
         if ("networkNeighborhoodIndicators" %in% globals$condition) {
-                    print("networkNeighborhoodIndicators - check")
+          print("networkNeighborhoodIndicators - check")
           ## networkIndicators as txt file
           path <- paste0("networkNeighborhoodIndicators", ".txt")
           fs <- c(fs, path)
@@ -624,6 +624,20 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
            hc.order = FALSE, type = "lower", lab = TRUE, lab_size = 2,
            title = "Correlation Plot of Neighborhood Network Indicators")
            ggplot2::ggsave(filename = path, plot = p,  scale = 3)
+        }
+
+
+        if ("wordlistOverallCreated" %in% globals$condition) {
+          print("wordlistOverallCreated - check")
+          ## wordlistOverall as txt file
+          path <- paste0("wordlistOverall", ".txt")
+          fs <- c(fs, path)
+          vroom::vroom_write(globals$wordlistOverall, path)
+
+          ## wordlistOverall as xlsx file
+          path <- paste0("wordlistOverall", ".xlsx")
+          fs <- c(fs, path)
+          xlsx::write.xlsx2(globals$wordlistOverall, path, row.names = FALSE)
         }
 
 
@@ -739,8 +753,6 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
           )
         }
 
-
-
       if ("networkIndicators" %in% globals$condition) {
         write(
             "\nnetworkIndicators: .txt file of all computed network indicators",
@@ -787,13 +799,27 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
             append = TRUE
           )
 
-                  write(
+          write(
             "networkNeighborhoodIndicators_correlationPlot: .pdf (PDF) file containing correlation plot of network neighborhood indicators",
             path,
             append = TRUE
           )
-        }
+      }
 
+
+      if ("wordlistOverallCreated" %in% globals$condition) {
+        write(
+            "\nwordlistOverall: .txt file of overall wordlist",
+            path,
+            append = TRUE
+          )
+
+        write(
+            "wordlistOverall: .xlsx (Excel) file of overall wordlist",
+            path,
+            append = TRUE
+          )
+        }
 
         ## add protocol
         #> add unique session id

@@ -392,10 +392,6 @@ output$neighborhoodIndicatorsTable <- renderDataTable({
 
         })
 
-
-
-               
-
         ###### information
         observeEvent(input$informationNetworkIndicators, {
           ## change UI
