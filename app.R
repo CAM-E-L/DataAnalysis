@@ -1,6 +1,6 @@
 # ==============================================================================
 # Shiny app
-# date of creation: January 2022 - June 2023
+# date of creation: January 2022 - August 2023
 # authors: Julius Fenn, University of Freiburg
 # ==============================================================================
 
@@ -10,10 +10,13 @@
 ########################################
 # load packages
 ########################################
+
 library(shiny)
+
 # library(shinyWidgets)
 library(shinyjs)
 
+library(shinyvalidate)
 
 # library(shinycssloaders) %>% withSpinner(color="#0dc5c1")
 
@@ -40,10 +43,6 @@ library(irr)
 
 library(stargazer)
 
-# library(qdap)
-library(qdap, include.only = c('syn')) # include multiple functions
-library(qdapDictionaries)
-
 
 library(kableExtra) # APA 7 tables
 
@@ -58,7 +57,6 @@ library(tm)
 library(visNetwork)
 library(wordcloud)
 
-library(shinyvalidate)
 
 library(moments)
 
@@ -68,9 +66,20 @@ library(flextable) # dependency of rempsyc
 library(officer) # landscape mode for docx export
 
 library(Cairo) # save CAMs as .png file
+
+
+# library(qdap, include.only = c('syn')) # include multiple functions
+# library(qdapDictionaries, include.only = c('key.syn'))
+# library(qdap)
+######################################################
+
+
 ########################################
-# load additional data
+# load internal data sets
 ########################################
+### synonyms data set(s)
+syn_English <- xlsx::read.xlsx2(file = "./www/data/syn_dat_English.xlsx", sheetIndex = 1)
+
 
 ########################################
 # inline CSS
@@ -374,14 +383,20 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
       wordlistOverallRated = NULL,
 
 
-# analysis part #
-#> network indicators
-dataNetworkIndicators = NULL,
-dataNetworkNeighborhoodIndicators = NULL,
-#> word outputs -> overall
-      wordlistOverall = NULL
+    # analysis part #
+    #> network indicators
+    dataNetworkIndicators = NULL,
+    dataNetworkNeighborhoodIndicators = NULL,
+    #> word outputs -> overall
+    wordlistOverall = NULL,
 
+
+    # internal data #
+    dat_synonym = list(syn_English = syn_English)
     )
+
+
+
 
     ## set up download function:
     output$downloadData <- downloadHandler(

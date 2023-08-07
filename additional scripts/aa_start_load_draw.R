@@ -135,3 +135,7 @@ CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
                      useCoordinates = TRUE,
                      relvertexsize = 3,
                      reledgesize = 1)
+
+plot(CAMdrawn[[1]], edge.arrow.size = .7,
+     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
+     vertex.size = 10, vertex.label.cex = .9)

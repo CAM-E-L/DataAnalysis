@@ -1261,7 +1261,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
             tags$b(textOutput(ns(
               "synonymsPercentageFound"
             ), inline = TRUE)),
-            " percent of your unique concepts have been found in the synonym database."
+            " percent of unique concepts have been found in the synonym database."
           ),
                               tags$div(
             HTML(
@@ -1357,7 +1357,7 @@ reducedSynonymList <-
     tmp_text <- str_remove_all(string = globals$dataCAMsummarized[[1]]$text_summarized, 
     pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
     ## get raw synonym list
-    raw_SynonymList <- SynonymList(vectorWords = tmp_text) # !!! IF language
+    raw_SynonymList <- SynonymList(vectorWords = tmp_text, syn_dat = globals$dat_synonym$syn_English) # !!! IF language
     
 
     # print("raw_SynonymList")
@@ -1392,7 +1392,7 @@ reducedSynonymList <-
         #> number of groups of synonyms
       output$synonymsGroups <- renderText({
    req(reducedSynonymList())
-    length(reducedSynonymList())
+  length(reducedSynonymList())
       })
 
 

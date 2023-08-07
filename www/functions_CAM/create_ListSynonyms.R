@@ -1,12 +1,14 @@
 ###################################
-SynonymList <- function(vectorWords = NULL){
+# vectorWords = CAMfiles[[1]]$text
+# syn_dat = syn_English
+SynonymList <- function(vectorWords = NULL, syn_dat = NULL){
 
   singleWords <- vectorWords
   singleWords <- tolower(x = singleWords)
   singleWords <- unique(singleWords)
 
-  ## check if single words are in the dictionary data(key.syn)
-  singleWords_found <- singleWords[singleWords %in% qdapDictionaries::key.syn$x]
+  ## check if single words are in the dictionary "qdapDictionaries::key.syn"
+  singleWords_found <- singleWords[singleWords %in% syn_English$searched]
   outPercent <- round(x = length(singleWords_found) / length(singleWords) * 100, digits = 2)
 
   if (identical(singleWords_found, character(0))) {
@@ -14,11 +16,15 @@ SynonymList <- function(vectorWords = NULL){
   }
 
   ### create synonyms
-  # syn::syns()
   singleWords_found_list <- list()
+
   for(w in singleWords_found){
-    singleWords_found_list[[w]] <- c(qdap::syn(terms = w, return.list = FALSE), w)
+    tmp_snys <- syn_English$synonyms[str_detect(string = syn_English$searched, pattern = paste0("^", w, "$"))]
+    singleWords_found_list[[w]] <- c(unlist(str_split(string = tmp_snys, pattern = "\\+\\+")), w)
   }
+
+  #print("singleWords_found_list")
+  #print(singleWords_found_list)
 
   ### get overlapping words
   mat_synonym <- matrix(data = NA, nrow = length(singleWords_found), ncol = length(singleWords))
@@ -49,6 +55,9 @@ SynonymList <- function(vectorWords = NULL){
 
 ###################################
 SummarizedSynonymList <- function(listSynonyms = NULL){
+if(length(listSynonyms) == 1) {
+    return(listSynonyms)
+} else {
   vec_remove <- NULL
   vec_keep <- NULL
   # print(listSynonyms[[1]])
@@ -73,4 +82,5 @@ SummarizedSynonymList <- function(listSynonyms = NULL){
   }
 
   return(listSynonyms)
+}
 }
