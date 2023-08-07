@@ -21,10 +21,16 @@ consider_Protocol <- FALSE
 ########################################
 # load packages
 ########################################
+# for deploying Shiny App online
+# remotes::install_version("rsconnect", "0.8.29")
+# see issue: https://github.com/rstudio/rsconnect/issues/926
+
 library(shiny)
+
 # library(shinyWidgets)
 library(shinyjs)
 
+library(shinyvalidate)
 
 # library(shinycssloaders) %>% withSpinner(color="#0dc5c1")
 
@@ -51,10 +57,6 @@ library(irr)
 
 library(stargazer)
 
-# library(qdap)
-library(qdap, include.only = c('syn')) # include multiple functions
-library(qdapDictionaries)
-
 
 library(kableExtra) # APA 7 tables
 
@@ -66,10 +68,11 @@ library(RColorBrewer)
 
 
 library(tm)
+library(stopwords) # old function for spell checking
+
 library(visNetwork)
 library(wordcloud)
 
-library(shinyvalidate)
 
 library(moments)
 
@@ -79,6 +82,11 @@ library(flextable) # dependency of rempsyc
 library(officer) # landscape mode for docx export
 
 library(Cairo) # save CAMs as .png file
+
+library(ggcorrplot)
+# library(qdap, include.only = c('syn')) # include multiple functions
+# library(qdapDictionaries, include.only = c('key.syn'))
+# library(qdap)
 ########################################
 # load functions
 ########################################

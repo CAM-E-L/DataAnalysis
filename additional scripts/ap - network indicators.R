@@ -32,4 +32,12 @@ networkIndicators$reciprocity_macro <- NULL
 ########################################
 getDescriptives(dataset = networkIndicators, nameAPAtable = NULL)
 
-psych::cor.plot(r =networkIndicators[, unlist(lapply(networkIndicators, is.numeric))], xlas = 2)
+psych::cor.plot(r = networkIndicators[, unlist(lapply(networkIndicators, is.numeric))],
+                xlas = 1,
+                main = "Correlation Plot of Network Indicators")
+
+ggcorrplot(corr = cor(networkIndicators[, unlist(lapply(networkIndicators, is.numeric))]),
+           hc.order = FALSE, type = "lower", lab = TRUE, lab_size = 2,
+           title = "Correlation Plot of Network Indicators")
+
+

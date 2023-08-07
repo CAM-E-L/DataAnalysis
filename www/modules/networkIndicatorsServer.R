@@ -164,11 +164,12 @@ networkIndicatorsServer <-
         ## plot CAM
         output$corPlot_NIdes <- renderPlot({
      if (!is.null(globals$dataNetworkIndicators)) {
-      psych::cor.plot(r = globals$dataNetworkIndicators[, unlist(lapply(globals$dataNetworkIndicators, is.numeric))], xlas = 2)
+      ggcorrplot::ggcorrplot(corr = cor(globals$dataNetworkIndicators[, unlist(lapply(globals$dataNetworkIndicators, is.numeric))]),
+           hc.order = FALSE, type = "lower", lab = TRUE, lab_size = 2,
+           title = "Correlation Plot of Network Indicators")
           }else{
             NULL
             }
-
         })
 
 
@@ -382,8 +383,9 @@ output$neighborhoodIndicatorsTable <- renderDataTable({
         ## plot CAM
         output$corPlot_NIdes_neighborhood <- renderPlot({
      if (!is.null(globals$dataNetworkNeighborhoodIndicators)) {
-      psych::cor.plot(r = globals$dataNetworkNeighborhoodIndicators[, 
-      unlist(lapply(globals$dataNetworkNeighborhoodIndicators, is.numeric))], xlas = 2)
+      ggcorrplot::ggcorrplot(corr = cor(globals$dataNetworkNeighborhoodIndicators[, unlist(lapply(globals$dataNetworkNeighborhoodIndicators, is.numeric))]),
+           hc.order = FALSE, type = "lower", lab = TRUE, lab_size = 3,
+           title = "Correlation Plot of Neighborhood Network Indicators")
           }else{
             NULL
             }

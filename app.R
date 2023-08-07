@@ -455,6 +455,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
 
 
         ### preprocessing part ###
+        ### >>> summarize functions 
         if ("approximateMatching" %in% globals$condition ||
         "searchTerms" %in% globals$condition ||
         "findSynonyms" %in% globals$condition ||
@@ -477,7 +478,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
 
 
         if ("searchTerms" %in% globals$condition) {
-          ## approximateMatching protocol
+          ## searchTerms protocol
           print("long protocol search terms - check")
           path <- paste0("searchTerms_protocol", ".txt")
           fs <- c(fs, path)
@@ -485,7 +486,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
         }
 
         if ("findSynonyms" %in% globals$condition) {
-          ## approximateMatching protocol
+          ## findSynonyms protocol
           print("long protocol find synonyms - check")
           path <- paste0("findSynonyms_protocol", ".txt")
           fs <- c(fs, path)
@@ -493,14 +494,15 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
         }
 
         if ("word2vec" %in% globals$condition) {
-          ## approximateMatching protocol
+          ## word2vec protocol
           print("long protocol word2vec - check")
           path <- paste0("word2vec_protocol", ".txt")
           fs <- c(fs, path)
           vroom::vroom_write(globals$detailedProtocolword2vec, path)
         }
 
-
+        ### >>> reliability functions 
+        # for raters
         if ("wordlistRatersCreated" %in% globals$condition) {
           print("wordlistRatersCreated - check")
           ## wordlist raters as txt file
@@ -514,7 +516,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
           xlsx::write.xlsx2(globals$wordlistRaters, path, row.names = FALSE)
         }
 
-
+        # after computed reliability coefficients
         if ("wordlistOverallRated" %in% globals$condition) {
           print("wordlistOverallRated - check")
           ## wordlist raters as txt file
@@ -529,9 +531,9 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
         }
 
 
-### analysis part ###
+        ### analysis part ###
         if ("networkIndicators" %in% globals$condition) {
-                    print("networkIndicators - check")
+          print("networkIndicators - check")
           ## networkIndicators as txt file
           path <- paste0("networkIndicators", ".txt")
           fs <- c(fs, path)
@@ -544,7 +546,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
 
 
 
-          ## networkIndicators APA table
+          ## networkIndicators APA table as Word document
           print("networkIndicators APA table - check !!!!")
           tmpAPA <- getDescriptives(dataset = globals$dataNetworkIndicators, nameAPAtable = NULL)
 
@@ -553,7 +555,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
 
           rempsyc::nice_table(tmpAPA,
                      title = c("Table 1", "Descriptive statistics of network indicators"),
-                     note = c("If needed feel free to adjust the table.")) %>%
+                     note = c("Feel free to adjust the table.")) %>%
           fontsize(size = 8, part = "all") %>%
           line_spacing(space = 1, part = "all") -> tmpAPAflex
 
@@ -563,9 +565,18 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
             type = "continuous",
             page_margins = page_mar()
           )
-
-
           flextable::save_as_docx(tmpAPAflex, path = path, pr_section = sect_properties)
+
+
+          ## networkIndicators correlation plot
+          print("networkIndicators correlation plot - check !!!!")
+          path <- paste0("networkIndicators_correlationPlot", ".pdf")
+          fs <- c(fs, path)
+
+          p <- ggcorrplot::ggcorrplot(corr = cor(globals$dataNetworkIndicators[, unlist(lapply(globals$dataNetworkIndicators, is.numeric))]),
+           hc.order = FALSE, type = "lower", lab = TRUE, lab_size = 1,
+           title = "Correlation Plot of Network Indicators")
+           ggplot2::ggsave(filename = path, plot = p,  scale = 4)
         }
 
 
@@ -580,6 +591,39 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
           path <- paste0("networkNeighborhoodIndicators", ".xlsx")
           fs <- c(fs, path)
           xlsx::write.xlsx2(globals$dataNetworkNeighborhoodIndicators, path, row.names = FALSE)
+
+
+
+          ## networkNeighborhoodIndicators APA table as Word document
+          print("networkNeighborhoodIndicators APA table - check !!!!")
+          tmpAPA <- getDescriptives(dataset = globals$dataNetworkNeighborhoodIndicators, nameAPAtable = NULL)
+
+          path <- paste0("networkNeighborhoodIndicators_APAtable", ".docx")
+          fs <- c(fs, path)
+
+          rempsyc::nice_table(tmpAPA,
+                     title = c("Table 1", "Descriptive statistics of network neighborhood indicators"),
+                     note = c("Feel free to adjust the table.")) %>%
+          fontsize(size = 8, part = "all") %>%
+          line_spacing(space = 1, part = "all") -> tmpAPAflex
+
+
+          sect_properties <- prop_section(
+            page_size = page_size(orient = "landscape"),
+            type = "continuous",
+            page_margins = page_mar()
+          )
+          flextable::save_as_docx(tmpAPAflex, path = path, pr_section = sect_properties)
+
+          ## networkNeighborhoodIndicators correlation plot
+          print("networkNeighborhoodIndicators correlation plot - check !!!!")
+          path <- paste0("networkNeighborhoodIndicators_correlationPlot", ".pdf")
+          fs <- c(fs, path)
+
+          p <- ggcorrplot::ggcorrplot(corr = cor(globals$dataNetworkNeighborhoodIndicators[, unlist(lapply(globals$dataNetworkNeighborhoodIndicators, is.numeric))]),
+           hc.order = FALSE, type = "lower", lab = TRUE, lab_size = 2,
+           title = "Correlation Plot of Neighborhood Network Indicators")
+           ggplot2::ggsave(filename = path, plot = p,  scale = 3)
         }
 
 
@@ -697,7 +741,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
 
 
 
-                if ("networkIndicators" %in% globals$condition) {
+      if ("networkIndicators" %in% globals$condition) {
         write(
             "\nnetworkIndicators: .txt file of all computed network indicators",
             path,
@@ -709,10 +753,21 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
             path,
             append = TRUE
           )
+           
+        write(
+            "networkIndicators_APAtable: .docx (Word) file containing APA table with summary statistics of network indicators",
+            path,
+            append = TRUE
+          )
+
+        write(
+            "networkIndicators_correlationPlot: .pdf (PDF) file containing correlation plot of network indicators",
+            path,
+            append = TRUE
+          )
         }
 
-
-                if ("networkNeighborhoodIndicators" %in% globals$condition) {
+      if ("networkNeighborhoodIndicators" %in% globals$condition) {
         write(
             "\nnetworkNeighborhoodIndicators: .txt file of all computed neighborhood indicators",
             path,
@@ -724,7 +779,21 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
             path,
             append = TRUE
           )
+          
+          
+          write(
+            "networkNeighborhoodIndicators_APAtable: .docx (Word) file containing APA table with summary statistics of network neighborhood indicators",
+            path,
+            append = TRUE
+          )
+
+                  write(
+            "networkNeighborhoodIndicators_correlationPlot: .pdf (PDF) file containing correlation plot of network neighborhood indicators",
+            path,
+            append = TRUE
+          )
         }
+
 
         ## add protocol
         #> add unique session id
@@ -860,5 +929,5 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
 
 
   ### run app
-shinyApp(ui, server)
-# runApp(shinyApp(ui, server), launch.browser = TRUE)
+# shinyApp(ui, server)
+runApp(shinyApp(ui, server), launch.browser = TRUE)
