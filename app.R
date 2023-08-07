@@ -370,20 +370,21 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
         searchTerms = NULL,
         findSynonyms = NULL,
         modelwordVec = NULL
-# analysis part # ???
+        # analysis part # ???
       ),
 
       dataCAM = NULL,
       drawnCAM = NULL,
       dataCAMsummarized = NULL,
 
+      # detailed feedback on summary process
       usedWords = list(),
       detailedProtocolAM = NULL,
       detailedProtocolST = NULL,
       detailedProtocolSynonyms = NULL,
       detailedProtocolword2vec = NULL,
 
-            # wordlist for Raters AND wordlist overall rated by raters
+      # wordlist for Raters AND wordlist overall rated by raters
       wordlistRaters = NULL,
       wordlistOverallRated = NULL,
 
@@ -392,9 +393,10 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
     #> network indicators
     dataNetworkIndicators = NULL,
     dataNetworkNeighborhoodIndicators = NULL,
-    #> word outputs -> overall
+    #> word outputs -> by words overall
     wordlistOverall = NULL,
-
+    #> word outputs -> by single words
+    singleConceptsTable = NULL,
 
     # internal data #
     dat_synonym = list(syn_English = syn_English)
@@ -641,6 +643,20 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
         }
 
 
+        if ("singleConceptsTable" %in% globals$condition) {
+          print("singleConceptsTable - check")
+          ## singleConceptsTable as txt file
+          path <- paste0("singleConceptsTable", ".txt")
+          fs <- c(fs, path)
+          vroom::vroom_write(globals$singleConceptsTable, path)
+
+          ## singleConceptsTable as xlsx file
+          path <- paste0("singleConceptsTable", ".xlsx")
+          fs <- c(fs, path)
+          xlsx::write.xlsx2(globals$singleConceptsTable, path, row.names = FALSE)
+        }
+
+
         ## + add description file
         path <- paste0("description file", ".txt")
         fs <- c(fs, path)
@@ -820,6 +836,21 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
             append = TRUE
           )
         }
+
+      if ("singleConceptsTable" %in% globals$condition) {
+        write(
+            "\nsingleConceptsTable: .txt file of all drawn single concepts seperated by CAMs",
+            path,
+            append = TRUE
+          )
+
+        write(
+            "singleConceptsTable: .xlsx (Excel) file of all drawn single concepts seperated by CAMs",
+            path,
+            append = TRUE
+          )
+        }
+        
 
         ## add protocol
         #> add unique session id

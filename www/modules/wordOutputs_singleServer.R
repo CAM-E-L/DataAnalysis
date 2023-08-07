@@ -279,6 +279,14 @@ for(c in unique(globals$dataCAMsummarized[[1]]$CAM)){
 #############
 
 ################
+# for download
+################
+#> change condition
+globals$condition <- c(globals$condition, "singleConceptsTable")
+#> save as global
+globals$singleConceptsTable <- conceptOverall_dat
+
+################
 # get table
 ################
  output$table_concepts_overall <- renderDataTable({

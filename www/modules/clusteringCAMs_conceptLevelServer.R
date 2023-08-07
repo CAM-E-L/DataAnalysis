@@ -95,6 +95,16 @@ clusteringCAMs_conceptLevelServer <-
           }else{
             tmp_listConcepts <- listConcepts(datCAM = globals$dataCAMsummarized[[1]], useSummarized = FALSE, removeSuffix = TRUE)
           }
+    ## remove concepts which have been drawn in every CAM (uninformative)
+    tmp_wordsCAMs <- table(globals$dataCAMsummarized[[1]]$text_summarized, globals$dataCAMsummarized[[1]]$CAM)
+    tmp_wordsOut <- rownames(tmp_wordsCAMs)[rowSums(x = tmp_wordsCAMs) >= length(unique(globals$dataCAMsummarized[[1]]$CAM))]
+
+    if(length(tmp_wordsOut >= 1)){
+      for(c in 1:ncol(tmp_listConcepts)){
+        tmp_listConcepts[,c][tmp_listConcepts[,c] %in% tmp_wordsOut] <- NA
+      }
+    }
+
 
     ## get all concepts >= 2
       tmp_countDuplicates <- countDuplicates(concepts = tmp_listConcepts, orderFrequency = TRUE)
@@ -127,7 +137,6 @@ coefficientMatrix <- coefficientMatrix[rowSums(!is.na(coefficientMatrix))>1,
 pMatrix <- as.matrix(tmp_CorrSigTables[["p"]])
 pMatrix <- pMatrix[rowSums(!is.na(pMatrix))>1,
                    colSums(!is.na(pMatrix))>1]
-
 
       return(list(coefficientMatrix, pMatrix))
   })
