@@ -10,6 +10,9 @@
 ########################################
 # load packages
 ########################################
+# for deploying Shiny App online
+# options(rsconnect.packrat = TRUE)
+# remotes::install_version("rsconnect", "0.8.29")
 
 library(shiny)
 
@@ -54,6 +57,8 @@ library(RColorBrewer)
 
 
 library(tm)
+library(stopwords) # old function for spell checking
+
 library(visNetwork)
 library(wordcloud)
 
@@ -855,5 +860,5 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
 
 
   ### run app
-# shinyApp(ui, server)
-runApp(shinyApp(ui, server), launch.browser = TRUE)
+shinyApp(ui, server)
+# runApp(shinyApp(ui, server), launch.browser = TRUE)
