@@ -150,6 +150,8 @@ summarizeCAMsServer <-
                     
           ### get IDs of CAMs to aggregate
           if(input$aggregate_setting_type == "a"){
+                       message("The value of input$aggregate_setting_a is ",
+                    input$aggregate_setting_a)    
             ## random CAM
             selectedIDs <- sample(x = names(globals$drawnCAM()), size = input$aggregate_setting_a, replace = FALSE)
           } else if(input$aggregate_setting_type == "b"){
@@ -225,7 +227,7 @@ module_rv$numCAM <- length(selectedIDs)
 
 
             ## create wordlist
-            if(all(globals$dataCAMsummarized[[1]]$CAM %in% selectedIDs)){
+            if(all(selectedIDs %in% globals$dataCAMsummarized[[1]]$CAM)){
               sel_nodes <- globals$dataCAMsummarized[[1]][globals$dataCAMsummarized[[1]]$CAM %in% selectedIDs, ]
               sel_merged <- globals$dataCAMsummarized[[3]][globals$dataCAMsummarized[[3]]$CAM.x %in% selectedIDs, ]
             }else{

@@ -52,3 +52,29 @@ plot(g2, edge.arrow.size = .5,
      layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
      vertex.size = 5, vertex.label.cex = .9)
 
+
+
+########################################
+# create word list
+########################################
+selectedIDs <- sample(x = names(CAMdrawn), size = 3, replace = FALSE)
+
+
+if(all(selectedIDs %in% CAMfiles[[1]]$CAM)){
+  sel_nodes <- CAMfiles[[1]][CAMfiles[[1]]$CAM %in% selectedIDs, ]
+  sel_merged <- CAMfiles[[3]][CAMfiles[[3]]$CAM.x %in% selectedIDs, ]
+}else{
+  sel_nodes <- CAMfiles[[1]][CAMfiles[[1]]$participantCAM %in% selectedIDs, ]
+  sel_merged <- CAMfiles[[3]][CAMfiles[[3]]$participantCAM.x %in% selectedIDs, ]
+}
+
+
+CAMwordlist <- create_wordlist(
+  dat_nodes = sel_nodes,
+  dat_merged = sel_merged,
+  order = "frequency",
+  splitByValence = FALSE,
+  comments = FALSE,
+  raterSubsetWords = NULL,
+  rater = FALSE
+)
