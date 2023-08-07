@@ -146,27 +146,3 @@ CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
 plot(CAMdrawn[[1]], edge.arrow.size = .7,
      layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
      vertex.size = 10, vertex.label.cex = .9)
-
-
-###########################
-CAMfiles[[1]]$text_summarized <- CAMfiles[[1]]$text
-tmp_listConcepts <- listConcepts(datCAM = CAMfiles[[1]], useSummarized = TRUE, removeSuffix = TRUE)
-
-dim(tmp_listConcepts)
-c(x = tmp_listConcepts)
-
-as.data.frame(x = tmp_listConcepts)
-
-
-unique(CAMfiles[[1]]$text_summarized)
-
-
-
-tmp_wordsCAMs <- table(CAMfiles[[1]]$text_summarized, CAMfiles[[1]]$CAM)
-tmp_wordsOut <- rownames(tmp_wordsCAMs)[rowSums(x = tmp_wordsCAMs) >= length(unique(CAMfiles[[1]]$CAM))]
-
-
-for(c in ncol(tmp_listConcepts)){
-  print(c)
-  tmp_listConcepts[,c][tmp_listConcepts[,c] %in% tmp_wordsOut] <- NA
-}

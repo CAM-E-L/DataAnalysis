@@ -204,7 +204,7 @@ interactiveHeatmap  %>% plotly::layout(height=1200,width=1200)
             style = "margin: 0 auto; width: 100%; text-align:left;",
             div(
               style = "display: inline-block; vertical-align: top;",
- numericInput(ns("cuttingDendrogram_clustering"), label = NULL, value = 15, min = .5, max = 30, step = 1, width = "150px"),
+ numericInput(ns("cuttingDendrogram_clustering"), label = NULL, value = 10, min = .5, max = 30, step = 1, width = "150px"),
             ),
        ),
                       tags$p(
@@ -297,12 +297,32 @@ for(c in unique(globals$dataCAMsummarized[[1]]$CAM)){
 ################
 ### data set
 hc_df <- hc_dat[, str_subset(string = colnames(hc_dat), pattern = "mean_")]
+hc_df <- hc_df[, colSums(x = !is.na(hc_df)) >= 2] # only considers concepts which where drawn at least 2 times
+
+
 hc_df_scaled <- scale(hc_df)
 
 ### run Hierarchical Clustering
 dist.eucl <- dist(hc_df_scaled, method = "euclidean")
 
+if(any(is.na(dist.eucl))){
+  print("dist.eucl")
+  print(dist.eucl)
+
+      showModal(
+      modalDialog(
+        title = "Error while trying to compute valence co-occurrences",
+        "It appears that it is not possible with your (current summarized) CAM data to run a hierarchical cluster analysis.",
+        easyClose = TRUE,
+        footer = tagList(modalButton("Ok"))
+      )
+    )
+
+  return(NULL)
+}
 hc_cluster <- hclust(dist.eucl, method = "ward.D2") # Ward's method
+print("hc_cluster")
+print(hc_cluster)
 
 
         ## get dendogram
