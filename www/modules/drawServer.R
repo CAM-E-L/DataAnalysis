@@ -488,7 +488,7 @@ drawServer <- function(id, dataCAM, parent, globals) {
             shinyjs::enable(selector = '.navbar-nav a[data-value="aggregate CAMs"')
             shinyjs::enable(selector = '.navbar-nav a[data-value="clustering CAMs"')
             shinyjs::enable(selector = '.navbar-nav a[data-value="slice CAMs"')
-            shinyjs::enable(selector = '.navbar-nav a[data-value="report"')
+            shinyjs::enable(selector = '.navbar-nav a[data-value="get report"')
 
 
             showTab(inputId = "tabs", target = "network indicators", select = TRUE, session = parent)
@@ -496,7 +496,7 @@ drawServer <- function(id, dataCAM, parent, globals) {
             showTab(inputId = "tabs", target = "aggregate CAMs", select = FALSE, session = parent)
             showTab(inputId = "tabs", target = "clustering CAMs", select = FALSE, session = parent)
             showTab(inputId = "tabs", target = "slice CAMs", select = FALSE, session = parent)
-            showTab(inputId = "tabs", target = "report", select = FALSE, session = parent)
+            showTab(inputId = "tabs", target = "get report", select = FALSE, session = parent)
             }
           }
         })

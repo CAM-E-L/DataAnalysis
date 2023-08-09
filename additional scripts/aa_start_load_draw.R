@@ -9,7 +9,7 @@ graphics.off()
 # please define!
 #> put everything in the "data" folder (your data set and protocol if you have one)
 ########################################
-CAMdataset <- "Fenn_2023_SAIstudy_subset.txt" # Fenn_2023_CAMtools.txt
+CAMdataset <- "Fenn_2023_CAMtools.txt" # "Fenn_2023_SAIstudy_subset.txt"
 consider_Protocol <- FALSE
 
 
@@ -146,3 +146,29 @@ CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
 plot(CAMdrawn[[1]], edge.arrow.size = .7,
      layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
      vertex.size = 10, vertex.label.cex = .9)
+
+
+
+
+providedNumberPredefinedConcepts <- 3
+
+nodes_notDeleted <- CAMfiles[[1]]
+vector_nonDeleted <- rep(x = FALSE, times = length(unique(nodes_notDeleted$CAM)))
+
+for(c in 1:length(unique(nodes_notDeleted$CAM))){
+  tmp_CAM <- nodes_notDeleted[nodes_notDeleted$CAM %in% unique(nodes_notDeleted$CAM)[c], ]
+
+  if(sum(tmp_CAM$predefinedConcept) - providedNumberPredefinedConcepts != 0){
+    print(c)
+    print(sum(tmp_CAM$predefinedConcept))
+
+    vector_nonDeleted[c] <- TRUE
+  }
+  print(c)
+
+}
+vector_nonDeleted
+
+round(x = sum(vector_nonDeleted) / length(vector_nonDeleted) * 100, digits = 2)
+
+CAMfiles[[1]]$predefinedConcept

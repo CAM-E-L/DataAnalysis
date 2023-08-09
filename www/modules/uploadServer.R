@@ -199,7 +199,7 @@ uploadServer <- function(id, parent, globals) {
 
                  showTab(
           inputId = "tabs",
-          target = "report",
+          target = "get report",
           select = FALSE,
           session = parent
         )
@@ -210,7 +210,7 @@ uploadServer <- function(id, parent, globals) {
         shinyjs::disable(selector = '.navbar-nav a[data-value="aggregate CAMs"')
         shinyjs::disable(selector = '.navbar-nav a[data-value="clustering CAMs"')
         shinyjs::disable(selector = '.navbar-nav a[data-value="slice CAMs"')
-        shinyjs::disable(selector = '.navbar-nav a[data-value="report"')
+        shinyjs::disable(selector = '.navbar-nav a[data-value="get report"')
 
 
       }

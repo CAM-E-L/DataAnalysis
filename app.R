@@ -161,8 +161,6 @@ source("./www/functions_CAM/aggregate_CAMs.R", encoding = "utf-8")
 
 
 
-
-
 ########################################
 # load modules
 ########################################
@@ -222,7 +220,9 @@ source("./www/modules/clusteringCAMs_overallLevelUI.R", local = TRUE)
 source("./www/modules/clusteringCAMs_overallLevelServer.R", local = TRUE)
 
 
-
+# summarize / aggregate CAMs
+source("./www/modules/getReportAPAUI.R", local = TRUE)
+source("./www/modules/getReportAPAServer.R", local = TRUE)
 
 ############################################################################
 # define UI, server, runApp
@@ -311,10 +311,8 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
 
 
 
-       tabPanel("report", {
-              tags$i("will be implemented soon...")
-
-      # fluidPage(networkIndicatorsUI("networkIndicators"))
+       tabPanel("get report", {
+        fluidPage(getReportAPAUI("getReportAPA"))
     }),
       tags$script(
         HTML(
@@ -347,7 +345,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
     hideTab(inputId = "tabs", target = "aggregate CAMs")
     hideTab(inputId = "tabs", target = "clustering CAMs")
     hideTab(inputId = "tabs", target = "slice CAMs")
-    hideTab(inputId = "tabs", target = "report")
+    hideTab(inputId = "tabs", target = "get report")
 
     ## global variable for protocol
     # https://community.rstudio.com/t/best-practices-for-global-external-variables-used-in-a-module/5820/2
@@ -457,7 +455,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
 
 
         ### preprocessing part ###
-        ### >>> summarize functions 
+        ### >>> summarize functions
         if ("approximateMatching" %in% globals$condition ||
         "searchTerms" %in% globals$condition ||
         "findSynonyms" %in% globals$condition ||
@@ -503,7 +501,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
           vroom::vroom_write(globals$detailedProtocolword2vec, path)
         }
 
-        ### >>> reliability functions 
+        ### >>> reliability functions
         # for raters
         if ("wordlistRatersCreated" %in% globals$condition) {
           print("wordlistRatersCreated - check")
@@ -781,7 +779,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
             path,
             append = TRUE
           )
-           
+
         write(
             "networkIndicators_APAtable: .docx (Word) file containing APA table with summary statistics of network indicators",
             path,
@@ -807,8 +805,8 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
             path,
             append = TRUE
           )
-          
-          
+
+
           write(
             "networkNeighborhoodIndicators_APAtable: .docx (Word) file containing APA table with summary statistics of network neighborhood indicators",
             path,
@@ -850,7 +848,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
             append = TRUE
           )
         }
-        
+
 
         ## add protocol
         #> add unique session id
@@ -980,7 +978,13 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
         globals
       )
 
-
+      getReportAPAServer(
+        "getReportAPA",
+        dataCAM = globals$dataCAM,
+        drawnCAM = globals$drawnCAM,
+        parent = session,
+        globals
+      )
   }
 
 
