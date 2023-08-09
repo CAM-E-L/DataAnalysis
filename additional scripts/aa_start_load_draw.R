@@ -9,7 +9,9 @@ graphics.off()
 # please define!
 #> put everything in the "data" folder (your data set and protocol if you have one)
 ########################################
-CAMdataset <- "Fenn_2023_CAMtools.txt" # "Fenn_2023_SAIstudy_subset.txt"
+CAMdataset <- "Fenn_2023_SAIstudy_subset.txt"
+# "Fenn_2023_SAIstudy_subset.txt"
+# "Fenn_2023_CAMtools.txt"
 consider_Protocol <- FALSE
 
 
@@ -150,7 +152,10 @@ plot(CAMdrawn[[1]], edge.arrow.size = .7,
 
 
 
-providedNumberPredefinedConcepts <- 3
+providedNumberPredefinedConcepts <- 6
+
+CAMfiles[[1]]$participantCAM
+
 
 nodes_notDeleted <- CAMfiles[[1]]
 vector_nonDeleted <- rep(x = FALSE, times = length(unique(nodes_notDeleted$CAM)))
@@ -164,7 +169,7 @@ for(c in 1:length(unique(nodes_notDeleted$CAM))){
 
     vector_nonDeleted[c] <- TRUE
   }
-  print(c)
+  # print(c)
 
 }
 vector_nonDeleted
