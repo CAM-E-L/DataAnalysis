@@ -87,7 +87,7 @@ getReportAPAServer <-
       })
 
       #> Server
-      # module_rv <- reactiveValues(numCAM = NULL)
+      module_rv <- reactiveValues(renamedIdenticalTerms = FALSE, renamedIdenticalTermsData = NULL)
 
         # input validator for settings
         iv <- InputValidator$new()
@@ -104,9 +104,25 @@ getReportAPAServer <-
         uniqueConcepts_Report <- reactive({
           req(dataCAM())
 
-         tmp_text <- str_remove_all(string = globals$dataCAMsummarized[[1]]$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+         # tmp_text <- str_remove_all(string = globals$dataCAMsummarized[[1]]$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+         
+         tmp_nodes <- globals$dataCAMsummarized[[1]]
+         tmp_nodes$text_summarized <- str_remove_all(string =tmp_nodes$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+            for(i in 1:length(unique(tmp_nodes$CAM))){
+              if(any(table(tmp_nodes$text_summarized[tmp_nodes$CAM == unique(tmp_nodes$CAM)[i]]) > 1)){
+                tmp_nodes <- rename_identicalTerms(dat_nodes = tmp_nodes, drawn_CAM = globals$drawnCAM(), 
+                removeSuffix = TRUE) # changed input
+                print("internally rename_identicalTerms() applied")
+                tmp_nodes$text_summarized[str_detect(string = tmp_nodes$text_summarized, pattern = "_[:digit:]*$")] <- NA
+                module_rv$renamedIdenticalTerms = TRUE
+                module_rv$renamedIdenticalTermsData = tmp_nodes
+                break
+              }else{
+             module_rv$renamedIdenticalTerms = FALSE
+              }
+            }
 
-          sort(unique(tmp_text))
+          sort(unique(tmp_nodes$text_summarized))
         })
 
 
@@ -220,13 +236,32 @@ getReportAPAServer <-
           # print(tmp_name_degree)
           # print(tmp_name_valence)
 
-          
+          print("compute_indicatorsCAM() - get report -> micro indicators")
+          if(module_rv$renamedIdenticalTerms){
+CAMdrawn_renamed <- draw_CAM(dat_merged = globals$dataCAMsummarized[[3]],
+                     dat_nodes = module_rv$renamedIdenticalTermsData,ids_CAMs = "all",
+                     plot_CAM = FALSE,
+                     useCoordinates = TRUE,
+                     relvertexsize = 3,
+                     reledgesize = 1)
+                     
+                     
+                     tmp_microIndicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn_renamed,
+                                  micro_degree = input$statsIndividualConcepts_input,
+                                  micro_valence = input$statsIndividualConcepts_input,
+                                  micro_centr_clo = NULL,
+                                  micro_transitivity = NULL,
+                                  largestClique = FALSE)
+          }else{
           tmp_microIndicators <- compute_indicatorsCAM(drawn_CAM = drawnCAM(),
                                   micro_degree = input$statsIndividualConcepts_input,
                                   micro_valence = input$statsIndividualConcepts_input,
                                   micro_centr_clo = NULL,
                                   micro_transitivity = NULL,
                                   largestClique = FALSE)
+          }
+
+
 
         for(i in 1:length(tmp_name_degree)){
           tmp_nameIndividualConcept <- input$statsIndividualConcepts_input[i]
