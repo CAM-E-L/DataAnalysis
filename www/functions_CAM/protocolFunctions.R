@@ -48,6 +48,11 @@ overwriteTextNodes <- function(protocolDat, nodesDat) {
 
   ##############################################
   ## remove suffix
+  #> apply function offline
+  if(is.null(x = nodesDat$text_summarized)){
+    nodesDat$text_summarized <- nodesDat$text
+  }
+
   tmp_text_summarized <-
     str_remove(string = nodesDat$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
 

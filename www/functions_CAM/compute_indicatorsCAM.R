@@ -9,13 +9,13 @@
 # compute_indicatorsCAM()
 #
 ############################################################################
-# drawn_CAM = CAMdrawn
+# drawn_CAM = CAMdrawn_renamed
 # micro_degree = NULL
 # micro_valence = NULL
 # micro_centr_clo = NULL
 # micro_transitivity = NULL
 # largestClique = FALSE
-# micro_degree = c("acceptability of SAI")
+# micro_degree = c("aaa")
 # micro_valence = c("acceptability of SAI")
 # micro_centr_clo = c("acceptability of SAI")
 # micro_transitivity = c("acceptability of SAI")
@@ -252,9 +252,12 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
         ### degree total
         degree_tmp <- igraph::degree(drawn_CAM[[i]], mode="all", loops = TRUE)
         tmp <- cbind(V(drawn_CAM[[i]])$label, as.numeric(degree_tmp))
+        tmp[,1] <- str_remove_all(string = tmp[,1], pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+        tmp <- tmp[!is.na(tmp[,1]), ]
 
         if(any(str_detect(string = tmp[,1], pattern = paste0("^", micro_degree[m], "$")))){
-          out_netind[i, tmp_name[m]] <- as.numeric(tmp[,2][str_detect(string = tmp[,1], pattern = paste0("^", micro_degree[m], "$"))])
+          out_netind[i, tmp_name[m]] <- as.numeric(tmp[,2][str_detect(string = tmp[,1],
+                                                                      pattern = paste0("^", micro_degree[m], "$"))])
         }
       }
     }
@@ -267,6 +270,8 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
         # valence_tmp <- ifelse(test = V(drawn_CAM[[i]])$color == "green", yes = 1, no =
         #                         ifelse(test = V(drawn_CAM[[i]])$color == "red", yes = -1, no = 0)) * V(drawn_CAM[[i]])$valence
         tmp <- cbind(V(drawn_CAM[[i]])$label, V(drawn_CAM[[i]])$value)
+        tmp[,1] <- str_remove_all(string = tmp[,1], pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+        tmp <- tmp[!is.na(tmp[,1]), ]
 
         if(any(str_detect(string = tmp[,1], pattern = paste0("^", micro_valence[m], "$")))){
           out_netind[i, tmp_name[m]] <- as.numeric(tmp[,2][str_detect(string = tmp[,1], pattern = paste0("^", micro_valence[m], "$"))])
@@ -283,6 +288,8 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
         ### centrality measures closeness
         centr_tmp <- igraph::centr_clo(drawn_CAM[[i]], mode="all", normalized=TRUE)
         tmp <- cbind(V(drawn_CAM[[i]])$label, centr_tmp$res / max(centr_tmp$res))
+        tmp[,1] <- str_remove_all(string = tmp[,1], pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+        tmp <- tmp[!is.na(tmp[,1]), ]
 
         if(any(str_detect(string = tmp[,1], pattern = paste0("^", micro_centr_clo[m], "$")))){
           out_netind[i, tmp_name[m]] <- as.numeric(tmp[,2][str_detect(string = tmp[,1], pattern = paste0("^", micro_centr_clo[m], "$"))])
@@ -300,6 +307,11 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
                                                type = "local")
 
       tmp <- cbind(V(drawn_CAM[[i]])$label, transitivity_tmp)
+      tmp[,1] <- str_remove_all(string = tmp[,1], pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+      tmp <- tmp[!is.na(tmp[,1]), ]
+      # print(micro_transitivity[m])
+      # print(tmp)
+
       if(any(str_detect(string = tmp[,1], pattern = paste0("^", micro_transitivity[m], "$")))){
         out_netind[i, tmp_name[m]] <- as.numeric(tmp[,2][str_detect(string = tmp[,1], pattern = paste0("^", micro_transitivity[m], "$"))])
       }

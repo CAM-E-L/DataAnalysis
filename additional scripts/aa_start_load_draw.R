@@ -9,10 +9,12 @@ graphics.off()
 # please define!
 #> put everything in the "data" folder (your data set and protocol if you have one)
 ########################################
-CAMdataset <- "Fenn_2023_SAIstudy_subset.txt"
+CAMdataset <- "Fenn_2023_CAMtools.txt"
 # "Fenn_2023_SAIstudy_subset.txt"
 # "Fenn_2023_CAMtools.txt"
-consider_Protocol <- FALSE
+
+protocolDataset <- "protocol.txt" # protocol_Fenn_2023_CAMtools
+consider_Protocol <- TRUE
 
 
 
@@ -96,7 +98,7 @@ dir()
 
 
 for(i in 1:length(dir())){
-  print(dir()[i])
+  # print(dir()[i])
   source(dir()[i], encoding = "utf-8")
 }
 rm(i)
@@ -128,6 +130,18 @@ for(i in 1:length(dat_CAM)){
 }
 rm(i)
 
+### if protocol considered
+if(consider_Protocol){
+  text <- readLines(protocolDataset, warn = FALSE)
+  text <- readLines(textConnection(text, encoding="UTF-8"), encoding="UTF-8")
+
+  if (testIfJson(file = text)) {
+    protocol <- rjson::fromJSON(file = protocolDataset)
+  } else{
+    print("Invalid protocol uploaded")
+  }
+}
+
 setwd("..")
 
 
@@ -136,6 +150,14 @@ setwd("..")
 ########################################
 ### create CAM single files (nodes, connectors, merged)
 CAMfiles <- create_CAMfiles(datCAM = raw_CAM, reDeleted = TRUE)
+
+### if protocol considered
+if(consider_Protocol){
+  tmp_out <- overwriteTextNodes(protocolDat = protocol,
+                                nodesDat = CAMfiles[[1]])
+  CAMfiles[[1]] <- tmp_out[[1]]
+}
+
 
 ### draw CAMs
 CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
@@ -152,28 +174,36 @@ plot(CAMdrawn[[1]], edge.arrow.size = .7,
 
 
 
-providedNumberPredefinedConcepts <- 6
+########################################
+# create CAM files, draw CAMs
+########################################
+tmp <- rename_identicalTerms(dat_nodes =  CAMfiles[[1]],
+                             drawn_CAM = CAMdrawn,
+                             removeSuffix = TRUE)
 
-CAMfiles[[1]]$participantCAM
+tmp$text_summarized[str_detect(string = tmp$text_summarized, pattern = "_[:digit:]*$")] <- NA
+CAMdrawn_renamed <- draw_CAM(dat_merged = CAMfiles[[3]],
+                     dat_nodes = tmp,ids_CAMs = "all",
+                     plot_CAM = FALSE,
+                     useCoordinates = TRUE,
+                     relvertexsize = 3,
+                     reledgesize = 1)
+
+plot(CAMdrawn_renamed[[1]], edge.arrow.size = .7,
+     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
+     vertex.size = 10, vertex.label.cex = .9)
 
 
-nodes_notDeleted <- CAMfiles[[1]]
-vector_nonDeleted <- rep(x = FALSE, times = length(unique(nodes_notDeleted$CAM)))
+sort(table(V(CAMdrawn[[1]])$label))
+sort(table(V(CAMdrawn_renamed[[1]])$label))
 
-for(c in 1:length(unique(nodes_notDeleted$CAM))){
-  tmp_CAM <- nodes_notDeleted[nodes_notDeleted$CAM %in% unique(nodes_notDeleted$CAM)[c], ]
 
-  if(sum(tmp_CAM$predefinedConcept) - providedNumberPredefinedConcepts != 0){
-    print(c)
-    print(sum(tmp_CAM$predefinedConcept))
 
-    vector_nonDeleted[c] <- TRUE
-  }
-  # print(c)
 
-}
-vector_nonDeleted
 
-round(x = sum(vector_nonDeleted) / length(vector_nonDeleted) * 100, digits = 2)
-
-CAMfiles[[1]]$predefinedConcept
+tmp_microIndicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn_renamed,
+                                             micro_degree = "aaa",
+                                             micro_valence = "aaa",
+                                             micro_centr_clo = NULL,
+                                             micro_transitivity = NULL,
+                                             largestClique = FALSE)

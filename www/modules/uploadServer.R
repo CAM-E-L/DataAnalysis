@@ -598,7 +598,7 @@ if(all(unlist(protocol()$currentCAMs) %in% CAMfiles[[1]]$CAM)){
 }
 
 
-print("AAAAAAAAAAAAAA!!!V")
+print("AAAAAAAAAAAAAA!!!")
 print(dim(CAMfiles[[1]]))
 print(dim(CAMfiles[[2]]))
 print(dim(CAMfiles[[3]]))

@@ -43,10 +43,12 @@ save_graphic <- function(filename){
 # > often occurs after summarizing terms
 ############################################################################
 ### args:
-# dat_nodes = df_CAMEL[[1]]
+# dat_nodes = CAMfiles[[1]]
 # drawn_CAM = CAMdrawn
+# removeSuffix = TRUE
 rename_identicalTerms <- function(dat_nodes = CAMfiles[[1]],
-                                  drawn_CAM = CAMdrawn){
+                                  drawn_CAM = CAMdrawn,
+                                  removeSuffix = FALSE){
 
   vec_ids <- c(); h = 1
   if(any(colnames(dat_nodes) == "text_summarized")){
@@ -55,6 +57,9 @@ rename_identicalTerms <- function(dat_nodes = CAMfiles[[1]],
     dat_nodes$text <- dat_nodes$text_summarized
   }
 
+  if(removeSuffix){
+    dat_nodes$text <- str_remove_all(string = dat_nodes$text, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+  }
 
   ## rename terms if any terms is > 1x time within one CAM
   for(i in 1:length(unique(dat_nodes$CAM))){
@@ -76,6 +81,10 @@ if(all(names(drawn_CAM) %in% unique(dat_nodes$CAM))){
       ref_CAM_igraph <- drawn_CAM[[c(1:length(drawn_CAM))[names(drawn_CAM) == unique(dat_nodes$participantCAM)[i]]]]
 }
 
+
+      if(removeSuffix){
+        V(ref_CAM_igraph)$label <- str_remove_all(string = V(ref_CAM_igraph)$label, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+      }
 
       # table(dat_nodes$text[dat_nodes$CAM == unique(dat_nodes$CAM)[i]])
 
