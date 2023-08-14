@@ -195,8 +195,20 @@ getReportAPAServer <-
         out_numConceptsSummarizedUnique <- length(unique(globals$dataCAMsummarized[[1]]$text_summarized))
 
 
+        ### summarizing functions
+        # print("globals$protocol")
+        # print(globals$protocol)
 
-        ###individual concepts ###
+        out_numApproximateMatching <- length(globals$protocol$approximateMatching)
+        out_numSearchTerms <- length(globals$protocol$searchTerms)
+        out_numFindSynonyms <- length(globals$protocol$findSynonyms)
+        out_numModelwordVec <- length(globals$protocol$modelwordVec)
+
+
+
+
+
+        ### individual concepts ###
         shinyjs::html("listIndividualConcepts", "", add = FALSE)
 
         if(length(input$statsIndividualConcepts_input) > 0){
@@ -205,8 +217,8 @@ getReportAPAServer <-
           tmp_name_degree <- paste0("degreetot_micro_", str_replace_all(string=input$statsIndividualConcepts_input, pattern=" ", repl=""))
           tmp_name_valence <- paste0("valence_micro_", str_replace_all(string=input$statsIndividualConcepts_input, pattern=" ", repl=""))
 
-          print(tmp_name_degree)
-          print(tmp_name_valence)
+          # print(tmp_name_degree)
+          # print(tmp_name_valence)
 
           
           tmp_microIndicators <- compute_indicatorsCAM(drawn_CAM = drawnCAM(),
@@ -315,7 +327,15 @@ getReportAPAServer <-
             "</span> in total)",
             "were summarized to",
             out_numConceptsSummarizedUnique,
-            "concepts."
+            "concepts using",
+            out_numApproximateMatching,
+            'times the "approximate matching",',
+            out_numSearchTerms,
+            'times the "searching terms",',
+            out_numFindSynonyms,
+            'times the "search for synonyms" and',
+            out_numModelwordVec,
+            'times the "apply word2vec model" functionalities.'
           )
         })
 
