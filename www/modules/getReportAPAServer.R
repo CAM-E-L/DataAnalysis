@@ -219,8 +219,8 @@ getReportAPAServer <-
         for(i in 1:length(tmp_name_degree)){
           tmp_nameIndividualConcept <- input$statsIndividualConcepts_input[i]
 
-          print("tmp_microIndicators[, tmp_name_valence[i]]")
-          print(tmp_microIndicators[, tmp_name_valence[i]])
+          # print("tmp_microIndicators[, tmp_name_valence[i]]")
+          # print(tmp_microIndicators[, tmp_name_valence[i]])
           tmp_averageIndividualConcept <- round(x = mean(tmp_microIndicators[, tmp_name_valence[i]], na.rm = TRUE), digits = 2)
           tmp_sdIndividualConcept <- round(x = sd(tmp_microIndicators[, tmp_name_valence[i]], na.rm = TRUE), digits = 2)
           tmp_drawnInCAMs <-  sum(!is.na(tmp_microIndicators[, tmp_name_valence[i]]))
