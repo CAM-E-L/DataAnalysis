@@ -127,7 +127,7 @@ getReportAPAServer <-
         tmp_nodes <- globals$dataCAMsummarized[[1]]
         text_summarized_SuffixRemoved <-
           str_remove_all(string = tmp_nodes$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
- 
+
         sort(unique(text_summarized_SuffixRemoved))
       })
 
@@ -255,18 +255,18 @@ getReportAPAServer <-
         ## deleted predefined concepts
         if (all(globals$dataCAMsummarized[[1]]$participantCAM == "noID")) {
           nodes_notDeleted <-
-            globals$dataCAMsummarized[[1]][globals$dataCAMsummarized[[1]]$CAM %in% globals$protocol$currentCAMs,]
+            globals$dataCAMsummarized[[1]][globals$dataCAMsummarized[[1]]$CAM %in% globals$protocol$currentCAMs, ]
         } else{
           #> use participantCAM ID
           nodes_notDeleted <-
-            globals$dataCAMsummarized[[1]][globals$dataCAMsummarized[[1]]$participantCAM %in% globals$protocol$currentCAMs,]
+            globals$dataCAMsummarized[[1]][globals$dataCAMsummarized[[1]]$participantCAM %in% globals$protocol$currentCAMs, ]
         }
 
         vector_nonDeleted <-
           rep(x = FALSE, times = length(unique(nodes_notDeleted$CAM)))
         for (c in 1:length(unique(nodes_notDeleted$CAM))) {
           tmp_CAM <-
-            nodes_notDeleted[nodes_notDeleted$CAM %in% unique(nodes_notDeleted$CAM)[c],]
+            nodes_notDeleted[nodes_notDeleted$CAM %in% unique(nodes_notDeleted$CAM)[c], ]
 
           if (sum(tmp_CAM$predefinedConcept) - providedNumberPredefinedConcepts != 0) {
             # print(c)
@@ -312,11 +312,12 @@ getReportAPAServer <-
         if (length(input$statsIndividualConcepts_input) > 0) {
           shinyjs::show(id = "individualConcepts")
 
-## get number of times concept was drawn
-tmp_nodes <- globals$dataCAMsummarized[[1]]
-tmp_nodes$text_summarized <- str_remove_all(string = tmp_nodes$text_summarized, 
-                                            pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
-tmp_mat <- table(tmp_nodes$CAM, tmp_nodes$text_summarized)
+          ## get number of times concept was drawn
+          tmp_nodes <- globals$dataCAMsummarized[[1]]
+          tmp_nodes$text_summarized <-
+            str_remove_all(string = tmp_nodes$text_summarized,
+                           pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+          tmp_mat <- table(tmp_nodes$CAM, tmp_nodes$text_summarized)
 
 
           tmp_name_valence <-
@@ -342,12 +343,15 @@ tmp_mat <- table(tmp_nodes$CAM, tmp_nodes$text_summarized)
 
 
           print("compute_indicatorsCAM() - get report -> micro indicators")
-          tmp_microIndicators <- compute_indicatorsCAM(drawn_CAM = drawnCAM(),
-                                             micro_degree = input$statsIndividualConcepts_input,
-                                             micro_valence = input$statsIndividualConcepts_input,
-                                             micro_centr_clo = NULL,
-                                             micro_transitivity = NULL,
-                                             largestClique = FALSE)
+          tmp_microIndicators <-
+            compute_indicatorsCAM(
+              drawn_CAM = drawnCAM(),
+              micro_degree = input$statsIndividualConcepts_input,
+              micro_valence = input$statsIndividualConcepts_input,
+              micro_centr_clo = NULL,
+              micro_transitivity = NULL,
+              largestClique = FALSE
+            )
 
 
           tmp_vector_Xtimes <- NULL
@@ -355,18 +359,32 @@ tmp_mat <- table(tmp_nodes$CAM, tmp_nodes$text_summarized)
           for (i in 1:length(input$statsIndividualConcepts_input)) {
             tmp_nameIndividualConcept <- input$statsIndividualConcepts_input[i]
 
-            tmp_averageIndividualConcept <- round(x = mean(tmp_microIndicators[, tmp_name_valence[i]], na.rm = TRUE), digits = 2)
-            tmp_sdIndividualConcept <- round(x = sd(tmp_microIndicators[, tmp_name_valence[i]], na.rm = TRUE), digits = 2)
-         
-            tmp_drawnInCAMs <- sum(!is.na(tmp_microIndicators[, tmp_name_valence[i]]))
-            tmp_drawnInCAMsPercent <- paste0(round(x = tmp_drawnInCAMs / nrow(tmp_microIndicators) * 100, digits = 0), "%")
+            tmp_averageIndividualConcept <-
+              round(x = mean(tmp_microIndicators[, tmp_name_valence[i]], na.rm = TRUE),
+                    digits = 2)
+            tmp_sdIndividualConcept <-
+              round(x = sd(tmp_microIndicators[, tmp_name_valence[i]], na.rm = TRUE),
+                    digits = 2)
 
-            tmp_degreeIndividualConcept <- round(x = mean(tmp_microIndicators[, tmp_name_degree[i]], na.rm = TRUE), digits = 2)
-            tmp_degreeSdIndividualConcept <- round(x = sd(tmp_microIndicators[, tmp_name_degree[i]], na.rm = TRUE), digits = 2)
+            tmp_drawnInCAMs <-
+              sum(!is.na(tmp_microIndicators[, tmp_name_valence[i]]))
+            tmp_drawnInCAMsPercent <-
+              paste0(round(
+                x = tmp_drawnInCAMs / nrow(tmp_microIndicators) * 100,
+                digits = 0
+              ), "%")
+
+            tmp_degreeIndividualConcept <-
+              round(x = mean(tmp_microIndicators[, tmp_name_degree[i]], na.rm = TRUE),
+                    digits = 2)
+            tmp_degreeSdIndividualConcept <-
+              round(x = sd(tmp_microIndicators[, tmp_name_degree[i]], na.rm = TRUE),
+                    digits = 2)
 
 
 
-            tmp_timesIndividualConcept <- sum(tmp_mat[, colnames(tmp_mat) == input$statsIndividualConcepts_input[i]], na.rm = TRUE)
+            tmp_timesIndividualConcept <-
+              sum(tmp_mat[, colnames(tmp_mat) == input$statsIndividualConcepts_input[i]], na.rm = TRUE)
 
             ## add indivvidual concept
             tmp_individualConcept <- paste0(
@@ -395,25 +413,29 @@ tmp_mat <- table(tmp_nodes$CAM, tmp_nodes$text_summarized)
                           add = TRUE)
 
 
-            if(any(tmp_mat[, colnames(tmp_mat) == input$statsIndividualConcepts_input[i]] > 1)){
+            if (any(tmp_mat[, colnames(tmp_mat) == input$statsIndividualConcepts_input[i]] > 1)) {
               tmp_vector_Xtimes[h] <- input$statsIndividualConcepts_input[i]
               h = h + 1
             }
           }
 
-if(!is.null(tmp_vector_Xtimes)){
-  print("tmp_vector_Xtimes")
-    print(tmp_vector_Xtimes)
+          if (!is.null(tmp_vector_Xtimes)) {
+            # print("tmp_vector_Xtimes")
+            # print(tmp_vector_Xtimes)
 
-        output$textTermsMultiple <- renderUI({
-                  HTML(paste0('<b style="color:red;">The following (summarized) concept(s) was / were drawn multiple times within an individual CAM:</b> ', 
-paste0(tmp_vector_Xtimes, collapse = " // ")))
-                  })
-}else{
-  output$textTermsMultiple <- renderUI({
-                  HTML('')
-                  })
-}
+            output$textTermsMultiple <- renderUI({
+              HTML(
+                paste0(
+                  '<b style="color:red;">The following (summarized) concept(s) was / were drawn multiple times within an individual CAM:</b> ',
+                  paste0(tmp_vector_Xtimes, collapse = " // ")
+                )
+              )
+            })
+          } else{
+            output$textTermsMultiple <- renderUI({
+              HTML('')
+            })
+          }
 
 
         } else{

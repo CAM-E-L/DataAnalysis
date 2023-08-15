@@ -173,63 +173,8 @@ plot(CAMdrawn[[1]], edge.arrow.size = .7,
 
 
 tmp_microIndicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
-                                             micro_degree = "aaa",
-                                             micro_valence = "aaa",
-                                             micro_centr_clo = NULL,
-                                             micro_transitivity = NULL,
-                                             largestClique = FALSE)
-
-########################################
-# create CAM files, draw CAMs
-########################################
-
-
-
-
-
-CAMdrawn_renamed <- CAMdrawn
-
-for(i in 1:length(CAMdrawn_renamed)){
-  V(CAMdrawn_renamed[[i]])$label <- str_remove_all(string = V(CAMdrawn_renamed[[i]])$label,
-                                                   pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
-
-  V(CAMdrawn_renamed[[i]])$value[V(CAMdrawn_renamed[[i]])$label %in% "aaa"]
-
-}
-
-
-cbind(V(CAMdrawn_renamed[[i]])$value[V(CAMdrawn_renamed[[i]])$label %in% "aaa"],
-
-igraph::degree(graph = CAMdrawn_renamed[[i]], mode = "all")[V(CAMdrawn_renamed[[i]])$label %in% "aaa"])
-
-
-tmp <- rename_identicalTerms(dat_nodes =  CAMfiles[[1]],
-                             drawn_CAM = CAMdrawn,
-                             removeSuffix = TRUE)
-
-tmp$text_summarized[str_detect(string = tmp$text_summarized, pattern = "_[:digit:]*$")] <- NA
-CAMdrawn_renamed <- draw_CAM(dat_merged = CAMfiles[[3]],
-                     dat_nodes = tmp,ids_CAMs = "all",
-                     plot_CAM = FALSE,
-                     useCoordinates = TRUE,
-                     relvertexsize = 3,
-                     reledgesize = 1)
-
-plot(CAMdrawn_renamed[[1]], edge.arrow.size = .7,
-     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
-     vertex.size = 10, vertex.label.cex = .9)
-
-
-sort(table(V(CAMdrawn[[1]])$label))
-sort(table(V(CAMdrawn_renamed[[1]])$label))
-
-
-
-
-
-tmp_microIndicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn_renamed,
-                                             micro_degree = "aaa",
-                                             micro_valence = "aaa",
+                                             micro_degree = NULL,
+                                             micro_valence = NULL,
                                              micro_centr_clo = NULL,
                                              micro_transitivity = NULL,
                                              largestClique = FALSE)
