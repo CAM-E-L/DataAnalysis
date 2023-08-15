@@ -11,10 +11,10 @@
 ############################################################################
 ### args
 # i <- 3
-# singleCAM = drawn_CAM[[i]]
-# singleCAMid =  names(drawn_CAM)[i]
-# removeConnection = removeConnectionCAM
-# removeNode = removeNodeCAM
+# singleCAM = CAMdrawn[[i]]
+# singleCAMid =  names(CAMdrawn)[i]
+# removeConnection = c("Öffentliche Verkehrsmittel", "Eigener Pkw")
+# removeNode = NULL
 # plot = TRUE
 # verbose = TRUE
 
@@ -43,15 +43,30 @@ sliceCAM <- function(singleCAM = NULL, singleCAMid = NULL,
   #> if both name exists
   if(!is.null(removeConnection)){
     if(sum(tmp_id[,1] %in% removeConnection) == 2){
-      #> if connected
+
+      ## get direction of cutting
       if(are.connected(graph = singleCAM, v1 = tmp_id[,2][tmp_id[,1] == removeConnection[1]],
                        v2 = tmp_id[,2][tmp_id[,1] == removeConnection[2]])){
+        cutDirection <- paste0(tmp_id[,2][tmp_id[,1] == removeConnection[1]], "|",
+                               tmp_id[,2][tmp_id[,1] == removeConnection[2]])
+      }
+
+      if(are.connected(graph = singleCAM, v1 = tmp_id[,2][tmp_id[,1] == removeConnection[2]],
+                       v2 = tmp_id[,2][tmp_id[,1] == removeConnection[1]])){
+        cutDirection <- paste0(tmp_id[,2][tmp_id[,1] == removeConnection[2]], "|",
+                               tmp_id[,2][tmp_id[,1] == removeConnection[1]])
+      }
+
+      #> if connected
+      if(are.connected(graph = singleCAM, v1 = tmp_id[,2][tmp_id[,1] == removeConnection[1]],
+                       v2 = tmp_id[,2][tmp_id[,1] == removeConnection[2]]) ||
+         are.connected(graph = singleCAM, v1 = tmp_id[,2][tmp_id[,1] == removeConnection[2]],
+                       v2 = tmp_id[,2][tmp_id[,1] == removeConnection[1]])){
         if(verbose){
           cat("CAM with ID", singleCAMid, "was sliced", "\n")
         }
 
-        singleCAM <- singleCAM - edge(paste0(tmp_id[,2][tmp_id[,1] == removeConnection[1]], "|",
-                                             tmp_id[,2][tmp_id[,1] == removeConnection[2]]))
+        singleCAM <- singleCAM - edge(cutDirection)
       }else{
         if(verbose){
           cat("CAM with ID", singleCAMid, "was NOT sliced (no connection)", "\n")

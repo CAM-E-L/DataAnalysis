@@ -178,3 +178,79 @@ tmp_microIndicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
                                              micro_centr_clo = NULL,
                                              micro_transitivity = NULL,
                                              largestClique = FALSE)
+
+
+
+
+
+
+
+
+
+
+
+
+############################################################################
+############################################################################
+V(CAMdrawn[[1]])$name %in% CAMfiles[[1]]$id
+
+singleCAM <- CAMdrawn[[1]]
+removeNode <- "aaa_positive"
+singleCAM <- delete_vertices(graph = singleCAM, v =  V(singleCAM)$name[V(singleCAM)$label == removeNode])
+
+plot(CAMdrawn[[1]])
+plot(singleCAM)
+
+
+names(CAMdrawn)[1]
+V(singleCAM)$name %in% CAMfiles[[1]]$id
+E(singleCAM)$name %in% CAMfiles[[1]]$id
+
+
+id_out <- V(CAMdrawn[[1]])$name[!V(CAMdrawn[[1]])$name %in% V(singleCAM)$name]
+id_out
+tmp_files <- CAMfiles
+
+tmp_files[[1]][tmp_files[[1]]$CAM %in% names(CAMdrawn)[1], ]
+
+
+
+
+tmp_files[[2]]$daughterID %in% id_out
+
+
+
+tmp_files[[1]] <- tmp_files[[1]][!tmp_files[[1]]$id %in% id_out, ]
+tmp_files[[2]] <- tmp_files[[2]][!tmp_files[[2]]$daughterID %in% id_out, ]
+tmp_files[[2]] <- tmp_files[[2]][!tmp_files[[2]]$motherID %in% id_out, ]
+tmp_files[[3]] <- tmp_files[[3]][!tmp_files[[3]]$id %in% id_out, ]
+tmp_files[[3]] <- tmp_files[[3]][!tmp_files[[3]]$idending %in% id_out, ]
+# tmp_files[[3]] <- tmp_files[[3]][!tmp_files[[3]]$id %in% id_out, ]
+
+
+CAMdrawn2 <- draw_CAM(dat_merged = tmp_files[[3]],
+                     dat_nodes = tmp_files[[1]],ids_CAMs = "all",
+                     plot_CAM = FALSE,
+                     useCoordinates = TRUE,
+                     relvertexsize = 3,
+                     reledgesize = 1)
+
+plot(CAMdrawn2[[1]])
+plot(CAMdrawn[[1]])
+plot(singleCAM)
+
+gorder(graph = CAMdrawn2[[1]])
+gorder(graph = CAMdrawn[[1]])
+gorder(graph = singleCAM)
+
+vcount(graph = CAMdrawn2[[1]])
+vcount(graph = CAMdrawn[[1]])
+vcount(graph = singleCAM)
+
+
+
+
+raw_CAM[[1]]$nodes$id %in% id_out
+raw_CAM[[1]]$connectors$source %in% id_out
+raw_CAM[[1]]$connectors$target %in% id_out
+

@@ -36,3 +36,4 @@ rsconnect/
 
 # exclude data of recent study
 /additional scripts/data/Covid19_perception/
+.Rproj.user

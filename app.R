@@ -657,6 +657,20 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
         }
 
 
+################
+          path <- paste0("testME", ".txt")
+          fs <- c(fs, path)
+        writeLines("", path) # create file
+        text_connection <- file(path, "w") # open connection to append
+
+        for(i in 1:2000){
+          writeLines(text = paste0(i), con = text_connection)
+        }
+        close(text_connection) # close connection
+################
+
+
+
         ## + add description file
         path <- paste0("description file", ".txt")
         fs <- c(fs, path)
