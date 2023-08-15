@@ -131,10 +131,17 @@ sliceCAM <- function(singleCAM = NULL, singleCAMid = NULL,
 #
 ############################################################################
 ### args
+# CAMfilesList = CAMfiles
+# drawnCAMs = CAMdrawn
+# connectionToRemove = NULL
+# nodeToRemove = "Covid-19"
+# centralConceptsSubgraphs = c("negative aspects", "positive aspects")
+# plot = TRUE
 sliceAllCAMs_combined <- function(CAMfilesList = NULL,
                                   drawnCAMs = NULL,
                                   connectionToRemove = NULL,
                                   nodeToRemove = NULL,
+                                  centralConceptsSubgraphs = NULL,
                                   plot = FALSE){
 
   vec_separableCAMs <- c(); h=1
@@ -154,8 +161,8 @@ sliceAllCAMs_combined <- function(CAMfilesList = NULL,
       tmp_C2 <- tmp_id[,1][tmp_id[,2] %in% names(tmp_com$membership[tmp_com$membership == 2])]
 
       ## if every components includes predefined nodes
-      if(sum(tmp_C1 %in% c("Eigener Pkw", "Öffentliche Verkehrsmittel")) == 1 &&
-         sum(tmp_C2 %in% c("Eigener Pkw", "Öffentliche Verkehrsmittel")) == 1){
+      if(sum(tmp_C1 %in% centralConceptsSubgraphs) == 1 &&
+         sum(tmp_C2 %in% centralConceptsSubgraphs) == 1){
         # print(i)
         vec_separableCAMs[h] <- i
         h = h + 1
@@ -192,6 +199,19 @@ sliceAllCAMs_combined <- function(CAMfilesList = NULL,
         }
 
 
+      }else{
+        ## remove all CAMs where separation was not possible
+        if(sum(CAMfilesList[[1]]$CAM %in% names(drawnCAMs)[i]) == 0){
+          ## use participant ID
+          CAMfilesList[[1]] <- CAMfilesList[[1]][!CAMfilesList[[1]]$participantCAM %in% names(drawnCAMs)[i], ]
+          CAMfilesList[[2]] <- CAMfilesList[[2]][!CAMfilesList[[2]]$participantCAM %in% names(drawnCAMs)[i], ]
+          CAMfilesList[[3]] <- CAMfilesList[[3]][!CAMfilesList[[3]]$participantCAM.x %in% names(drawnCAMs)[i], ]
+        }else{
+          ## else CAM ID
+          CAMfilesList[[1]] <- CAMfilesList[[1]][!CAMfilesList[[1]]$CAM %in% names(drawnCAMs)[i], ]
+          CAMfilesList[[2]] <- CAMfilesList[[2]][!CAMfilesList[[2]]$CAM %in% names(drawnCAMs)[i], ]
+          CAMfilesList[[3]] <- CAMfilesList[[3]][!CAMfilesList[[3]]$CAM.x %in% names(drawnCAMs)[i], ]
+        }
       }
     }else{
       ## remove all CAMs where separation was not possible

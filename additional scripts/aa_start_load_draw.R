@@ -14,7 +14,7 @@ CAMdataset <- "Fenn_2023_CAMtools.txt"
 # "Fenn_2023_CAMtools.txt"
 
 protocolDataset <- "protocol.txt" # protocol_Fenn_2023_CAMtools
-consider_Protocol <- TRUE
+consider_Protocol <- FALSE
 
 
 
@@ -182,75 +182,55 @@ tmp_microIndicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
 
 
 
+centralConcepts <- c("negative aspects", "positive aspects")
+
+slicedCAMs_combined <- sliceAllCAMs_combined(CAMfilesList = CAMfiles,
+                                             drawnCAMs = CAMdrawn,
+                                             connectionToRemove = NULL,
+                                             nodeToRemove = "Covid-19",
+                                             centralConceptsSubgraphs = centralConcepts,
+                                             plot = FALSE)
 
 
 
 
+slicedCAMs_seperated <- sliceAllCAMs_seperated(slicedCAMs = slicedCAMs_combined,
+                                               centralConceptsSubgraphs = centralConcepts,
+                                               plot = TRUE)
 
 
 
 
-############################################################################
-############################################################################
-V(CAMdrawn[[1]])$name %in% CAMfiles[[1]]$id
-
-singleCAM <- CAMdrawn[[1]]
-removeNode <- "aaa_positive"
-singleCAM <- delete_vertices(graph = singleCAM, v =  V(singleCAM)$name[V(singleCAM)$label == removeNode])
-
-plot(CAMdrawn[[1]])
-plot(singleCAM)
+CAMdrawn_c12 <- draw_CAM(dat_merged = slicedCAMs_combined[[3]],
+                        dat_nodes = slicedCAMs_combined[[1]], ids_CAMs = "all",
+                        plot_CAM = TRUE,
+                        useCoordinates = TRUE,
+                        relvertexsize = 3,
+                        reledgesize = 1)
 
 
-names(CAMdrawn)[1]
-V(singleCAM)$name %in% CAMfiles[[1]]$id
-E(singleCAM)$name %in% CAMfiles[[1]]$id
+CAMdrawn_c1 <- draw_CAM(dat_merged = slicedCAMs_seperated[[3]],
+                        dat_nodes = slicedCAMs_seperated[[1]], ids_CAMs = "all",
+                        plot_CAM = FALSE,
+                        useCoordinates = TRUE,
+                        relvertexsize = 3,
+                        reledgesize = 1)
 
-
-id_out <- V(CAMdrawn[[1]])$name[!V(CAMdrawn[[1]])$name %in% V(singleCAM)$name]
-id_out
-tmp_files <- CAMfiles
-
-tmp_files[[1]][tmp_files[[1]]$CAM %in% names(CAMdrawn)[1], ]
-
+CAMdrawn_c2 <- draw_CAM(dat_merged = slicedCAMs_seperated[[6]],
+                        dat_nodes = slicedCAMs_seperated[[4]], ids_CAMs = "all",
+                        plot_CAM = FALSE,
+                        useCoordinates = TRUE,
+                        relvertexsize = 3,
+                        reledgesize = 1)
 
 
 
-tmp_files[[2]]$daughterID %in% id_out
-
-
-
-tmp_files[[1]] <- tmp_files[[1]][!tmp_files[[1]]$id %in% id_out, ]
-tmp_files[[2]] <- tmp_files[[2]][!tmp_files[[2]]$daughterID %in% id_out, ]
-tmp_files[[2]] <- tmp_files[[2]][!tmp_files[[2]]$motherID %in% id_out, ]
-tmp_files[[3]] <- tmp_files[[3]][!tmp_files[[3]]$id %in% id_out, ]
-tmp_files[[3]] <- tmp_files[[3]][!tmp_files[[3]]$idending %in% id_out, ]
-# tmp_files[[3]] <- tmp_files[[3]][!tmp_files[[3]]$id %in% id_out, ]
-
-
-CAMdrawn2 <- draw_CAM(dat_merged = tmp_files[[3]],
-                     dat_nodes = tmp_files[[1]],ids_CAMs = "all",
-                     plot_CAM = FALSE,
-                     useCoordinates = TRUE,
-                     relvertexsize = 3,
-                     reledgesize = 1)
-
-plot(CAMdrawn2[[1]])
-plot(CAMdrawn[[1]])
-plot(singleCAM)
-
-gorder(graph = CAMdrawn2[[1]])
-gorder(graph = CAMdrawn[[1]])
-gorder(graph = singleCAM)
-
-vcount(graph = CAMdrawn2[[1]])
-vcount(graph = CAMdrawn[[1]])
-vcount(graph = singleCAM)
-
-
-
-
-raw_CAM[[1]]$nodes$id %in% id_out
-raw_CAM[[1]]$connectors$source %in% id_out
-raw_CAM[[1]]$connectors$target %in% id_out
-
+plot(CAMdrawn[[names(CAMdrawn_c1)[2]]], edge.arrow.size = .3,
+     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = 0.1,
+     vertex.size = 10, vertex.label.cex = .9)
+plot(CAMdrawn_c1[[2]], edge.arrow.size = .3,
+     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = 0.1,
+     vertex.size = 10, vertex.label.cex = .9)
+plot(CAMdrawn_c2[[2]], edge.arrow.size = .3,
+     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = 0.1,
+     vertex.size = 10, vertex.label.cex = .9)
