@@ -54,6 +54,8 @@ networkIndicatorsServer <-
         tags$div(HTML("Dynamic table of network indicators:"), style="font-size:14px"),
         dataTableOutput(ns("networkIndicatorsTable")),
         tags$br(),
+        htmlOutput(ns("textTermsMultiple_NI")),
+        tags$br(),
         tags$div(HTML("<i>To download the network indicators download all your files globally using the button top right.</i>"),
         style="font-size:14px")
           )
@@ -117,6 +119,50 @@ networkIndicatorsServer <-
                       choices = as.list(uniqueConcepts_NI()), width = "50%",   multiple = TRUE
           )
         })
+
+
+        output$textTermsMultiple_NI <- renderUI({
+          req(dataCAM())
+
+          if(!is.null(input$micro_NI)){
+            ## get number of times concept was drawn
+            tmp_nodes <- globals$dataCAMsummarized[[1]]
+            tmp_nodes$text_summarized <-
+              str_remove_all(string = tmp_nodes$text_summarized,
+                             pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+            tmp_mat <- table(tmp_nodes$CAM, tmp_nodes$text_summarized)
+
+            tmp_vector_Xtimes <- NULL
+            h = 1
+            for (i in 1:length(input$micro_NI)) {
+              input$micro_NI[i]
+
+              if (any(tmp_mat[, colnames(tmp_mat) == input$micro_NI[i]] > 1)) {
+                tmp_vector_Xtimes[h] <- input$micro_NI[i]
+                h = h + 1
+              }
+            }
+
+
+          if (!is.null(tmp_vector_Xtimes)) {
+            print("tmp_vector_Xtimes")
+            print(tmp_vector_Xtimes)
+
+            text_out <- paste0(
+                  '<b style="color:red;">The following (summarized) concept(s) was / were drawn multiple times within an individual CAM:</b> ',
+                  paste0(tmp_vector_Xtimes, collapse = " // "))
+          } else {
+            text_out <- paste0(' ')
+          }
+          } else {
+            text_out <- paste0(' ')
+          }
+
+          HTML(text_out)
+        })
+
+
+
 
 
         ###### networkIndicatorsDescriptives
@@ -223,7 +269,7 @@ networkIndicatorsServer <-
 
         tags$div(
           HTML("<b>For which concepts do you want to get neighborhood indicators?</b><br>
-          Remark: The list is sorted alphabetically, by pressing a letter key or writing 
+          Remark: The list is sorted alphabetically, by pressing a letter key or writing
           you can search for specific words."),
                       style="font-size:14px"),
                   uiOutput(ns("selectNeighborhood_NI")),
@@ -248,6 +294,8 @@ networkIndicatorsServer <-
         ),
         tags$div(HTML("Dynamic table of neighborhood indicators:"), style="font-size:14px"),
         dataTableOutput(ns("neighborhoodIndicatorsTable")),
+         tags$br(),
+        htmlOutput(ns("textTermsMultiple_NeighborhoodInd")),
         tags$br(),
         tags$div(HTML("<i>To download the neighborhood indicators download all your files globally using the button top right.</i>"),
         style="font-size:14px")
@@ -342,6 +390,47 @@ print(tmp_sliceCAMbool)
 output$neighborhoodIndicatorsTable <- renderDataTable({
   NeighborhoodIndicators()
 })
+
+
+ output$textTermsMultiple_NeighborhoodInd <- renderUI({
+          req(dataCAM())
+
+          if(!is.null(input$neighborhood_NI)){
+            ## get number of times concept was drawn
+            tmp_nodes <- globals$dataCAMsummarized[[1]]
+            tmp_nodes$text_summarized <-
+              str_remove_all(string = tmp_nodes$text_summarized,
+                             pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+            tmp_mat <- table(tmp_nodes$CAM, tmp_nodes$text_summarized)
+
+            tmp_vector_Xtimes <- NULL
+            h = 1
+            for (i in 1:length(input$neighborhood_NI)) {
+              input$neighborhood_NI[i]
+
+              if (any(tmp_mat[, colnames(tmp_mat) == input$neighborhood_NI[i]] > 1)) {
+                tmp_vector_Xtimes[h] <- input$neighborhood_NI[i]
+                h = h + 1
+              }
+            }
+
+
+          if (!is.null(tmp_vector_Xtimes)) {
+            print("tmp_vector_Xtimes")
+            print(tmp_vector_Xtimes)
+
+            text_out <- paste0(
+                  '<b style="color:red;">The following (summarized) concept(s) was / were drawn multiple times within an individual CAM (not possible to compute neighborhood indicators):</b> ',
+                  paste0(tmp_vector_Xtimes, collapse = " // "))
+          } else {
+            text_out <- paste0(' ')
+          }
+          } else {
+            text_out <- paste0(' ')
+          }
+
+          HTML(text_out)
+        })
 
 
 
