@@ -9,16 +9,16 @@
 # compute_indicatorsCAM()
 #
 ############################################################################
-# drawn_CAM = CAMdrawn_renamed
+# drawn_CAM = CAMdrawn
 # micro_degree = NULL
 # micro_valence = NULL
 # micro_centr_clo = NULL
 # micro_transitivity = NULL
 # largestClique = FALSE
 # micro_degree = c("aaa")
-# micro_valence = c("acceptability of SAI")
-# micro_centr_clo = c("acceptability of SAI")
-# micro_transitivity = c("acceptability of SAI")
+# micro_valence = c("aaa")
+# micro_centr_clo = c("aaa")
+# micro_transitivity = c("aaa")
 
 compute_indicatorsCAM <- function(drawn_CAM = NULL,
                                   micro_degree = NULL,
@@ -256,11 +256,12 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
         tmp <- tmp[!is.na(tmp[,1]), ]
 
         if(any(str_detect(string = tmp[,1], pattern = paste0("^", micro_degree[m], "$")))){
-          out_netind[i, tmp_name[m]] <- as.numeric(tmp[,2][str_detect(string = tmp[,1],
-                                                                      pattern = paste0("^", micro_degree[m], "$"))])
+          out_netind[i, tmp_name[m]] <- mean(x = as.numeric(tmp[,2][str_detect(string = tmp[,1],
+                                                                      pattern = paste0("^", micro_degree[m], "$"))]))
         }
       }
     }
+
 
     ### valence single vertices
     if(!is.null(micro_valence)){
@@ -274,7 +275,7 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
         tmp <- tmp[!is.na(tmp[,1]), ]
 
         if(any(str_detect(string = tmp[,1], pattern = paste0("^", micro_valence[m], "$")))){
-          out_netind[i, tmp_name[m]] <- as.numeric(tmp[,2][str_detect(string = tmp[,1], pattern = paste0("^", micro_valence[m], "$"))])
+          out_netind[i, tmp_name[m]] <- mean(x = as.numeric(tmp[,2][str_detect(string = tmp[,1], pattern = paste0("^", micro_valence[m], "$"))]))
         }
       }
     }
@@ -292,7 +293,7 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
         tmp <- tmp[!is.na(tmp[,1]), ]
 
         if(any(str_detect(string = tmp[,1], pattern = paste0("^", micro_centr_clo[m], "$")))){
-          out_netind[i, tmp_name[m]] <- as.numeric(tmp[,2][str_detect(string = tmp[,1], pattern = paste0("^", micro_centr_clo[m], "$"))])
+          out_netind[i, tmp_name[m]] <- mean(x = as.numeric(tmp[,2][str_detect(string = tmp[,1], pattern = paste0("^", micro_centr_clo[m], "$"))]))
         }
       }
     }
@@ -309,11 +310,13 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
       tmp <- cbind(V(drawn_CAM[[i]])$label, transitivity_tmp)
       tmp[,1] <- str_remove_all(string = tmp[,1], pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
       tmp <- tmp[!is.na(tmp[,1]), ]
+      tmp <- tmp[tmp[,2] != "NaN", ] # cannot be computed
+
       # print(micro_transitivity[m])
       # print(tmp)
 
       if(any(str_detect(string = tmp[,1], pattern = paste0("^", micro_transitivity[m], "$")))){
-        out_netind[i, tmp_name[m]] <- as.numeric(tmp[,2][str_detect(string = tmp[,1], pattern = paste0("^", micro_transitivity[m], "$"))])
+        out_netind[i, tmp_name[m]] <- mean(x =  as.numeric(tmp[,2][str_detect(string = tmp[,1], pattern = paste0("^", micro_transitivity[m], "$"))]))
       }
     }
   }

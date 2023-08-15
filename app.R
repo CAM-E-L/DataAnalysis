@@ -3,6 +3,8 @@
 # date of creation: January 2022 - August 2023
 # authors: Julius Fenn, University of Freiburg
 # ==============================================================================
+options(shiny.maxRequestSize = 10 * 1024^2)
+
 
 ############################################################################
 # load packages, data, inline CSS, modules, functions

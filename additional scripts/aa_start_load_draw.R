@@ -172,11 +172,37 @@ plot(CAMdrawn[[1]], edge.arrow.size = .7,
      vertex.size = 10, vertex.label.cex = .9)
 
 
-
+tmp_microIndicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
+                                             micro_degree = "aaa",
+                                             micro_valence = "aaa",
+                                             micro_centr_clo = NULL,
+                                             micro_transitivity = NULL,
+                                             largestClique = FALSE)
 
 ########################################
 # create CAM files, draw CAMs
 ########################################
+
+
+
+
+
+CAMdrawn_renamed <- CAMdrawn
+
+for(i in 1:length(CAMdrawn_renamed)){
+  V(CAMdrawn_renamed[[i]])$label <- str_remove_all(string = V(CAMdrawn_renamed[[i]])$label,
+                                                   pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+
+  V(CAMdrawn_renamed[[i]])$value[V(CAMdrawn_renamed[[i]])$label %in% "aaa"]
+
+}
+
+
+cbind(V(CAMdrawn_renamed[[i]])$value[V(CAMdrawn_renamed[[i]])$label %in% "aaa"],
+
+igraph::degree(graph = CAMdrawn_renamed[[i]], mode = "all")[V(CAMdrawn_renamed[[i]])$label %in% "aaa"])
+
+
 tmp <- rename_identicalTerms(dat_nodes =  CAMfiles[[1]],
                              drawn_CAM = CAMdrawn,
                              removeSuffix = TRUE)
