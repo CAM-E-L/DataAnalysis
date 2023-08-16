@@ -665,15 +665,33 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
 
 
 ################
-          path <- paste0("testME", ".txt")
+        if ("CAMsSlicedCreated" %in% globals$condition) {
+          print("CAMsSlicedCreated - check")
+          ## CAM_nodes c1
+          path <- paste0(names(globals$dataSlicedCAMs_seperated)[1], ".txt")
           fs <- c(fs, path)
-        writeLines("", path) # create file
-        text_connection <- file(path, "w") # open connection to append
-
-        for(i in 1:500){
-          writeLines(text = paste0(i), con = text_connection)
+          vroom::vroom_write(globals$dataSlicedCAMs_seperated[[1]], path)
+          ## CAM_connectors c1
+          path <- paste0(names(globals$dataSlicedCAMs_seperated)[2], ".txt")
+          fs <- c(fs, path)
+          vroom::vroom_write(globals$dataSlicedCAMs_seperated[[2]], path)
+          ## CAM_merged c1
+          path <- paste0(names(globals$dataSlicedCAMs_seperated)[3], ".txt")
+          fs <- c(fs, path)
+          vroom::vroom_write(globals$dataSlicedCAMs_seperated[[3]], path)
+          ## CAM_nodes c2
+          path <- paste0(names(globals$dataSlicedCAMs_seperated)[4], ".txt")
+          fs <- c(fs, path)
+          vroom::vroom_write(globals$dataSlicedCAMs_seperated[[4]], path)
+          ## CAM_connectors c2
+          path <- paste0(names(globals$dataSlicedCAMs_seperated)[5], ".txt")
+          fs <- c(fs, path)
+          vroom::vroom_write(globals$dataSlicedCAMs_seperated[[5]], path)
+          ## CAM_merged c2
+          path <- paste0(names(globals$dataSlicedCAMs_seperated)[6], ".txt")
+          fs <- c(fs, path)
+          vroom::vroom_write(globals$dataSlicedCAMs_seperated[[6]], path)
         }
-        close(text_connection) # close connection
 ################
 
 
@@ -872,6 +890,20 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
           )
         }
 
+
+      if ("CAMsSlicedCreated" %in% globals$condition) {
+        write(
+            paste0("\nCAMs sliced datasets: .txt files (nodes, connectors, merged) created for central concept: ", globals$namingSlicedCAMs[1]),
+            path,
+            append = TRUE
+          )
+
+        write(
+          paste0("CAMs sliced datasets: .txt files (nodes, connectors, merged) created for central concept: ", globals$namingSlicedCAMs[2]),
+            path,
+            append = TRUE
+          )
+        }
 
         ## add protocol
         #> add unique session id

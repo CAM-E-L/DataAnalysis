@@ -210,6 +210,9 @@ sliceCAMsServer <-
 
 
           ## get seperated data sets
+            #> change condition
+  globals$condition <-
+    c(globals$condition, "CAMsSlicedCreated")
           globals$dataSlicedCAMs_seperated <- sliceAllCAMs_seperated(slicedCAMs = slicedCAMs_combined,
                                                                      centralConceptsSubgraphs = input$CentralWords_SC,
                                                                      plot = FALSE)
@@ -246,7 +249,7 @@ sliceCAMsServer <-
 
         ## change UI
         outUI$elements <- tagList(
-          tags$h2("Compute descriptives statistics of sliced CAMs"),
+          tags$h2("Compute descriptives statistics of sliced CAMs<br>(wait few seconds for the analyses)"),
           tags$br(),
           tags$div(
             HTML("If you have successfully sliced CAMs you will see an APA table with multiple summary statistics:"),
