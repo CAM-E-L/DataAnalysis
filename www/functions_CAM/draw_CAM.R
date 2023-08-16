@@ -200,7 +200,7 @@ draw_CAM <- function(dat_merged = CAMfiles[[3]],
   }
     ## set participantCAM as default ID if unique and all IDs are provided
       if(length(unique(dat_merged$participantCAM.x)) == length(unique(dat_merged$CAM.x)) &
-          !any(dat_merged$participantCAM.x == "NO ID PROVIDED")){
+          !any(dat_merged$participantCAM.x %in% c("NO ID PROVIDED", "noID"))){
             if(length(ids_CAMs) < length(unique(dat_merged$participantCAM.x))){
             print("provided participantCAM ID in drawnCAM")
              names(list_g) <-  paste0(ids_CAMs)

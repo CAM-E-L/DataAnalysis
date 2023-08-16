@@ -338,7 +338,7 @@ NeighborhoodIndicators <- eventReactive(input$clickNeighborhoodIndicators, {
   req(drawnCAM())
 
   print("input$neighborhood_NI")
-  print(Encoding(input$neighborhood_NI))
+  #print(Encoding(input$neighborhood_NI))
   print(input$neighborhood_NI)
 
   if(is.null(input$neighborhood_NI)){
@@ -445,7 +445,7 @@ output$neighborhoodIndicatorsTable <- renderDataTable({
           tags$h2("Compute descriptives statistics of neighborhood indicators"),
           tags$br(),
                   tags$div(
-          HTML("If you have computed the neighborhood indicators you will see an APA table with multiple summary statistics:"),
+          HTML("If you have computed the neighborhood indicators you will see two APA tables with multiple summary statistics:"),
                       style="font-size:14px"),
           dataTableOutput(ns("APAtable_NIdes_neighborhood")),
                     tags$br(),

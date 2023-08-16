@@ -187,7 +187,6 @@ source("./www/modules/functions_bucketlists.R", local = TRUE)
 
 
 
-
 # not summarized terms
 source("./www/modules/notSummarizedTermsUI.R", local = TRUE)
 source("./www/modules/notSummarizedTermsServer.R", local = TRUE)
@@ -221,10 +220,16 @@ source("./www/modules/clusteringCAMs_conceptLevelServer.R", local = TRUE)
 source("./www/modules/clusteringCAMs_overallLevelUI.R", local = TRUE)
 source("./www/modules/clusteringCAMs_overallLevelServer.R", local = TRUE)
 
+# slice CAMs
+source("./www/modules/sliceCAMsUI.R", local = TRUE)
+source("./www/modules/sliceCAMsServer.R", local = TRUE)
 
-# summarize / aggregate CAMs
+
+# APA7 report
 source("./www/modules/getReportAPAUI.R", local = TRUE)
 source("./www/modules/getReportAPAServer.R", local = TRUE)
+
+
 
 ############################################################################
 # define UI, server, runApp
@@ -306,9 +311,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
         }),
     ),
        tabPanel("slice CAMs", {
-              tags$i("will be implemented soon...")
-
-      # fluidPage(networkIndicatorsUI("networkIndicators"))
+        fluidPage(sliceCAMsUI("sliceCAMs"))
     }),
 
 
@@ -397,6 +400,10 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
     wordlistOverall = NULL,
     #> word outputs -> by single words
     singleConceptsTable = NULL,
+    #> slice CAMs
+    dataSlicedCAMs_seperated = NULL,
+    namingSlicedCAMs = NULL,
+
 
     # internal data #
     dat_synonym = list(syn_English = syn_English)
@@ -663,7 +670,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
         writeLines("", path) # create file
         text_connection <- file(path, "w") # open connection to append
 
-        for(i in 1:2000){
+        for(i in 1:500){
           writeLines(text = paste0(i), con = text_connection)
         }
         close(text_connection) # close connection
@@ -994,6 +1001,14 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
         globals
       )
 
+      sliceCAMsServer(
+        "sliceCAMs",
+        dataCAM = globals$dataCAM,
+        drawnCAM = globals$drawnCAM,
+        parent = session,
+        globals
+      )
+
       getReportAPAServer(
         "getReportAPA",
         dataCAM = globals$dataCAM,
@@ -1002,7 +1017,6 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
         globals
       )
   }
-
 
 
   ### run app

@@ -136,6 +136,7 @@ sliceCAM <- function(singleCAM = NULL, singleCAMid = NULL,
 # connectionToRemove = NULL
 # nodeToRemove = "Covid-19"
 # centralConceptsSubgraphs = c("negative aspects", "positive aspects")
+# useSummarized = FALSE
 # plot = TRUE
 sliceAllCAMs_combined <- function(CAMfilesList = NULL,
                                   drawnCAMs = NULL,
