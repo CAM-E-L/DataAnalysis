@@ -184,6 +184,9 @@ tmp_microIndicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
 
 centralConcepts <- c("negative aspects", "positive aspects")
 
+
+paste0("\nCAMs sliced datasets: .txt files (nodes, connectors, merged) created for central concept: ", centralConcepts[1])
+
 slicedCAMs_combined <- sliceAllCAMs_combined(CAMfilesList = CAMfiles,
                                              drawnCAMs = CAMdrawn,
                                              connectionToRemove = NULL,
