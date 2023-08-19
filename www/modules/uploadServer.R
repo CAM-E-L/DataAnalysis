@@ -1068,20 +1068,22 @@ length(v$dfClean[[4]])
         tags$h2("General Information"),
         tags$br(),
         HTML(
-          'The software is a shiny-App programmed in the R environment. Everytime you have finished the central step of
+          'The software is a shiny-App programmed in the R environment. Every time you have finished the central step of
                      the module (here the Upload step) you can click "continue" in the bottom right to jump to the next
-                     module. This is just a <i>recommended procedure</i>, whereby the first step - uploading your data - is mandatory. Feel free to skip every module by clicking on continue.
+                     module. This is just a <i>recommended procedure</i>, whereby the first two steps - uploading your data and draw your CAMs - is mandatory. Feel free to skip every other module.
                      The central step within each module is depicted in <b>bold</b>.
                      <br>
                      The CAM app is divided in two central parts, whereby for the first part a protocol is generated, which should be uploaded together with the raw dataset(s).'
         ),
         tags$ol(tags$li(
-          HTML('<b>Preprocessing part:</b> ...')
+          HTML('<b>Prep-rocessing Part:</b> using multiple modules it is possible to summarize the CAM data semi-automatically')
         ),
         tags$li(HTML(
-          '<b>Analysis part:</b> ...'
+          '<b>Analysis Part:</b> the (summarized) data can be subsequently analyzed and visualized using multiple implemented functions'
         ))),
-        HTML('The protocol includes the following ...'),
+        HTML('The protocol is internally a JavaScript Object Notation (JSON) file and, for example, it includes information if any CAMs were deleted or which summary functions have been used. 
+        If any summarize terms module functions had been applied and a protocol and raw data is uploaded, the text of the drawn concepts is internally summarized and the researcher could continue summarizing 
+        the CAM data.'),
         tags$br(),
         tags$br(),
         p(
@@ -1095,7 +1097,7 @@ length(v$dfClean[[4]])
             icon = icon("envelope", lib = "font-awesome"),
             style = 'padding:3px; font-size:80%; margin: 5px'
           ),
-          href = "mailto:julius.fenn@psychologie.uni-freiburg.de"
+          href = "mailto:cam.contact@drawyourminds.de"
         ),
         tags$br(),
         tags$br(),
