@@ -1104,8 +1104,7 @@ length(v$dfClean[[4]])
         tags$div(
           HTML(
             'Best regards and have fun
-            <br> Julius Fenn, supported by Florian Gouret, Lisa Reuter, Wilhelm Gros, Michael Gorki
-             and Andrea Kiesel (University of Freiburg)'
+            <br> Julius Fenn, supported by Florian Gouret, Michael Gorki, Lisa Reuter, Wilhelm Gros, Paul Hüttner, and Andrea Kiesel (University of Freiburg)'
           )
         ),
         tags$br(),
