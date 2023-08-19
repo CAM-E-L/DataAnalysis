@@ -22,8 +22,8 @@ drawServer <- function(id, dataCAM, parent, globals) {
             HTML('To start the module, please click on one of the module options on the sidebar panel. The options for
                      this module are the following:'),
             tags$ul(
-              tags$li(HTML('<b>Draw R:</b> Draw CAMs using R (statistic software).')),
-              tags$li(HTML('<b>Draw JS:</b> to be implemented. If you have uploaded CAMEL data, you can draw your CAMs using JavaScript to see how the CAMs were drawn.')),
+              tags$li(HTML('<b>Draw R:</b> using the igraph package to draw the CAMs, which is a package in R (statistic software).')),
+              tags$li(HTML('<b>Draw JS:</b> <i>to be implemented</i>.')),
               tags$li(HTML('<b>Information:</b> Further information regarding this module.'))
             )
           )
@@ -522,8 +522,16 @@ drawServer <- function(id, dataCAM, parent, globals) {
             tags$div(
               HTML('The options for this module are the following:'),
              tags$ul(
-              tags$li(HTML('<b>Draw R:</b> Draw CAMs using R (statistic software).')),
-              tags$li(HTML('<b>Draw JS:</b> to be implemented. If you have uploaded CAMEL data you can draw your CAMs using Java Script to see the CAMs how they were drawn.'))
+              tags$li(HTML('<b>Draw R:</b> using the igraph package the CAMs are visualized. It is possible to draw the concepts at the same positions as those of the participants 
+              ("Yes" that positions should be considered), else a so called force-directed graph drawing algorithm is applied. Furthermore, aesthetics like the relative size of the 
+              concepts (vertices) and of the edges (connectors) can be adjusted.')),
+              tags$ul(
+                tags$li(HTML('If you want to <b>delete single CAMs</b> this is possible by marking all the CAMs, which should be deleted, with the button "un/delete CAM". 
+                It is recommended to save these CAMs as PDFs to upload them for example on OSF for transparency.')),
+                tags$li(HTML('The drawn <b>CAMs could be ordered</b> according to the mean valence, number of concepts / connectors, density or assortativity. 
+                These statistics are shown next to the individual plotted CAM.'))
+              ),
+              tags$li(HTML('<b>Draw JS:</b> <i>to be implemented</i>'))
             )
           )
           )

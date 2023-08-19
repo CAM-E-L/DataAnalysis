@@ -1082,7 +1082,7 @@ length(v$dfClean[[4]])
           '<b>Analysis Part:</b> the (summarized) data can be subsequently analyzed and visualized using multiple implemented functions'
         ))),
         HTML('The protocol is internally a JavaScript Object Notation (JSON) file and, for example, it includes information if any CAMs were deleted or which summary functions have been used. 
-        If any summarize terms module functions had been applied and a protocol and raw data is uploaded, the text of the drawn concepts is internally summarized and the researcher could continue summarizing 
+        If you have applied any summarize terms module functions and you upload protocol and raw data, the text of the drawn concepts is internally summarized and you could continue summarizing 
         the CAM data.'),
         tags$br(),
         tags$br(),
