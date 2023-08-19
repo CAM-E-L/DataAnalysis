@@ -20,7 +20,7 @@ wordOutputs_overallServer <-
         ),
               tags$ul(
               tags$li(HTML('<b>get wordlist:</b> ...')),
-              tags$li(HTML('<b>get wordcloud:</b> ...'))
+              tags$li(HTML('<b>get word cloud:</b> ...'))
             )
       ))
 

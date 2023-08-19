@@ -8,7 +8,7 @@ wordOutputs_overallUI <- function(id) {
                     actionButton(inputId =  ns("wordlist_overall"), label = HTML('<b>get wordlist</b>'),
                                  icon = icon(name = "angle-right", lib = "font-awesome"),
                                  class = "btn-sidebar"),
-                    actionButton(inputId =  ns("wordClouds_overall"), label = HTML('get wordcloud'),
+                    actionButton(inputId =  ns("wordClouds_overall"), label = HTML('get word cloud'),
                                  icon = icon(name = "angle-right", lib = "font-awesome"),
                                  class = "btn-sidebar"),
                     actionButton(inputId = ns("informationWordsOverall"), label = "Information",
