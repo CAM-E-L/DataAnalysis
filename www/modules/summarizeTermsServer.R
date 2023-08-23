@@ -29,9 +29,12 @@ summarizeTermsServer <-
           ),
           tags$li(
             HTML(
-              '<b>Searching terms:</b> Use regular expression to search your CAM data set for similar terms.'
+              '<b>Searching terms:</b> By using search terms you apply so called regular expressions, which is a concise language to describe patterns of text. Applying the stringr package, for example, using the expression “[[:digit:]]”, all drawn concepts including any digits can be identified.'
             )
           ),
+
+
+          
           tags$li(
             HTML(
               '<b>Search for Synonyms:</b> Summarize concepts by searching for synonyms.'
@@ -2204,7 +2207,12 @@ observeEvent(input$word2vecClickSummarize, {
                       ),
               tags$li(
                 HTML(
-                  '<b>Searching terms:</b> Use regular expression to search your CAM data set for similar terms.'
+                  '<b>Searching terms:</b> By using search terms you apply so called regular expressions, which is a concise language to 
+                  describe patterns of text. Applying the stringr package, for example, using the expression “[[:digit:]]”, all drawn concepts 
+                  including any digits can be identified. For possible regular expressions to use, please read the 
+                  <a href="https://github.com/rstudio/cheatsheets/blob/main/strings.pdf" target="_blank">"cheatsheet" of the stringr package</a> and 
+                  you can test combinations of regular expressions on the following webpage: 
+                  <a href="https://regex101.com/" target="_blank">https://regex101.com/</a> '
                 )
               ),
               tags$li(
