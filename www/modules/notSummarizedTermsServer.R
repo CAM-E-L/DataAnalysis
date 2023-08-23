@@ -29,8 +29,8 @@ notSummarizedTermsServer <-
           ),
           tags$li(
             HTML(
-              '<b>click through non-summarized terms:</b> all concepts, which you have missed / not seen using the "summarize terms" functions 
-              can be summarized concept by concept clicking through the non-summarized terms.'
+              '<b>click through non-summarized terms:</b> <i>to be implemented</i> (all concepts, which you have missed / not seen using the "summarize terms" functions 
+              can be summarized concept by concept clicking through the non-summarized terms)'
             )
           ),
           tags$li(
@@ -190,7 +190,7 @@ output$outGetWords <- renderPrint({
           showModal(
             modalDialog(
               title = "Wait for it...",
-              paste0("Will be implemented soon."),
+              paste0("to be implemented."),
               easyClose = TRUE,
               footer = tagList(modalButton("Ok"))
             )
@@ -225,8 +225,8 @@ output$outGetWords <- renderPrint({
           ),
           tags$li(
             HTML(
-              '<b>click through non-summarized terms:</b> all concepts, which you have missed / not seen using the "summarize terms" functions 
-              can be summarized concept by concept clicking through the non-summarized terms. Theoretically driven...'
+              '<b>click through non-summarized terms:</b> <i>to be implemented</i> (all concepts, which you have missed / not seen using the "summarize terms" functions 
+              can be summarized concept by concept clicking through the non-summarized terms)'
             )
           ),
           tags$li(
