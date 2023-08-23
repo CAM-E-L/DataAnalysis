@@ -37,7 +37,7 @@ summarizeTermsServer <-
           
           tags$li(
             HTML(
-              '<b>Search for Synonyms:</b> Summarize concepts by searching for synonyms.'
+              '<b>Search for Synonyms:</b> By using search for synonyms all synonyms for single-worded concepts are automatically searched (<i>currently only English implemented</i>).'
             )
           ),
           tags$li(
@@ -2217,7 +2217,10 @@ observeEvent(input$word2vecClickSummarize, {
               ),
               tags$li(
                 HTML(
-                  '<b>Search for Synonyms:</b> Summarize concepts by searching for synonyms.'
+                  '<b>Search for Synonyms:</b> By using search for synonyms all synonyms for single-worded concepts are automatically searched 
+                  and internally the English synonym dictionary included in the 
+                  <a href="https://cran.r-project.org/web/packages/qdap/" target="_blank">qdap</a> R package is applied. 
+                  For example, the concepts “war” and “conflict” would be identified as synonyms.'
                 )
               ),
               tags$li(
