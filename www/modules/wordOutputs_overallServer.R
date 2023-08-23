@@ -48,7 +48,7 @@ wordOutputs_overallServer <-
                    tags$div(
             HTML(
               "Please select the ordering of the word list, if words should be split by given valence and if comments should be visible 
-              for your raters (recommended to keep default settings):"
+              (recommended to keep default settings):"
             ),
             style = "font-size:14px"
           ),
