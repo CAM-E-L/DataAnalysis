@@ -24,7 +24,7 @@ summarizeTermsServer <-
           tags$li(
             HTML(
               '<b>Approximate matching:</b> By using approximate string matching you can compute the string distances between all your unique concepts
-              in the dataset (using optimal string alignment) to find words which have been written slightly differently.'
+              in the dataset (using optimal string alignment) to find words which have been written slightly differently (e.g., singular or plural, or spelling errors).'
             )
           ),
           tags$li(
@@ -2194,8 +2194,12 @@ observeEvent(input$word2vecClickSummarize, {
                     tags$ul(
                       tags$li(
                         HTML(
-                          '<b>Approximate matching:</b> By using approximate string matching you can compute the string distances between all your unique concepts
-              in the dataset (using optimal string alignment) to find words, which have been written slightly differently.'
+                          '<b>Approximate matching:</b> By using approximate string matching, string distances between all unique concepts in 
+                          the dataset are computed (using optimal string alignment) to find words which have been written slightly differently. 
+                          Internally the stringdist package applies the optimal string alignment distance to compute the distances between 
+                          two strings. For example, using this method the distance between “dreams” and “dreasm” (spelling error) would 
+                          be d = 1, because the adjacent character “s” would be transposed. Such a procedure can be used to correct for 
+                          spelling errors and find words, which are written in singular / plural.'
                         )
                       ),
               tags$li(
