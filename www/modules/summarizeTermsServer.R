@@ -42,8 +42,10 @@ summarizeTermsServer <-
           ),
           tags$li(
             HTML(
-              '<b>Apply word2vec model:</b> The word2vec is a neural network, which learned word associations from a large corpus of text.
-              Based on these word associations get groups of similar terms (e.g. "happiness" is similar to "joy").'
+              '<b>Apply word2vec model:</b> By applying a word2vec Model it is possible to compute the cosine similarity between drawn 
+                  concepts pairwise to identify groups of drawn concepts with similar meaning. For example, cosine similarity between 
+                  the words “responsibility” and “accountability” would be .70, whereby cosine similarity is ranging from -1 
+                  (opposite vectors) to 1 (proportional vectors).'
             )
           ),
           tags$li(
@@ -2225,8 +2227,14 @@ observeEvent(input$word2vecClickSummarize, {
               ),
               tags$li(
                 HTML(
-                  '<b>Apply word2vec model:</b> The word2vec is a neural network, which learnd word associations from a large corpus of text.
-              Based on these word associations get groups of similar terms (e.g. "happiness" is similar to "joy").'
+                  '<b>Apply word2vec model:</b> By applying a word2vec Model it is possible to compute the cosine similarity between drawn 
+                  concepts pairwise to identify groups of drawn concepts with similar meaning. For example, cosine similarity between 
+                  the words “responsibility” and “accountability” would be .70, whereby cosine similarity is ranging from -1 
+                  (opposite vectors) to 1 (proportional vectors). The word vectors are "included" in a pre-trained language model 
+                  from the Python library spaCy and there are currently language models for 25 languages, 
+                  see: <a href="https://spacy.io/models" target="_blank">https://spacy.io/models</a>. 
+                  A more detailed explenation how to apply the function can be found on our GitHub page: 
+                  <a href="https://github.com/Camel-app/DataAnalysis/tree/main/Python_word2vec" target="_blank">https://github.com/Camel-app/DataAnalysis/tree/main/Python_word2vec</a>.'
                 )
               )
                     )
