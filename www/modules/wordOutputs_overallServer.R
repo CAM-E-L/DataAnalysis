@@ -202,13 +202,6 @@ output$wordlistTable_WordsOverall <- renderDataTable({
               "create wordcloud",
               style = "display: inline-block;"
             ),
-                                tags$div(
-            HTML(
-              "<i>Remark: to download the wordcloud click on the global download button (top right) after 
-              you have clicked on create wordcloud.</i>"
-            ),
-            style = "font-size:14px"
-          ),
                       tags$br(),
           tags$h4("Wordcloud:"),
                   plotOutput(ns("plotWordcloud_WordsOverall"), width = "100%", height = "600px"),
