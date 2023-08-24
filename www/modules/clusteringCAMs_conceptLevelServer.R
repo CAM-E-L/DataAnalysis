@@ -11,7 +11,7 @@ clusteringCAMs_conceptLevelServer <-
       ################
       ## default text
       outUI$elements <- tagList(tags$div(
-         h1("Clustering CAMs - on concept level"),
+         h1("Clustering CAMs Module - on concept level"),
         tags$br(),
         tags$br(),
         HTML(
@@ -19,8 +19,10 @@ clusteringCAMs_conceptLevelServer <-
                      this module are the following:'
         ),
               tags$ul(
-              tags$li(HTML('<b>Concept co-occurrences:</b> Computing the concept-cooccurrences between all CAMs by setting up multiple contingency tables, followed by computing the phi coefficient, groups of concepts with similar concept-cooccurrences in CAMs are identified.')),
-              tags$li(HTML('Valence co-occurrences: Computing hierarchical clustering over the given valence over all overlapping words between CAMs to identify similar CAMs.'))
+              tags$li(HTML('<b>Concept co-occurrences:</b> the co-occurrences of concepts within individual CAMs is computed by setting up multiple contingency tables between single pairs of summarized concepts')),
+              tags$li(HTML('<b>Valence co-occurrences:</b> The mean valence over all summarized concepts is computed. These mean variables are z-transformed and a 
+              hierarchical cluster analysis (euclidean distance + Ward\'s method) for all summarized concepts which were drawn at least two times is applied. 
+              The resulting cluster solution can be interpreted by the average mean differences on the mean variables of the summarized concepts. Such analysis could help to indicate if identical named / summarized concepts of certain supporters / opponents (e.g., on belief in climate change) have different mean valence.'))
             )
       ))
 
@@ -365,8 +367,12 @@ print(hc_cluster)
             tags$div(
               HTML('The options for this module are the following:'),
               tags$ul(
-                tags$li(HTML('<b>Concept co-occurrences:</b> Computing the concept-cooccurrences between all CAMs by setting up multiple contingency tables, followed by computing the phi coefficient, groups of concepts with similar concept-cooccurrences in CAMs are identified.')),
-                tags$li(HTML('Valence co-occurrences: Computing hierarchical clustering over the given valence over all overlapping words between CAMs to identify similar CAMs.'))
+               tags$li(HTML('<b>Concept co-occurrences:</b> the co-occurrences of concepts within individual CAMs is computed by setting up multiple contingency tables between single pairs of summarized concepts.')),
+              tags$li(HTML('<b>Valence co-occurrences:</b> The mean valence over all summarized concepts is computed. These mean variables are z-transformed and a 
+              hierarchical cluster analysis (euclidean distance + Ward\'s method) for all summarized concepts which were drawn at least two times is applied. 
+              The resulting cluster solution can be interpreted by the average mean differences on the mean variables of the summarized concepts. Such analysis could help to indicate if identical named / 
+              summarized concepts of certain supporters / opponents (e.g., on belief in climate change) have different mean valence. Such analysis could help to indicate if identical named / summarized concepts 
+              of certain supporters / opponents (e.g., on belief in climate change) have different mean valence.'))
             )
           )
           )
