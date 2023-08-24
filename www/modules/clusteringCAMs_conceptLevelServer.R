@@ -367,7 +367,9 @@ print(hc_cluster)
             tags$div(
               HTML('The options for this module are the following:'),
               tags$ul(
-               tags$li(HTML('<b>Concept co-occurrences:</b> the co-occurrences of concepts within individual CAMs is computed by setting up multiple contingency tables between single pairs of summarized concepts.')),
+               tags$li(HTML('<b>Concept co-occurrences:</b> the co-occurrences of concepts within individual CAMs is computed by setting up multiple contingency tables between single pairs of summarized concepts. 
+               Please check the online documentation for detailed information: 
+               <a href="https://camtools-documentation.readthedocs.io/en/master/CAM-App/#concept-co-occurrences" target="_blank">https://camtools-documentation.readthedocs.io/en/master/CAM-App/#concept-co-occurrences</a>.')),
               tags$li(HTML('<b>Valence co-occurrences:</b> The mean valence over all summarized concepts is computed. These mean variables are z-transformed and a 
               hierarchical cluster analysis (euclidean distance + Ward\'s method) for all summarized concepts which were drawn at least two times is applied. 
               The resulting cluster solution can be interpreted by the average mean differences on the mean variables of the summarized concepts. Such analysis could help to indicate if identical named / 
