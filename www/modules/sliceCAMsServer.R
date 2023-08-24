@@ -20,8 +20,9 @@ sliceCAMsServer <-
                      this module are the following:'
         ),
         tags$ul(
-          tags$li(HTML('<b>slice CAMs:</b> ...')),
-          tags$li(HTML('<b>get slice CAMs descriptives:</b> ...'))
+          tags$li(HTML('<b>slice CAMs:</b> if you have a CAM structure, which can be separated (e.g. pre-defined opposing concepts), the module could be applied. CAMs are 
+          automatically separated according to two possible criteria: (a) delete a connection between two concepts, and / or (b) delete a concept')),
+          tags$li(HTML('<b>get slice CAMs descriptives:</b> get summary statistics (e.g., an APA-formatted table of statistics and within t-tests) for the so sliced CAMs'))
         )
       ))
 
@@ -46,7 +47,7 @@ sliceCAMsServer <-
             HTML("<i>Remark: If you have a CAM structure, which can be separated (e.g. pre-defined opposing concepts) the CAMs can be automatically
           sliced according to two possible criteria: (a) delete a connection between two concepts, and / or (b) delete a concept. </i>"),
           tags$br(),
-          HTML("<b>After seperating a CAM applying (a) and / or (b) what are your central concepts?</b><br>
+          HTML("<b>After seperating a CAM applying (a) and / or (b) what are your expected central concepts of the two resulting sub-CAMs?</b><br>
           Remark: The list is sorted alphabetically, by pressing a letter key or writing
           you can search for specific words."),
           style="font-size:14px"),
@@ -391,8 +392,11 @@ sliceCAMsServer <-
           tags$div(
             HTML('The options for this module are the following:'),
             tags$ul(
-              tags$li(HTML('<b>slice CAMs:</b> ...')),
-              tags$li(HTML('<b>get sliced CAMs descriptives:</b> ...'))
+          tags$li(HTML('<b>slice CAMs:</b> if you have a CAM structure, which can be separated (e.g. pre-defined opposing concepts), the module could be applied. CAMs are 
+          automatically separated according to two possible criteria: (a) delete a connection between two concepts, and / or (b) delete a concept. 
+          Please check the online documentation for detailed information: 
+               <a href="https://camtools-documentation.readthedocs.io/en/master/CAM-App/#slice-cams" target="_blank">https://camtools-documentation.readthedocs.io/en/master/CAM-App/#slice-cams</a>.')),
+          tags$li(HTML('<b>get slice CAMs descriptives:</b> get summary statistics (e.g., an APA-formatted table of statistics and within t-tests) for the so sliced CAMs.'))
             )
           )
         )

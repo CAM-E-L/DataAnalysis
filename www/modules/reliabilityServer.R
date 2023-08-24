@@ -23,12 +23,12 @@ reliabilityServer <-
         tags$ul(
           tags$li(
             HTML(
-              '<b>Train Reliability:</b> Here you can create word lists of your concepts, which can be summarized by (independet) raters.'
+              '<b>Train Reliability:</b> Here you can create a random sub-word list (e.g. 10% of all unique drawn concepts), which can be summarized by (independet) raters.'
             )
           ),
           tags$li(
             HTML(
-              '<b>Get Reliability:</b> Based on multiple summarized wordlists (at least 2) you can compute multiple reliability coefficients.'
+              '<b>Get Reliability:</b> After the raters summarized all concepts to superordinate words, reliability coefficients can be computed in this reliability submodule. '
             )
           ),
           tags$li(
@@ -549,16 +549,21 @@ observeEvent(input$b_upload, {
         tags$ul(
                    tags$li(
             HTML(
-              '<b>Train Reliability:</b> Here you can create word lists of your concepts, which can be summarized by (independet) raters. 
+              '<b>Train Reliability:</b> A random sub-word list (e.g. 10% of all unique drawn concepts) can be generated. 
+              This Excel file can be downloaded and sent to the independent raters together. 
               It is important, that you, in accordance with sending them the wordlist, inform your raters how to summarize the 
-              respective word list, for a possible text see respective module.' 
+              respective word list, for a possible instruction text see the module.' 
             )
           ),
           tags$li(
             HTML(
-              '<b>Get Reliability:</b> Based on multiple summarized wordlists (at least 2) you can compute multiple reliability coefficients: 
-              Cohens Kappa (Lights Kappa) by (a) assuming a perfect match of overlapping group of words or (b) by maximizing overlapping words. Also 
-              category-wise Fleiss Kappa is computed.'
+              '<b>Get Reliability:</b> After the raters summarized all concepts to superordinate words, reliability coefficients can be computed 
+              in this reliability submodule. Please note that the reliability coefficients only depend on the assumption that the same groups of 
+              words are summarized under one term each by different raters, but not that identical terms are used as superordinate categories by 
+              the raters. Three possible reliability coefficients can be computed: (a) Cohen\'s Kappa is pairwise computed between all raters by 
+              assuming a perfect match of overlapping groups of words or (b) Cohen\'s Kappa is pairwise computed by maximizing overlapping words, 
+              which have been summarized and finally (c) Fleiss’ Kappa and category-wise Kappa for different groups of overlapping words is 
+              computed. Additionally to these reliability statistics, summary statistics of the group of summarized words are given. '
             )
           ),
         )

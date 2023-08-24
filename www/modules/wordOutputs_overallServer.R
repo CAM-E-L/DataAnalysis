@@ -19,8 +19,8 @@ wordOutputs_overallServer <-
                      this module are the following:'
         ),
               tags$ul(
-              tags$li(HTML('<b>get wordlist:</b> ...')),
-              tags$li(HTML('<b>get word cloud:</b> ...'))
+              tags$li(HTML('<b>get wordlist:</b> create a wordlist with summary statistics for each concept (mean / SD valence, mean / SD degree).')),
+              tags$li(HTML('<b>get word cloud:</b> create a word cloud of all your concepts in the dataset, whereby the colors indicate the concept’s mean valence.'))
             )
       ))
 
@@ -48,7 +48,7 @@ wordOutputs_overallServer <-
                    tags$div(
             HTML(
               "Please select the ordering of the word list, if words should be split by given valence and if comments should be visible 
-              for your raters (recommended to keep default settings):"
+              (recommended to keep default settings):"
             ),
             style = "font-size:14px"
           ),
@@ -202,13 +202,6 @@ output$wordlistTable_WordsOverall <- renderDataTable({
               "create wordcloud",
               style = "display: inline-block;"
             ),
-                                tags$div(
-            HTML(
-              "<i>Remark: to download the wordcloud click on the global download button (top right) after 
-              you have clicked on create wordcloud.</i>"
-            ),
-            style = "font-size:14px"
-          ),
                       tags$br(),
           tags$h4("Wordcloud:"),
                   plotOutput(ns("plotWordcloud_WordsOverall"), width = "100%", height = "600px"),
@@ -273,8 +266,10 @@ observeEvent(input$createWordcloud_WordsOverall, {
             tags$div(
               HTML('The options for this module are the following:'),
               tags$ul(
-              tags$li(HTML('<b>get wordlist:</b> ...')),
-              tags$li(HTML('<b>get wordcloud:</b> ...'))
+           tags$li(HTML('<b>get wordlist:</b> create a wordlist with summary statistics for each concept (mean / SD valence, mean / SD degree). 
+           You could select the ordering of the word list, if words should be split by given valence and if comments should be visible.')),
+              tags$li(HTML('<b>get word cloud:</b> create a word cloud of all your concepts in the dataset, whereby the colors indicate the concept’s mean valence. 
+              You could select the minimum frequency concepts have been drawn to be plotted, the maximum number of words to be plotted and define if the summarized or non-summarized words should be plotted.'))
             )
           )
           )

@@ -24,23 +24,28 @@ summarizeTermsServer <-
           tags$li(
             HTML(
               '<b>Approximate matching:</b> By using approximate string matching you can compute the string distances between all your unique concepts
-              in the dataset (using optimal string alignment) to find words which have been written slightly differently.'
+              in the dataset (using optimal string alignment) to find words which have been written slightly differently (e.g., singular or plural, or spelling errors).'
             )
           ),
           tags$li(
             HTML(
-              '<b>Searching terms:</b> Use regular expression to search your CAM data set for similar terms.'
+              '<b>Searching terms:</b> By using search terms you apply so called regular expressions, which is a concise language to describe patterns of text. Applying the stringr package, for example, using the expression “[[:digit:]]”, all drawn concepts including any digits can be identified.'
+            )
+          ),
+
+
+          
+          tags$li(
+            HTML(
+              '<b>Search for Synonyms:</b> By using search for synonyms all synonyms for single-worded concepts are automatically searched (<i>currently only English implemented</i>).'
             )
           ),
           tags$li(
             HTML(
-              '<b>Search for Synonyms:</b> Summarize concepts by searching for synonyms.'
-            )
-          ),
-          tags$li(
-            HTML(
-              '<b>Apply word2vec model:</b> The word2vec is a neural network, which learned word associations from a large corpus of text.
-              Based on these word associations get groups of similar terms (e.g. "happiness" is similar to "joy").'
+              '<b>Apply word2vec model:</b> By applying a word2vec Model it is possible to compute the cosine similarity between drawn 
+                  concepts pairwise to identify groups of drawn concepts with similar meaning. For example, cosine similarity between 
+                  the words “responsibility” and “accountability” would be .70, whereby cosine similarity is ranging from -1 
+                  (opposite vectors) to 1 (proportional vectors).'
             )
           ),
           tags$li(
@@ -2194,24 +2199,42 @@ observeEvent(input$word2vecClickSummarize, {
                     tags$ul(
                       tags$li(
                         HTML(
-                          '<b>Approximate matching:</b> By using approximate string matching you can compute the string distances between all your unique concepts
-              in the dataset (using optimal string alignment) to find words, which have been written slightly differently.'
+                          '<b>Approximate matching:</b> By using approximate string matching, string distances between all unique concepts in 
+                          the dataset are computed (using optimal string alignment) to find words which have been written slightly differently. 
+                          Internally the stringdist package applies the optimal string alignment distance to compute the distances between 
+                          two strings. For example, using this method the distance between “dreams” and “dreasm” (spelling error) would 
+                          be d = 1, because the adjacent character “s” would be transposed. Such a procedure can be used to correct for 
+                          spelling errors and find words, which are written in singular / plural.'
                         )
                       ),
               tags$li(
                 HTML(
-                  '<b>Searching terms:</b> Use regular expression to search your CAM data set for similar terms.'
+                  '<b>Searching terms:</b> By using search terms you apply so called regular expressions, which is a concise language to 
+                  describe patterns of text. Applying the stringr package, for example, using the expression “[[:digit:]]”, all drawn concepts 
+                  including any digits can be identified. For possible regular expressions to use, please read the 
+                  <a href="https://github.com/rstudio/cheatsheets/blob/main/strings.pdf" target="_blank">"cheatsheet" of the stringr package</a> and 
+                  you can test combinations of regular expressions on the following webpage: 
+                  <a href="https://regex101.com/" target="_blank">https://regex101.com/</a> '
                 )
               ),
               tags$li(
                 HTML(
-                  '<b>Search for Synonyms:</b> Summarize concepts by searching for synonyms.'
+                  '<b>Search for Synonyms:</b> By using search for synonyms all synonyms for single-worded concepts are automatically searched 
+                  and internally the English synonym dictionary included in the 
+                  <a href="https://cran.r-project.org/web/packages/qdap/" target="_blank">qdap</a> R package is applied. 
+                  For example, the concepts “war” and “conflict” would be identified as synonyms.'
                 )
               ),
               tags$li(
                 HTML(
-                  '<b>Apply word2vec model:</b> The word2vec is a neural network, which learnd word associations from a large corpus of text.
-              Based on these word associations get groups of similar terms (e.g. "happiness" is similar to "joy").'
+                  '<b>Apply word2vec model:</b> By applying a word2vec Model it is possible to compute the cosine similarity between drawn 
+                  concepts pairwise to identify groups of drawn concepts with similar meaning. For example, cosine similarity between 
+                  the words “responsibility” and “accountability” would be .70, whereby cosine similarity is ranging from -1 
+                  (opposite vectors) to 1 (proportional vectors). The word vectors are "included" in a pre-trained language model 
+                  from the Python library spaCy and there are currently language models for 25 languages, 
+                  see: <a href="https://spacy.io/models" target="_blank">https://spacy.io/models</a>. 
+                  A more detailed explenation how to apply the function can be found on our GitHub page: 
+                  <a href="https://github.com/Camel-app/DataAnalysis/tree/main/Python_word2vec" target="_blank">https://github.com/Camel-app/DataAnalysis/tree/main/Python_word2vec</a>.'
                 )
               )
                     )

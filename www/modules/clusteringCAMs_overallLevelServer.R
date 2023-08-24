@@ -11,7 +11,7 @@ clusteringCAMs_overallLevelServer <-
       ################
       ## default text
       outUI$elements <- tagList(tags$div(
-        h1("Clustering CAMs - on overall level"),
+        h1("Clustering CAMs Module - on overall level"),
         tags$br(),
         tags$br(),
         HTML(
@@ -19,7 +19,7 @@ clusteringCAMs_overallLevelServer <-
                      this module are the following:'
         ),
               tags$ul(
-              tags$li(HTML('<b>get network similarities:</b> ...'))
+              tags$li(HTML('<b>get network similarities:</b> <i>coming soon</i>'))
                           )
       ))
 

@@ -18,9 +18,12 @@ getReportAPAServer <-
           'To start the module please click on one of the module options on the sidebar panel. The options for
                      this module are the following:'
         ),
-        tags$ul(tags$li(HTML(
-          '<b>Get report:</b> ...'
-        )))
+        tags$ul(
+          tags$li(HTML(
+          '<b>Get report:</b> applying the module a report in APA 7 format is created containing a description of the CAM dataset, statistics of the summary process 
+          (preprocessing part of the CAM-App) and (if desired) statistics of individual concepts'
+        ))
+        )
       ))
 
       ## set output
@@ -540,9 +543,14 @@ getReportAPAServer <-
           tagList(tags$h2("Module Specific Information"),
                   tags$div(
                     HTML('The options for this module are the following:'),
-                    tags$ul(tags$li(HTML(
-                      '<b>Get report:</b> ... blub'
-                    )))
+                    tags$ul(
+                      tags$li(HTML(
+                        '<b>Get report:</b> applying the module a report in APA 7 format is created containing a description of the CAM dataset, statistics of the 
+                        summary process (preprocessing part of the CAM-App) and (if desired) statistics of individual concepts. This report could be copied to a scientific 
+                        publication or sent to interested collaborators. Select the concepts for which you want to receive additional statistics (alphabetically sorted) and 
+                        you should provide the module the number of predefined concepts in your study, as such that the statistics of how many of the pre-defined concepts had been removed is correct.'
+                        ))
+                    )
                   ))
       })
 

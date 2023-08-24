@@ -21,9 +21,7 @@ This software has been developed by
 * Florian Gouret
 * Michael Gorki
 * Paul Sölder
-* Paul Hüttner
-* Lisa Reuter
-* Wilhelm Gros
 * Andrea Kiesel
+
 
 To quote this software please click on "Cite this repository"

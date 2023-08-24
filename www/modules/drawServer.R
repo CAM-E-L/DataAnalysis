@@ -23,7 +23,7 @@ drawServer <- function(id, dataCAM, parent, globals) {
                      this module are the following:'),
             tags$ul(
               tags$li(HTML('<b>Draw R:</b> using the igraph package to draw the CAMs, which is a package in R (statistic software).')),
-              tags$li(HTML('<b>Draw JS:</b> <i>to be implemented</i>.')),
+              tags$li(HTML('<b>Draw JS:</b> <i>to be implemented</i>')),
               tags$li(HTML('<b>Information:</b> Further information regarding this module.'))
             )
           )

@@ -19,10 +19,13 @@ wordOutputs_singleServer <-
                      this module are the following:'
         ),
               tags$ul(
-              tags$li(HTML('<b>get table, pie chart:</b> Create a table (APA 7 format) and pie chart for every summarized superordinate concept in your data set seperately')),
-              tags$li(HTML('<b>get summary statistics:</b> Get summary statistics (e.g. percantage of time word appears in CAMs) for every summarized superordinate concept in your data set seperately'))
+              tags$li(HTML('<b>concept by concept:</b> create on a single concept level, a pie chart, barplot and table for every summarized superordinate concept to reflect 
+              and discuss the summary process of the CAM data')),
+              tags$li(HTML('<b>overview of concepts:</b> create for all single unique summarized concepts an table containing the respective frequencies of the drawn concepts 
+              separately for each CAM to easily recompute, for example, how often a certain concept with a specific valence (separated by N=total, Npositive=positive, and so on) was drawn within a CAM data set'))
             )
       ))
+
 
       ## set output
       output$uploadOutWordsSingle <- renderUI({
@@ -197,6 +200,10 @@ ggplot(fg, aes(group, n, fill = group)) +
           tags$div(HTML("A table containing all unique summarized concepts and their respective frequencies (seperated by N=total, 
           Npositive=positive, and so on) seperated by CAMs:"), style="font-size:14px"),
           dataTableOutput(ns("table_concepts_overall")),
+                              tags$br(),
+          tags$div(HTML("<i>To download the table containing all unique summarized concepts download all your files globally using 
+                  the button top right.</i>"),
+        style="font-size:14px")
 
 
           )
@@ -302,9 +309,11 @@ globals$singleConceptsTable <- conceptOverall_dat
             tags$div(
               HTML('The options for this module are the following:'),
               tags$ul(
-                tags$li(HTML('<b>concept by concept:</b> Create a pie chart, barplot and table (APA 7 format) 
-                for every summarized superordinate concept in your data set seperately')),
-                tags$li(HTML('<b>overview of concepts:</b> Get summary statistics (e.g. percantage of time word appears in CAMs) for every summarized superordinate concept in your data.'))
+              tags$li(HTML('<b>concept by concept:</b> create on a single concept level, a pie chart, barplot and table for every summarized superordinate concept to reflect 
+              and discuss the summary process of the CAM data. Select the minimum frequency a single concept has been drawn in the CAMs to be plotted in the pie chart and barplot / table 
+              (at least for the pie chart it is recommended not to show too many different concepts).')),
+              tags$li(HTML('<b>overview of concepts:</b> create for all single unique summarized concepts an table containing the respective frequencies of the drawn concepts 
+              separately for each CAM to easily recompute, for example, how often a certain concept with a specific valence (separated by N=total, Npositive=positive, and so on) was drawn within a CAM data set.'))
             )
           )
           )

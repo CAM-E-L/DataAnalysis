@@ -19,9 +19,13 @@ summarizeCAMsServer <-
                      this module are the following:'
         ),
               tags$ul(
-              tags$li(HTML('<b>aggregateCAMs:</b> By creating a so called “canonical adjacency matrix” CAMs according to different criteria (all CAMs, CAMs of a certain group) are aggregated, whereby the size of the concept and the thickness of the connection is proportional to the frequency of the drawn concepts and the pairwise connections respectively.'))
+              tags$li(HTML('<b>aggregateCAMs:</b> by creating a so called “canonical adjacency matrix” CAMs according to different criteria 
+              (random CAMs, most positive / negative CAMs, CAMs with specific IDs) are aggregated, whereby the size of the concepts and the 
+              thickness of the connections is proportional to the frequency of the drawn concepts and the drawn pairwise connections respectively'))
             )
       ))
+
+      
 
       ## set output
       output$uploadOutSummarizeCAMs <- renderUI({
@@ -298,7 +302,11 @@ module_rv$numCAM <- length(selectedIDs)
             tags$div(
               HTML('The options for this module are the following:'),
               tags$ul(
-              tags$li(HTML('<b>aggregateCAMs:</b> By creating a so called “canonical adjacency matrix” CAMs according to different criteria (all CAMs, CAMs of a certain group) are aggregated, whereby the size of the concept and the thickness of the connection is proportional to the frequency of the drawn concepts and the pairwise connections respectively.'))
+                tags$li(HTML('<b>aggregateCAMs:</b> by creating a so called “canonical adjacency matrix” CAMs according to different criteria 
+              (random CAMs, most positive / negative CAMs, CAMs with specific IDs) are aggregated, whereby the size of the concepts and the 
+              thickness of the connections is proportional to the frequency of the drawn concepts and the drawn pairwise connections respectively. 
+              Select if you want to split your summarized concepts by the valence and if you want to (a) aggregate random CAMs, (b) aggregate the most positive or negative CAMs 
+              or (c) choose specific CAMs you want to aggregate.'))
             )
           )
           )
