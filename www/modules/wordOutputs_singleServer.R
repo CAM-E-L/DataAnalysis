@@ -197,6 +197,10 @@ ggplot(fg, aes(group, n, fill = group)) +
           tags$div(HTML("A table containing all unique summarized concepts and their respective frequencies (seperated by N=total, 
           Npositive=positive, and so on) seperated by CAMs:"), style="font-size:14px"),
           dataTableOutput(ns("table_concepts_overall")),
+                              tags$br(),
+          tags$div(HTML("<i>To download the table containing all unique summarized concepts download all your files globally using 
+                  the button top right.</i>"),
+        style="font-size:14px")
 
 
           )

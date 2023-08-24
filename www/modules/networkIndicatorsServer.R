@@ -20,8 +20,13 @@ networkIndicatorsServer <-
                      this module are the following:'
         ),
               tags$ul(
-              tags$li(HTML('<b>get network indicators:</b> ...')),
-              tags$li(HTML('<b>get network descriptives:</b> ...'))
+              tags$li(HTML('<b>get network indicators:</b>  Compute 33 different network indicators (e.g., mean valence, density etc.) on an overall CAM level (macro). Additionally, 
+              select one or several concepts and calculate network indicators on an individual concept level (micro).')),
+              tags$li(HTML('<b>get network descriptives:</b> Get a summary of network statistics you have calculated, get an APA-formatted table of statistics, get a correlation plot 
+              between different network indicators and search for significant correlations between network indicators.')),
+              tags$li(HTML('<b>get neighborhood indicators:</b> Compute several variants (in total 6 variants) of average valences over group of concepts.')),
+              tags$li(HTML('<b>get neighborhood descriptives:</b> Get a summary of neighborhood statistics you have calculated, get an APA-formatted table of statistics and get a correlation plot between 
+              different neighborhood indicators.'))
             )
       ))
 
@@ -489,8 +494,16 @@ output$neighborhoodIndicatorsTable <- renderDataTable({
             tags$div(
               HTML('The options for this module are the following:'),
              tags$ul(
-              tags$li(HTML('<b>get network indicators:</b> ...')),
-              tags$li(HTML('<b>get network descriptives:</b> ...'))
+              tags$li(HTML('<b>get network indicators:</b>  Compute 33 different network indicators (e.g., mean valence, density etc.) on an overall CAM level (macro). Additionally, 
+              select one or several concepts and calculate network indicators on an individual concept level (micro). Please check the online documentation for detailed information: 
+               <a href="https://camtools-documentation.readthedocs.io/en/master/CAM-App/#compute-network-indicators" target="_blank">https://camtools-documentation.readthedocs.io/en/master/CAM-App/#compute-network-indicators</a>.')),
+              tags$li(HTML('<b>get network descriptives:</b> Get a summary of network statistics you have calculated, get an APA-formatted table of statistics, get a correlation plot 
+              between different network indicators and search for significant correlations between network indicators.')),
+              tags$li(HTML('<b>get neighborhood indicators:</b> Compute several variants (in total 6 variants) of average valences over group of concepts. 
+              Please check the online documentation for detailed information: 
+               <a href="https://camtools-documentation.readthedocs.io/en/master/CAM-App/#compute-neighborhood-network-indicators" target="_blank">https://camtools-documentation.readthedocs.io/en/master/CAM-App/#compute-neighborhood-network-indicators</a>.')),
+              tags$li(HTML('<b>get neighborhood descriptives:</b> Get a summary of neighborhood statistics you have calculated, get an APA-formatted table of statistics and get a correlation plot between 
+              different neighborhood indicators.'))
             )
           )
           )
