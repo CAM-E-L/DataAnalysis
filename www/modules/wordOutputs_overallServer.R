@@ -88,7 +88,7 @@ wordOutputs_overallServer <-
             ),
                                 tags$div(
             HTML(
-              "<i>Remark: to download the wordlist for your raters please click on the global download button (top right) after 
+              "<i>Remark: to download the wordlist please click on the global download button (top right) after 
               you have clicked on create wordlist.</i>"
             ),
             style = "font-size:14px"
