@@ -499,7 +499,7 @@ getReportAPAServer <-
             "<br><br><b>Summarizing concepts</b><br>",
             "We summarized the CAMs using the dedicated CAM-App. The CAM-App generates a protocol, which tracks every summarizing step, so that the summarizing process is completely transparent. The",
             out_numConceptsUnique,
-            "rawn unique concepts",
+            "raw unique concepts",
             '(<span style="margin-left: -5px;">',
             out_numConcepts,
             "</span> in total)",
