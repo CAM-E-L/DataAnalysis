@@ -257,7 +257,7 @@ uploadServer <- function(id, parent, globals) {
         ),
         tags$div(
           HTML(
-            "Please wait a few seconds until the data is processed. You have uploaded the
+            "Please wait a few seconds until the data is processed (a table will pop up). You have uploaded the
                               following file(s) - maximum four file names are shown:"
           )
         ),
@@ -726,10 +726,10 @@ if(!globals$protocol$cleanValence[[1]]){
           tags$ul(
             tags$li(textOutput(
               ns("CAM_connectorsSolid"), inline = TRUE
-            ), " are agreeing (solid)"),
+            ), " agreeing (solid)"),
             tags$li(textOutput(
               ns("CAM_connectorsDashed"), inline = TRUE
-            ), " are disagreeing (dashed)"),
+            ), " disagreeing (dashed)"),
             tags$li("and.."),
             tags$li(textOutput(
               ns("CAM_connectorsBidirectional"), inline = TRUE
@@ -741,11 +741,11 @@ if(!globals$protocol$cleanValence[[1]]){
         ),
         tags$br(),
         tags$div(
-          HTML("You uploaded <b>nodes</b> dataset (dynamic table):")
+          HTML("You uploaded the following <b>nodes</b> (concepts) dataset (dynamic table):")
         ),
         dataTableOutput(ns("tableNodes")),
         tags$div(
-          HTML("You uploaded <b>connectors</b> dataset (dynamic table):")
+          HTML("You uploaded the following <b>connectors</b> (connectors) dataset (dynamic table):")
         ),
         dataTableOutput(ns("tableConnectors"))
       )
@@ -962,7 +962,7 @@ max(vev_time_Protocol())
               )
             )
             ),
-            tags$div(HTML("Click on button too clean Valence data. Please click only once and wait few seconds."), style="font-size:14px"),
+            tags$div(HTML("Click on button to clean Valence data. Please click only once and wait few seconds."), style="font-size:14px"),
             actionButton(ns("clickCleanValence"), "clean Valence data"),
              tags$br(),
             tags$br(),
@@ -981,7 +981,7 @@ max(vev_time_Protocol())
                                 tags$br(),
        tags$div(
           HTML(
-            "Deleted elements CAM ID lists <i>(only show if anything have been found)</i>:"
+            "Deleted elements CAM ID lists <i>(only shows up if anything has been found)</i>:"
           ),
           style = "font-size:14px"
         ),

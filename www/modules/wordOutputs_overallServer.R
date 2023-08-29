@@ -40,7 +40,7 @@ wordOutputs_overallServer <-
           outUI$elements <- tagList(
           tags$h2("Wordlists"),
           tags$br(),
-                    tags$div(HTML("After choosing your settings (in most cases the default is recommended), please click on the 
+                    tags$div(HTML("After choosing your settings, please click on the 
                     create wordlist button. 
           Please click only once and wait few seconds:"), style="font-size:14px"),
             tags$h3("Your Settings:"),
@@ -159,14 +159,14 @@ output$wordlistTable_WordsOverall <- renderDataTable({
           outUI$elements <- tagList(
           tags$h2("Wordclouds"),
           tags$br(),
-          tags$div(HTML("After choosing your settings (in most cases the default is recommended), please click on the 
-                    create wordcloud button. 
-          Please click only once and wait few seconds:"), style="font-size:14px"),
+          tags$div(HTML('After choosing your settings, please click on the 
+                    "create word cloud" button. 
+          Please click only once and wait few seconds:'), style="font-size:14px"),
           tags$h3("Your Settings:"),
                         tags$br(),
                    tags$div(
             HTML(
-              "Please select the minimum frequency concepts have been drawn to be plotted
+              "Please select the minimum frequency of concepts, which have been drawn, to be plotted
                and the maximum number of words to be plotted. Define if the summarized or non-summarized words should be plotted 
                (recommended to keep default settings):"
             ),
@@ -177,14 +177,14 @@ output$wordlistTable_WordsOverall <- renderDataTable({
             div(
               style = "display: inline-block; vertical-align: top; width: 25%; padding:10px;",
 			  # specify order
-                       tags$div(HTML("Please select the minimum frequency concepts have been drawn to be plotted in the wordcloud:"), style="font-size:14px"),
+                       tags$div(HTML("Please select the minimum frequency of concepts, which have been drawn, to be plotted in the word cloud:"), style="font-size:14px"),
               numericInput(ns("numMinimum_setting_WordsOverall"), label = NULL, 
             value = 2, min = 1, max = Inf, step = 1)
                                    ),
       div(
               style = "display: inline-block; vertical-align: top; width: 25%; padding:10px;",
 			  # specify split valence
-		                     tags$div(HTML("Please select the maximum number of words to be plotted in the wordcloud:"), style="font-size:14px"),
+		                     tags$div(HTML("Please select the maximum number of words to be plotted in the word cloud:"), style="font-size:14px"),
               numericInput(ns("numMaximum_setting_WordsOverall"), label = NULL, 
             value = 200, min = 1, max = Inf, step = 1)
             ),
@@ -195,15 +195,15 @@ output$wordlistTable_WordsOverall <- renderDataTable({
                    radioButtons(ns("summarized_setting_WordsOverall"), label = NULL, c("yes", "no"), selected = "yes"),
             ),
           ),
-                    tags$h3("Create wordcloud"),
+                    tags$h3("Create word cloud"),
                        tags$br(),
             actionButton(
               ns("createWordcloud_WordsOverall"),
-              "create wordcloud",
+              "create word cloud",
               style = "display: inline-block;"
             ),
                       tags$br(),
-          tags$h4("Wordcloud:"),
+          tags$h4("Word cloud:"),
                   plotOutput(ns("plotWordcloud_WordsOverall"), width = "100%", height = "600px"),
 
           )

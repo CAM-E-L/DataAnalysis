@@ -80,14 +80,14 @@ reliabilityServer <-
               the written concepts, these concepts will be partially or fully summarized (aggregated) later on.
               <br>
               <br>
-              <b>How to</b>: To summarize the concepts, please do the following: In the A (Words) you will see the concepts, which have the
-              participants written in our study (raw data). Your goal is now to summarize these concepts into superordinate or
+              <b>How to</b>: To summarize the concepts, please do the following: In the A (Words) you will see the concepts, 
+              which have been written by the participants in our study (raw data). Your goal is now to summarize these concepts into superordinate or
               thematic terms, which you have to write in column B (Superordinate). Please, based on your knowledge of the overall study, use as
               few superordinate concepts as possible. In general you should <u>not summarize the predefined concepts</u>.
               <br>
               <br>
               <b>Objectivity</b>: During the process it is of central importance that you are consistent and reliable in your ratings.
-              If you facing any problems or you have open questions regarding single concepts, please write them down in the respective
+              If you are facing any problems or you have open questions regarding single concepts, please write them down in the respective
               comment column C. Please do <u>not talk to other raters</u> during this process, because the independence of the raters
               is a crucial assumption. It is important that you remain objective and impartial.
               <br>
@@ -103,7 +103,7 @@ reliabilityServer <-
           tags$div(
             HTML(
               "Please select how many percent of your overall wordlist your raters should summarize (the number of words, which have
-              to be summarized are shown, when you moving the slider):"
+              to be summarized are shown, when you are moving the slider):"
             ),
             style = "font-size:14px"
           ),
@@ -148,6 +148,12 @@ reliabilityServer <-
             ),
           ),
    tags$br(),
+             tags$div(
+            HTML(
+              "Please click only once and wait few seconds:"
+            ),
+            style = "font-size:14px"
+          ),
             actionButton(
               ns("a_createWordlistOut"),
               "create wordlist",
@@ -276,8 +282,8 @@ output$a_wordlistTable <- renderDataTable({
           tags$h4("Upload:"),
           tags$div(
             HTML(
-              "Please upload all your wordlists you have received by your raters (at least 2). It is important to note that every concepts
-              need to be summarized - no missings in column B (Superordinate):"
+              "Please upload all your wordlists you have received from your raters (at least 2). It is important to note that every concept
+              needs to be summarized - no missings in column B (Superordinate):"
             ),
             style = "font-size:14px"
           ),
@@ -299,16 +305,16 @@ output$a_wordlistTable <- renderDataTable({
           tags$h4("Output reliability coefficients:"),
                                         tags$div(
             HTML(
-              "<i>Remark: to download a overall wordlist, which combines all the single wordlists of your 
+              "<i>Remark: to download an overall wordlist, which combines all the single wordlists of your 
               raters, please click on the global download button (top right) after computing the reliability coefficients.</i>"
             ),
             style = "font-size:14px"
           ),
           tags$br(),
-          tags$h5("Cohens Kappa (Light's Kappa):"),
+          tags$h5("Cohen's Kappa (Light's Kappa):"),
           tags$div(
             HTML(
-              "Cohens Kappa is pairwise computed by assuming a perfect match of overlapping group of words, which have been 
+              "Cohen's Kappa is pairwise computed by assuming a perfect match of overlapping group of words, which have been 
               summarized (r0001r0002... is indicating which groups of words have been summarized):"
             ),
             style = "font-size:14px"
@@ -316,7 +322,7 @@ output$a_wordlistTable <- renderDataTable({
           verbatimTextOutput(ns("b_CohensKappaMatrix")),
                     tags$div(
             HTML(
-              "Cohens Kappa is pairwise computed by maximizing overlapping words, which have been 
+              "Cohen's Kappa is pairwise computed by maximizing overlapping words, which have been 
               summarized (search for the largest overlap when allocating words for every group of raters):"
             ),
             style = "font-size:14px"
@@ -324,17 +330,17 @@ output$a_wordlistTable <- renderDataTable({
           verbatimTextOutput(ns("b_CohensKappaMatrixMaximized")),
                               tags$div(
             HTML(
-              "Summary statistics of Cohens Kappa by (a) assuming a perfect match of overlapping group of words and 
+              "Summary statistics of Cohen's Kappa by (a) assuming a perfect match of overlapping group of words and 
               (b) maximizing overlapping words:"
             ),
             style = "font-size:14px"
           ),
           verbatimTextOutput(ns("b_CohensKappaSummary")),
           tags$br(),
-          tags$h5("Fleiss Kappa:"),
+          tags$h5("Fleiss' Kappa:"),
                                         tags$div(
             HTML(
-              "Fleiss Kappa for different groups of overlapping words (plus computing category-wise Kappa):"
+              "Fleiss' Kappa for different groups of overlapping words (plus computing category-wise Kappa):"
             ),
             style = "font-size:14px"
           ),
@@ -349,7 +355,7 @@ output$a_wordlistTable <- renderDataTable({
           tags$br(),
                                                   tags$div(
             HTML(
-              "Fleiss Kappa for given superordinate words:"
+              "Fleiss' Kappa for given superordinate words:"
             ),
             style = "font-size:14px"
           ),
@@ -563,7 +569,7 @@ observeEvent(input$b_upload, {
               the raters. Three possible reliability coefficients can be computed: (a) Cohen\'s Kappa is pairwise computed between all raters by 
               assuming a perfect match of overlapping groups of words or (b) Cohen\'s Kappa is pairwise computed by maximizing overlapping words, 
               which have been summarized and finally (c) Fleiss’ Kappa and category-wise Kappa for different groups of overlapping words is 
-              computed. Additionally to these reliability statistics, summary statistics of the group of summarized words are given. '
+              computed. Additionally to these reliability statistics, summary statistics of groups of summarized words are given. '
             )
           ),
         )

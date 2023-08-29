@@ -62,7 +62,7 @@ drawServer <- function(id, dataCAM, parent, globals) {
             div(
               style = "display: inline-block; vertical-align: top; width: 25%; padding:10px;",
 			  # position
-                       tags$div(HTML("Please specify if positions should be considered:"), style="font-size:14px"),
+                       tags$div(HTML("Please specify whether positions should be considered:"), style="font-size:14px"),
                    radioButtons(ns("drawCAM_setting_position"), label = NULL, c("Yes", "No"), selected = "Yes"),
             ),
       div(
@@ -116,8 +116,7 @@ drawServer <- function(id, dataCAM, parent, globals) {
                 column(width = 11,
                 tags$br(),
                         div(style="margin: 0 auto; text-align:left;",
-                 tags$div(HTML('After you have drawn and / or deleted your CAMs you can continue with the
-                                next part:')),
+                 tags$div(HTML('After you have drawn (and maybe deleted CAMs) you can continue with the next part:')),
                       actionButton(ns("continueDrawnPreprocessingAnalysis"),  HTML('Continue'), style="width: 150px;
                                    height: 90px; font-size: 18px; padding: 10px")
                                    ))
@@ -340,7 +339,7 @@ drawServer <- function(id, dataCAM, parent, globals) {
           tmp[2, 1] <- "# of nodes"
           tmp[3, 1] <- "# of connectors"
           tmp[4, 1] <- "density"
-          tmp[5, 1] <- "assortativity"
+          tmp[5, 1] <- "assortativity (Valence)"
 
           tmp_value <- V(CAMs_drawnR()[[input$CAMs]])$value
           tmp_value[tmp_value == 10] <- 0
@@ -522,8 +521,8 @@ drawServer <- function(id, dataCAM, parent, globals) {
             tags$div(
               HTML('The options for this module are the following:'),
              tags$ul(
-              tags$li(HTML('<b>Draw R:</b> using the igraph package the CAMs are visualized. It is possible to draw the concepts at the same positions as those of the participants 
-              ("Yes" that positions should be considered), else a so called force-directed graph drawing algorithm is applied. Furthermore, aesthetics like the relative size of the 
+              tags$li(HTML('<b>Draw R:</b> using the igraph package the CAMs are visualized. It is possible to draw the concepts at the same positions as those by the participants 
+              (Click "Yes" so that positions are considered), else a so called force-directed graph drawing algorithm is applied. Furthermore, aesthetics like the relative size of the 
               concepts (vertices) and of the edges (connectors) can be adjusted.')),
               tags$ul(
                 tags$li(HTML('If you want to <b>delete single CAMs</b> this is possible by marking all the CAMs, which should be deleted, with the button "un/delete CAM". 

@@ -44,7 +44,7 @@ summarizeCAMsServer <-
           tags$h2("Aggregate CAMs"),
               tags$br(),
           tags$div(HTML("After choosing your settings (in most cases the default is recommended), please click on the aggregate CAMs button. 
-          Please click only once and wait few seconds. It is recommended that you summarise the concepts before aggregating the CAM data:"), style="font-size:14px"),
+          Please click only once and wait few seconds. It is recommended that you summarize the concepts before aggregating the CAM data:"), style="font-size:14px"),
             tags$h3("Your Settings:"),
                      tags$div(
             HTML(
@@ -69,12 +69,12 @@ summarizeCAMsServer <-
                                                        "(c) choose CAMs you want to aggregate" = "c")),
             ),
             div(id=ns("a_setting"),
-            tags$h3("specify setting for aggregating random CAMs:"),
+            tags$h3("specify settings for aggregating random CAMs:"),
             numericInput(ns("aggregate_setting_a"), label = "Number of random CAMs you want to aggregate (min=2)", 
             value = 3, min = 2, max = Inf, step = 1)
             ),
                  div(id=ns("b_setting"),
-            tags$h3("specify setting the most positive or negative CAMs:"),
+            tags$h3("specify settings for aggregating the most positive or negative CAMs:"),
 
            div(
               style = "display: inline-block; vertical-align: top; width: 35%; padding:10px;",
@@ -88,7 +88,7 @@ summarizeCAMsServer <-
             ),
             ),
             div(id=ns("c_setting"),
-            tags$h3("specify setting for aggregating choosen CAMs:"),
+            tags$h3("specify settings for aggregating chosen CAMs:"),
             uiOutput(ns("aggregate_setting_c")),
 
             )
@@ -223,7 +223,7 @@ module_rv$numCAM <- length(selectedIDs)
                   if(i == length(unique(tmp_aggCAM[[3]]$CAM))){
                     ## show when single CAM contains no identical terms
                     output$textRemovedIdentical <- renderUI({
-                      HTML('<i style="font-size: 6px;">single CAMs of the aggregated CAM not contain identical terms</i>')
+                      HTML('<i style="font-size: 6px;">single CAMs of the aggregated CAM do not contain identical terms</i>')
                       })
                     }
                 }
