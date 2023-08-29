@@ -15,10 +15,10 @@
 # micro_centr_clo = NULL
 # micro_transitivity = NULL
 # largestClique = FALSE
-# micro_degree = c("aaa")
-# micro_valence = c("aaa")
-# micro_centr_clo = c("aaa")
-# micro_transitivity = c("aaa")
+# micro_degree = c("Bedingungsloses Grundeinkommen")
+# micro_valence = c("Bedingungsloses Grundeinkommen")
+# micro_centr_clo = c("Bedingungsloses Grundeinkommen")
+# micro_transitivity = c("Bedingungsloses Grundeinkommen")
 
 compute_indicatorsCAM <- function(drawn_CAM = NULL,
                                   micro_degree = NULL,
@@ -310,10 +310,18 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
       tmp <- cbind(V(drawn_CAM[[i]])$label, transitivity_tmp)
       tmp[,1] <- str_remove_all(string = tmp[,1], pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
       tmp <- tmp[!is.na(tmp[,1]), ]
+
       tmp <- tmp[tmp[,2] != "NaN", ] # cannot be computed
 
       # print(micro_transitivity[m])
       # print(tmp)
+
+      if(is.null(nrow(tmp))){
+        tmp_replalce <- matrix(data = NA, nrow = 1, ncol = 2)
+        tmp_replalce[1,1] <- tmp[1]
+        tmp_replalce[1,2] <- tmp[2]
+        tmp <- tmp_replalce
+      }
 
       if(any(str_detect(string = tmp[,1], pattern = paste0("^", micro_transitivity[m], "$")))){
         out_netind[i, tmp_name[m]] <- mean(x =  as.numeric(tmp[,2][str_detect(string = tmp[,1], pattern = paste0("^", micro_transitivity[m], "$"))]))
