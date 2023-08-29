@@ -9,12 +9,12 @@ graphics.off()
 # please define!
 #> put everything in the "data" folder (your data set and protocol if you have one)
 ########################################
-CAMdataset <- "Fenn_2023_CAMtools.txt"
+CAMdataset <- "CAMEL_t1_NoDropout.txt"
 # "Fenn_2023_SAIstudy_subset.txt"
 # "Fenn_2023_CAMtools.txt"
 
 protocolDataset <- "protocol_Fenn_2023_CAMtools.txt" #  # protocol.txt
-consider_Protocol <- TRUE
+consider_Protocol <- FALSE
 
 
 
@@ -171,6 +171,13 @@ plot(CAMdrawn[[1]], edge.arrow.size = .7,
      layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
      vertex.size = 10, vertex.label.cex = .9)
 
+
+tmp_Indicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
+                                        micro_degree =  c("Bedingungsloses Grundeinkommen"),
+                                        micro_valence = c("Bedingungsloses Grundeinkommen"),
+                                        micro_centr_clo = c("Bedingungsloses Grundeinkommen"),
+                                        micro_transitivity = c("Bedingungsloses Grundeinkommen"),
+                                        largestClique = FALSE)
 
 tmp_Indicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
                                              micro_degree =  c("Covid-19", "negative aspects", "positive aspects"),
