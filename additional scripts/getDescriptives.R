@@ -16,7 +16,7 @@ getDescriptives <- function(dataset = questionnaire, regEx,
     "Lower Quantile" = as.numeric(quantile(x,0,na.rm=TRUE)),
     "Upper Quantile" = as.numeric(quantile(x,1,na.rm=TRUE)),
     "Skewness" = moments::skewness(x = x,na.rm=TRUE),
-    "Kurtosis(-3)" = moments::kurtosis(x = x,na.rm=TRUE) -3,
+    "Kurtosis" = moments::kurtosis(x = x,na.rm=TRUE),
     "KS-Test" = ks.test(x = x, y = "pnorm", mean(x,na.rm=TRUE), sd(x,na.rm=TRUE))$p.value
   )
   )
