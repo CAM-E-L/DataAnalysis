@@ -8,7 +8,7 @@ SynonymList <- function(vectorWords = NULL, syn_dat = NULL){
   singleWords <- unique(singleWords)
 
   ## check if single words are in the dictionary "qdapDictionaries::key.syn"
-  singleWords_found <- singleWords[singleWords %in% syn_English$searched]
+  singleWords_found <- singleWords[singleWords %in% syn_dat$searched]
   outPercent <- round(x = length(singleWords_found) / length(singleWords) * 100, digits = 2)
 
   if (identical(singleWords_found, character(0))) {
@@ -19,7 +19,7 @@ SynonymList <- function(vectorWords = NULL, syn_dat = NULL){
   singleWords_found_list <- list()
 
   for(w in singleWords_found){
-    tmp_snys <- syn_English$synonyms[str_detect(string = syn_English$searched, pattern = paste0("^", w, "$"))]
+    tmp_snys <- syn_dat$synonyms[str_detect(string = syn_dat$searched, pattern = paste0("^", w, "$"))]
     singleWords_found_list[[w]] <- c(unlist(str_split(string = tmp_snys, pattern = "\\+\\+")), w)
   }
 

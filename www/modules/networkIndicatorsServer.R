@@ -24,7 +24,7 @@ networkIndicatorsServer <-
               select one or several concepts and calculate network indicators on an individual concept level (micro).')),
               tags$li(HTML('<b>get network descriptives:</b> Get a summary of network statistics you have calculated, get an APA-formatted table of statistics, get a correlation plot 
               between different network indicators and search for significant correlations between network indicators.')),
-              tags$li(HTML('<b>get neighborhood indicators:</b> Compute several variants (in total 6 variants) of average valences over group of concepts.')),
+              tags$li(HTML('<b>get neighborhood indicators:</b> Compute several variants (in total six variants) of average valences over groups of concepts.')),
               tags$li(HTML('<b>get neighborhood descriptives:</b> Get a summary of neighborhood statistics you have calculated, get an APA-formatted table of statistics and get a correlation plot between 
               different neighborhood indicators.'))
             )
@@ -48,7 +48,7 @@ networkIndicatorsServer <-
           tags$br(),
                   uiOutput(ns("selectMicro_NI")),
         tags$div(
-          HTML("Click on button to run function to get the network indicators of your CAMs. Please click only once and
+          HTML("Click on the button to run a function to get the network indicators of your CAMs. Please click only once and
                       wait few seconds:"),
                       style="font-size:14px"),
         actionButton(ns("clickNetworkIndicators"), "Compute network indicators"),
@@ -61,7 +61,7 @@ networkIndicatorsServer <-
         tags$br(),
         htmlOutput(ns("textTermsMultiple_NI")),
         tags$br(),
-        tags$div(HTML("<i>To download the network indicators download all your files globally using the button top right.</i>"),
+        tags$div(HTML("<i>To download the network indicators, download all your files globally using the button top right.</i>"),
         style="font-size:14px")
           )
         })
@@ -176,10 +176,10 @@ networkIndicatorsServer <-
 
           ## change UI
           outUI$elements <- tagList(
-          tags$h2("Compute descriptives statistics of network indicators"),
+          tags$h2("Compute descriptive statistics of network indicators"),
           tags$br(),
                   tags$div(
-          HTML("If you have computed the network indicators you will see an APA table with multiple summary statistics:"),
+          HTML("If you have computed the network indicators you will see a dynamic table with multiple summary statistics:"),
                       style="font-size:14px"),
           dataTableOutput(ns("APAtable_NIdes")),
                     tags$br(),
@@ -274,22 +274,22 @@ networkIndicatorsServer <-
 
         tags$div(
           HTML("<b>For which concepts do you want to get neighborhood indicators?</b><br>
-          Remark: The list is sorted alphabetically, by pressing a letter key or writing
-          you can search for specific words."),
+          Remark: The list is sorted alphabetically, by pressing writing in the field 
+          you can search for specific concepts."),
                       style="font-size:14px"),
                   uiOutput(ns("selectNeighborhood_NI")),
                        tags$div(
                   HTML("<b>Remove connection</b><br>
-          Remark: Please specify only 2 concepts here between which you want to remove the connection (if one exists)."),
+          Remark: Please specify only two concepts here between which you want to remove the connection (if one exists)."),
                       style="font-size:14px"),
                   uiOutput(ns("selectRemoveConnection_NI")),
                                          tags$div(
                   HTML("<b>Remove concept</b><br>
-          Remark: Please specify only 1 concept here  which you want to delete (if it exists)."),
+          Remark: Please specify only one concept here  which you want to delete (if it exists)."),
                       style="font-size:14px"),
                   uiOutput(ns("selectRemoveConcept_NI")),
         tags$div(
-          HTML("Click on button to run function to get the neighborhood indicators of your CAMs. Please click only once and
+          HTML("Click on the button to run a function to get the neighborhood indicators of your CAMs. Please click only once and
                       wait few seconds:"),
                       style="font-size:14px"),
         actionButton(ns("clickNeighborhoodIndicators"), "Compute neighborhood indicators"),
@@ -302,7 +302,7 @@ networkIndicatorsServer <-
          tags$br(),
         htmlOutput(ns("textTermsMultiple_NeighborhoodInd")),
         tags$br(),
-        tags$div(HTML("<i>To download the neighborhood indicators download all your files globally using the button top right.</i>"),
+        tags$div(HTML("<i>To download the neighborhood indicators, download all your files globally using the button top right.</i>"),
         style="font-size:14px")
           )
         })
@@ -447,10 +447,10 @@ output$neighborhoodIndicatorsTable <- renderDataTable({
 
           ## change UI
           outUI$elements <- tagList(
-          tags$h2("Compute descriptives statistics of neighborhood indicators"),
+          tags$h2("Compute descriptive statistics of neighborhood indicators"),
           tags$br(),
                   tags$div(
-          HTML("If you have computed the neighborhood indicators you will see two APA tables with multiple summary statistics:"),
+          HTML("If you have computed the neighborhood indicators you will a dynamic table with multiple summary statistics:"),
                       style="font-size:14px"),
           dataTableOutput(ns("APAtable_NIdes_neighborhood")),
                     tags$br(),
@@ -499,7 +499,7 @@ output$neighborhoodIndicatorsTable <- renderDataTable({
                <a href="https://camtools-documentation.readthedocs.io/en/master/CAM-App/#compute-network-indicators" target="_blank">https://camtools-documentation.readthedocs.io/en/master/CAM-App/#compute-network-indicators</a>.')),
               tags$li(HTML('<b>get network descriptives:</b> Get a summary of network statistics you have calculated, get an APA-formatted table of statistics, get a correlation plot 
               between different network indicators and search for significant correlations between network indicators.')),
-              tags$li(HTML('<b>get neighborhood indicators:</b> Compute several variants (in total 6 variants) of average valences over group of concepts. 
+              tags$li(HTML('<b>get neighborhood indicators:</b> Compute several variants (in total six variants) of average valences over groups of concepts. 
               Please check the online documentation for detailed information: 
                <a href="https://camtools-documentation.readthedocs.io/en/master/CAM-App/#compute-neighborhood-network-indicators" target="_blank">https://camtools-documentation.readthedocs.io/en/master/CAM-App/#compute-neighborhood-network-indicators</a>.')),
               tags$li(HTML('<b>get neighborhood descriptives:</b> Get a summary of neighborhood statistics you have calculated, get an APA-formatted table of statistics and get a correlation plot between 

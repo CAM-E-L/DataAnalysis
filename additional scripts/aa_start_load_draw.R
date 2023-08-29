@@ -172,12 +172,13 @@ plot(CAMdrawn[[1]], edge.arrow.size = .7,
      vertex.size = 10, vertex.label.cex = .9)
 
 
-tmp_microIndicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
-                                             micro_degree = NULL,
-                                             micro_valence = NULL,
-                                             micro_centr_clo = NULL,
-                                             micro_transitivity = NULL,
+tmp_Indicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
+                                             micro_degree =  c("Covid-19", "negative aspects", "positive aspects"),
+                                             micro_valence = c("Covid-19", "negative aspects", "positive aspects"),
+                                             micro_centr_clo = c("Covid-19", "negative aspects", "positive aspects"),
+                                             micro_transitivity = c("Covid-19", "negative aspects", "positive aspects"),
                                              largestClique = FALSE)
+
 
 
 

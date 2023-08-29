@@ -66,8 +66,8 @@ notSummarizedTermsServer <-
             HTML(
               'When using the module options of "summarize" you are summarizing the concepts and thereby decreasing the total number
               of unique concepts in the dataset. During this process it is highly likely that you will miss some concepts, which can 
-              be checked if you click on the button get words.
-              Additionally, you can choose if you only want to get the concepts with a specific valence 
+              be checked if you click on the button "get words".
+              Additionally, you can choose whether you only want to get the concepts with a specific valence 
               (default is all concepts). Please click only once and wait a few seconds:'
             ),
             style = "font-size:14px"

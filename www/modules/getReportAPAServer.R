@@ -45,7 +45,7 @@ getReportAPAServer <-
             tags$div(
               HTML(
                 "After choosing if you want to include statistics for single concepts, please click on the get report button.
-          Please click only once and wait few seconds. It is recommended that you summarise all your concepts before getting the report:"
+          Please click only once and wait few seconds. It is recommended that you summarize all your concepts before getting the report:"
               ),
           style = "font-size:14px"
             ),
@@ -480,11 +480,11 @@ getReportAPAServer <-
             "</span>)",
             "connectors were drawn.",
             out_connectorsAgreeingPercent,
-            "of connectors were agreeing and",
+            "of the connectors were agreeing and",
             out_connectorsDisagreeingPercent,
             "disagreeing. Furthermore",
             out_connectorsBidirectionalPercent,
-            "of connectors were bidirectional and",
+            "of the connectors were bidirectional and",
             out_connectorsUnidirectionalPercent,
             "unidirectional.  The valence for the concepts range from [-3,-1] for negative and [1,3] for positive concepts, with ambivalent and neutral concepts being assigned a value of 0.",
             "The mean average valence over all the CAMs was",

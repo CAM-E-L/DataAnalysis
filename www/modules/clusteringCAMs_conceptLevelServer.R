@@ -19,10 +19,10 @@ clusteringCAMs_conceptLevelServer <-
                      this module are the following:'
         ),
               tags$ul(
-              tags$li(HTML('<b>Concept co-occurrences:</b> the co-occurrences of concepts within individual CAMs is computed by setting up multiple contingency tables between single pairs of summarized concepts')),
+              tags$li(HTML('<b>Concept co-occurrences:</b> the co-occurrences of concepts within individual CAMs are computed by setting up multiple contingency tables between single pairs of summarized concepts')),
               tags$li(HTML('<b>Valence co-occurrences:</b> The mean valence over all summarized concepts is computed. These mean variables are z-transformed and a 
               hierarchical cluster analysis (euclidean distance + Ward\'s method) for all summarized concepts which were drawn at least two times is applied. 
-              The resulting cluster solution can be interpreted by the average mean differences on the mean variables of the summarized concepts. Such analysis could help to indicate if identical named / summarized concepts of certain supporters / opponents (e.g., on belief in climate change) have different mean valence.'))
+              The resulting cluster solution can be interpreted by the average mean differences on the mean variables of the summarized concepts. Such analysis could help to indicate whether identical named / summarized concepts of certain supporters / opponents (e.g., on belief in climate change) have different mean valences.'))
             )
       ))
 
@@ -47,9 +47,9 @@ clusteringCAMs_conceptLevelServer <-
             tags$h3("Your Settings:"),
                      tags$div(
             HTML(
-              'Please select if you want to consider the given valence to the concepts by the participants 
-              (if yes Cohens Kappa is computed, if no the Phi coefficient is computed). Additionally you can choose if the heatmap should be 
-              calculated on the summarized concepts (yes is recommended):'
+              "Please select if you want to consider the valence given by the participants to the concepts 
+              (if yes Cohen's Kappa is computed, if no the Phi coefficient is computed). Additionally you can choose if the heatmap should be 
+              calculated on the summarized concepts (yes is recommended):"
             ),
             style = "font-size:14px"
           ),
@@ -71,7 +71,7 @@ clusteringCAMs_conceptLevelServer <-
           tags$h3("Draw Heatmap:"),
             actionButton(ns("clickDrawHeatmap"), "draw Heatmap"),
             tags$p(
-              "Your have currently considered ",
+              "You, currently have considered ",
               tags$b(textOutput(ns("numConceptsHeatmap"), inline = TRUE), " (summarized) concepts"),
               " in your drawn heatmap."
             ),
@@ -367,14 +367,13 @@ print(hc_cluster)
             tags$div(
               HTML('The options for this module are the following:'),
               tags$ul(
-               tags$li(HTML('<b>Concept co-occurrences:</b> the co-occurrences of concepts within individual CAMs is computed by setting up multiple contingency tables between single pairs of summarized concepts. 
+               tags$li(HTML('<b>Concept co-occurrences:</b> the co-occurrences of concepts within individual CAMs are computed by setting up multiple contingency tables between single pairs of summarized concepts. 
                Please check the online documentation for detailed information: 
                <a href="https://camtools-documentation.readthedocs.io/en/master/CAM-App/#concept-co-occurrences" target="_blank">https://camtools-documentation.readthedocs.io/en/master/CAM-App/#concept-co-occurrences</a>.')),
               tags$li(HTML('<b>Valence co-occurrences:</b> The mean valence over all summarized concepts is computed. These mean variables are z-transformed and a 
               hierarchical cluster analysis (euclidean distance + Ward\'s method) for all summarized concepts which were drawn at least two times is applied. 
-              The resulting cluster solution can be interpreted by the average mean differences on the mean variables of the summarized concepts. Such analysis could help to indicate if identical named / 
-              summarized concepts of certain supporters / opponents (e.g., on belief in climate change) have different mean valence. Such analysis could help to indicate if identical named / summarized concepts 
-              of certain supporters / opponents (e.g., on belief in climate change) have different mean valence.'))
+              The resulting cluster solution can be interpreted by the average mean differences on the mean variables of the summarized concepts. Such analysis could help to indicate whether identical named / 
+              summarized concepts of certain supporters / opponents (e.g., on belief in climate change) have different mean valences.'))
             )
           )
           )

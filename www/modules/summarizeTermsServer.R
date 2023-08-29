@@ -503,7 +503,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
             tags$b(textOutput(ns(
               "Nodes_unique"
             ), inline = TRUE), " unique concepts"),
-            " , whereby on your choosen setting ",
+            ", whereby on your choosen setting ",
             tags$b(
               textOutput(ns("Nodes_matches"), inline = TRUE),
               " cases, where you can apply approximate string matching, were found."
@@ -1241,8 +1241,8 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
           tags$h3("Your settings:"),
           tags$div(
             HTML(
-              "Please select the language of your CAM dataset and click
-                click on the button to start summarizing your concepts by searching for synonyms.
+              "Please select the language of your CAM dataset and 
+              click on the button to start summarizing your concepts by searching for synonyms.
                 Please click only once and wait few seconds:"
             ),
             style = "font-size:14px"
@@ -1252,7 +1252,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
             div(
               style = "display: inline-block; vertical-align: top;",
               selectInput(ns("synonymsLanugage"), NULL, c("English",
-                                                            "no other implemented"), selected = "English", width = "200px")
+                                                            "no other implemented, yet"), selected = "English", width = "200px")
             ),
             actionButton(
               ns("synonymsStart"),
@@ -1270,7 +1270,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
           ),
                               tags$div(
             HTML(
-              "<i> Remark: Only unique concepts, which contains only one word and only word characters (A-Z, a-z) can be considered; 
+              "<i> Remark: Only unique concepts, which contain only one word and only word characters (A-Z, a-z) can be considered; 
             if needed use the other summarize functions to summarize your concepts further.</i>"
             ),
             style = "font-size:10px"
@@ -1280,7 +1280,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
             tags$b(textOutput(ns(
               "Nodes_unique"
             ), inline = TRUE), " unique concepts"),
-            " , whereby on your current set of unique concepts (! only single words considered) ",
+            ", whereby on your current set of unique concepts (! only single words considered) ",
             tags$b(
               textOutput(ns("synonymsGroups"), inline = TRUE),
               " groups of synonyms"
@@ -1663,7 +1663,7 @@ observeEvent(input$synonymsClickSummarize, {
               <br>
               <br>
               To run the word2vec model, please do the following three steps: (1) download your summarized words as a text file using the button below
-              and (2) download run the Python script (see GitHub link) and (3) upload the so computed pairwise similarities to the Shiny App."
+              and (2) download and run the Python script (see GitHub link) and (3) upload the so computed pairwise similarities to the Shiny App."
             ),
             style = "font-size:14px"
           ),
@@ -1676,11 +1676,11 @@ observeEvent(input$synonymsClickSummarize, {
             tags$b(textOutput(ns(
               "word2vecPercentageFound"
             ), inline = TRUE)),
-            " percent of your unique concepts for superordinate group of words using the word2vec model."
+            " percent of your unique concepts for superordinate groups of words using the word2vec model."
           ),
                     tags$div(
             HTML(
-              "<i> Remark: Only unique concepts, which contains only one word and only word characters (A-Z, a-z) can be considered; 
+              "<i> Remark: Only unique concepts, which contain only one word and only word characters (A-Z, a-z) can be considered; 
             if needed use the other summarize functions to summarize your concepts further.</i>"
             ),
             style = "font-size:10px"
@@ -1688,7 +1688,7 @@ observeEvent(input$synonymsClickSummarize, {
           tags$h3("(2) Download and run Python script:"),
           tags$div(
             HTML(
-              'Please download the Python code from GitHub and run the Python script (see for more details readme page on GitHub): 
+              'Please download the Python code from GitHub and run the Python script (for more details see readme page on GitHub): 
               <a href="https://github.com/Camel-app/DataAnalysis/tree/main/Python_word2vec" target="_blank">GitHub Python Code</a>'
             ),
             style = "font-size:14px"
@@ -1696,7 +1696,7 @@ observeEvent(input$synonymsClickSummarize, {
           tags$h3("(3) Upload the computed pairwise similarities:"),
           tags$div(
             HTML(
-              'After running the Python Script you should have created a .txt file called "distanceMatrix", please upload this file:'
+              'After running the Python script you should have created a .txt file called "distanceMatrix", please upload this file:'
             ),
             style = "font-size:14px"
           ),
@@ -1738,7 +1738,7 @@ observeEvent(input$synonymsClickSummarize, {
       tags$b(textOutput(ns(
         "Nodes_unique"
       ), inline = TRUE), " unique concepts"),
-      " , whereby on your specified cutting height ",
+      ", whereby on your specified cutting height ",
       tags$b(
         textOutput(ns("word2vecGroups"), inline = TRUE),
         " groups of similar words"
@@ -2233,7 +2233,7 @@ observeEvent(input$word2vecClickSummarize, {
                   (opposite vectors) to 1 (proportional vectors). The word vectors are "included" in a pre-trained language model 
                   from the Python library spaCy and there are currently language models for 25 languages, 
                   see: <a href="https://spacy.io/models" target="_blank">https://spacy.io/models</a>. 
-                  A more detailed explenation how to apply the function can be found on our GitHub page: 
+                  A more detailed explanation how to apply the function can be found on our GitHub page: 
                   <a href="https://github.com/Camel-app/DataAnalysis/tree/main/Python_word2vec" target="_blank">https://github.com/Camel-app/DataAnalysis/tree/main/Python_word2vec</a>.'
                 )
               )

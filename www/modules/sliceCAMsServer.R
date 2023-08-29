@@ -48,30 +48,30 @@ sliceCAMsServer <-
           sliced according to two possible criteria: (a) delete a connection between two concepts, and / or (b) delete a concept. </i>"),
           tags$br(),
           HTML("<b>After seperating a CAM applying (a) and / or (b) what are your expected central concepts of the two resulting sub-CAMs?</b><br>
-          Remark: The list is sorted alphabetically, by pressing a letter key or writing
-          you can search for specific words."),
+          Remark: The list is sorted alphabetically, by writing in the field 
+          you can search for specific concepts."),
           style="font-size:14px"),
           uiOutput(ns("selectCentralWords_SC")),
           tags$div(
             HTML("<b>(a) Remove connection</b><br>
-          Remark: Please specify only 2 concepts here between which you want to remove the connection (if one exists)."),
+          Remark: Please specify only two concepts here between which you want to remove the connection (if one exists)."),
           style="font-size:14px"),
           uiOutput(ns("selectRemoveConnection_SC")),
           tags$div(
             HTML("<b>(b) Remove concept</b><br>
-          Remark: Please specify only 1 concept here  which you want to delete (if it exists)."),
+          Remark: Please specify only one concept here  which you want to delete (if it exists)."),
           style="font-size:14px"),
           uiOutput(ns("selectRemoveConcept_SC")),
           tags$div(
-            HTML("Click on button to run function to slice your CAMs. Please click only once and
+            HTML("Click on the button to run a function to slice your CAMs. Please click only once and
                       wait few seconds:"),
             style="font-size:14px"),
           actionButton(ns("clickSliceCAMs"), "Slice CAMs"),
           tags$p(
-            "In total applying your settings your were able to slice ",
+            "In total applying your settings you were able to slice ",
             tags$b(textOutput(ns("slicedCAMs_num"), inline = TRUE)), " CAMs, which are ",
             tags$b(textOutput(ns("slicedCAMs_perc"), inline = TRUE)), "% of your total CAM data set."),
-          tags$div(HTML("Side by side is the original CAM and the sliced CAM:"), style="font-size:14px"),
+          tags$div(HTML("Side by side are the original CAM and the sliced CAM:"), style="font-size:14px"),
           fluidRow(
             column(width = 5,
                    tags$b("original CAM:"),
@@ -155,7 +155,7 @@ sliceCAMsServer <-
           showModal(
             modalDialog(
               title = "Error while trying to slice your CAMs",
-              "It appears that you have defined more than 1 concept to delete (not possible).",
+              "It appears that you have defined more than one concept to delete (not possible).",
               easyClose = TRUE,
               footer = tagList(modalButton("Ok"))
             )
@@ -169,7 +169,7 @@ sliceCAMsServer <-
           showModal(
             modalDialog(
               title = "Error while trying to slice your CAMs",
-              "It appears that you not have defined exactly 2 concept to remove the connection between (not possible).",
+              "It appears that you not have defined exactly two concept to remove the connection between (not possible).",
               easyClose = TRUE,
               footer = tagList(modalButton("Ok"))
             )
@@ -250,10 +250,10 @@ sliceCAMsServer <-
 
         ## change UI
         outUI$elements <- tagList(
-          tags$h2("Compute descriptives statistics of sliced CAMs (wait few seconds for the analyses)"),
+          tags$h2("Compute descriptive statistics of sliced CAMs (wait few seconds for the analyses)"),
           tags$br(),
           tags$div(
-            HTML("If you have successfully sliced CAMs you will see an APA table with multiple summary statistics:"),
+            HTML("If you have successfully sliced CAMs you will see a dynamic table with multiple summary statistics:"),
             style="font-size:14px"),
           htmlOutput(ns("text_c1")),
           dataTableOutput(ns("APAtable_slicedCAMs_c1")),

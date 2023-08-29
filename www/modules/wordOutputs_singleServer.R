@@ -21,7 +21,7 @@ wordOutputs_singleServer <-
               tags$ul(
               tags$li(HTML('<b>concept by concept:</b> create on a single concept level, a pie chart, barplot and table for every summarized superordinate concept to reflect 
               and discuss the summary process of the CAM data')),
-              tags$li(HTML('<b>overview of concepts:</b> create for all single unique summarized concepts an table containing the respective frequencies of the drawn concepts 
+              tags$li(HTML('<b>overview of concepts:</b> create for all single unique summarized concepts a table containing the respective frequencies of the drawn concepts 
               separately for each CAM to easily recompute, for example, how often a certain concept with a specific valence (separated by N=total, Npositive=positive, and so on) was drawn within a CAM data set'))
             )
       ))
@@ -43,7 +43,7 @@ wordOutputs_singleServer <-
           outUI$elements <- tagList(
           tags$h2("get graphics and summary statistics for concept by concept"),
           tags$br(),
-          tags$div(HTML("After choosen your concept you want to get summary statistics and your settings 
+          tags$div(HTML("After choosing your concept you want to get summary statistics for and your settings 
           (in most cases the default is recommended), please click on the get overview button. 
           Please click only once and wait few seconds:"), style="font-size:14px"),
             tags$h3("Your Settings:"),
@@ -72,13 +72,13 @@ wordOutputs_singleServer <-
           ),
           tags$h3("get graphics and summary statistics:"),
           actionButton(ns("clickConceptSingle"), "get overview"),
-          tags$div(HTML("On the left the pie chart and on the right the barplot for your choosen summarized concept 
-          considering your settings is shown:"), style="font-size:14px"),
+          tags$div(HTML("On the left, the pie chart, and on the right, the barplot, is shown for your chosen summarized concept considering 
+          your settings:"), style="font-size:14px"),
           fluidRow(
           column(5,plotOutput(ns("plotPie_concepts_single"), width="90%")),  
           column(5,plotOutput(ns("plotBarplot_concepts_single"), width="90%"))
         ),
-                  tags$div(HTML("A table containing all drawn concepts, which were summarized to your choosen summarized concept:"), style="font-size:14px"),
+                  tags$div(HTML("A table containing all drawn concepts, which were summarized to your chosen summarized concept:"), style="font-size:14px"),
                   dataTableOutput(ns("table_concepts_single")),
           )
         })
@@ -173,7 +173,7 @@ ggplot(fg, aes(group, n, fill = group)) +
   geom_text(aes(label = res), vjust = -0.5) +
   ggplot_theme + # from helper functions
   theme(legend.position = "none") +
-  labs(x ="Summarized concept occur x-times in CAMs", y = "N")
+  labs(x ="Summarized concept occurs x-times in CAMs", y = "N")
         })
 
 
@@ -312,7 +312,7 @@ globals$singleConceptsTable <- conceptOverall_dat
               tags$li(HTML('<b>concept by concept:</b> create on a single concept level, a pie chart, barplot and table for every summarized superordinate concept to reflect 
               and discuss the summary process of the CAM data. Select the minimum frequency a single concept has been drawn in the CAMs to be plotted in the pie chart and barplot / table 
               (at least for the pie chart it is recommended not to show too many different concepts).')),
-              tags$li(HTML('<b>overview of concepts:</b> create for all single unique summarized concepts an table containing the respective frequencies of the drawn concepts 
+              tags$li(HTML('<b>overview of concepts:</b> create for all single unique summarized concepts a table containing the respective frequencies of the drawn concepts 
               separately for each CAM to easily recompute, for example, how often a certain concept with a specific valence (separated by N=total, Npositive=positive, and so on) was drawn within a CAM data set.'))
             )
           )
