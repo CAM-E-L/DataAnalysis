@@ -38,10 +38,12 @@ overwriteTextNodes <- function(protocolDat, nodesDat) {
   protocolDat$findSynonyms,
   protocolDat$modelwordVec)
 
-  ## right encoding
+  ## right encoding - keep UTF-8
   for(i in 1:length(list_summarizeTerms)){
-    Encoding(x = list_summarizeTerms[[i]]$wordsFound) <- "latin1"
-    Encoding(x = list_summarizeTerms[[i]]$superordinateWord) <- "latin1"
+    if(!all(Encoding(x = list_summarizeTerms[[i]]$wordsFound) == "UTF-8")){
+      Encoding(x = list_summarizeTerms[[i]]$wordsFound) <- "latin1"
+      Encoding(x = list_summarizeTerms[[i]]$superordinateWord) <- "latin1"
+    }
   }
   ##############################################
 
