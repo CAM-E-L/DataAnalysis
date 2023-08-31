@@ -9,12 +9,12 @@ graphics.off()
 # please define!
 #> put everything in the "data" folder (your data set and protocol if you have one)
 ########################################
-CAMdataset <- "CAMEL_t1_NoDropout.txt"
+CAMdataset <- "Frings_2023_climateLaw.txt"
 # "Fenn_2023_SAIstudy_subset.txt"
 # "Fenn_2023_CAMtools.txt"
 
-protocolDataset <- "protocol_Fenn_2023_CAMtools.txt" #  # protocol.txt
-consider_Protocol <- FALSE
+protocolDataset <- "protocol22.txt" #  # protocol.txt
+consider_Protocol <- TRUE
 
 
 
@@ -157,7 +157,7 @@ if(consider_Protocol){
                                 nodesDat = CAMfiles[[1]])
   CAMfiles[[1]] <- tmp_out[[1]]
 }
-
+tmp_out[[2]]
 
 ### draw CAMs
 CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],

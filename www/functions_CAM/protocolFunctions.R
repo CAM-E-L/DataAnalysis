@@ -40,10 +40,16 @@ overwriteTextNodes <- function(protocolDat, nodesDat) {
 
   ## right encoding - keep UTF-8
   for(i in 1:length(list_summarizeTerms)){
-    if(!all(Encoding(x = list_summarizeTerms[[i]]$wordsFound) == "UTF-8")){
+    if(any(Encoding(x = list_summarizeTerms[[i]]$wordsFound) == "UTF-8")){
+      Encoding(x = list_summarizeTerms[[i]]$wordsFound) <- "UTF-8"
+      Encoding(x = list_summarizeTerms[[i]]$superordinateWord) <- "UTF-8"
+    }else{
       Encoding(x = list_summarizeTerms[[i]]$wordsFound) <- "latin1"
       Encoding(x = list_summarizeTerms[[i]]$superordinateWord) <- "latin1"
     }
+
+    print(i)
+    print(list_summarizeTerms[[i]]$wordsFound)
   }
   ##############################################
 
