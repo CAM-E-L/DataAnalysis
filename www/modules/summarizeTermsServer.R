@@ -875,6 +875,8 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
           globals$usedWords, `length<-`,
           max(indx)
         )))
+
+        # outdat <- enc2native(outdat)
         t(outdat)
       })
       ## END global for summarize screens
