@@ -2,7 +2,7 @@
 # R-Code - CAM
 # date of creation: December 2021
 # authors: Julius Fenn
-# function: 
+# function:
 # ==============================================================================
 
 ############################################################################
@@ -91,8 +91,8 @@ getDescriptives <- function(dataset = CAMindicators,
     "CoeffofVariation" = sd(x)/mean(x,na.rm=TRUE),
     "Minimum" = min(x,na.rm=TRUE),
     "Maximum" = max(x,na.rm=TRUE),
-    "Lower Quantile" = as.numeric(quantile(x,0,na.rm=TRUE)),
-    "Upper Quantile" = as.numeric(quantile(x,1,na.rm=TRUE)),
+    "Lower Quartil" = as.numeric(quantile(x,0.25,na.rm=TRUE)),
+    "Upper Quartil" = as.numeric(quantile(x,0.75,na.rm=TRUE)),
     "Skewness" = moments::skewness(x = x,na.rm=TRUE),
     "Kurtosis" = moments::kurtosis(x = x,na.rm=TRUE),
     "KS-Test" = suppressWarnings(ks.test(x = x, y = "pnorm", mean(x,na.rm=TRUE), sd(x,na.rm=TRUE))$p.value)
