@@ -48,8 +48,8 @@ overwriteTextNodes <- function(protocolDat, nodesDat) {
       Encoding(x = list_summarizeTerms[[i]]$superordinateWord) <- "latin1"
     }
 
-    print(i)
-    print(list_summarizeTerms[[i]]$wordsFound)
+    # print(i)
+    # print(list_summarizeTerms[[i]]$wordsFound)
   }
   ##############################################
 
@@ -61,8 +61,9 @@ overwriteTextNodes <- function(protocolDat, nodesDat) {
     nodesDat$text_summarized <- nodesDat$text
   }
 
-  tmp_text_summarized <-
-    str_remove(string = nodesDat$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+  # tmp_text_summarized <-
+  #   str_remove(string = nodesDat$text_summarized,
+  #              pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
 
   ## list to collect already used words
   list_usedWords <- list()
@@ -144,8 +145,17 @@ overwriteTextNodes <- function(protocolDat, nodesDat) {
     tmp_current_words <- unlist(tmp_current$wordsFound)
 
     for (w in tmp_current_words) {
+
+      # print(tmp_current$superordinateWord)
+
+      tmp_text_summarized <-
+        str_remove(string = nodesDat$text_summarized,
+                   pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+
+
       tmp_w <-
         str_remove(string = w, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+      # tmp_w <- w
 
       if (str_detect(string = w, pattern = "_positive$")) {
         # print("_positive")

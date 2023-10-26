@@ -9,16 +9,12 @@ graphics.off()
 # please define!
 #> put everything in the "data" folder (your data set and protocol if you have one)
 ########################################
-CAMdataset <- "Frings_2023_climateLaw.txt"
+CAMdataset <- "jatos_results_20230202104640.txt"
 # "Fenn_2023_SAIstudy_subset.txt"
 # "Fenn_2023_CAMtools.txt"
 
-protocolDataset <- "protocol22.txt" #  # protocol.txt
-consider_Protocol <- FALSE
-
-
-
-
+protocolDataset <- "protocol_SAI_dataDriven.txt" #  # protocol.txt
+consider_Protocol <- TRUE
 
 
 ########################################
@@ -160,6 +156,17 @@ if(consider_Protocol){
 }
 
 
+
+sum(CAMfiles[[1]]$text_summarized == "corruption")
+sum(CAMfiles[[1]]$text_summarized == "acidity of oceans")
+
+
+
+str_subset(string = CAMfiles[[1]]$text_summarized, pattern = "corruption")
+str_subset(string = CAMfiles[[1]]$text_summarized, pattern = "acid|Acid")
+
+
+CAMfiles[[1]][str_detect(string = CAMfiles[[1]]$comment, pattern = "corruption"),]
 ### draw CAMs
 CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
                      dat_nodes = CAMfiles[[1]],ids_CAMs = "all",
