@@ -1,0 +1,302 @@
+---
+title: "01 data preperation"
+author: "Julius Fenn, Michael Gorki"
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    html-math-method: katex
+---
+
+```{r}
+#| echo: false
+#| warning: false
+
+# sets the directory of location of this script as the current directory
+# setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+
+########################################
+# please define!
+#> put everything in the "data" folder (your data set and protocol if you have one)
+########################################
+CAMdataset <- "Gros_2023_BGE.txt"
+
+protocolDataset <- "protocol.txt" #  # protocol.txt
+consider_Protocol <- FALSE
+
+
+########################################
+# load packages
+########################################
+# for deploying Shiny App online
+# remotes::install_version("rsconnect", "0.8.29")
+# see issue: https://github.com/rstudio/rsconnect/issues/926
+
+library(shiny)
+
+# library(shinyWidgets)
+library(shinyjs)
+
+library(shinyvalidate)
+
+# library(shinycssloaders) %>% withSpinner(color="#0dc5c1")
+
+library(tidyverse)
+library(lubridate)
+
+library(magrittr)
+
+library(rjson) # write JSON files
+library(jsonlite) # read JSON files
+
+
+
+library(igraph)
+
+library(sortable)
+
+library(vroom)
+library(xlsx)
+
+
+library(irr)
+
+
+library(stargazer)
+
+
+library(kableExtra) # APA 7 tables
+
+## for heatmap
+library(stats)
+library(heatmaply)
+library(plotly)
+library(RColorBrewer)
+
+
+library(tm)
+library(stopwords) # old function for spell checking
+
+library(visNetwork)
+library(wordcloud)
+
+
+library(moments)
+
+library(psych)
+library(rempsyc) # APA tables with nice_table()
+library(flextable) # dependency of rempsyc
+library(officer) # landscape mode for docx export
+
+library(Cairo) # save CAMs as .png file
+
+library(ggcorrplot)
+# library(qdap, include.only = c('syn')) # include multiple functions
+# library(qdapDictionaries, include.only = c('key.syn'))
+# library(qdap)
+
+library(jtools)
+
+########################################
+# load functions
+########################################
+setwd("../../www/functions_CAM")
+# dir()
+
+
+for(i in 1:length(dir())){
+  # print(dir()[i])
+  source(dir()[i], encoding = "utf-8")
+}
+rm(i)
+
+########################################
+# load data
+########################################
+setwd("../../additional scripts/data")
+# dir()
+
+read_file(CAMdataset) %>%
+  # ... split it into lines ...
+  str_split('\n') %>% first() %>%
+  # ... filter empty rows ...
+  discard(function(x) x == '') -> dat_CAM
+
+
+raw_CAM <- list()
+for(i in 1:length(dat_CAM)){
+  raw_CAM[[i]] <- jsonlite::fromJSON(txt = dat_CAM[[i]])
+}
+rm(i)
+
+### if protocol considered
+if(consider_Protocol){
+  text <- readLines(protocolDataset, warn = FALSE)
+  text <- readLines(textConnection(text, encoding="UTF-8"), encoding="UTF-8")
+
+  if (testIfJson(file = text)) {
+    protocol <- rjson::fromJSON(file = protocolDataset)
+  } else{
+    print("Invalid protocol uploaded")
+  }
+}
+
+setwd("..")
+
+
+```
+
+
+
+# Mit Cognitive-Affective Maps zu einem gemeinsamen gesellschaftlichen Verständnis von Nachhaltigkeit 
+
+## Daten aufbereiten
+
+### Daten einlesen
+
+Cognitive-Affective Maps (CAMs) liegen als Rohdaten vor und werden systematisch zusammengeführt:
+
+```{r}
+########################################
+# CAM-Dateien erstellen
+########################################
+### einzelne Dateien für Knoten, Verbindungen und Zusammenschlüsse erstellen
+CAMfiles <- create_CAMfiles(datCAM = raw_CAM, reDeleted = TRUE)
+```
+
+
+Insgesamt liegen `r length(unique(CAMfiles[[1]]$CAM))` CAMs vor und es wurden `r length(unique(CAMfiles[[1]]$text))` einzigartige Konzepte gezeichnet, unter Berücksichtigung von Doppelungen sind es insgesamt `r length(CAMfiles[[1]]$text)` Konzepte. Weiter wurden `r nrow(CAMfiles[[2]])` Verbindungen gezogen zwischen den Konzepten.
+
+
+#### Daten interaktiv darstellen
+
+Die Daten kann man auch als interaktive Tabelle darstellen:
+
+```{r}
+DT::datatable(CAMfiles[[1]], options = list(pageLength = 5))
+```
+
+Es ist ersichtlich, dass zu jedem gezeichneten Konzept kein Kommentar gezeichnet wurde, dies wurde nur in insgesamt `r round(x = sum(CAMfiles[[1]]$comment != "") / length(CAMfiles[[1]]$text) * 100, digits = 0)` Prozent der Fälle genutzt.
+
+
+### CAMs zeichnen
+
+```{r}
+########################################
+# CAMs zeichnen
+########################################
+CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
+                     dat_nodes = CAMfiles[[1]],ids_CAMs = "all",
+                     plot_CAM = TRUE,
+                     useCoordinates = TRUE,
+                     relvertexsize = 3,
+                     reledgesize = 1)
+```
+
+
+## Daten auswerten
+
+### Emotionaler Gehalt und Struktur von CAMs
+
+```{r}
+########################################
+# CAMs Netzwerkparameter
+########################################
+networksIndicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
+                                        micro_degree =  c("Bedingungsloses Grundeinkommen"),
+                                        micro_valence = c("Bedingungsloses Grundeinkommen"),
+                                        micro_centr_clo = c("Bedingungsloses Grundeinkommen"),
+                                        micro_transitivity = c("Bedingungsloses Grundeinkommen"),
+                                        largestClique = FALSE)
+
+DT::datatable(networksIndicators, options = list(pageLength = 5))                                     
+```
+
+
+Wie war die emotionale Bewertung der CAMs insgesamt?
+
+```{r}
+# Use ggplot to create a histogram
+p <- ggplot(networksIndicators, aes(x=mean_valence_macro)) +
+   geom_histogram(aes(y=..density..),colour="black", fill="white", bins=20) +
+  geom_density(alpha=.2, fill="#add8e6")  # Add a density curve
+
+  # Apply minimal theme and increase font size
+p <- p + theme_apa() + theme(text = element_text(size = 20)) + xlab(label = "mittlere emotionale Bewertung")
+
+# Print the plot
+print(p)  
+```
+
+Wie viele Konzepte wurden im Mittel gezeichnet?
+
+```{r}
+# Use ggplot to create a histogram
+p <- ggplot(networksIndicators, aes(x=num_nodes_macro)) +
+   geom_histogram(aes(y=..density..),colour="black", fill="white", bins=20) +
+  geom_density(alpha=.2, fill="#add8e6")  # Add a density curve
+
+  # Apply minimal theme and increase font size
+p <- p + theme_apa() + theme(text = element_text(size = 20)) + xlab(label = "mittlere Anzahl gezeichneter Konzepte pro CAM")
+
+# Print the plot
+print(p)  
+```
+
+
+### CAM aggregieren
+
+```{r}
+#| echo: false
+
+if(all(CAMfiles[[1]]$participantCAM == "noID")){
+  sel_ids <- unique(CAMfiles[[1]]$CAM)
+}else{
+  sel_ids <- unique(CAMfiles[[1]]$participantCAM)
+}
+```
+
+```{r}
+########################################
+# aggregierte CAM erstellen
+########################################
+CAMaggregated <- aggregate_CAMs(dat_merged = CAMfiles[[3]], dat_nodes = CAMfiles[[1]],
+                                ids_CAMs = sel_ids)
+
+g = CAMaggregated[[2]]
+g2 = simplify(CAMaggregated[[2]])
+
+E(g2)$weight = sapply(E(g2), function(e) {
+  length(all_shortest_paths(g, from=ends(g2, e)[1], to=ends(g2, e)[2])$res) } )
+E(g2)$weight = E(g2)$weight / 2
+
+V(g2)$color[V(g2)$value <= .5 & V(g2)$value >= -.5] <- "yellow"
+
+V(g2)$shape <- NA
+V(g2)$shape <- ifelse(test = V(g2)$color == "yellow", yes = "square", no = "circle")
+
+
+plot(g2, edge.arrow.size = .5,
+     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
+     vertex.size = 5, vertex.label.cex = .9)                              
+```
+
+
+### Wortliste erstellen
+
+```{r}
+########################################
+# Wortliste erstellen
+########################################
+CAMwordlist <- create_wordlist(
+  dat_nodes = CAMfiles[[1]],
+  dat_merged = CAMfiles[[3]],
+  order = "frequency",
+  splitByValence = FALSE,
+  comments = FALSE,
+  raterSubsetWords = NULL,
+  rater = FALSE
+)   
+
+DT::datatable(CAMwordlist, options = list(pageLength = 5))       
+```
