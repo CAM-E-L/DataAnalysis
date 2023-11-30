@@ -1,0 +1,206 @@
+/* copied from: 
+https://stackoverflow.com/questions/26612700/ticks-for-type-range-html-input 
+*/
+
+input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: rgb(200, 200, 200);
+    /* Hides the slider so that custom slider can be made */
+    width: 295px;
+    /* Specific width is required for Firefox. */
+    height: 20px;
+    /* Otherwise white in Chrome */
+
+    cursor: pointer;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    margin-left: 2.5px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: rgb(200, 200, 200);
+
+    height: 40px;
+    width: 30px;
+    border-radius: 50%;
+    border: 1px solid gray;
+}
+
+input[type="range"]::-ms-thumb {
+    margin: 0; /* Reset margin in Edge since it supports -webkit-slider-thumb as well */
+  }
+
+
+/* style labels node slider */
+.labelsNodeSlider{
+    display: inline-flex;
+    flex-wrap: wrap; 
+    font-size: 16px;
+}
+
+.labelsNodeSlider > span:not(:last-child) {
+    /* margin-left: 32px; /* HERE WE ADD THE SPACE */
+    width: 48px;
+   }
+
+
+   /* style labels connector slider */
+.labelsConnectorSlider{
+    display: inline-flex;
+    flex-wrap: wrap; 
+    font-size: 16px;
+}
+
+.labelsConnectorSlider > span:not(:last-child) {
+    /* margin-left: 32px; /* HERE WE ADD THE SPACE */
+    width: 56px;
+   }
+
+
+   
+
+   /* style labels connector slider */
+   .labelsConnectorSliderAgreementOnly{
+    display: inline-flex;
+    flex-wrap: wrap; 
+    font-size: 22px;
+}
+
+.labelsConnectorSliderAgreementOnly > span:not(:last-child) {
+    /* margin-left: 32px; /* HERE WE ADD THE SPACE */
+    width: 140px;
+   }
+
+
+/* hover over */
+input[type=range]:hover {
+    background-color: rgb(75, 75, 75);
+    /* Removes the blue border. You should probably do some       kind of focus styling for accessibility reasons though. */
+}
+
+
+/* connector slider colors below */
+.outerConnectorSlider{
+    height: 40px;
+    position: relative;
+}
+
+.greenConnectorColorSlider {
+    width: 300px;
+    height: 100%;
+    z-index: -999;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    background-color:  hsl(110, 50%, 60%);
+}
+
+.greenConnectorColorSliderAgreementOnly {
+    width: 300px;
+    height: 100%;
+    z-index: -999;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    background-color:  hsl(110, 50%, 60%);
+}
+
+.redColorConnectorSlider {
+    width: 150px;
+    height: 100%;
+    z-index: -998;
+    background-color: hsl(0, 50%, 60%);
+    border-bottom-left-radius: 8px;
+}
+
+
+/* > colors below slider */
+.redColorTick{
+    background-color: hsl(0, 50%, 60%);
+    border-top-left-radius: 8px;
+}
+
+.greenColorTick{
+    background-color:  hsl(110, 50%, 60%);
+    border-top-right-radius: 8px;
+}
+
+
+
+
+
+/* node slider colors below */
+.outerNodeSlider{
+    height: 40px;
+    position: relative;
+}
+.greenColorNodeSlider {
+    width: 300px;
+    height: 100%;
+    z-index: -999;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color:  hsl(110, 50%, 60%);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.yellowColorNodeSlider {
+    width: 171px;
+    height: 100%;
+    z-index: -998;
+    background-color:  #F3F033;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.redColorNodeSlider {
+    width: 128px;
+    height: 100%;
+    z-index: -996;
+    background-color: hsl(0, 50%, 60%);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+
+
+div.spacing-connector {
+    display:table;
+    width:300px;
+    table-layout: fixed;
+
+}
+div.spacing-connector span {
+    vertical-align: middle;
+    display:table-cell;
+    text-align:center;
+}
+
+
+
+div.spacing-node {
+    display: flex;
+    flex-direction: row;  /* make main axis horizontal (default setting) */
+    width:300px;
+    justify-content: center;
+    align-items: center; 
+}
+
+
+/* disable slider - set grey background */
+#nodeSlider[disabled] {
+    z-index: 1;
+    background-color: rgb(142, 19, 146);
+}
+
+/* increase size checkbox */
+
+input[type=checkbox] {
+    transform: scale(1.5);
+}

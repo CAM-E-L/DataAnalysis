@@ -1,0 +1,10 @@
+/* see:
+https://www.w3schools.com/colors/colors_hsl.asp
+*/
+:root{
+    --color-base:  0; /*for form fields and buttons*/
+    --color-base-danger:  0; /*for delete button*/
+    --color-base-close:  0; /*for close button*/
+}
+
+

@@ -300,3 +300,22 @@ CAMwordlist <- create_wordlist(
 
 DT::datatable(CAMwordlist, options = list(pageLength = 5))       
 ```
+
+
+### Wortwolke erstellen
+
+```{r}
+########################################
+# Wortwolke erstellen
+########################################
+colors_vec <- rep(NA, times = nrow(CAMwordlist))
+colors_vec <- ifelse(test = CAMwordlist$mean_valence > 2, yes = "darkgreen",
+  no = ifelse(test = CAMwordlist$mean_valence > 1, yes = "green",
+  no = ifelse(test = CAMwordlist$mean_valence > 0, yes = "lightgreen",
+  no = ifelse(test = CAMwordlist$mean_valence < -2, yes = "darkred",
+  no = ifelse(test = CAMwordlist$mean_valence < -1, yes = "red",
+  no = ifelse(test = CAMwordlist$mean_valence < 0, yes = "indianred1",  no = "yellow"))))))
+
+wordcloud::wordcloud(words = CAMwordlist$Words, freq = CAMwordlist$raw, min.freq = 1, 
+max.words=200, random.order=FALSE, colors=as.character(colors_vec), ordered.colors=TRUE, scale=c(1,0.50))
+```
