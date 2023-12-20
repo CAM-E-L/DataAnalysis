@@ -885,6 +885,11 @@ if(!globals$protocol$cleanValence[[1]]){
 
     list_summarizeTerms <- c(protocol()$approximateMatching, protocol()$searchTerms, protocol()$findSynonyms, protocol()$modelwordVec)
 
+
+if(length(list_summarizeTerms) == 0){
+  return(NULL)
+}
+
         vec_time <- c()
         for (i in 1:length(list_summarizeTerms)) {
         vec_time[i] <- unlist(list_summarizeTerms[[i]]$time)
@@ -908,11 +913,16 @@ max(vev_time_Protocol())
 
     output$approximateMatchingNumber <-  renderText({
         req(protocol())
+
+        print("protocol()$approximateMatching")
+        print(protocol()$approximateMatching)
         length(protocol()$approximateMatching)
     })
     
         output$searchTermsNumber <-  renderText({
         req(protocol())
+        print("protocol()$searchTerms")
+        print(protocol()$searchTerms)
         length(protocol()$searchTerms)
     })
 

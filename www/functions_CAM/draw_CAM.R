@@ -13,6 +13,7 @@
 # dat_nodes = CAMfiles[[1]]
 # ids_CAMs = "all"
 # plot_CAM = TRUE
+# useCoordinates = TRUE
 # relvertexsize = 7
 # reledgesize = 1
 draw_CAM <- function(dat_merged = CAMfiles[[3]],
