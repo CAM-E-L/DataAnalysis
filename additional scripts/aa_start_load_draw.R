@@ -9,12 +9,12 @@ graphics.off()
 # please define!
 #> put everything in the "data" folder (your data set and protocol if you have one)
 ########################################
-CAMdataset <- "jatos_results_20230202104640.txt"
+CAMdataset <- "Fenn_2023_CAMtools.txt"
 # "Fenn_2023_SAIstudy_subset.txt"
 # "Fenn_2023_CAMtools.txt"
 
 protocolDataset <- "protocol_SAI_dataDriven.txt" #  # protocol.txt
-consider_Protocol <- TRUE
+consider_Protocol <- FALSE
 
 
 ########################################
@@ -157,21 +157,17 @@ if(consider_Protocol){
 
 
 
-sum(CAMfiles[[1]]$text_summarized == "corruption")
-sum(CAMfiles[[1]]$text_summarized == "acidity of oceans")
+# sum(CAMfiles[[1]]$text_summarized == "corruption")
+# str_subset(string = CAMfiles[[1]]$text_summarized, pattern = "acid|Acid")
+# CAMfiles[[1]][str_detect(string = CAMfiles[[1]]$comment, pattern = "corruption"),]
 
 
 
-str_subset(string = CAMfiles[[1]]$text_summarized, pattern = "corruption")
-str_subset(string = CAMfiles[[1]]$text_summarized, pattern = "acid|Acid")
-
-
-CAMfiles[[1]][str_detect(string = CAMfiles[[1]]$comment, pattern = "corruption"),]
 ### draw CAMs
 CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
                      dat_nodes = CAMfiles[[1]],ids_CAMs = "all",
                      plot_CAM = FALSE,
-                     useCoordinates = TRUE,
+                     useCoordinates = FALSE,
                      relvertexsize = 3,
                      reledgesize = 1)
 
@@ -180,7 +176,9 @@ plot(CAMdrawn[[1]], edge.arrow.size = .7,
      vertex.size = 10, vertex.label.cex = .9)
 
 
-tmp_micro <- "Klimagesetz"
+
+
+tmp_micro <- c("Vorteile", "Nachteile", "Rettungsroboter", "sozialer Assistenzroboter")
 
 tmp_Indicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
                                         micro_degree =  tmp_micro,
@@ -191,241 +189,40 @@ tmp_Indicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
 
 
 
-########################### for word embeddings
-# variables:
-#> "personID", "wave", "group", "wordID", "word", "valence", "firstOrder", "comment"
 
-# i = tmp_Indicators$participantCAM[1]
 
+####################################################
 
-tmp_index <- 1
-out_mat <- NULL
-for(i in tmp_Indicators$participantCAM){
+tmp_text <- str_remove_all(string = CAMfiles[[1]]$text,
+                           pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
 
-  tmp_mat <- matrix(data = NA, nrow = length(V(CAMdrawn[[i]])$name), ncol = 8)
+CAMfiles[[1]]$text
+tmp_text <- unique(x = tmp_text)
+wordsOut <- sample(x = tmp_text, size = 11, replace = FALSE)
 
-  # personID
-  tmp_mat[,1] <- i
-  # wave
-  tmp_mat[,2] <- str_split(string = i, pattern = "_", simplify = TRUE)[2]
-  # group
-  if(!is.na(str_split(string = i, pattern = "_", simplify = TRUE)[3])){
-    tmp_mat[,3] <- str_split(string = i, pattern = "_", simplify = TRUE)[3]
-  }else{
-    tmp_mat[,3] <- "experimentalGroup" # wave
-  }
 
 
-  tmp_mat[,4] <- V(graph = CAMdrawn[[i]])$name
+CAMfiles[[1]]$text_summarized <- CAMfiles[[1]]$text
 
-  # word
-  tmp_mat[,5] <- V(graph = CAMdrawn[[i]])$label
-  # valence
-  tmp_mat[,6] <- V(graph = CAMdrawn[[i]])$value
+CAMfiles[[1]]$text_summarized[1] <- paste0(CAMfiles[[1]]$text_summarized[1], "_negative")
 
 
-  # firstOrder
-  for(l in 1:length(V(graph = CAMdrawn[[i]])$label)){
-    tmp_graph <- make_ego_graph(graph = CAMdrawn[[i]],
-                                order = 1,
-                                V(graph = CAMdrawn[[i]])$name[l])[[1]]
-    tmp_nodes_neighborhood <- V(graph = tmp_graph)$label
 
 
+CAMwordlist <- create_wordlist(
+  dat_nodes = CAMfiles[[1]],
+  dat_merged = CAMfiles[[3]],
+  useSummarized = TRUE,
+  order = "frequency",
+  splitByValence = TRUE,
+  comments = TRUE,
+  raterSubsetWords = wordsOut,
+  rater = TRUE
+)
 
-    tmp_nodes_neighborhood <- tmp_nodes_neighborhood[
-      tmp_nodes_neighborhood != V(graph = CAMdrawn[[i]])$label[l]]
 
-    tmp_mat[l,7] <- paste0(tmp_nodes_neighborhood, collapse = " ## ")
-  }
+length(wordsOut); nrow(CAMwordlist)
+CAMwordlist
 
-
-
-  # comment
-  tmp_nodes <- CAMfiles[[1]][CAMfiles[[1]]$participantCAM == i, ]
-  tmp_nodes <- tmp_nodes[match(V(graph = CAMdrawn[[i]])$label, tmp_nodes$text),] # reorder
-  tmp_mat[,8] <- tmp_nodes$comment
-
-  if(tmp_index == 1){
-    out_mat <- tmp_mat
-  }else{
-    out_mat <- rbind(out_mat, tmp_mat)
-  }
-
-  tmp_index = tmp_index + 1
-
-}
-
-
-out_mat <- as.data.frame(out_mat)
-colnames(out_mat) <- c("personID", "wave", "group", "wordID", "word", "valence", "firstOrder", "comment")
-
-out_mat[out_mat == ""] <- NA
-
-
-out_mat$valence <- as.numeric(out_mat$valence)
-
-xlsx::write.xlsx2(x = out_mat, file = "wordEmbeddings.xlsx")
-saveRDS(out_mat, file = "wordEmbeddings.rds")
-
-#####################################################
-
-
-
-
-
-
-tmp_Indicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
-                                        micro_degree =  c("Bedingungsloses Grundeinkommen"),
-                                        micro_valence = c("Bedingungsloses Grundeinkommen"),
-                                        micro_centr_clo = c("Bedingungsloses Grundeinkommen"),
-                                        micro_transitivity = c("Bedingungsloses Grundeinkommen"),
-                                        largestClique = FALSE)
-
-tmp_Indicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
-                                             micro_degree =  c("Covid-19", "negative aspects", "positive aspects"),
-                                             micro_valence = c("Covid-19", "negative aspects", "positive aspects"),
-                                             micro_centr_clo = c("Covid-19", "negative aspects", "positive aspects"),
-                                             micro_transitivity = c("Covid-19", "negative aspects", "positive aspects"),
-                                             largestClique = FALSE)
-
-
-
-
-
-centralConcepts <- c("negative aspects", "positive aspects")
-
-
-paste0("\nCAMs sliced datasets: .txt files (nodes, connectors, merged) created for central concept: ", centralConcepts[1])
-
-slicedCAMs_combined <- sliceAllCAMs_combined(CAMfilesList = CAMfiles,
-                                             drawnCAMs = CAMdrawn,
-                                             connectionToRemove = NULL,
-                                             nodeToRemove = "Covid-19",
-                                             centralConceptsSubgraphs = centralConcepts,
-                                             plot = FALSE)
-
-
-
-
-slicedCAMs_seperated <- sliceAllCAMs_seperated(slicedCAMs = slicedCAMs_combined,
-                                               centralConceptsSubgraphs = centralConcepts,
-                                               plot = FALSE)
-names(slicedCAMs_seperated)
-
-
-
-tmp_merged <- slicedCAMs_combined[[3]][slicedCAMs_combined[[3]]$CAM.x %in% unique(slicedCAMs_combined[[3]]$CAM.x)[1], ]
-tmp_nodes <- slicedCAMs_combined[[1]][slicedCAMs_combined[[1]]$CAM %in% unique(slicedCAMs_combined[[1]]$CAM)[1], ]
-
-
-tmp_c12 <- draw_CAM(dat_merged = tmp_merged,
-                         dat_nodes = tmp_nodes, ids_CAMs = "all",
-                         plot_CAM = FALSE,
-                         useCoordinates = TRUE,
-                         relvertexsize = 3,
-                         reledgesize = 1)
-
-plot(tmp_c12[[1]], edge.arrow.size = .3,
-     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = 0.1,
-     vertex.size = 10, vertex.label.cex = .9)
-plot(CAMdrawn[[names(tmp_c12)[1]]], edge.arrow.size = .3,
-     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = 0.1,
-     vertex.size = 10, vertex.label.cex = .9)
-
-names(CAMdrawn_c12)
-
-
-
-
-CAMdrawn_c12 <- draw_CAM(dat_merged = slicedCAMs_combined[[3]],
-                        dat_nodes = slicedCAMs_combined[[1]], ids_CAMs = "all",
-                        plot_CAM = TRUE,
-                        useCoordinates = TRUE,
-                        relvertexsize = 3,
-                        reledgesize = 1)
-
-
-
-
-tmp_merged <- slicedCAMs_seperated[[3]][slicedCAMs_seperated[[3]]$CAM.x %in% unique(slicedCAMs_seperated[[3]]$CAM.x)[1], ]
-tmp_nodes <- slicedCAMs_seperated[[1]][slicedCAMs_seperated[[1]]$CAM %in% unique(slicedCAMs_seperated[[1]]$CAM)[1], ]
-
-CAMdrawn_c1_1 <- draw_CAM(dat_merged = tmp_merged,
-                        dat_nodes = tmp_nodes, ids_CAMs = "all",
-                        plot_CAM = FALSE,
-                        useCoordinates = TRUE,
-                        relvertexsize = 3,
-                        reledgesize = 1)
-
-
-
-CAMdrawn_c1 <- draw_CAM(dat_merged = slicedCAMs_seperated[[3]],
-                        dat_nodes = slicedCAMs_seperated[[1]], ids_CAMs = "all",
-                        plot_CAM = FALSE,
-                        useCoordinates = TRUE,
-                        relvertexsize = 3,
-                        reledgesize = 1)
-
-CAMdrawn_c2 <- draw_CAM(dat_merged = slicedCAMs_seperated[[6]],
-                        dat_nodes = slicedCAMs_seperated[[4]], ids_CAMs = "all",
-                        plot_CAM = FALSE,
-                        useCoordinates = TRUE,
-                        relvertexsize = 3,
-                        reledgesize = 1)
-
-
-
-plot(CAMdrawn[[names(CAMdrawn_c1)[2]]], edge.arrow.size = .3,
-     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = 0.1,
-     vertex.size = 10, vertex.label.cex = .9)
-plot(CAMdrawn_c12[[2]], edge.arrow.size = .3,
-     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = 0.1,
-     vertex.size = 10, vertex.label.cex = .9)
-plot(CAMdrawn_c1[[2]], edge.arrow.size = .3,
-     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = 0.1,
-     vertex.size = 10, vertex.label.cex = .9)
-plot(CAMdrawn_c2[[2]], edge.arrow.size = .3,
-     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = 0.1,
-     vertex.size = 10, vertex.label.cex = .9)
-
-
-###########
-tmp_microIndicators_c1 <- compute_indicatorsCAM(drawn_CAM = CAMdrawn_c1,
-                                                micro_degree = NULL,
-                                                micro_valence = NULL,
-                                                micro_centr_clo = NULL,
-                                                micro_transitivity = NULL,
-                                                largestClique = FALSE)
-
-
-tmp_microIndicators_c2 <- compute_indicatorsCAM(drawn_CAM = CAMdrawn_c2,
-                                                micro_degree = NULL,
-                                                micro_valence = NULL,
-                                                micro_centr_clo = NULL,
-                                                micro_transitivity = NULL,
-                                                largestClique = FALSE)
-
-
-getDescriptives(dataset = tmp_microIndicators_c1, nameAPAtable = NULL)
-getDescriptives(dataset = tmp_microIndicators_c2, nameAPAtable = NULL)
-
-
-
-tmp_microIndicators_c12 <- rbind(tmp_microIndicators_c1, tmp_microIndicators_c2)
-tmp_microIndicators_c12$group <- rep(centralConcepts, each = nrow(tmp_microIndicators_c1))
-
-p_meanValence <- ggstatsplot::ggwithinstats(
-  data = tmp_microIndicators_c12,
-  x = group,
-  y = mean_valence_macro,
-  type = "parametric", ## type of statistical test
-  xlab = "Central Concepts", ## label for the x-axis
-  ylab = "Mean Valence", ## label for the y-axis
-  title = "Comparison of mean valence between choosen central concepts"
-) + ## modifying the plot further
-  ggplot2::scale_y_continuous(
-    limits = c(-3, 3),
-    breaks = -3:3
-  )
-p_meanValence
+CAMwordlist$comment_1
+CAMwordlist$sd_valence

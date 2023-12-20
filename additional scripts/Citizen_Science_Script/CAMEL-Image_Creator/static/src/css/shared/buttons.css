@@ -1,0 +1,92 @@
+:root {
+    /*cancel buttons: */
+    --color-btn-delete-text: hsl(var(--color-base), 0%, 0%);
+    /*black*/
+    --color-btn-delete-background: hsl(var(--color-base-close), 50%, 50%);
+    /*connector buttons: */
+    --color-btn-connector-text: hsl(var(--color-base), 0%, 0%);
+    /*black*/
+    --color-btn-connector-background: hsl(var(--color-base), 0%, 60%);
+    /*hover over buttons: create darker variant*/
+    --color-btn-delete-background-hover-dark: hsl(var(--color-base-close), 50%, 30%);
+    --color-btn-connector-background-hover-dark: hsl(var(--color-base-close), 0%, 40%);
+
+}
+
+/* delete  button */
+.deleteButton {
+    cursor: pointer;
+    /*get hand instead of normal cursor*/
+    float: right;
+}
+
+.deleteButton:hover {
+    background-color: var(--color-btn-delete-background-hover-dark);
+}
+
+
+/* connector  buttons (pos., neg. support) */
+.connectorButton {
+    width: 100%;
+    cursor: pointer;
+    /* interactive element */
+    color: var(--color-btn-connector-text);
+    background-color: var(--color-btn-connector-background);
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.connectorButton:hover {
+    background-color: var(--color-btn-connector-background-hover-dark);
+}
+
+
+
+/* researcher  buttons (pos., neg. support) */
+.typeResearcherButton {
+    height: 40px;
+    width: 80px;
+    font-size: 12px;
+  
+    cursor: pointer;
+    /* interactive element */
+    color: white;
+    background: black;
+    font-weight: bold;
+  }
+  
+  .typeResearcherButton:hover {
+    color: rgb(102, 102, 102);
+  }
+
+
+
+    /* defocus button */
+#alert-button-text {
+    font-family: "Arial", sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    border: 2px solid #e5e5e5;
+    border-radius: 4px;
+    margin: 8px 0;
+    padding: 8px;
+  }
+  
+  #alert-button-text {
+    background-color: white;
+    border-radius: 3px;
+    padding: 8px 8px 6px;
+  }
+  
+  #alert-button-text:hover {
+    background-color: rgb(109, 109, 109);
+  }
+
+
+  #alert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}

@@ -1,0 +1,105 @@
+:root {
+    /*background colour title: */
+    --color-background-title: hsl(var(--color-base), 0%, 60%); /*black*/
+
+    /*cancel buttons: */
+    --color-btn-cancel-text: hsl(var(--color-base), 0%, 0%); /*black*/
+    --color-btn-close-background: hsl(var(--color-base-close), 50%, 60%);
+    /*hover over buttons: create darker variant*/
+    --color-btn-close-background-hover-dark: hsl(var(--color-base-close), 50%, 30%);
+}
+
+
+.ui-dialog{
+    z-index: 9999;
+    border: 2px solid black;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.ui-dialog .ui-dialog-title { /* ancestor child combination */
+    display: flex;
+    justify-content: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-top-left-radius: 15px;  /* smooth border radius title same as border-radius .ui-dialog */
+    border-top-right-radius: 15px;
+
+    font-size: 16px;
+    font-weight: bold;
+    background-color: var(--color-background-title);
+}
+
+.ui-widget-content{
+    background-color: var(--color-background-title);
+
+}
+
+.ui-dialog .ui-dialog-titlebar-close{
+    display: none;
+}
+
+
+/*
+.ui-button .ui-corner-all .ui-widget .ui-button-icon-only .ui-dialog-titlebar-close{
+    display: none;
+}
+*/
+
+.ui-dialog-buttonset{
+    padding: 10px;
+    float: right;
+}
+
+.ui-dialog-buttonset > button{
+    color: var(--color-btn-close-text);
+    background-color: var(--color-btn-close-background);
+    border: 2px solid var(--color-btn-close-background);
+    border-radius: .5rem;
+    padding: .5rem 1rem;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif; /*not equal to root font-family*/
+    cursor: pointer;
+    /*get hand instead of normal cursor*/
+    text-decoration: none;
+    text-align: center;
+}
+
+.ui-dialog-buttonset > button:hover {
+    background-color: var(--color-btn-close-background-hover-dark);
+}
+
+
+/* Overlay when clicked on dialog */
+.ui-widget-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+    background: #9f9f9f;
+	opacity: .2;
+	filter: Alpha(Opacity=20); /* support: IE8 */
+}
+
+
+
+#dialogReminder > .properties{
+    background-color: rgb(144, 144, 144);
+}
+
+
+
+#NoButtonConfirm{
+    margin-left: 10px;
+}
+
+
+/* > default text */
+.confirm-save {
+    position: relative;
+    align-items: center;
+    text-align: center;
+    padding: 12px;
+}

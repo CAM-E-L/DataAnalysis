@@ -101,6 +101,15 @@ wordOutputs_overallServer <-
 
 
         #> Server
+
+         observeEvent(input$summarizedWordlist_setting_WordsOverall, {
+          print(input$summarizedWordlist_setting_WordsOverall)
+          if(input$summarizedWordlist_setting_WordsOverall == "no"){
+            updateRadioButtons(session, "split_setting_WordsOverall", selected = "no")
+          }
+  })
+
+
 ## create wordlist
 wordlist <- eventReactive(input$createWordlist_WordsOverall, {
           req(drawnCAM())
@@ -114,6 +123,7 @@ wordlist <- eventReactive(input$createWordlist_WordsOverall, {
   
     if(input$summarizedWordlist_setting_WordsOverall == "no"){
     tmp_useSummarized = FALSE
+    tmp_splitByValence = FALSE # if no summarized words are used, no split by valence
   }else{
     tmp_useSummarized = TRUE
     # > split by valence

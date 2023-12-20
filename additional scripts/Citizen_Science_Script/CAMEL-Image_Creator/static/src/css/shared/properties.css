@@ -1,0 +1,46 @@
+:root {
+    /*background colour body: */
+    --color-background-body: hsl(var(--color-base), 0%, 80%);
+}
+
+
+/* properties */
+.properties {
+    padding: 5px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    background-color: var(--color-background-body);
+}
+
+
+.properties-align {
+    margin-top: 5px;
+    padding-bottom: 5px;
+}
+
+
+.properties-size-naming {
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+
+
+/* > tab content 
+.tabcontent {
+    display: none;
+    padding: 6px 6px;
+    font-size: 12px;
+}
+*/
+
+/* Style the content inside the navbar */
+/* > default text 
+.tab-defaulttext {
+    position: relative;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+*/

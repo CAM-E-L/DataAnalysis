@@ -1,0 +1,130 @@
+body {
+  font-family:sans-serif; /*     font-family:sans-serif; */
+  font-size: 20px;
+}
+
+.headerdiv {
+  text-align: center;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.footerdiv {
+  text-align: center;
+  margin-bottom: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+
+.container{
+  margin: 10px auto;
+  width:100%;
+  min-height: 700px; /* to change? */
+  display:grid;
+  grid-template-columns: 78% 20%;
+  grid-template-rows: 50% 50%;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+}
+
+.box{
+  border: 2px solid black; 
+  border-radius:10px;
+  background: linear-gradient(140deg, rgba(160, 160, 160, 0.25) 0%, rgba(0, 0, 0, 0) 100%);
+   /* display:flex; */
+}
+
+
+.boxCAMSVG { /* CAMmagic element */
+  border: 2px solid black;  
+  border-radius:10px;
+  grid-row: 1 /span 2;
+  grid-column: 1;
+  background: linear-gradient(140deg, rgba(160, 160, 160, 0.25) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+#CAMSVG {
+  width: 100%;
+  min-height: 700px; /* to change? */
+}
+
+
+
+
+#headerrightcomponents {
+  position: relative;
+  font-weight: bold; 
+  font-size: 20px; 
+  margin-left: 10px;
+}
+
+
+
+
+
+  /* styling options for information box */
+/* > Clear floats after the columns */
+/* styling options for header above SVG */
+/* styling options for SVG */
+
+
+/*
+.grid_parent {
+  display: grid;
+  grid-template-columns: 80% 20%;
+  grid-template-rows: 50% 50%;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  justify-items: center;
+  align-items: stretch;
+}
+
+
+.grid_item_informationbox {
+  border: 2px solid black;  
+  width: 80%;
+}
+
+.column {
+  float: left;
+  width: 50%;
+}
+
+.row:after { 
+  content: ""; 
+  display: table;
+  clear: both;
+}
+
+
+.container{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+   }
+
+.left{
+  width: 300px;
+  text-align: left;
+}
+
+.center{
+   width: 300px;
+   text-align: center;
+}
+
+.right{
+   width: 300px;
+   text-align: right;
+}
+
+
+#CAMSVG {
+  width: 900px;
+  height: 700px;
+  border: 2px solid black;  
+}
+
+*/

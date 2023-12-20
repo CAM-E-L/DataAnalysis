@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="./src/js/jquery.js" crossorigin="anonymous"></script>
+<script src="./src/js/cytoscapemin.js" crossorigin="anonymous"></script>
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- for Microsoft Browser? -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>Document</title>
+</head>
+
+
+<header style="text-align: center;">
+    Hello
+</header>
+
+<body>
+    <div style="align-content: center;" id="cy">
+        aaa
+    </div>
+</body>
+
+
+<footer style="text-align: center; margin-top: 30%;">
+    Bye
+</footer>
+
+
+
+
+
+<script>
+    /* see:
+    https://js.cytoscape.org/#getting-started/specifying-basic-options
+    */
+    var cy = cytoscape({
+        //very commonly used options
+        container: document.getElementById('cy'), // container to render in
+        elements: [ /* ... */ ],
+        style: cytoscape.stylesheet()
+    .selector('node')
+      .style({
+        'background-color': 'blue'
+      }) ,
+        layout: {
+            name: 'grid' /* , ... */
+        },
+        data: {
+            /* ... */
+        },
+
+        // initial viewport state:
+        zoom: 1,
+        pan: {
+            x: 0,
+            y: 0
+        },
+
+        // interaction options:
+        minZoom: 1e-50,
+        maxZoom: 1e50,
+        zoomingEnabled: false,
+        userZoomingEnabled: false,
+        panningEnabled: false,
+        userPanningEnabled: false,
+        boxSelectionEnabled: true,
+        selectionType: 'single',
+        autolock: false,
+        autoungrabify: false,
+        autounselectify: false,
+
+        // rendering options:
+        headless: false,
+        styleEnabled: true, // set off rendering
+        hideEdgesOnViewport: false,
+        textureOnViewport: false,
+        motionBlur: false,
+        pixelRatio: 'auto'
+    });
+
+    var eles = cy.add([{
+            group: 'nodes',
+            data: {
+                id: 'n00',
+                weight: 50
+            },
+            position: {
+                x: 50,
+                y: 100
+            }
+        },
+        {
+            group: 'nodes',
+            data: {
+                id: 'n0',
+                weight: 50
+            },
+            position: {
+                x: 100,
+                y: 100
+            }
+        },
+        {
+            group: 'nodes',
+            data: {
+                id: 'n1',
+                weight: 200
+            },
+            position: {
+                x: 200,
+                y: 200
+            }
+        },
+        {
+            group: 'nodes',
+            data: {
+                id: 'n3'
+            },
+            position: {
+                x: 300,
+                y: 500
+            }
+        },
+        {
+            group: 'nodes',
+            data: {
+                id: 'nn0'
+            },
+            position: {
+                x: 500,
+                y: 100
+            }
+        },
+        {
+            group: 'nodes',
+            data: {
+                id: 'nn1'
+            },
+            position: {
+                x: 500,
+                y: 200
+            }
+        },
+        {
+            group: 'nodes',
+            data: {
+                id: 'nn21'
+            },
+        },
+        {
+            group: 'nodes',
+            data: {
+                id: 'nn211'
+            },
+      
+        },
+        {
+            group: 'edges',
+            data: {
+                id: 'e0',
+                source: 'n00',
+                target: 'n0'
+            }
+        },
+        {
+            group: 'edges',
+            data: {
+                id: 'e1',
+                source: 'n0',
+                target: 'n1'
+            }
+        },
+        {
+            group: 'edges',
+            data: {
+                id: 'e2',
+                source: 'n0',
+                target: 'n3'
+            }
+        },
+        {
+            group: 'edges',
+            data: {
+                id: 'ee0',
+                source: 'nn0',
+                target: 'nn1'
+            }
+        }
+    ]);
+    
+    console.log(cy.nodes());
+
+    var pos = cy.$('#n0').position();
+    console.log(pos);
+
+    var deg = cy.$('#n0').degree();
+    console.log(deg);
+
+
+    function bfsAlgorithm(rootsnode) {
+        var NodesIDs = [];
+        var timesRun = 0;
+
+        while (cy.nodes().length > NodesIDs.length) {
+            timesRun += 1;
+       
+            if(timesRun > 1){
+                var i = 0;
+                // could be written more efficient
+                while(NodesIDs.some((element) => element === cy.nodes()[i].id())){
+                    i += 1;
+                }
+                rootsnode = cy.nodes()[i];
+            }
+
+            var bfs = cy.elements().bfs({
+                roots: rootsnode,
+                visit: function (v, e, u, i, depth) {
+                    //console.log('bfs visited ' + v.id());
+                },
+                directed: false
+            });
+
+            var NodesPathtmp = bfs.path.filter((element) => element.group() === "nodes");
+            NodesPathtmp.forEach(element => NodesIDs.push(element.id()));
+            console.log("bfs visited -> Nodes IDs: ", NodesIDs, "in round: ", timesRun);
+        }
+
+        return timesRun;
+    }
+
+
+   const NumComponents = bfsAlgorithm('#n0');
+console.log(NumComponents);
+
+
+
+
+    var weights = cy.nodes().map(function (ele) {
+        return ele.data('weight');
+    });
+
+    console.log(weights);
+</script>
+
+</html>

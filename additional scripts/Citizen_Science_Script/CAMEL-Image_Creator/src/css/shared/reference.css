@@ -1,0 +1,69 @@
+:root {
+    /*background colour body: */
+    --color-background-body: hsl(var(--color-base), 0%, 80%);
+    /*colour buttons navbar: */
+    --color-btn-navbar-background: hsl(var(--color-base), 0%, 90%);
+    --color-btn-navbar-text: hsl(var(--color-base), 0%, 0%); /*black*/
+    /*hover over buttons: create darker variant*/
+    --color-btn-navbar-background-hover-dark: hsl(var(--color-base), 0%, 60%);
+}
+
+/* quick reference */
+.reference {
+    padding: 10px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    background-color: var(--color-background-body);
+}
+
+
+/* Style the navbar */
+.tab {
+    overflow: hidden;
+    /*border: 1px solid rgb(255, 0, 0);*/
+    margin-top: 5px;
+    text-align: center;
+    background-color: var(--color-background-body);
+}
+
+/* > Style the buttons inside the navbar */
+.tab button {
+    color: var(--color-btn-navbar-text);
+    background-color: var(--color-btn-navbar-background);
+    border: none;
+    padding: 14px 14px;
+    font-size: 12px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    /*not equal to root font-family*/
+    cursor: pointer;
+    display: inline-block;
+    outline: none;
+    transition: 0.5s;
+}
+
+.tab button:hover {
+    /* Change background color of buttons on hover */
+    background-color: var(--color-btn-navbar-background-hover-dark);
+}
+
+
+.tab button.active {
+    /* Create an active/current tablink class */
+    background-color: var(--color-btn-navbar-background-hover-dark);
+}
+
+/* Style the content inside the navbar */
+/* > default text */
+.tab-defaulttext {
+    position: relative;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+/* > tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 6px;
+    font-size: 12px;
+}

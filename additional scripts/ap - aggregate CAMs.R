@@ -24,6 +24,10 @@ if(all(CAMfiles[[1]]$participantCAM == "noID")){
   sel_ids <- unique(CAMfiles[[1]]$participantCAM)
 }
 
+if(length(sel_ids) > 6){
+  sel_ids <- sample(x = sel_ids, size = 6, replace = FALSE)
+}
+
 
 CAMaggregated <- aggregate_CAMs(dat_merged = CAMfiles[[3]], dat_nodes = CAMfiles[[1]],
                                 ids_CAMs = sel_ids)
@@ -72,9 +76,14 @@ if(all(selectedIDs %in% CAMfiles[[1]]$CAM)){
 CAMwordlist <- create_wordlist(
   dat_nodes = sel_nodes,
   dat_merged = sel_merged,
+  useSummarized = FALSE,
   order = "frequency",
   splitByValence = FALSE,
   comments = FALSE,
   raterSubsetWords = NULL,
   rater = FALSE
 )
+
+
+
+CAMwordlist

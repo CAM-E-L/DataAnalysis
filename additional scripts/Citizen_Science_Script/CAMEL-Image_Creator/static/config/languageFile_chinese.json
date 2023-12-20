@@ -1,0 +1,530 @@
+[
+    {
+        "X_identifier": "ls_01",
+        "X_location": "leaving fullscreen (ls)",
+        "english": "Please do not change or minimize the browser window while the study is running. Only if there is a break in the course of the study. ",
+        "chinese": "当研究运行时，请不要改变或最小化浏览器窗口，除非研究进程中有一处暂停。"
+    },
+    {
+        "X_identifier": "global_closeButton",
+        "X_location": "global",
+        "english": "Close",
+        "chinese": "关闭"
+    },
+    {
+        "X_identifier": "qr_start",
+        "X_location": "quick reference (qr)",
+        "english": "Please click on the navigation bar if you need help how to draw a Cognitive Affective Map, else you can just close this window.",
+        "chinese": "如果您需要关于如何绘制一个 Cognitive Affective Map 的帮助，请点击导航键，否则，您可以直接关闭窗口。"
+    },
+    {
+        "X_identifier": "qr_top",
+        "X_location": "quick reference",
+        "english": "Quick reference",
+        "chinese": "快速参考"
+    },
+    {
+        "X_identifier": "qr_legend_10",
+        "X_location": "quick reference",
+        "english": "Every concept is given a basic emotional value:",
+        "chinese": "每个概念都被赋予了一个基本情感价值："
+    },
+    {
+        "X_identifier": "qr_legend_11",
+        "X_location": "quick reference",
+        "english": "Positive concept",
+        "chinese": "积极概念"
+    },
+    {
+        "X_identifier": "qr_legend_12",
+        "X_location": "quick reference",
+        "english": "Negative concept",
+        "chinese": "消极概念"
+    },
+    {
+        "X_identifier": "qr_legend_13",
+        "X_location": "quick reference",
+        "english": "Ambivalent concept",
+        "chinese": "矛盾概念"
+    },
+    {
+        "X_identifier": "qr_legend_14",
+        "X_location": "quick reference",
+        "english": "Neutral concept",
+        "chinese": "中性概念"
+    },
+    {
+        "X_identifier": "qr_legend_20",
+        "X_location": "quick reference",
+        "english": "Draw links between concepts that are related to each other:",
+        "chinese": "在彼此关联的概念之间绘线："
+    },
+    {
+        "X_identifier": "qr_legend_21",
+        "X_location": "quick reference",
+        "english": "Concepts support each other",
+        "chinese": "概念彼此强化"
+    },
+    {
+        "X_identifier": "qr_legend_22",
+        "X_location": "quick reference",
+        "english": "Concepts inhibit each other",
+        "chinese": "概念彼此抑制"
+    },
+    {
+        "X_identifier": "qr_legend_30",
+        "X_location": "quick reference",
+        "english": "Move your Cognitive-Affective Map",
+        "chinese": "移动您的 Cognitive Affective Map"
+    },
+    {
+        "X_identifier": "qr_legend_31",
+        "X_location": "quick reference",
+        "english": "by moving your cursor to the edge of the drawing window (grey area):",
+        "chinese": "通过移动您的光标到绘图窗口的边缘（灰色区域）"
+    },
+    {
+        "X_identifier": "qr_concept_10",
+        "X_location": "quick reference",
+        "english": "Create, update, delete concepts:",
+        "chinese": "建立，更新，删除概念："
+    },
+    {
+        "X_identifier": "qr_concept_11",
+        "X_location": "quick reference",
+        "english": "<b>Create:<\/b> Single click on blank drawing space",
+        "chinese": "<b>建立：<\/b> 单击空白绘图区域"
+    },
+    {
+        "X_identifier": "qr_concept_12",
+        "X_location": "quick reference",
+        "english": "<b>Update:<\/b> Double click on existing concept",
+        "chinese": "<b>更新：<\/b> 双击已存在的概念"
+    },
+    {
+        "X_identifier": "qr_concept_13",
+        "X_location": "quick reference",
+        "english": "<b>Delete:<\/b> Double click on existing concept and press on the \"trash bin\" symbol top right",
+        "chinese": "<b>删除：<\/b> 双击已存在的概念并且点击顶端右侧的“垃圾箱”图标"
+    },
+    {
+        "X_identifier": "qr_concept_20",
+        "X_location": "quick reference",
+        "english": "Change content of concepts:",
+        "chinese": "更改概念内容："
+    },
+    {
+        "X_identifier": "qr_concept_21",
+        "X_location": "quick reference",
+        "english": "<b>Add text:<\/b> Change the content of the concept (use only single words)",
+        "chinese": "<b>添加文本 ：<\/b> 更改此概念的内容（仅使用一个词语）"
+    },
+    {
+        "X_identifier": "qr_concept_22",
+        "X_location": "quick reference",
+        "english": "<b>Change type and strength:<\/b> Use the slider to change the emotional attribution and strength of the concept",
+        "chinese": "<b>更改类型和强度 ：<\/b> 使用滑块来更改概念的情感属性和强度"
+    },
+    {
+        "X_identifier": "qr_concept_23",
+        "X_location": "quick reference",
+        "english": "<b>Add comment:<\/b> type comment in the \"Comment\" section",
+        "chinese": "<b>添加注释：<\/b> 在“注释”部分输入注释"
+    },
+    {
+        "X_identifier": "qr_connection_10",
+        "X_location": "quick reference",
+        "english": "Create, update, delete connections:",
+        "chinese": "建立，更新，删除联系："
+    },
+    {
+        "X_identifier": "qr_connection_11",
+        "X_location": "quick reference",
+        "english": "<b>Create:<\/b> Click on two concepts to draw a connection",
+        "chinese": "<b>建立：<\/b> 点击两个概念来绘制一个联系"
+    },
+    {
+        "X_identifier": "qr_connection_12",
+        "X_location": "quick reference",
+        "english": "<b>Update:<\/b> Double click on existing connection",
+        "chinese": "<b>更新：<\/b> 双击已存在的联系"
+    },
+    {
+        "X_identifier": "qr_connection_13",
+        "X_location": "quick reference",
+        "english": "<b>Delete:<\/b> Double click on existing concept and press on the \"trash bin\" symbol top right",
+        "chinese": "<b>删除：<\/b> 双击已存在的联系并且点击顶端右侧的“垃圾箱”图标"
+    },
+    {
+        "X_identifier": "qr_connection_20",
+        "X_location": "quick reference",
+        "english": "Change content of connections: ",
+        "chinese": "更改联系内容："
+    },
+    {
+        "X_identifier": "qr_connection_21",
+        "X_location": "quick reference",
+        "english": "<b>Change type and strength:<\/b> Use the slider to change the type (agreement or disagreement) and strength of the connection",
+        "chinese": "<b>更改类型和强度 ：<\/b> 使用滑块来更改联系的类型（强化或抑制）和强度"
+    },
+    {
+        "X_identifier": "qr_connection_21a",
+        "X_location": "quick reference",
+        "english": "<b>Change strength:<\/b> Use the slider to change the strength of the connection",
+        "chinese": "<b>更改强度 ：<\/b> 使用滑块来更改联系的强度"
+    },
+    {
+        "X_identifier": "qr_connection_22",
+        "X_location": "quick reference",
+        "english": "Direction of Influence:",
+        "chinese": "影响方向："
+    },
+    {
+        "X_identifier": "qr_connection_23",
+        "X_location": "quick reference",
+        "english": "Concepts influence each other",
+        "chinese": "概念相互影响"
+    },
+    {
+        "X_identifier": "qr_connection_24",
+        "X_location": "quick reference",
+        "english": "Concepts influence each other in a one-sided direction from left to right",
+        "chinese": "概念通过一个单向从左到右的方向相互影响"
+    },
+    {
+        "X_identifier": "qr_buttons_10",
+        "X_location": "quick reference",
+        "english": "Clicking on the buttons in the upper bar leads to the following results: ",
+        "chinese": "点击上栏中的按钮会产生以下结果："
+    },
+    {
+        "X_identifier": "qr_buttons_11",
+        "X_location": "quick reference",
+        "english": "save Cognitive-Affective Map and send data to the server",
+        "chinese": "保存 Cognitive-Affective Map 并且发送数据到服务器"
+    },
+    {
+        "X_identifier": "qr_buttons_12",
+        "X_location": "quick reference",
+        "english": "download Cognitive-Affective Map as a picture",
+        "chinese": "下载 Cognitive-Affective Map 为图片"
+    },
+    {
+        "X_identifier": "qr_buttons_13",
+        "X_location": "quick reference",
+        "english": "delete Cognitive-Affective Map and no data will be send to the server",
+        "chinese": "删除 Cognitive-Affective Map 并且没有数据会被发送到服务器"
+    },
+    {
+        "X_identifier": "qr_tab_01",
+        "X_location": "quick reference",
+        "english": "Legend",
+        "chinese": "图例"
+    },
+    {
+        "X_identifier": "qr_tab_02",
+        "X_location": "quick reference",
+        "english": "Concept",
+        "chinese": "概念"
+    },
+    {
+        "X_identifier": "qr_tab_03",
+        "X_location": "quick reference",
+        "english": "Connection",
+        "chinese": "联系"
+    },
+    {
+        "X_identifier": "qr_tab_04",
+        "X_location": "quick reference",
+        "english": "Buttons",
+        "chinese": "按钮"
+    },
+    {
+        "X_identifier": "btr_01",
+        "X_location": "buttons top right (btr)",
+        "english": "Open a quick reference",
+        "chinese": "打开快速参考"
+    },
+    {
+        "X_identifier": "btr_02",
+        "X_location": "buttons top right",
+        "english": "Save CAM on server",
+        "chinese": "保存CAM到服务器"
+    },
+    {
+        "X_identifier": "btr_03",
+        "X_location": "buttons top right",
+        "english": "Save CAM as picture",
+        "chinese": "保存CAM为图片"
+    },
+    {
+        "X_identifier": "btr_04",
+        "X_location": "buttons top right",
+        "english": "Delete CAM",
+        "chinese": "删除CAM"
+    },
+    {
+        "X_identifier": "nd_01",
+        "X_location": "nodes dialog (nd)",
+        "english": "Content:",
+        "chinese": "内容："
+    },
+    {
+        "X_identifier": "nd_02",
+        "X_location": "nodes dialog (nd)",
+        "english": "Type and Strength of Concept:",
+        "chinese": "概念类型和强度："
+    },
+    {
+        "X_identifier": "nd_03",
+        "X_location": "nodes dialog (nd)",
+        "english": "set concept to",
+        "chinese": "设置概念为"
+    },
+    {
+        "X_identifier": "nd_04",
+        "X_location": "nodes dialog (nd)",
+        "english": "Comment",
+        "chinese": "注释"
+    },
+    {
+        "X_identifier": "nd_05buttonDelete",
+        "X_location": "nodes dialog (nd)",
+        "english": "Delete Concept",
+        "chinese": "删除概念"
+    },
+    {
+        "X_identifier": "cd_01",
+        "X_location": "connector dialog (cd)",
+        "english": "Type and Strength of Connection",
+        "chinese": "联系类型和强度"
+    },
+    {
+        "X_identifier": "cd_01a",
+        "X_location": "connector dialog (cd)",
+        "english": "Strength of Connection:",
+        "chinese": "联系强度："
+    },
+    {
+        "X_identifier": "cd_02",
+        "X_location": "connector dialog (cd)",
+        "english": "Inhibition",
+        "chinese": "抑制"
+    },
+    {
+        "X_identifier": "cd_03",
+        "X_location": "connector dialog (cd)",
+        "english": "Support",
+        "chinese": "强化"
+    },
+    {
+        "X_identifier": "cd_04",
+        "X_location": "connector dialog (cd)",
+        "english": "Direction of Connection",
+        "chinese": "联系方向"
+    },
+    {
+        "X_identifier": "cd_05button",
+        "X_location": "connector dialog (cd)",
+        "english": "Concepts influence each other",
+        "chinese": "概念互相影响"
+    },
+    {
+        "X_identifier": "cd_06button",
+        "X_location": "connector dialog (cd)",
+        "english": "Concepts influence each other in a one-sided direction. Press button multiple times to change direction",
+        "chinese": "概念之间的影响是单向的。多次点击按钮来更改方向。"
+    },
+    {
+        "X_identifier": "cd_07buttonDelete",
+        "X_location": "connector dialog (cd)",
+        "english": "Delete Connector",
+        "chinese": "删除联系"
+    },
+    {
+        "X_identifier": "popSave_01emptyNodes",
+        "X_location": "popup save button (popSave)",
+        "english": "Please return to your Cognitive-Affective Map and add text to the empty concepts.",
+        "chinese": "请返回到您的 Cognitive-Affective Map 并添加文本到空白概念。"
+    },
+    {
+        "X_identifier": "popSave_02emptyNodes",
+        "X_location": "popup save button (popSave)",
+        "english": " concept(s) are empty.",
+        "chinese": "概念（一个或多个）是空白的。"
+    },
+    {
+        "X_identifier": "popSave_01numNodes",
+        "X_location": "popup save button (popSave)",
+        "english": "Please return to your Cognitive-Affective Map and add additional concepts to it.",
+        "chinese": "请返回到您的 Cognitive-Affective Map 并添加更多的概念。"
+    },
+    {
+        "X_identifier": "popSave_02numNodes",
+        "X_location": "popup save button (popSave)",
+        "english": "Please draw at least ",
+        "chinese": "请至少绘制"
+    },
+    {
+        "X_identifier": "popSave_03numNodes",
+        "X_location": "popup save button (popSave)",
+        "english": " concepts.",
+        "chinese": "个概念"
+    },
+    {
+        "X_identifier": "popSave_01unconnectedA",
+        "X_location": "popup save button (popSave)",
+        "english": "Please return to your Cognitive-Affective Map and add additional connections to it.",
+        "chinese": "请返回到您的 Cognitive-Affective Map 并添加更多的联系。"
+    },
+    {
+        "X_identifier": "popSave_02unconnectedA",
+        "X_location": "popup save button (popSave)",
+        "english": "Please connect all your concepts within your Cognitive-Affective Map.",
+        "chinese": "请连接您的 Cognitive-Affective Map 里的所有概念。"
+    },
+    {
+        "X_identifier": "popSave_01unconnectedB",
+        "X_location": "popup save button (popSave)",
+        "english": "Please return to your Cognitive-Affective Map and add additional connections to it.",
+        "chinese": "请返回到您的 Cognitive-Affective Map 并添加更多的联系。"
+    },
+    {
+        "X_identifier": "popSave_02unconnectedB",
+        "X_location": "popup save button (popSave)",
+        "english": "Please connect all your ",
+        "chinese": "请连接您的所有"
+    },
+    {
+        "X_identifier": "popSave_03unconnectedB",
+        "X_location": "popup save button (popSave)",
+        "english": " distinct groups of concepts within your Cognitive-Affective Map.",
+        "chinese": "个不同组于您的 Cognitive-Affective Map 中。"
+    },
+    {
+        "X_identifier": "popSave_01savedData",
+        "X_location": "popup save button (popSave)",
+        "english": "Your CAM data has been sent to the sever. Thank you for participating! You will be forwarded to the end or the final part of the study.",
+        "chinese": "您的 CAM 数据已被发送至服务器。感谢您的参与！您将被引导至研究的结束或最后部分。"
+    },
+    {
+        "X_identifier": "popSave_01notSavedData",
+        "X_location": "popup save button (popSave)",
+        "english": "You would have send the CAM data successfully to a sever. To save permanently your data please use our administrative panel or host the C.A.M.E.L. software on your own server.",
+        "chinese": "您会成功发送 CAM 数据到一个服务器。为了永久保存您的数据，请使用我们的管理面板或将C.A.M.E.L.软件托管在您自己的服务器主机。"
+    },
+    {
+        "X_identifier": "ndw_01tooManyWords",
+        "X_location": "nodes dialog warnings (ndw)",
+        "english": "Instead, please draw several connected concepts.",
+        "chinese": "作为替代，请绘制几个相关联的概念。"
+    },
+    {
+        "X_identifier": "ndw_02tooManyWords",
+        "X_location": "nodes dialog warnings (ndw)",
+        "english": "Please do not use more than ",
+        "chinese": "请不要使用多于"
+    },
+    {
+        "X_identifier": "ndw_03tooManyWords",
+        "X_location": "nodes dialog warnings (ndw)",
+        "english": " words for a single concept!",
+        "chinese": "个词语于一个概念中！"
+    },
+    {
+        "X_identifier": "ndw_03tooManyWordsA",
+        "X_location": "nodes dialog warnings (ndw)",
+        "english": " characters for a single concept!",
+        "chinese": "个字符于一个概念中！"
+    },
+    {
+        "X_identifier": "ndw_01predefinedConcept",
+        "X_location": "nodes dialog warnings (ndw)",
+        "english": "Instead, please choose other concepts.",
+        "chinese": "作为替代，请选择其他概念。"
+    },
+    {
+        "X_identifier": "ndw_02predefinedConcept",
+        "X_location": "nodes dialog warnings (ndw)",
+        "english": "You cannot change the content of predefined concepts.",
+        "chinese": "您不能更改预定义概念的内容。"
+    },
+    {
+        "X_identifier": "ndw_01ambivalentConcept",
+        "X_location": "nodes dialog warnings (ndw)",
+        "english": "To change the ambivalent concept again, please uncheck the box.",
+        "chinese": "为了再次改变矛盾概念，请取消勾选复选框。"
+    },
+    {
+        "X_identifier": "edw_01notDeleteNode",
+        "X_location": "Elements dialog warnings (edw)",
+        "english": "Instead, please choose other concepts.",
+        "chinese": "作为替代，请选择其他概念。"
+    },
+    {
+        "X_identifier": "edw_02notDeleteNode",
+        "X_location": "Elements dialog warnings (edw)",
+        "english": "You cannot delete predefined concepts.",
+        "chinese": "您不能删除预定义概念。"
+    },
+    {
+        "X_identifier": "edw_01notDeleteConnector",
+        "X_location": "Elements dialog warnings (edw)",
+        "english": "Instead, please choose other connectors.",
+        "chinese": "作为替代，请选择其他联系。"
+    },
+    {
+        "X_identifier": "edw_02notDeleteConnector",
+        "X_location": "Elements dialog warnings (edw)",
+        "english": "You cannot delete predefined connectors.",
+        "chinese": "您不能删除预定义联系。"
+    },
+    {
+        "X_identifier": "confirmSaving_01_title",
+        "X_location": "Elements confirm saving CAM",
+        "english": "Confirm Saving",
+        "chinese": "确认保存"
+    },
+    {
+        "X_identifier": "confirmSaving_02_text",
+        "X_location": "Elements confirm saving CAM",
+        "english": "Please confirm by pressing  \"Yes\" that you want to save your Cognitive-Affective Map. You will be redirected to the next part of the study and you will <b>not<\/b> be able to change your Cognitive-Affective Map anymore. ",
+        "chinese": "请通过点击“是”确认您想要保存您的 Cognitive-Affective Map。您将会被引导到研究的下一部分同时您将<b>不<\/b>能再更改您的 Cognitive-Affective Map。"
+    },
+    {
+        "X_identifier": "confirmDeleting_01text",
+        "X_location": "Elements confirm deleting CAM",
+        "english": "Do you really want to delete your CAM? No data will be saved on the server.",
+        "chinese": "您是否确定想要删除您的CAM？将没有数据会被保存到服务器。"
+    },
+    {
+        "X_identifier": "confirmDeleting_02message",
+        "X_location": "Elements confirm deleting CAM",
+        "english": "You CAM has been deleted. No data will be saved on the server. Default CAM has been restored.",
+        "chinese": "您的CAM已被删除。将没有数据会被保存到服务器。默认CAM已被恢复。"
+    },
+    {
+        "X_identifier": "yesButton",
+        "X_location": "yes Button",
+        "english": "Yes",
+        "chinese": "是"
+    },
+    {
+        "X_identifier": "noButton",
+        "X_location": "no Button",
+        "english": "No",
+        "chinese": "否"
+    },
+    {
+        "X_identifier": "closeButton",
+        "X_location": "close Button",
+        "english": "Close",
+        "chinese": "关闭"
+    },
+    {
+        "X_identifier": "continueButtonFullscreen",
+        "X_location": "continue Button (fullscreen)",
+        "english": "click to continue",
+        "chinese": "点击以继续"
+    }
+]

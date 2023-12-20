@@ -228,6 +228,7 @@ wordlist <- eventReactive(input$a_createWordlistOut, {
   CAMwordlist <- create_wordlist(
     dat_nodes = globals$dataCAMsummarized[[1]],
     dat_merged = globals$dataCAMsummarized[[3]],
+    useSummarized = TRUE,
     order = input$a_Wordlist_Order,
     splitByValence = tmp_splitByValence,
     comments = tmp_includeComments,
