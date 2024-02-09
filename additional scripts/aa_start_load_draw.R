@@ -9,12 +9,12 @@ graphics.off()
 # please define!
 #> put everything in the "data" folder (your data set and protocol if you have one)
 ########################################
-CAMdataset <- "Fenn_2023_CAMtools.txt"
+CAMdataset <- "CAMspiracy_data.txt"
 # "Fenn_2023_SAIstudy_subset.txt"
 # "Fenn_2023_CAMtools.txt"
 
-protocolDataset <- "protocol_SAI_dataDriven.txt" #  # protocol.txt
-consider_Protocol <- FALSE
+protocolDataset <- "CAMspiracy_protocol.txt" #  # protocol.txt
+consider_Protocol <- TRUE
 
 
 ########################################
@@ -113,6 +113,29 @@ rm(i)
 setwd("../../additional scripts/data")
 dir()
 
+
+
+###################
+a <- vroom(file = "CAM_nodes_raw.txt")
+
+a$text_summarized <- stringr::str_remove_all(string = a$text_summarized,
+                    pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+
+sort(table(a$text_summarized))
+
+for(c in unique(a$CAM)){
+
+  tmp <- a[a$CAM == c,]
+  if(sum(tmp$text_summarized == "Climate Change") != 1){
+    print(c)
+    # print(tmp$text_summarized)
+    print(tmp[1,c("text", "text_summarized", "value")])
+  }
+}
+
+tmp <- a[a$CAM == "89fab424-c113-46a2-a10f-aceb3b9f81e8",]
+
+
 read_file(CAMdataset) %>%
   # ... split it into lines ...
   str_split('\n') %>% first() %>%
@@ -149,6 +172,11 @@ CAMfiles <- create_CAMfiles(datCAM = raw_CAM, reDeleted = TRUE)
 
 ### if protocol considered
 if(consider_Protocol){
+  CAMfiles[[1]] <- CAMfiles[[1]][CAMfiles[[1]]$CAM %in% protocol$currentCAMs,]
+  CAMfiles[[2]] <- CAMfiles[[2]][CAMfiles[[2]]$CAM %in% protocol$currentCAMs,]
+  CAMfiles[[3]] <- CAMfiles[[3]][CAMfiles[[3]]$CAM.x %in% protocol$currentCAMs,]
+
+
   tmp_out <- overwriteTextNodes(protocolDat = protocol,
                                 nodesDat = CAMfiles[[1]])
   CAMfiles[[1]] <- tmp_out[[1]]
@@ -160,7 +188,6 @@ if(consider_Protocol){
 # sum(CAMfiles[[1]]$text_summarized == "corruption")
 # str_subset(string = CAMfiles[[1]]$text_summarized, pattern = "acid|Acid")
 # CAMfiles[[1]][str_detect(string = CAMfiles[[1]]$comment, pattern = "corruption"),]
-
 
 
 ### draw CAMs
@@ -196,16 +223,11 @@ tmp_Indicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
 tmp_text <- str_remove_all(string = CAMfiles[[1]]$text,
                            pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
 
-CAMfiles[[1]]$text
-tmp_text <- unique(x = tmp_text)
-wordsOut <- sample(x = tmp_text, size = 11, replace = FALSE)
 
 
 
-CAMfiles[[1]]$text_summarized <- CAMfiles[[1]]$text
-
-CAMfiles[[1]]$text_summarized[1] <- paste0(CAMfiles[[1]]$text_summarized[1], "_negative")
-
+# CAMfiles[[1]]$text_summarized <- CAMfiles[[1]]$text
+# CAMfiles[[1]]$text_summarized[1] <- paste0(CAMfiles[[1]]$text_summarized[1], "_negative")
 
 
 
@@ -216,9 +238,41 @@ CAMwordlist <- create_wordlist(
   order = "frequency",
   splitByValence = TRUE,
   comments = TRUE,
-  raterSubsetWords = wordsOut,
-  rater = TRUE
+  raterSubsetWords = NULL,
+  rater = FALSE
 )
+
+
+CAMwordlist <- create_wordlist(
+  dat_nodes = CAMfiles[[1]],
+  dat_merged = CAMfiles[[3]],
+  useSummarized = TRUE,
+  order = "frequency",
+  splitByValence = TRUE,
+  comments = TRUE,
+  raterSubsetWords = NULL,
+  rater = FALSE
+)
+
+
+dat_nodes <- CAMfiles[[1]]
+dat_nodes$text <-   dat_nodes$text_summarized
+sum(stringr::str_detect(string = dat_nodes$text, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")) < nrow(dat_nodes)
+
+# CAMfiles[[1]]$text
+# tmp_text <- unique(x = tmp_text)
+# wordsOut <- sample(x = tmp_text, size = 11, replace = FALSE)
+# wordsOut
+# CAMwordlist <- create_wordlist(
+#   dat_nodes = CAMfiles[[1]],
+#   dat_merged = CAMfiles[[3]],
+#   useSummarized = TRUE,
+#   order = "frequency",
+#   splitByValence = TRUE,
+#   comments = TRUE,
+#   raterSubsetWords = wordsOut,
+#   rater = TRUE
+# )
 
 
 length(wordsOut); nrow(CAMwordlist)

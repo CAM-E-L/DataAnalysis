@@ -18,6 +18,18 @@
 # comments = TRUE
 # raterSubsetWords = wordsOut
 # rater = TRUE
+
+
+# dat_nodes = CAMfiles[[1]]
+# dat_merged = CAMfiles[[3]]
+# useSummarized = TRUE
+# order = "frequency"
+# splitByValence = FALSE
+# comments = TRUE
+# raterSubsetWords = NULL
+# rater = FALSE
+
+
 create_wordlist <- function(dat_nodes = CAMfiles[[1]],
                             dat_merged = CAMfiles[[3]],
                             useSummarized = TRUE,
@@ -47,16 +59,14 @@ create_wordlist <- function(dat_nodes = CAMfiles[[1]],
     }else{
       print("create_wordlist - use raw words")
     }
-  }
 
 
 
+### if not all suffixes for summarized words are available, suffixes are added
+    print(sum(stringr::str_detect(string = dat_nodes$text, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")))
+    print(nrow(dat_nodes))
 
-  if(!splitByValence) {
-    dat_nodes$text <- stringr::str_remove_all(string = dat_nodes$text,
-                                              pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
-  }else{
-   if(sum(stringr::str_detect(string = dat_nodes$text, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")) < nrow(dat_nodes)){
+  if(sum(stringr::str_detect(string = dat_nodes$text, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")) < nrow(dat_nodes)){
      print("temporarily suffixes are added, because not all words have been summarized")
 
      for(i in 1:nrow(dat_nodes)){
@@ -72,7 +82,15 @@ create_wordlist <- function(dat_nodes = CAMfiles[[1]],
      }
      dat_nodes$text_summarized <- dat_nodes$text
    }
+
+## split valence only for useSummarized
+  if(!splitByValence) {
+    dat_nodes$text <- stringr::str_remove_all(string = dat_nodes$text,
+                                              pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
   }
+  }
+
+
 
 
   # ## tidy up blocks_dat
@@ -148,6 +166,12 @@ create_wordlist <- function(dat_nodes = CAMfiles[[1]],
     for(v in paste0("comment_", 1:100)){
       freq_terms[[v]] <- NA
     }
+  }
+
+  ## split valence only for useSummarized
+  if(!splitByValence) {
+    tmp_dat_out$label <- stringr::str_remove_all(string = tmp_dat_out$label,
+                                              pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
   }
 
 

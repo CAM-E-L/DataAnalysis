@@ -461,7 +461,7 @@ getReportAPAServer <-
             out_averageConcepts,
             '(<i>SD</i> = <span style="margin-left: -5px; margin-right: -5px">',
             out_sdConcepts,
-            "</span>)",
+            ")</span>",
             "concepts (whereby",
             out_positiveConceptsPercent,
             # neg, neut, ambivalent
