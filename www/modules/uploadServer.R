@@ -168,14 +168,14 @@ uploadServer <- function(id, parent, globals) {
           session = parent
         )
 
-                showTab(
+        showTab(
           inputId = "tabs",
           target = "word outputs",
           select = FALSE,
           session = parent
         )
 
-       showTab(
+        showTab(
           inputId = "tabs",
           target = "aggregate CAMs",
           select = FALSE,
@@ -189,7 +189,7 @@ uploadServer <- function(id, parent, globals) {
           session = parent
         )
 
-         showTab(
+        showTab(
           inputId = "tabs",
           target = "slice CAMs",
           select = FALSE,
@@ -197,7 +197,7 @@ uploadServer <- function(id, parent, globals) {
         )
 
 
-                 showTab(
+        showTab(
           inputId = "tabs",
           target = "get report",
           select = FALSE,
@@ -295,14 +295,14 @@ uploadServer <- function(id, parent, globals) {
       text <- readLines(input$uploadProtocol$datapath, warn = FALSE)
       text <- readLines(textConnection(text, encoding="UTF-8"), encoding="UTF-8")
       if (testIfJson(file = text)) {
-      protocol <- rjson::fromJSON(file = input$uploadProtocol$datapath)
-  
-      return(protocol)
+        protocol <- rjson::fromJSON(file = input$uploadProtocol$datapath)
+
+        return(protocol)
       } else{
-         print("Invalid protocol uploaded")
-         return(NULL)
+        print("Invalid protocol uploaded")
+        return(NULL)
       }
-      
+
 
       # ## alternative
       # text <- readLines(input$uploadProtocol$datapath)
@@ -316,7 +316,7 @@ uploadServer <- function(id, parent, globals) {
       #   print("ERROR")
       #   return(NULL)
       # }
-      # 
+      #
       # ## right encoding
       # for(i in 1:length(protocol$approximateMatching)){
       #   Encoding(x = protocol$approximateMatching[[i]]$wordsFound) <- "latin1"
@@ -387,25 +387,25 @@ uploadServer <- function(id, parent, globals) {
             raw_CAM[[i]] <- jsonlite::fromJSON(txt = dat[[i]])
           } else {
             showModal(
-            modalDialog(
-              title = "Invalid raw data",
-              paste0(
-                "The file you have uploaded doesn't appear to be a valid C.A.M.E.L. dataset. Please check again."
-              ),
-              easyClose = TRUE,
-              footer = tagList(modalButton("Ok"))
+              modalDialog(
+                title = "Invalid raw data",
+                paste0(
+                  "The file you have uploaded doesn't appear to be a valid C.A.M.E.L. dataset. Please check again."
+                ),
+                easyClose = TRUE,
+                footer = tagList(modalButton("Ok"))
+              )
             )
-          )
-          v$dataUploaded <- "no"
-          return(NULL)
+            v$dataUploaded <- "no"
+            return(NULL)
           }
         }
         CAMfiles <-
           create_CAMfiles(datCAM = raw_CAM, reDeleted = TRUE, verbose = FALSE)
 
-       # check if parsing CAMs was successful
+        # check if parsing CAMs was successful
         if(is.null(CAMfiles)) {
-            showModal(
+          showModal(
             modalDialog(
               title = "Invalid raw data",
               paste0(
@@ -512,19 +512,19 @@ uploadServer <- function(id, parent, globals) {
             ## load blocks
             if (str_detect(string = input$upload[[i, "name"]], pattern = "blocks")) {
               if(str_detect(string = input$upload[[i, "name"]], pattern = "blocks_c")){  # adjustment Lars
-              blocks[[b]] <-
-                utils::read.csv(
-                  file = input$upload[[i, "datapath"]],
-                  sep = ";",
-                  encoding = "UTF-8"
-                )
+                blocks[[b]] <-
+                  utils::read.csv(
+                    file = input$upload[[i, "datapath"]],
+                    sep = ";",
+                    encoding = "UTF-8"
+                  )
               }else{
                 blocks[[b]] <-
-                utils::read.csv(
-                  file = input$upload[[i, "datapath"]],
-                  sep = ",",
-                  encoding = "UTF-8"
-                )
+                  utils::read.csv(
+                    file = input$upload[[i, "datapath"]],
+                    sep = ",",
+                    encoding = "UTF-8"
+                  )
               }
 
               blocks[[b]]$participantCAM <-
@@ -578,71 +578,71 @@ uploadServer <- function(id, parent, globals) {
       # print(head(CAMfiles[[2]]))
       # print(head(CAMfiles[[3]]))
 
-if(v$protocol){
-   # print(globals$protocol)
-    globals$protocol$software <- protocol()$software
+      if(v$protocol){
+        # print(globals$protocol)
+        globals$protocol$software <- protocol()$software
 
-    globals$protocol$cleanValence <- protocol()$cleanValence
-    
-    ## keep only CAMs which have not been deleted
-    if(length(protocol()$currentCAMs) > 0){
-      # if participants IDs have been used in the draw CAM step
-if(all(unlist(protocol()$currentCAMs) %in% CAMfiles[[1]]$CAM)){
-        CAMfiles[[1]] <- CAMfiles[[1]][CAMfiles[[1]]$CAM %in% unlist(protocol()$currentCAMs), ]
-        CAMfiles[[2]] <- CAMfiles[[2]][CAMfiles[[2]]$CAM %in% unlist(protocol()$currentCAMs), ]
-        CAMfiles[[3]] <- CAMfiles[[3]][CAMfiles[[3]]$CAM.x %in% unlist(protocol()$currentCAMs), ]
-}else{
-          CAMfiles[[1]] <- CAMfiles[[1]][CAMfiles[[1]]$participantCAM %in% unlist(protocol()$currentCAMs), ]
-        CAMfiles[[2]] <- CAMfiles[[2]][CAMfiles[[2]]$participantCAM %in% unlist(protocol()$currentCAMs), ]
-        CAMfiles[[3]] <- CAMfiles[[3]][CAMfiles[[3]]$participantCAM.x %in% unlist(protocol()$currentCAMs), ]
-}
+        globals$protocol$cleanValence <- protocol()$cleanValence
+
+        ## keep only CAMs which have not been deleted
+        if(length(protocol()$currentCAMs) > 0){
+          # if participants IDs have been used in the draw CAM step
+          if(all(unlist(protocol()$currentCAMs) %in% CAMfiles[[1]]$CAM)){
+            CAMfiles[[1]] <- CAMfiles[[1]][CAMfiles[[1]]$CAM %in% unlist(protocol()$currentCAMs), ]
+            CAMfiles[[2]] <- CAMfiles[[2]][CAMfiles[[2]]$CAM %in% unlist(protocol()$currentCAMs), ]
+            CAMfiles[[3]] <- CAMfiles[[3]][CAMfiles[[3]]$CAM.x %in% unlist(protocol()$currentCAMs), ]
+          }else{
+            CAMfiles[[1]] <- CAMfiles[[1]][CAMfiles[[1]]$participantCAM %in% unlist(protocol()$currentCAMs), ]
+            CAMfiles[[2]] <- CAMfiles[[2]][CAMfiles[[2]]$participantCAM %in% unlist(protocol()$currentCAMs), ]
+            CAMfiles[[3]] <- CAMfiles[[3]][CAMfiles[[3]]$participantCAM.x %in% unlist(protocol()$currentCAMs), ]
+          }
 
 
-print("AAAAAAAAAAAAAA!!!")
-print(dim(CAMfiles[[1]]))
-print(dim(CAMfiles[[2]]))
-print(dim(CAMfiles[[3]]))
-        # overwrite protocol
-        globals$protocol$deletedCAMs <- protocol()$deletedCAMs
-        globals$protocol$currentCAMs <- protocol()$currentCAMs
-    }
+          print("AAAAAAAAAAAAAA!!!")
+          print(dim(CAMfiles[[1]]))
+          print(dim(CAMfiles[[2]]))
+          print(dim(CAMfiles[[3]]))
+          # overwrite protocol
+          globals$protocol$deletedCAMs <- protocol()$deletedCAMs
+          globals$protocol$currentCAMs <- protocol()$currentCAMs
+        }
 
-        if(length(protocol()$approximateMatching) > 0 
-        || length(protocol()$searchTerms) > 0 
-        || length(protocol()$findSynonyms) > 0
-        || length(protocol()$modelwordVec) > 0){
-        CAMfiles[[1]]$text_summarized <- CAMfiles[[1]]$text
-        tmp_out <- overwriteTextNodes(protocolDat = protocol(), nodesDat = CAMfiles[[1]])     
-        CAMfiles[[1]] <- tmp_out[[1]]
+        if(length(protocol()$approximateMatching) > 0
+           || length(protocol()$searchTerms) > 0
+           || length(protocol()$findSynonyms) > 0
+           || length(protocol()$modelwordVec) > 0){
+          CAMfiles[[1]]$text_summarized <- CAMfiles[[1]]$text
+          tmp_out <- overwriteTextNodes(protocolDat = protocol(), nodesDat = CAMfiles[[1]])
+          CAMfiles[[1]] <- tmp_out[[1]]
 
-        # save globally already used words
-        globals$usedWords <- tmp_out[[2]]
-        # overwrite protocol
-       globals$protocol$approximateMatching <- protocol()$approximateMatching
-       globals$protocol$searchTerms <- protocol()$searchTerms
-       globals$protocol$findSynonyms <- protocol()$findSynonyms
-       globals$protocol$modelwordVec <- protocol()$modelwordVec
-    }
+          # save globally already used words
+          globals$usedWords <- tmp_out[[2]]
+          # overwrite protocol
+          globals$protocol$approximateMatching <- protocol()$approximateMatching
+          globals$protocol$searchTerms <- protocol()$searchTerms
+          globals$protocol$findSynonyms <- protocol()$findSynonyms
+          globals$protocol$modelwordVec <- protocol()$modelwordVec
+        }
 
         # print("globals$protocol:")
         # print(globals$protocol)
-}
-## save as global variable - else triggered to early
+      }
+      ## save as global variable - else triggered to early
 
-# print(globals$protocol$cleanValence)
+      # print(globals$protocol$cleanValence)
 
-if(!globals$protocol$cleanValence[[1]]){
-     v$df <- CAMfiles
-}else{
-  v$df <- fix_ValenceData(dat_nodes =  CAMfiles[[1]],
-                  dat_connectors =  CAMfiles[[2]],
-                  dat_merged = CAMfiles[[3]],
-                  verbose = FALSE)
-   message("successfully cleaned Valence data!")
+      if(!globals$protocol$cleanValence[[1]]){
+        v$df <- CAMfiles
+      }else{
+        v$df <- fix_ValenceData(dat_nodes =  CAMfiles[[1]],
+                                dat_connectors =  CAMfiles[[2]],
+                                dat_merged = CAMfiles[[3]],
+                                verbose = FALSE)
+        message("successfully cleaned Valence data!")
 
-}
+      }
 
-# nodes_raw$text_summarized <- nodes_raw$text
+      # nodes_raw$text_summarized <- nodes_raw$text
 
       return(v$df) ### ??? CAMfiles
     })
@@ -694,6 +694,7 @@ if(!globals$protocol$cleanValence[[1]]){
 
     ###### Descriptive
     observeEvent(input$getDescriptive, {
+
       #> change UI
       outUI$elements <- tagList(
         tags$h2("Descriptive: check your raw data"),
@@ -761,7 +762,7 @@ if(!globals$protocol$cleanValence[[1]]){
     ## show table for connectors
     output$tableConnectors <- renderDataTable({
       if (!is.null(v$df)) {
-       v$df[[2]]
+        v$df[[2]]
       }
     },  options = list(pageLength = 5))
 
@@ -820,48 +821,48 @@ if(!globals$protocol$cleanValence[[1]]){
       # check if a protocol has in fact been uploaded
       if(v$protocol) {
         outUI$elements <- tagList(tags$h2("Protocol statistics"),
-               tags$div(
-            HTML(
-              "Here are your protocol statistics: "
-            ),
-            style = "font-size:14px"
-          ),
-          tags$br(),
-         tags$div(
-            HTML(
-              "Software and time statistics:"
-            ),
-            style = "font-size:14px"
-          ),
-                      tags$ul(
-            tags$li("You are using the ", tags$b(textOutput(ns("softwareProto"), inline = TRUE)), " software and you have used this software the last time at: ", 
-            textOutput(ns("softwareLastTime"), inline = TRUE)),
-            tags$li("First time you have applied the summarize terms functions: ", textOutput(ns("summarizeFirstTime"), inline = TRUE)),
-            tags$li("Last time you have applied the summarize terms functions: ", textOutput(ns("summarizeLastTime"), inline = TRUE)),
-          ),
-          tags$div(
-            HTML(
-              "Number of steps using summarize terms functions:"
-            ),
-            style = "font-size:14px"
-          ),
-            tags$ul(
-            tags$li("Number of times you have used approximate matching functions to summarize terms: ", textOutput(ns("approximateMatchingNumber"), inline = TRUE)),
-            tags$li("Number of times you have used search functions to summarize terms: ", textOutput(ns("searchTermsNumber"), inline = TRUE)),
-            tags$li("Number of times you have looped through the find synonyms function: ", textOutput(ns("findSynonymsNumber"), inline = TRUE)),
-            tags$li("Number of times you have looped through the word2vec function: ", textOutput(ns("findword2vecNumber"), inline = TRUE)),
+                                  tags$div(
+                                    HTML(
+                                      "Here are your protocol statistics: "
+                                    ),
+                                    style = "font-size:14px"
+                                  ),
+                                  tags$br(),
+                                  tags$div(
+                                    HTML(
+                                      "Software and time statistics:"
+                                    ),
+                                    style = "font-size:14px"
+                                  ),
+                                  tags$ul(
+                                    tags$li("You are using the ", tags$b(textOutput(ns("softwareProto"), inline = TRUE)), " software and you have used this software the last time at: ",
+                                            textOutput(ns("softwareLastTime"), inline = TRUE)),
+                                    tags$li("First time you have applied the summarize terms functions: ", textOutput(ns("summarizeFirstTime"), inline = TRUE)),
+                                    tags$li("Last time you have applied the summarize terms functions: ", textOutput(ns("summarizeLastTime"), inline = TRUE)),
+                                  ),
+                                  tags$div(
+                                    HTML(
+                                      "Number of steps using summarize terms functions:"
+                                    ),
+                                    style = "font-size:14px"
+                                  ),
+                                  tags$ul(
+                                    tags$li("Number of times you have used approximate matching functions to summarize terms: ", textOutput(ns("approximateMatchingNumber"), inline = TRUE)),
+                                    tags$li("Number of times you have used search functions to summarize terms: ", textOutput(ns("searchTermsNumber"), inline = TRUE)),
+                                    tags$li("Number of times you have looped through the find synonyms function: ", textOutput(ns("findSynonymsNumber"), inline = TRUE)),
+                                    tags$li("Number of times you have looped through the word2vec function: ", textOutput(ns("findword2vecNumber"), inline = TRUE)),
 
 
-          )
-          )
+                                  )
+        )
         # no protocol uploaded so far
       } else {
-             outUI$elements <- tagList(tags$h2("Protocol statistics"),
-                     tags$div(
-         HTML("If you have created and uploaded a protocol, you see your protocol statistics here. You don't appear to have uploaded a protocol yet."
-          ),
-          style = "font-size:14px"
-        ))
+        outUI$elements <- tagList(tags$h2("Protocol statistics"),
+                                  tags$div(
+                                    HTML("If you have created and uploaded a protocol, you see your protocol statistics here. You don't appear to have uploaded a protocol yet."
+                                    ),
+                                    style = "font-size:14px"
+                                  ))
       }
     })
 
@@ -869,206 +870,379 @@ if(!globals$protocol$cleanValence[[1]]){
     #> Server
     ## summary stats:
     output$softwareProto <-  renderText({
-        req(protocol())
-        unlist(protocol()$software[[length(protocol()$software)]]$software)
+      req(protocol())
+      unlist(protocol()$software[[length(protocol()$software)]]$software)
     })
 
     output$softwareLastTime <-  renderText({
-        req(protocol())
-        unlist(protocol()$software[[length(protocol()$software)]]$time)
+      req(protocol())
+      unlist(protocol()$software[[length(protocol()$software)]]$time)
     })
 
 
 
     vev_time_Protocol <- reactive({
-    ## check approximate and search term was used
+      ## check approximate and search term was used
 
-    list_summarizeTerms <- c(protocol()$approximateMatching, protocol()$searchTerms, protocol()$findSynonyms, protocol()$modelwordVec)
+      list_summarizeTerms <- c(protocol()$approximateMatching, protocol()$searchTerms, protocol()$findSynonyms, protocol()$modelwordVec)
 
 
-if(length(list_summarizeTerms) == 0){
-  return(NULL)
-}
+      if(length(list_summarizeTerms) == 0){
+        return(NULL)
+      }
 
-        vec_time <- c()
-        for (i in 1:length(list_summarizeTerms)) {
+      vec_time <- c()
+      for (i in 1:length(list_summarizeTerms)) {
         vec_time[i] <- unlist(list_summarizeTerms[[i]]$time)
-        }
+      }
 
-        return(vec_time)
+      return(vec_time)
     })
 
 
 
     output$summarizeFirstTime <-  renderText({
-        req(vev_time_Protocol())
-min(vev_time_Protocol())
+      req(vev_time_Protocol())
+      min(vev_time_Protocol())
     })
 
     output$summarizeLastTime <-  renderText({
-        req(vev_time_Protocol())
-max(vev_time_Protocol())
+      req(vev_time_Protocol())
+      max(vev_time_Protocol())
     })
 
 
     output$approximateMatchingNumber <-  renderText({
-        req(protocol())
+      req(protocol())
 
-        print("protocol()$approximateMatching")
-        print(protocol()$approximateMatching)
-        length(protocol()$approximateMatching)
-    })
-    
-        output$searchTermsNumber <-  renderText({
-        req(protocol())
-        print("protocol()$searchTerms")
-        print(protocol()$searchTerms)
-        length(protocol()$searchTerms)
+      print("protocol()$approximateMatching")
+      # print(protocol()$approximateMatching)
+      length(protocol()$approximateMatching)
     })
 
-
-        output$findSynonymsNumber <-  renderText({
-        req(protocol())
-        length(protocol()$findSynonyms)
-    })
-
-        output$findword2vecNumber <-  renderText({
-        req(protocol())
-        length(protocol()$modelwordVec)
+    output$searchTermsNumber <-  renderText({
+      req(protocol())
+      print("protocol()$searchTerms")
+      # print(protocol()$searchTerms)
+      length(protocol()$searchTerms)
     })
 
 
+    output$findSynonymsNumber <-  renderText({
+      req(protocol())
+      length(protocol()$findSynonyms)
+    })
 
-###### Clean Valence
+    output$findword2vecNumber <-  renderText({
+      req(protocol())
+      length(protocol()$modelwordVec)
+    })
+
+
+
+    ###### Clean Valence
     observeEvent(input$cleanValence, {
       ## change UI
       outUI$elements <- tagList(tags$h2("Clean Valence Data"),
-             tags$div(
-          HTML(
-            "If you have already uploaded your Valence data you can click on the button <i>clean Valence</i> to preprocess your Valence data and automatically solve the following problems: "
-          ),
-          style = "font-size:14px"
-        ),
-        tags$ul(
-            tags$li(
-              HTML(
-                '<b>Ghost nodes:</b> These are concepts (node) that are not connected to any other concepts in the CAM (i.e. do not form the smallest possible network consisting of two concepts).
+                                tags$div(
+                                  HTML(
+                                    "If you have already uploaded your Valence data you can click on the button <i>clean Valence</i> to preprocess your Valence data and automatically solve the following problems: "
+                                  ),
+                                  style = "font-size:14px"
+                                ),
+                                tags$ul(
+                                  tags$li(
+                                    HTML(
+                                      '<b>Ghost nodes:</b> These are concepts (node) that are not connected to any other concepts in the CAM (i.e. do not form the smallest possible network consisting of two concepts).
                 <br>
                 <i class="fa fa-arrow-right"></i> these are deleted'
-              )
-            ),
-            tags$li(
-              HTML(
-                '<b>Multiple connections:</b> In Valence it is technically possible to draw multiple connections between concepts. This leads to a complex network (multigraph) instead of a simple network.
+                                    )
+                                  ),
+                tags$li(
+                  HTML(
+                    '<b>Multiple connections:</b> In Valence it is technically possible to draw multiple connections between concepts. This leads to a complex network (multigraph) instead of a simple network.
                 <br>
                 <i class="fa fa-arrow-right"></i>  all multiple connections except for the last one drawn are deleted'
-              )
-            ),
-            tags$li(
-              HTML(
-                '<b>Unconnected networks:</b> Valence does not force participants to connect all concepts into one large network and this results in multiple components (network parts).
+                  )
+                ),
+                tags$li(
+                  HTML(
+                    '<b>Unconnected networks:</b> Valence does not force participants to connect all concepts into one large network and this results in multiple components (network parts).
                 <br>
                 <i class="fa fa-arrow-right"></i> all components except the largest are deleted, if there are two (or more) components of the same size, a component is selected at random'
-              )
-            )
-            ),
-            tags$div(HTML("Click on button to clean Valence data. Please click only once and wait few seconds."), style="font-size:14px"),
-            actionButton(ns("clickCleanValence"), "clean Valence data"),
-             tags$br(),
-            tags$br(),
-       tags$div(
-          HTML(
-            "Deleted elements:"
-          ),
-          style = "font-size:14px"
-        ),
-          tags$ul(
-          tags$li("in", textOutput(ns("remGN"), inline = TRUE), "CAMs ghost nodes have been removed"),
-         tags$li("in", textOutput(ns("remMC"), inline = TRUE), "CAMs multiple connections have been removed"),
-        tags$li("in", textOutput(ns("remNC"), inline = TRUE), "CAMs unnconnected network components have been removed")
-        ),
-                    tags$br(),
-                                tags$br(),
-       tags$div(
-          HTML(
-            "Deleted elements CAM ID lists <i>(only shows up if anything has been found)</i>:"
-          ),
-          style = "font-size:14px"
-        ),
-        tags$h4("Ghost nodes:"),
-          textOutput(ns("tableGN")),
-                  tags$h4("Multiple connections:"),
-          textOutput(ns("tableMC")),
-                  tags$h4("Unconnected networks:"),
-          textOutput(ns("tableNC")),
-          
-        )
+                  )
+                )
+                                ),
+                tags$div(HTML("Click on button to clean Valence data. Please click only once and wait few seconds."), style="font-size:14px"),
+                actionButton(ns("clickCleanValence"), "clean Valence data"),
+                tags$br(),
+                tags$br(),
+                tags$div(
+                  HTML(
+                    "Deleted elements:"
+                  ),
+                  style = "font-size:14px"
+                ),
+                tags$ul(
+                  tags$li("in", textOutput(ns("remGN"), inline = TRUE), "CAMs ghost nodes have been removed"),
+                  tags$li("in", textOutput(ns("remMC"), inline = TRUE), "CAMs multiple connections have been removed"),
+                  tags$li("in", textOutput(ns("remNC"), inline = TRUE), "CAMs unnconnected network components have been removed")
+                ),
+                tags$br(),
+                tags$br(),
+                tags$div(
+                  HTML(
+                    "Deleted elements CAM ID lists <i>(only shows up if anything has been found)</i>:"
+                  ),
+                  style = "font-size:14px"
+                ),
+                tags$h4("Ghost nodes:"),
+                textOutput(ns("tableGN")),
+                tags$h4("Multiple connections:"),
+                textOutput(ns("tableMC")),
+                tags$h4("Unconnected networks:"),
+                textOutput(ns("tableNC")),
+
+      )
     })
 
     #> Server
-            ## draw CAMs
-        ValenceClean <- eventReactive(input$clickCleanValence, {
-          if(is.null(v$df)){
-            showModal(modalDialog(
-            title = "No dataset uploaded",
-            paste0("Please upload a valid Valence dataset to subsequently clean your Valence data."),
-              easyClose = TRUE,
-              footer = tagList(
-                modalButton("Ok")
-              )
-            ))
+    ## draw CAMs
+    ValenceClean <- eventReactive(input$clickCleanValence, {
+      if(is.null(v$df)){
+        showModal(modalDialog(
+          title = "No dataset uploaded",
+          paste0("Please upload a valid Valence dataset to subsequently clean your Valence data."),
+          easyClose = TRUE,
+          footer = tagList(
+            modalButton("Ok")
+          )
+        ))
 
-            clean_ValenceData <- NULL
-          }else{
+        clean_ValenceData <- NULL
+      }else{
         clean_ValenceData <- fix_ValenceData(dat_nodes =  v$df[[1]],
-                  dat_connectors =  v$df[[2]],
-                  dat_merged = v$df[[3]],
-                  verbose = FALSE)
+                                             dat_connectors =  v$df[[2]],
+                                             dat_merged = v$df[[3]],
+                                             verbose = FALSE)
 
-## set protocol to true
-          globals$protocol$cleanValence <- TRUE
+        ## set protocol to true
+        globals$protocol$cleanValence <- TRUE
 
-          v$dfClean <- clean_ValenceData
-          v$df <- clean_ValenceData
-
-
-          #print(str(v$df[[1]]))
-          #print(str(v$dfClean[[1]]))
-          #print(str(v$df[[3]]))
-          #print(str(v$dfClean[[3]]))
-          }
-
-        return(clean_ValenceData)
-        })
+        v$dfClean <- clean_ValenceData
+        v$df <- clean_ValenceData
 
 
+        #print(str(v$df[[1]]))
+        #print(str(v$dfClean[[1]]))
+        #print(str(v$df[[3]]))
+        #print(str(v$dfClean[[3]]))
+      }
+
+      return(clean_ValenceData)
+    })
 
 
 
-            output$remGN <-  renderText({
-            ValenceClean()[[5]] # trigger function
+
+
+    output$remGN <-  renderText({
+      ValenceClean()[[5]] # trigger function
       if (!is.null(v$dfClean)) {
-length(v$dfClean[[6]])
+        length(v$dfClean[[6]])
       }
     })
-      output$tableGN <- renderText(v$dfClean[[6]])
+    output$tableGN <- renderText(v$dfClean[[6]])
 
-    
-            output$remMC <-  renderText({
+
+    output$remMC <-  renderText({
       if (!is.null(v$dfClean)) {
-length(v$dfClean[[5]])
+        length(v$dfClean[[5]])
       }
     })
-  output$tableMC <- renderText(v$dfClean[[5]])
-    
-            output$remNC <-  renderText({
+    output$tableMC <- renderText(v$dfClean[[5]])
+
+    output$remNC <-  renderText({
       if (!is.null(v$dfClean)) {
-length(v$dfClean[[4]])
+        length(v$dfClean[[4]])
       }
     })
     output$tableNC <- renderText(v$dfClean[[4]])
 
 
+
+    ################
+    # single module options
+    ################
+    ###### split CAM data
+    #> UI
+    observeEvent(input$splitData, {
+      ## change UI
+      outUI$elements <- tagList(
+        tags$div(
+          HTML(
+            "Remark: use this module only if you have the following:"
+          ),
+          style = "font-size:14px"
+        ),
+        tags$ul(
+          tags$li(HTML('<b>Excel file indicating grouping variable:</b> this file consists of two columns (CAMid and grouping) and is used to split the CAM data into different groups.
+              Importantly the grouping variable should be a factor variable (e.g. "group1", "group2", "group3").')),
+          tags$li(HTML('<b>pre-processed data:</b> you have cleaned your data (applied pre-processing functions) and you have downloaded your most recent data sets
+           (.txt files named CAM_nodes_clean OR CAM_nodes_raw, CAM_connectors_raw, CAM_merged_raw).')),
+        ),
+        tags$h2("Upload your Excel file"),
+        tags$br(),
+        fileInput(
+          ns("split_uploadExcel"),
+          "1) Upload a Excel file (.xlsx or .csv file):",
+          accept = c(".xlsx", ".csv"),
+          placeholder = "upload Excel file",
+          multiple = FALSE
+        ),
+        tags$div(
+          HTML(
+            'Decide according to which value of your grouping variable you want to split your CAM data:'
+          )
+        ),
+        tags$br(),
+        tags$h2("Upload your raw data"),
+        tags$br(),
+        fileInput(
+          ns("split_uploadCAMfiles"),
+          "2) Upload pre-processed CAM datasets (.txt files):",
+          accept = c(".txt", ".csv"),
+          placeholder = "upload pre-processed CAM data",
+          multiple = TRUE
+        ),
+        tags$div(
+          HTML(
+            "Please wait a few seconds until the data is processed (a table will pop up). You have uploaded the
+                              following file(s):"
+          )
+        ),
+        tableOutput(ns("split_file")),
+        tags$br(),
+        tags$div(
+          HTML(
+            'After you have uploaded your Excel file and the three data files you can continue with the analysis part (see "Information" for more details):'
+          )
+        ),
+        div(
+          style = "margin: 0 auto; width: 50%; text-align:center;",
+          actionButton(
+            ns("startAnalysis"),
+            HTML('Analysis<br>Part'),
+            style = "width: 200px;
+                                 height: 150px; margin-left:20px; font-size: 22px;"
+          )
+        )
+
+      )
+    })
+
+#> Server
+split_data <- reactive({
+  
+  tmp_extensions <- tools::file_ext(input$split_uploadCAMfiles$name)
+  print(tmp_extensions)
+  
+  ## if CAMEL data (checked by .txt ending)
+
+  if (all(stringr::str_detect(string = tmp_extensions, pattern = "txt")) && length(tmp_extensions) == 3 && all(stringr::str_detect(string = input$split_uploadCAMfiles$name, pattern = "nodes|connectors|merged"))){
+
+
+tmp_names <- input$split_uploadCAMfiles$name
+tmp_datapat <- input$split_uploadCAMfiles$datapath
+
+CAMfiles <- list()
+CAMfiles[[1]] <- vroom::vroom(
+  file = tmp_datapat[stringr::str_detect(string = tmp_names, pattern = "nodes")],
+  delim = "\t",
+  show_col_types = FALSE,
+  col_names = TRUE
+)
+## trim whitespace
+CAMfiles[[1]]$text <-
+  stringr::str_trim(string = CAMfiles[[1]]$text, side = "both")
+
+CAMfiles[[2]] <- vroom::vroom(
+  file = tmp_datapat[stringr::str_detect(string = tmp_names, pattern = "connectors")],
+  delim = "\t",
+  show_col_types = FALSE,
+  col_names = TRUE
+)
+
+CAMfiles[[3]] <- vroom::vroom(
+  file = tmp_datapat[stringr::str_detect(string = tmp_names, pattern = "merged")],
+  delim = "\t",
+  show_col_types = FALSE,
+  col_names = TRUE
+)
+
+  ## continue analysis
+  v$df <- CAMfiles
+  v$dataUploaded <- "yes"
+
+
+  } else {
+    if(!all(stringr::str_detect(string = tmp_extensions, pattern = "txt")) || length(tmp_extensions) != 3){
+      showModal(
+        modalDialog(
+          title = "Invalid raw data",
+          paste0(
+            "You have uploaded ", length(tmp_extensions), " files. Please upload exactly three files .txt files."
+          ),
+          easyClose = TRUE,
+          footer = tagList(modalButton("Ok"))
+        )
+      )
+    }else if(!all(stringr::str_detect(string = input$split_uploadCAMfiles$name, pattern = "nodes|connectors|merged"))){
+      showModal(
+        modalDialog(
+          title = "Invalid raw data",
+          paste0(
+            "You have uploaded files with the following names: ", paste0(input$split_uploadCAMfiles$name, collapse = ", ")," files. Please upload exactly three .txt files containing the names nodes, connectors, merged."
+          ),
+          easyClose = TRUE,
+          footer = tagList(modalButton("Ok"))
+        )
+      )
+    }
+  }
+  })
+
+
+observeEvent(input$split_uploadExcel, {
+        showModal(
+        modalDialog(
+          title = "Will be implemented soon",
+          paste0(
+            "Just wait for it."
+          ),
+          easyClose = TRUE,
+          footer = tagList(modalButton("Ok"))
+        )
+      )
+})
+
+    ## wait for uploaded files ##
+    observeEvent(input$split_uploadCAMfiles, {
+      # req(ext())
+      req(split_data())
+      # message("uploaded file(s) - extensions:", ext())
+
+      # show uploaded file(s)
+      output$split_file <- renderTable({
+        if (nrow(input$split_uploadCAMfiles) > 4) {
+          rbind(input$split_uploadCAMfiles[1:4,], c("...", "...", "...", "..."))
+        } else {
+          input$split_uploadCAMfiles
+        }
+      })
+
+
+    })
 
 
     ###### information
@@ -1091,8 +1265,8 @@ length(v$dfClean[[4]])
         tags$li(HTML(
           '<b>Analysis Part:</b> the (summarized) data can be subsequently analyzed and visualized using multiple implemented functions'
         ))),
-        HTML('The protocol is internally a JavaScript Object Notation (JSON) file and, for example, it includes information if any CAMs were deleted or which summary functions have been used. 
-        If you have applied any summarize terms module functions and you upload protocol and raw data, the text of the drawn concepts is internally summarized and you could continue summarizing 
+        HTML('The protocol is internally a JavaScript Object Notation (JSON) file and, for example, it includes information if any CAMs were deleted or which summary functions have been used.
+        If you have applied any summarize terms module functions and you upload protocol and raw data, the text of the drawn concepts is internally summarized and you could continue summarizing
         the CAM data.'),
         tags$br(),
         tags$br(),
@@ -1125,7 +1299,7 @@ length(v$dfClean[[4]])
           tags$ul(
             tags$li(
               HTML(
-                '<b>Upload - necessary step:</b> Upload your raw data (C.A.M.E.L. or Valence) and - if you already have - your protocol 
+                '<b>Upload - necessary step:</b> Upload your raw data (C.A.M.E.L. or Valence) and - if you already have - your protocol
                 before uploading your data.'
               )
             ),
@@ -1154,10 +1328,10 @@ length(v$dfClean[[4]])
 
 
 
-      #return(list(df = reactive({v$df}), # return global df
-      #      dfClean   = reactive({v$dfClean}))) # return global clean df
+    #return(list(df = reactive({v$df}), # return global df
+    #      dfClean   = reactive({v$dfClean}))) # return global clean df
 
-      return(reactive({v$df})) 
-   # return(data)
+    return(reactive({v$df}))
+    # return(data)
   })
 }
