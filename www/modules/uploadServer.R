@@ -1166,6 +1166,17 @@ CAMfiles[[1]] <- vroom::vroom(
 CAMfiles[[1]]$text <-
   stringr::str_trim(string = CAMfiles[[1]]$text, side = "both")
 
+  if(any(colnames(CAMfiles[[1]]) == "text_summarized")){
+## trim whitespace
+CAMfiles[[1]]$text_summarized <-
+  stringr::str_trim(string = CAMfiles[[1]]$text_summarized, side = "both")
+
+    ## remove white spaces before suffixes
+ CAMfiles[[1]]$text_summarized <- str_remove_all(string =  CAMfiles[[1]]$text_summarized, pattern = "\\s(?=(_neutral$|_positive$|_negative$|_ambivalent$))")
+  }
+  
+
+
 CAMfiles[[2]] <- vroom::vroom(
   file = tmp_datapat[stringr::str_detect(string = tmp_names, pattern = "connectors")],
   delim = "\t",
@@ -1179,6 +1190,10 @@ CAMfiles[[3]] <- vroom::vroom(
   show_col_types = FALSE,
   col_names = TRUE
 )
+
+
+
+
 
   ## continue analysis
   v$df <- CAMfiles
