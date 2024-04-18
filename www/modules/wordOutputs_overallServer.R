@@ -95,7 +95,7 @@ wordOutputs_overallServer <-
           ),
                       tags$br(),
           tags$h4("Overall wordlist:"),
-          dataTableOutput(ns("wordlistTable_WordsOverall")),
+          DT::DTOutput(ns("wordlistTable_WordsOverall")),
           )
         })
 
@@ -157,7 +157,7 @@ wordlist <- eventReactive(input$createWordlist_WordsOverall, {
 })
 
 
-output$wordlistTable_WordsOverall <- renderDataTable({
+output$wordlistTable_WordsOverall <- DT::renderDT({
   wordlist()
 })
   

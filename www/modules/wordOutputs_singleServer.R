@@ -79,7 +79,7 @@ wordOutputs_singleServer <-
           column(5,plotOutput(ns("plotBarplot_concepts_single"), width="90%"))
         ),
                   tags$div(HTML("A table containing all drawn concepts, which were summarized to your chosen summarized concept:"), style="font-size:14px"),
-                  dataTableOutput(ns("table_concepts_single")),
+                  DT::DTOutput(ns("table_concepts_single")),
           )
         })
 
@@ -180,7 +180,7 @@ ggplot(fg, aes(group, n, fill = group)) +
 ################
 # get table
 ################
- output$table_concepts_single <- renderDataTable({
+ output$table_concepts_single <- DT::renderDT({
     matAPA
   })
 
@@ -199,7 +199,7 @@ ggplot(fg, aes(group, n, fill = group)) +
                     tags$br(),
           tags$div(HTML("A table containing all unique summarized concepts and their respective frequencies (seperated by N=total, 
           Npositive=positive, and so on) seperated by CAMs:"), style="font-size:14px"),
-          dataTableOutput(ns("table_concepts_overall")),
+          DT::DTOutput(ns("table_concepts_overall")),
                               tags$br(),
           tags$div(HTML("<i>To download the table containing all unique summarized concepts download all your files globally using 
                   the button top right.</i>"),
@@ -296,7 +296,7 @@ globals$singleConceptsTable <- conceptOverall_dat
 ################
 # get table
 ################
- output$table_concepts_overall <- renderDataTable({
+ output$table_concepts_overall <- DT::renderDT({
     conceptOverall_dat
   })
     })

@@ -223,7 +223,7 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
     out_netind[i, "reciprocity_macro"]  <- igraph::reciprocity(drawn_CAM[[i]])
     out_netind[i, "assortativity_valence_macro"]  <-  igraph::assortativity(graph = drawn_CAM[[i]], types1 = ifelse(test = V(drawn_CAM[[i]])$color == "green", yes = 3, no =
                                                                                                                       ifelse(test = V(drawn_CAM[[i]])$color == "red", yes = 2, no = 1)), directed = FALSE)
-    out_netind[i, "assortativityDegree_macro"]  <- igraph::assortativity.degree(graph = drawn_CAM[[i]], directed = FALSE)
+    out_netind[i, "assortativityDegree_macro"]  <- igraph::assortativity_degree(graph = drawn_CAM[[i]], directed = FALSE)
 
     ################
     # structural coefficients: MEZZO part of network:

@@ -13,24 +13,30 @@
 # using loops to scan data for significant relationships (or mean differences)
 # > which variables are significantly correlation to "mean_valence_macro", ...?
 
-# indicatos_CAM = CAMindicators
+# indicators_CAM = CAMindicators
 # vars = vars = c("mean_valence_macro", "assortativity_valence_macro")
-des_sigCorr <- function(indicatos_CAM = NULL, vars = NULL, printOut = FALSE){
+des_sigCorr <- function(indicators_CAM = NULL, vars = NULL, verbose = FALSE){
   # check vars
   if(is.null(vars)){
     print("Your specified vars argument is null.")
     stop("> please specify a variable / multiple variables")
   }
-  if(!all(vars %in% colnames(indicatos_CAM))){
+  if(!all(vars %in% colnames(indicators_CAM))){
     print("Your specified vars argument is:")
     print(vars)
     stop("> which is no variable in your dataset")
   }
 
 
-  vec_names <- indicatos_CAM %>%
+  ## remove variables with only identical values
+  indicators_CAM <- indicators_CAM[, apply(indicators_CAM, 2, function(a) length(unique(a))!=1)]
+
+
+  vec_names <- indicators_CAM %>%
     select_if(Negate(is.character)) %>%
     colnames()
+
+  
 
   tmp_vars <- c()
   tmp_vars2 <- c()
@@ -38,15 +44,15 @@ des_sigCorr <- function(indicatos_CAM = NULL, vars = NULL, printOut = FALSE){
   tmp_pvalue <- c()
   h=1
   for(v in 1:length(vars)){
-    if(printOut){
+    if(verbose){
       cat("significant correlations for variable:", vars[v], "\n")
     }
 
     for(i in 1:length(vec_names)){
-      if(!is.na(cor(indicatos_CAM[, vars[v]], indicatos_CAM[, vec_names[i]]))) { # unequal zero (e.g. "reciprocity_macro" can contain only 0)
-        tmp_test <- cor.test(indicatos_CAM[, vars[v]], indicatos_CAM[, vec_names[i]])
+      if(!is.na(cor(indicators_CAM[, vars[v]], indicators_CAM[, vec_names[i]]))) { # unequal zero (e.g. "reciprocity_macro" can contain only 0)
+        tmp_test <- cor.test(indicators_CAM[, vars[v]], indicators_CAM[, vec_names[i]])
         if(tmp_test$p.value < .05){
-          if(printOut){
+          if(verbose){
             cat("   <-->", vec_names[i]," r:", tmp_test$estimate,"\n")
           }
           tmp_vars[h] <- vars[v]
@@ -58,7 +64,10 @@ des_sigCorr <- function(indicatos_CAM = NULL, vars = NULL, printOut = FALSE){
       }
 
     }
-    cat("\n\n")
+    if(verbose){
+      cat("\n\n")
+      }
+
   }
  return(data.frame(setvars = tmp_vars,
                     indvar = tmp_vars2,

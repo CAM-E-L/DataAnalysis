@@ -744,23 +744,23 @@ uploadServer <- function(id, parent, globals) {
         tags$div(
           HTML("You uploaded the following <b>nodes</b> (concepts) dataset (dynamic table):")
         ),
-        dataTableOutput(ns("tableNodes")),
+        DT::DTOutput(ns("tableNodes")),
         tags$div(
           HTML("You uploaded the following <b>connectors</b> (connectors) dataset (dynamic table):")
         ),
-        dataTableOutput(ns("tableConnectors"))
+        DT::DTOutput(ns("tableConnectors"))
       )
     })
 
     #> Server
     ## show table for nodes
-    output$tableNodes <- renderDataTable({
+    output$tableNodes <- DT::renderDT({
       if (!is.null(v$df)) {
         v$df[[1]]
       }
     },  options = list(pageLength = 5))
     ## show table for connectors
-    output$tableConnectors <- renderDataTable({
+    output$tableConnectors <- DT::renderDT({
       if (!is.null(v$df)) {
         v$df[[2]]
       }
