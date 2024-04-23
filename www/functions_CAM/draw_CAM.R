@@ -62,7 +62,7 @@ draw_CAM <- function(dat_merged = CAMfiles[[3]],
   list_g <- list()
   cat("processing", length(ids_CAMs), "CAMs...", "\n")
 
-    tryCatch({
+  ## try catch START 1
   for(i in 1:length(ids_CAMs)){
     # cat("processing", i, "\n")
 
@@ -213,32 +213,40 @@ draw_CAM <- function(dat_merged = CAMfiles[[3]],
           }else{
             print("== ids_CAMs in drawnCAM")
        names(list_g) <- paste0(ids_CAMs)
-          }}, # tryCatch(): catch warnings
-  warning = function(cond) {
-    showModal(
-      modalDialog(
-        title = "Error while drawing CAMs",
-        "It appears that the data of at least one of the CAMs is invalid. This could happen e.g. if the data file is corrupt. Please make sure you have uploaded the right data set.",
-        easyClose = TRUE,
-        footer = tagList(modalButton("Ok"))
-      )
-    )
-  },
-
-  # tryCatch(): catch errors
-  error = function(cond) {
-    showModal(
-      modalDialog(
-        title = "Error while drawing CAMs",
-        "It appears that the data of at least one of the CAMs is invalid. This could happen e.g. if the data file is corrupt. Please make sure you have uploaded the right data set.",
-        easyClose = TRUE,
-        footer = tagList(modalButton("Ok"))
-      )
-    )
-}
-  ) # tryCatch()
-
+          }
+  ## try catch START 2
 
 
   return(list_g)
-}
+    }
+
+
+
+## try catch START 1
+# tryCatch({
+## try catch START 2
+#   }, # tryCatch(): catch warnings
+# warning = function(cond) {
+#   showModal(
+#     modalDialog(
+#       title = "Error while drawing CAMs",
+#       "It appears that the data of at least one of the CAMs is invalid. This could happen e.g. if the data file is corrupt. Please make sure you have uploaded the right data set.",
+#       easyClose = TRUE,
+#       footer = tagList(modalButton("Ok"))
+#     )
+#   )
+# },
+#
+# # tryCatch(): catch errors
+# error = function(cond) {
+#   showModal(
+#     modalDialog(
+#       title = "Error while drawing CAMs",
+#       "It appears that the data of at least one of the CAMs is invalid. This could happen e.g. if the data file is corrupt. Please make sure you have uploaded the right data set.",
+#       easyClose = TRUE,
+#       footer = tagList(modalButton("Ok"))
+#     )
+#   )
+# }
+# ) # tryCatch()
+#

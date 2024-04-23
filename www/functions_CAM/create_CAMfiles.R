@@ -22,13 +22,20 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
           datCAM[[i]]$creator, "\n")
     }
     if(length(datCAM[[i]]$nodes) > 0){
+      ## add creator ID
       if(!is.null(datCAM[[i]]$creator)){
         tmp_participantCAM = rep(x = datCAM[[i]]$creator, times = nrow(datCAM[[i]]$nodes))
       }else{
         tmp_participantCAM = rep(x = "NO ID PROVIDED", times = nrow(datCAM[[i]]$nodes))
       }
+
+      ## add date (always a connector was drawn last by design)
+      tmp_index <- which(x = datCAM[[i]]$connectors$date == max(datCAM[[i]]$connectors$date))
+
       tmp <- data.frame(CAM = rep(x = datCAM[[i]]$idCAM, times = nrow(datCAM[[i]]$nodes)),
                         participantCAM = tmp_participantCAM,
+                        durationCAM = rep(x = lubridate::as_datetime(datCAM[[i]]$connectors$date[tmp_index] / 1000) -
+                                            lubridate::as_datetime(datCAM[[i]]$date / 1000), times = nrow(datCAM[[i]]$nodes)),
                         id = datCAM[[i]]$nodes$id,
                         text = datCAM[[i]]$nodes$text,
                         value = datCAM[[i]]$nodes$value,
@@ -65,13 +72,20 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
     }
 
     if(length(datCAM[[i]]$connectors) > 0){
+      ## add creator ID
       if(!is.null(datCAM[[i]]$creator)){
         tmp_participantCAM = rep(x = datCAM[[i]]$creator, times = nrow(datCAM[[i]]$connectors))
       }else{
         tmp_participantCAM = rep(x = "NO ID PROVIDED", times = nrow(datCAM[[i]]$connectors))
       }
+
+      ## add date (always a connector was drawn last by design)
+      tmp_index <- which(x = datCAM[[i]]$connectors$date == max(datCAM[[i]]$connectors$date))
+
       tmp <- data.frame(CAM = rep(x = datCAM[[i]]$idCAM, times = nrow(datCAM[[i]]$connectors)),
                         participantCAM = tmp_participantCAM,
+                        durationCAM = rep(x = lubridate::as_datetime(datCAM[[i]]$connectors$date[tmp_index] / 1000) -
+                                            lubridate::as_datetime(datCAM[[i]]$date / 1000), times = nrow(datCAM[[i]]$connectors)),
                         id = datCAM[[i]]$connectors$id,
                         date = lubridate::as_datetime(datCAM[[i]]$connectors$date / 1000),
                         daughterID = datCAM[[i]]$connectors$target,
@@ -94,7 +108,7 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
   if(!exists("dat_nodes") || !exists("dat_connectors")) {
     return(NULL)
   }
-  
+
   ## if true then remove non active nodes
   if(reDeleted){
     cat("Nodes and connectors, which were deleted by participants were removed.", "\n",
