@@ -29,13 +29,10 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
         tmp_participantCAM = rep(x = "NO ID PROVIDED", times = nrow(datCAM[[i]]$nodes))
       }
 
-      ## add date (always a connector was drawn last by design)
-      tmp_index <- which(x = datCAM[[i]]$connectors$date == max(datCAM[[i]]$connectors$date))
-
       tmp <- data.frame(CAM = rep(x = datCAM[[i]]$idCAM, times = nrow(datCAM[[i]]$nodes)),
                         participantCAM = tmp_participantCAM,
-                        durationCAM = rep(x = lubridate::as_datetime(datCAM[[i]]$connectors$date[tmp_index] / 1000) -
-                                            lubridate::as_datetime(datCAM[[i]]$date / 1000), times = nrow(datCAM[[i]]$nodes)),
+                        dateCAMcreated = rep(x = lubridate::as_datetime(datCAM[[i]]$date / 1000), times = nrow(datCAM[[i]]$nodes)),
+                        dateConceptCreated = lubridate::as_datetime(datCAM[[i]]$nodes$date / 1000),
                         id = datCAM[[i]]$nodes$id,
                         text = datCAM[[i]]$nodes$text,
                         value = datCAM[[i]]$nodes$value,
@@ -79,13 +76,10 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
         tmp_participantCAM = rep(x = "NO ID PROVIDED", times = nrow(datCAM[[i]]$connectors))
       }
 
-      ## add date (always a connector was drawn last by design)
-      tmp_index <- which(x = datCAM[[i]]$connectors$date == max(datCAM[[i]]$connectors$date))
-
       tmp <- data.frame(CAM = rep(x = datCAM[[i]]$idCAM, times = nrow(datCAM[[i]]$connectors)),
                         participantCAM = tmp_participantCAM,
-                        durationCAM = rep(x = lubridate::as_datetime(datCAM[[i]]$connectors$date[tmp_index] / 1000) -
-                                            lubridate::as_datetime(datCAM[[i]]$date / 1000), times = nrow(datCAM[[i]]$connectors)),
+                        dateCAMcreated = rep(x = lubridate::as_datetime(datCAM[[i]]$date / 1000), times = nrow(datCAM[[i]]$connectors)),
+                        dateConnectorCreated = lubridate::as_datetime(datCAM[[i]]$connectors$date / 1000),
                         id = datCAM[[i]]$connectors$id,
                         date = lubridate::as_datetime(datCAM[[i]]$connectors$date / 1000),
                         daughterID = datCAM[[i]]$connectors$target,

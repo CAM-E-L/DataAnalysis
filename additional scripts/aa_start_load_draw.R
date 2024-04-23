@@ -167,8 +167,44 @@ setwd("..")
 ########################################
 # create CAM files, draw CAMs
 ########################################
+
+
+
+
+
 ### create CAM single files (nodes, connectors, merged)
 CAMfiles <- create_CAMfiles(datCAM = raw_CAM, reDeleted = TRUE)
+
+
+plot(CAMdrawn[["9cb5adba-97c3-41f2-94b2-1c3f8218ecf8"]], edge.arrow.size = .7,
+     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
+     vertex.size = 10, vertex.label.cex = .9)
+
+CAMfiles[[1]][CAMfiles[[1]]$CAM == "9cb5adba-97c3-41f2-94b2-1c3f8218ecf8","dateCAMcreated"]
+CAMfiles[[1]][CAMfiles[[1]]$CAM == "9cb5adba-97c3-41f2-94b2-1c3f8218ecf8","dateConceptCreated"]
+CAMfiles[[2]][CAMfiles[[2]]$CAM == "9cb5adba-97c3-41f2-94b2-1c3f8218ecf8","dateCAMcreated"]
+CAMfiles[[2]][CAMfiles[[2]]$CAM == "9cb5adba-97c3-41f2-94b2-1c3f8218ecf8","dateConnectorCreated"]
+
+
+vec_duration <- c()
+for(c in unique(CAMfiles[[1]]$CAM)){
+  print(c)
+
+  tmp_diffConcepts <- CAMfiles[[1]][CAMfiles[[1]]$CAM == c,"dateConceptCreated"] -
+    CAMfiles[[1]][CAMfiles[[1]]$CAM == c,"dateCAMcreated"]
+  tmp_diffConnectors <- CAMfiles[[2]][CAMfiles[[2]]$CAM == c,"dateConnectorCreated"] -
+    CAMfiles[[2]][CAMfiles[[2]]$CAM == c,"dateCAMcreated"]
+
+  print(max(c(tmp_diffConcepts, tmp_diffConnectors)))
+
+  vec_duration[[c]] <- max(c(tmp_diffConcepts, tmp_diffConnectors))
+}
+
+
+
+CAMfiles[[1]]$dateConceptCreated -  CAMfiles[[1]]$dateCAMcreated
+CAMfiles[[2]]$dateConnectorCreated -  CAMfiles[[2]]$dateCAMcreated
+
 
 ### if protocol considered
 if(consider_Protocol){
@@ -201,7 +237,6 @@ CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
 plot(CAMdrawn[[1]], edge.arrow.size = .7,
      layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
      vertex.size = 10, vertex.label.cex = .9)
-
 
 
 
