@@ -11,7 +11,7 @@
 ############################################################################
 # datCAM = raw_CAM
 # reDeleted = TRUE
-# verbose=TRUE
+# verbose = TRUE
 create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
   ### create block dataset
   sn = 1 # no i index
@@ -22,17 +22,13 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
           datCAM[[i]]$creator, "\n")
     }
     if(length(datCAM[[i]]$nodes) > 0){
-      ## add creator ID
       if(!is.null(datCAM[[i]]$creator)){
         tmp_participantCAM = rep(x = datCAM[[i]]$creator, times = nrow(datCAM[[i]]$nodes))
       }else{
         tmp_participantCAM = rep(x = "NO ID PROVIDED", times = nrow(datCAM[[i]]$nodes))
       }
-
       tmp <- data.frame(CAM = rep(x = datCAM[[i]]$idCAM, times = nrow(datCAM[[i]]$nodes)),
                         participantCAM = tmp_participantCAM,
-                        dateCAMcreated = rep(x = lubridate::as_datetime(datCAM[[i]]$date / 1000), times = nrow(datCAM[[i]]$nodes)),
-                        dateConceptCreated = lubridate::as_datetime(datCAM[[i]]$nodes$date / 1000),
                         id = datCAM[[i]]$nodes$id,
                         text = datCAM[[i]]$nodes$text,
                         value = datCAM[[i]]$nodes$value,
@@ -61,25 +57,19 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
   ### create connectors dataset
   sc = 1 # no i index
   for(i in 1:length(datCAM)){
-    if(verbose){
-      if(length(datCAM[[i]]$connectors) == 0){
-        cat("following CAM containing zero connectors: ",
-            datCAM[[i]]$creator, "\n")
-      }
-    }
+    if(length(datCAM[[i]]$connectors) == 0){
 
+      cat("following CAM containing zero connectors: ",
+          datCAM[[i]]$creator, "\n")
+    }
     if(length(datCAM[[i]]$connectors) > 0){
-      ## add creator ID
       if(!is.null(datCAM[[i]]$creator)){
         tmp_participantCAM = rep(x = datCAM[[i]]$creator, times = nrow(datCAM[[i]]$connectors))
       }else{
         tmp_participantCAM = rep(x = "NO ID PROVIDED", times = nrow(datCAM[[i]]$connectors))
       }
-
       tmp <- data.frame(CAM = rep(x = datCAM[[i]]$idCAM, times = nrow(datCAM[[i]]$connectors)),
                         participantCAM = tmp_participantCAM,
-                        dateCAMcreated = rep(x = lubridate::as_datetime(datCAM[[i]]$date / 1000), times = nrow(datCAM[[i]]$connectors)),
-                        dateConnectorCreated = lubridate::as_datetime(datCAM[[i]]$connectors$date / 1000),
                         id = datCAM[[i]]$connectors$id,
                         date = lubridate::as_datetime(datCAM[[i]]$connectors$date / 1000),
                         daughterID = datCAM[[i]]$connectors$target,
@@ -89,6 +79,9 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
                         isBidirectional = as.numeric(datCAM[[i]]$connectors$isBidirectional),
                         isDeletable = as.numeric(datCAM[[i]]$connectors$isDeletable),
                         isActive = datCAM[[i]]$connectors$isActive)
+
+
+
       if(sc == 1){
         dat_connectors <- tmp
         sc = sc + 1
@@ -98,9 +91,9 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
     }
   }
 
-  # all CAMs contain zero nodes or zero connectors
-  if(!exists("dat_nodes") || !exists("dat_connectors")) {
-    return(NULL)
+  # if all connections are not bidirectional, treat them all as bidirectional to avoid an ill-constructed merged dataset
+  if(all(dat_connectors$isBidirectional == 0)){
+    dat_connectors$isBidirectional <- 1
   }
 
   ## if true then remove non active nodes

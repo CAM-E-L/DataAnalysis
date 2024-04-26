@@ -10,14 +10,14 @@
 #
 ############################################################################
 ### args: ! higher order function
-# dat_nodes = CAMfiles[[1]]
-# dat_merged = CAMfiles[[3]]
+# dat_nodes =  CAMfiles_pre[[1]]
+# dat_merged =  CAMfiles_pre[[3]]
 # useSummarized = TRUE
 # order = "frequency"
-# splitByValence = TRUE
+# splitByValence = FALSE
 # comments = TRUE
-# raterSubsetWords = wordsOut
-# rater = TRUE
+# raterSubsetWords = NULL
+# rater = FALSE
 
 
 # dat_nodes = CAMfiles[[1]]
@@ -110,7 +110,7 @@ create_wordlist <- function(dat_nodes = CAMfiles[[1]],
   # head(freq_terms)
   # dim(freq_terms)
 
-  freq_terms = dat_nodes %>% select(text) %>% count(text)
+  freq_terms = dat_nodes %>% select(text) %>% dplyr::count(text)
   colnames(freq_terms) <- c("Words", "all")
   freq_terms <- as.data.frame(freq_terms)
 
