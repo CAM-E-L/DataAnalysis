@@ -49,7 +49,7 @@ clusteringCAMs_conceptLevelServer <-
             HTML(
               "Please select if you want to consider the valence given by the participants to the concepts 
               (if yes Cohen's Kappa is computed, if no the Phi coefficient is computed). Additionally you can choose if the heatmap should be 
-              calculated on the summarized concepts (yes is recommended):"
+              calculated on the summarized concepts (yes is recommended). Consider, that the calculation may take a while, if a high number (several hundreds) of concepts are considered for the heatmap:"
             ),
             style = "font-size:14px"
           ),
