@@ -22,13 +22,17 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
           datCAM[[i]]$creator, "\n")
     }
     if(length(datCAM[[i]]$nodes) > 0){
+      ## add creator ID
       if(!is.null(datCAM[[i]]$creator)){
         tmp_participantCAM = rep(x = datCAM[[i]]$creator, times = nrow(datCAM[[i]]$nodes))
       }else{
         tmp_participantCAM = rep(x = "NO ID PROVIDED", times = nrow(datCAM[[i]]$nodes))
       }
+
       tmp <- data.frame(CAM = rep(x = datCAM[[i]]$idCAM, times = nrow(datCAM[[i]]$nodes)),
                         participantCAM = tmp_participantCAM,
+                        dateCAMcreated = rep(x = lubridate::as_datetime(datCAM[[i]]$date / 1000), times = nrow(datCAM[[i]]$nodes)),
+                        dateConceptCreated = lubridate::as_datetime(datCAM[[i]]$nodes$date / 1000),
                         id = datCAM[[i]]$nodes$id,
                         text = datCAM[[i]]$nodes$text,
                         value = datCAM[[i]]$nodes$value,
@@ -63,13 +67,17 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
           datCAM[[i]]$creator, "\n")
     }
     if(length(datCAM[[i]]$connectors) > 0){
+      ## add creator ID
       if(!is.null(datCAM[[i]]$creator)){
         tmp_participantCAM = rep(x = datCAM[[i]]$creator, times = nrow(datCAM[[i]]$connectors))
       }else{
         tmp_participantCAM = rep(x = "NO ID PROVIDED", times = nrow(datCAM[[i]]$connectors))
       }
+
       tmp <- data.frame(CAM = rep(x = datCAM[[i]]$idCAM, times = nrow(datCAM[[i]]$connectors)),
                         participantCAM = tmp_participantCAM,
+                        dateCAMcreated = rep(x = lubridate::as_datetime(datCAM[[i]]$date / 1000), times = nrow(datCAM[[i]]$connectors)),
+                        dateConnectorCreated = lubridate::as_datetime(datCAM[[i]]$connectors$date / 1000),
                         id = datCAM[[i]]$connectors$id,
                         date = lubridate::as_datetime(datCAM[[i]]$connectors$date / 1000),
                         daughterID = datCAM[[i]]$connectors$target,

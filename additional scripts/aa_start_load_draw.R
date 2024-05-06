@@ -9,12 +9,12 @@ graphics.off()
 # please define!
 #> put everything in the "data" folder (your data set and protocol if you have one)
 ########################################
-CAMdataset <- "CAMspiracy_data.txt"
+CAMdataset <- "Lars_2024_IndiviualCAMs.txt"
 # "Fenn_2023_SAIstudy_subset.txt"
 # "Fenn_2023_CAMtools.txt"
 
 protocolDataset <- "CAMspiracy_protocol.txt" #  # protocol.txt
-consider_Protocol <- TRUE
+consider_Protocol <- FALSE
 
 
 ########################################
@@ -113,41 +113,22 @@ rm(i)
 setwd("../../additional scripts/data")
 dir()
 
-
-
-###################
-a <- vroom(file = "CAM_nodes_raw.txt")
-
-a$text_summarized <- stringr::str_remove_all(string = a$text_summarized,
-                    pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
-
-sort(table(a$text_summarized))
-
-for(c in unique(a$CAM)){
-
-  tmp <- a[a$CAM == c,]
-  if(sum(tmp$text_summarized == "Climate Change") != 1){
-    print(c)
-    # print(tmp$text_summarized)
-    print(tmp[1,c("text", "text_summarized", "value")])
-  }
-}
-
-tmp <- a[a$CAM == "89fab424-c113-46a2-a10f-aceb3b9f81e8",]
-
-
-read_file(CAMdataset) %>%
-  # ... split it into lines ...
-  str_split('\n') %>% first() %>%
-  # ... filter empty rows ...
-  discard(function(x) x == '') -> dat_CAM
-
+### load CAM files
+# individual
+suppressMessages(read_file(CAMdataset) %>%
+                   # ... split it into lines ...
+                   str_split('\n') %>% first() %>%
+                   discard(function(x) x == '') %>%
+                   discard(function(x) x == '\r') %>%
+                   # ... filter empty rows ...
+                   discard(function(x) x == '')) -> dat_CAM
 
 raw_CAM <- list()
 for(i in 1:length(dat_CAM)){
   raw_CAM[[i]] <- jsonlite::fromJSON(txt = dat_CAM[[i]])
 }
 rm(i)
+
 
 ### if protocol considered
 if(consider_Protocol){
@@ -161,29 +142,47 @@ if(consider_Protocol){
   }
 }
 
+
+
+
 setwd("..")
 
 
 ########################################
 # create CAM files, draw CAMs
 ########################################
-
-
-
-
-
 ### create CAM single files (nodes, connectors, merged)
 CAMfiles <- create_CAMfiles(datCAM = raw_CAM, reDeleted = TRUE)
 
+### if protocol considered
+if(consider_Protocol){
+  CAMfiles[[1]] <- CAMfiles[[1]][CAMfiles[[1]]$CAM %in% protocol$currentCAMs,]
+  CAMfiles[[2]] <- CAMfiles[[2]][CAMfiles[[2]]$CAM %in% protocol$currentCAMs,]
+  CAMfiles[[3]] <- CAMfiles[[3]][CAMfiles[[3]]$CAM.x %in% protocol$currentCAMs,]
 
-plot(CAMdrawn[["9cb5adba-97c3-41f2-94b2-1c3f8218ecf8"]], edge.arrow.size = .7,
+
+  tmp_out <- overwriteTextNodes(protocolDat = protocol,
+                                nodesDat = CAMfiles[[1]])
+  CAMfiles[[1]] <- tmp_out[[1]]
+  tmp_out[[2]]
+}
+
+
+
+### draw CAMs
+CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
+                     dat_nodes = CAMfiles[[1]],ids_CAMs = "all",
+                     plot_CAM = FALSE,
+                     useCoordinates = FALSE,
+                     relvertexsize = 3,
+                     reledgesize = 1)
+
+plot(CAMdrawn[[1]], edge.arrow.size = .7,
      layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
      vertex.size = 10, vertex.label.cex = .9)
 
-CAMfiles[[1]][CAMfiles[[1]]$CAM == "9cb5adba-97c3-41f2-94b2-1c3f8218ecf8","dateCAMcreated"]
-CAMfiles[[1]][CAMfiles[[1]]$CAM == "9cb5adba-97c3-41f2-94b2-1c3f8218ecf8","dateConceptCreated"]
-CAMfiles[[2]][CAMfiles[[2]]$CAM == "9cb5adba-97c3-41f2-94b2-1c3f8218ecf8","dateCAMcreated"]
-CAMfiles[[2]][CAMfiles[[2]]$CAM == "9cb5adba-97c3-41f2-94b2-1c3f8218ecf8","dateConnectorCreated"]
+
+
 
 
 vec_duration <- c()
@@ -202,45 +201,8 @@ for(c in unique(CAMfiles[[1]]$CAM)){
 
 
 
-CAMfiles[[1]]$dateConceptCreated -  CAMfiles[[1]]$dateCAMcreated
-CAMfiles[[2]]$dateConnectorCreated -  CAMfiles[[2]]$dateCAMcreated
-
-
-### if protocol considered
-if(consider_Protocol){
-  CAMfiles[[1]] <- CAMfiles[[1]][CAMfiles[[1]]$CAM %in% protocol$currentCAMs,]
-  CAMfiles[[2]] <- CAMfiles[[2]][CAMfiles[[2]]$CAM %in% protocol$currentCAMs,]
-  CAMfiles[[3]] <- CAMfiles[[3]][CAMfiles[[3]]$CAM.x %in% protocol$currentCAMs,]
-
-
-  tmp_out <- overwriteTextNodes(protocolDat = protocol,
-                                nodesDat = CAMfiles[[1]])
-  CAMfiles[[1]] <- tmp_out[[1]]
-  tmp_out[[2]]
-}
-
-
-
-# sum(CAMfiles[[1]]$text_summarized == "corruption")
-# str_subset(string = CAMfiles[[1]]$text_summarized, pattern = "acid|Acid")
-# CAMfiles[[1]][str_detect(string = CAMfiles[[1]]$comment, pattern = "corruption"),]
-
-
-### draw CAMs
-CAMdrawn <- draw_CAM(dat_merged = CAMfiles[[3]],
-                     dat_nodes = CAMfiles[[1]],ids_CAMs = "all",
-                     plot_CAM = FALSE,
-                     useCoordinates = FALSE,
-                     relvertexsize = 3,
-                     reledgesize = 1)
-
-plot(CAMdrawn[[1]], edge.arrow.size = .7,
-     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
-     vertex.size = 10, vertex.label.cex = .9)
-
-
-
-tmp_micro <- c("Vorteile", "Nachteile", "Rettungsroboter", "sozialer Assistenzroboter")
+sort(table(CAMfiles[[1]]$text))
+tmp_micro <- c("Ökologische Nachhaltigkeit", "Wirtschaftswachstum")
 
 tmp_Indicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
                                         micro_degree =  tmp_micro,
@@ -249,21 +211,16 @@ tmp_Indicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
                                         micro_transitivity = tmp_micro,
                                         largestClique = FALSE)
 
+tmp_neighborhoodIndicators <- compute_neighborhoodIndicatorsCAM(drawn_CAM = CAMdrawn, weightSecondOrder = .5,
+                                  consideredConcepts = c("Ökologische Nachhaltigkeit", "Wirtschaftswachstum"),
+                                  sliceCAMbool = FALSE,
+                                  removeConnectionCAM = c("Ökologische Nachhaltigkeit", "Wirtschaftswachstum"),
+                                  removeNodeCAM = NULL)
 
+plot(tmp_neighborhoodIndicators$mean_1_ÖkologischeNachhaltigkeit, tmp_neighborhoodIndicators$mean_1_Wirtschaftswachstum
+)
 
-
-
-####################################################
-
-tmp_text <- str_remove_all(string = CAMfiles[[1]]$text,
-                           pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
-
-
-
-
-# CAMfiles[[1]]$text_summarized <- CAMfiles[[1]]$text
-# CAMfiles[[1]]$text_summarized[1] <- paste0(CAMfiles[[1]]$text_summarized[1], "_negative")
-
+tmp_neighborhoodIndicators$mean_1_ÖkologischeNachhaltigkeit - tmp_neighborhoodIndicators$mean_1_Wirtschaftswachstum
 
 
 CAMwordlist <- create_wordlist(
@@ -278,16 +235,13 @@ CAMwordlist <- create_wordlist(
 )
 
 
-CAMwordlist <- create_wordlist(
-  dat_nodes = CAMfiles[[1]],
-  dat_merged = CAMfiles[[3]],
-  useSummarized = TRUE,
-  order = "frequency",
-  splitByValence = TRUE,
-  comments = TRUE,
-  raterSubsetWords = NULL,
-  rater = FALSE
-)
+
+
+
+
+
+
+
 
 
 dat_nodes <- CAMfiles[[1]]
