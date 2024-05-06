@@ -33,7 +33,7 @@ draw_CAM <- function(dat_merged = CAMfiles[[3]],
     dat_nodes$CAM <-   dat_nodes$participantCAM
   }
 
-   ## check ids_CAMs argument
+  ## check ids_CAMs argument
   if(is.character(ids_CAMs) && (!all(ids_CAMs %in% unique(dat_merged$CAM.x)))){
     cat("Your specified ids are:", ids_CAMs, ", which is / are not matching the ids of the dataset (seperated by '//'):" ,"\n")
     cat(paste0(unique(dat_merged$CAM.x), collapse = " // "), "\n")
@@ -62,7 +62,7 @@ draw_CAM <- function(dat_merged = CAMfiles[[3]],
   list_g <- list()
   cat("processing", length(ids_CAMs), "CAMs...", "\n")
 
-    tryCatch({
+  ## try catch START 1
   for(i in 1:length(ids_CAMs)){
     # cat("processing", i, "\n")
 
@@ -73,6 +73,12 @@ draw_CAM <- function(dat_merged = CAMfiles[[3]],
 
     g_own <- igraph::graph.data.frame(as.data.frame(
       tmp_dat_merged[,c("id", "idending")]))
+
+
+    # if all connections are bidirectional, treat network as undirected
+    if(all(tmp_dat_merged$isBidirectional == 1)){
+      g_own <- igraph::as.undirected(graph = g_own)
+    }
 
     #################
     # aesthetical attributes
@@ -199,46 +205,54 @@ draw_CAM <- function(dat_merged = CAMfiles[[3]],
 
     list_g[[i]] <- g_own
   }
-    ## set participantCAM as default ID if unique and all IDs are provided
-      if(length(unique(dat_merged$participantCAM.x)) == length(unique(dat_merged$CAM.x)) &
-          !any(dat_merged$participantCAM.x %in% c("NO ID PROVIDED", "noID"))){
-            if(length(ids_CAMs) < length(unique(dat_merged$participantCAM.x))){
-            print("provided participantCAM ID in drawnCAM")
-             names(list_g) <-  paste0(ids_CAMs)
-            }else{
-            print("== participantCAM in drawnCAM")
-             names(list_g) <- unique(dat_merged$participantCAM.x)
-            }
+  ## set participantCAM as default ID if unique and all IDs are provided
+  if(length(unique(dat_merged$participantCAM.x)) == length(unique(dat_merged$CAM.x)) &
+     !any(dat_merged$participantCAM.x %in% c("NO ID PROVIDED", "noID"))){
+    if(length(ids_CAMs) < length(unique(dat_merged$participantCAM.x))){
+      print("provided participantCAM ID in drawnCAM")
+      names(list_g) <-  paste0(ids_CAMs)
+    }else{
+      print("== participantCAM in drawnCAM")
+      names(list_g) <- unique(dat_merged$participantCAM.x)
+    }
 
-          }else{
-            print("== ids_CAMs in drawnCAM")
-       names(list_g) <- paste0(ids_CAMs)
-          }}, # tryCatch(): catch warnings
-  warning = function(cond) {
-    showModal(
-      modalDialog(
-        title = "Error while drawing CAMs",
-        "It appears that the data of at least one of the CAMs is invalid. This could happen e.g. if the data file is corrupt. Please make sure you have uploaded the right data set.",
-        easyClose = TRUE,
-        footer = tagList(modalButton("Ok"))
-      )
-    )
-  },
-
-  # tryCatch(): catch errors
-  error = function(cond) {
-    showModal(
-      modalDialog(
-        title = "Error while drawing CAMs",
-        "It appears that the data of at least one of the CAMs is invalid. This could happen e.g. if the data file is corrupt. Please make sure you have uploaded the right data set.",
-        easyClose = TRUE,
-        footer = tagList(modalButton("Ok"))
-      )
-    )
-}
-  ) # tryCatch()
-
+  }else{
+    print("== ids_CAMs in drawnCAM")
+    names(list_g) <- paste0(ids_CAMs)
+  }
+  ## try catch START 2
 
 
   return(list_g)
 }
+
+
+
+## try catch START 1
+# tryCatch({
+## try catch START 2
+#   }, # tryCatch(): catch warnings
+# warning = function(cond) {
+#   showModal(
+#     modalDialog(
+#       title = "Error while drawing CAMs",
+#       "It appears that the data of at least one of the CAMs is invalid. This could happen e.g. if the data file is corrupt. Please make sure you have uploaded the right data set.",
+#       easyClose = TRUE,
+#       footer = tagList(modalButton("Ok"))
+#     )
+#   )
+# },
+#
+# # tryCatch(): catch errors
+# error = function(cond) {
+#   showModal(
+#     modalDialog(
+#       title = "Error while drawing CAMs",
+#       "It appears that the data of at least one of the CAMs is invalid. This could happen e.g. if the data file is corrupt. Please make sure you have uploaded the right data set.",
+#       easyClose = TRUE,
+#       footer = tagList(modalButton("Ok"))
+#     )
+#   )
+# }
+# ) # tryCatch()
+#

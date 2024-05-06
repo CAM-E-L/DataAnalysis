@@ -112,6 +112,8 @@ $( "#downloadButton" ).click(function() {
   document.getElementById("downloadData").click();
 });
 });
+
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js" integrity="sha512-TelkP3PCMJv+viMWynjKcvLsQzx6dJHvIGhfqzFtZKgAjKM1YPqcwzzDEoTc/BHjf43PcPzTQOjuTr4YdE8lNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 '
 
 
@@ -459,7 +461,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
           ## CAM_nodes_raw
           path <- paste0("CAMs_drawn", ".rds")
           fs <- c(fs, path)
-          saveRDS(object = globals$drawnCAM, path)
+          saveRDS(object = globals$drawnCAM(), path)
         }
 
 
@@ -1052,5 +1054,5 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
 
 
   ### run app
-# shinyApp(ui, server)
-runApp(shinyApp(ui, server), launch.browser = TRUE)
+shinyApp(ui, server)
+# runApp(shinyApp(ui, server), launch.browser = TRUE)

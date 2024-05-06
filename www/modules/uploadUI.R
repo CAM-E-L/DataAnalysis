@@ -18,6 +18,9 @@ uploadUI <- function(id) {
                         actionButton(inputId = ns("cleanValence"), label = "Clean Valence",
                                      icon = icon(name = "angle-right", lib = "font-awesome"),
                                      class = "btn-sidebar"),
+                        actionButton(inputId = ns("splitData"), label = "Split Data",
+                                     icon = icon(name = "angle-right", lib = "font-awesome"),
+                                     class = "btn-sidebar"),
                         actionButton(inputId = ns("information"), label = "Information",
                                      icon = icon(name = "angle-right", lib = "font-awesome"),
                                      class = "btn-sidebar")

@@ -168,7 +168,7 @@ reliabilityServer <-
           ),
                       tags$br(),
           tags$h4("Wordlist for raters to summarize:"),
-          dataTableOutput(ns("a_wordlistTable")),
+          DT::DTOutput(ns("a_wordlistTable")),
         )
       })
 
@@ -252,7 +252,7 @@ wordlist <- eventReactive(input$a_createWordlistOut, {
   CAMwordlist
 })
 
-output$a_wordlistTable <- renderDataTable({
+output$a_wordlistTable <- DT::renderDT({
   wordlist()
 })
 
@@ -362,7 +362,7 @@ output$a_wordlistTable <- renderDataTable({
           ),
           verbatimTextOutput(ns("b_FleissKappaSuperordinate")),
           tags$h5("Overall rater list:"),
-          dataTableOutput(ns("b_wordlistTableOverall")),
+          DT::DTOutput(ns("b_wordlistTableOverall")),
         )
       })
 
@@ -481,7 +481,7 @@ observeEvent(input$b_upload, {
   globals$wordlistOverallRated <- ovallRaterList
   
   ## output overall table
-  output$b_wordlistTableOverall <- renderDataTable({
+  output$b_wordlistTableOverall <- DT::renderDT({
     ovallRaterList
   })
   

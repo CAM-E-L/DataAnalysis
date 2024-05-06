@@ -15,10 +15,10 @@
 # micro_centr_clo = NULL
 # micro_transitivity = NULL
 # largestClique = FALSE
-# micro_degree = c("Bedingungsloses Grundeinkommen")
-# micro_valence = c("Bedingungsloses Grundeinkommen")
-# micro_centr_clo = c("Bedingungsloses Grundeinkommen")
-# micro_transitivity = c("Bedingungsloses Grundeinkommen")
+# micro_degree = V(CAMdrawn[[1]])$label
+# micro_valence = V(CAMdrawn[[1]])$label
+# micro_centr_clo = V(CAMdrawn[[1]])$label
+# micro_transitivity = V(CAMdrawn[[1]])$label
 
 compute_indicatorsCAM <- function(drawn_CAM = NULL,
                                   micro_degree = NULL,
@@ -257,7 +257,7 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
 
         if(any(str_detect(string = tmp[,1], pattern = paste0("^", micro_degree[m], "$")))){
           out_netind[i, tmp_name[m]] <- mean(x = as.numeric(tmp[,2][str_detect(string = tmp[,1],
-                                                                      pattern = paste0("^", micro_degree[m], "$"))]))
+                                                                               pattern = paste0("^", micro_degree[m], "$"))]))
         }
       }
     }
@@ -299,35 +299,35 @@ compute_indicatorsCAM <- function(drawn_CAM = NULL,
     }
 
 
-  ## transitivity measures / local clustering coefficient of single vertices (if 1 == max)
-  if(!is.null(micro_transitivity)){
-    tmp_name <- paste0("transitivity_micro_", str_replace_all(string=micro_transitivity, pattern=" ", repl=""))
-    for(m in 1:length(micro_transitivity)){
-      ### transitivity measure local
-      transitivity_tmp <- igraph::transitivity(graph = as.undirected(drawn_CAM[[i]]),
-                                               type = "local")
+    ## transitivity measures / local clustering coefficient of single vertices (if 1 == max)
+    if(!is.null(micro_transitivity)){
+      tmp_name <- paste0("transitivity_micro_", str_replace_all(string=micro_transitivity, pattern=" ", repl=""))
+      for(m in 1:length(micro_transitivity)){
+        ### transitivity measure local
+        transitivity_tmp <- igraph::transitivity(graph = as.undirected(drawn_CAM[[i]]),
+                                                 type = "local")
 
-      tmp <- cbind(V(drawn_CAM[[i]])$label, transitivity_tmp)
-      tmp[,1] <- str_remove_all(string = tmp[,1], pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
-      tmp <- tmp[!is.na(tmp[,1]), ]
+        tmp <- cbind(V(drawn_CAM[[i]])$label, transitivity_tmp)
+        tmp[,1] <- str_remove_all(string = tmp[,1], pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+        tmp <- tmp[!is.na(tmp[,1]), ]
 
-      tmp <- tmp[tmp[,2] != "NaN", ] # cannot be computed
+        tmp <- tmp[tmp[,2] != "NaN", ] # cannot be computed
 
-      # print(micro_transitivity[m])
-      # print(tmp)
+        # print(micro_transitivity[m])
+        # print(tmp)
 
-      if(is.null(nrow(tmp))){
-        tmp_replalce <- matrix(data = NA, nrow = 1, ncol = 2)
-        tmp_replalce[1,1] <- tmp[1]
-        tmp_replalce[1,2] <- tmp[2]
-        tmp <- tmp_replalce
-      }
+        if(is.null(nrow(tmp))){
+          tmp_replalce <- matrix(data = NA, nrow = 1, ncol = 2)
+          tmp_replalce[1,1] <- tmp[1]
+          tmp_replalce[1,2] <- tmp[2]
+          tmp <- tmp_replalce
+        }
 
-      if(any(str_detect(string = tmp[,1], pattern = paste0("^", micro_transitivity[m], "$")))){
-        out_netind[i, tmp_name[m]] <- mean(x =  as.numeric(tmp[,2][str_detect(string = tmp[,1], pattern = paste0("^", micro_transitivity[m], "$"))]))
+        if(any(str_detect(string = tmp[,1], pattern = paste0("^", micro_transitivity[m], "$")))){
+          out_netind[i, tmp_name[m]] <- mean(x =  as.numeric(tmp[,2][str_detect(string = tmp[,1], pattern = paste0("^", micro_transitivity[m], "$"))]))
+        }
       }
     }
-  }
   }
 
 

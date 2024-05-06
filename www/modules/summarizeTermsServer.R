@@ -565,7 +565,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
             ),
             style = "font-size:14px"
           ),
-          dataTableOutput(ns("alreadyUsedWords")),
+          DT::DTOutput(ns("alreadyUsedWords")),
         )
       })
 
@@ -868,7 +868,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
 
       ## START global for summarize screens
       ## list of used words
-      output$alreadyUsedWords <- renderDataTable({
+      output$alreadyUsedWords <- DT::renderDT({
         # https://stackoverflow.com/questions/27153979/converting-nested-list-unequal-length-to-data-frame
         indx <- sapply(globals$usedWords, length)
         outdat <- as.data.frame(do.call(rbind, lapply(
@@ -962,7 +962,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
                 ),
                 style = "font-size:14px"
               ),
-              dataTableOutput(ns("alreadyUsedWords")),
+              DT::DTOutput(ns("alreadyUsedWords")),
 
           )
       })
@@ -1342,7 +1342,7 @@ overwriteData_getProtocols <- function(protocolCounter = NULL, protocolDetailedO
             ),
             style = "font-size:14px"
           ),
-          dataTableOutput(ns("alreadyUsedWords")),
+          DT::DTOutput(ns("alreadyUsedWords")),
         )
       })
 
@@ -1800,7 +1800,7 @@ observeEvent(input$synonymsClickSummarize, {
       ),
       style = "font-size:14px"
     ),
-    dataTableOutput(ns("alreadyUsedWords"))
+    DT::DTOutput(ns("alreadyUsedWords"))
         )
       })
 

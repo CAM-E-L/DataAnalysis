@@ -256,10 +256,10 @@ sliceCAMsServer <-
             HTML("If you have successfully sliced CAMs you will see a dynamic table with multiple summary statistics:"),
             style="font-size:14px"),
           htmlOutput(ns("text_c1")),
-          dataTableOutput(ns("APAtable_slicedCAMs_c1")),
+          DT::DTOutput(ns("APAtable_slicedCAMs_c1")),
           tags$br(),
           htmlOutput(ns("text_c2")),
-          dataTableOutput(ns("APAtable_slicedCAMs_c2")),
+          DT::DTOutput(ns("APAtable_slicedCAMs_c2")),
           tags$br(),
           tags$div(
             HTML("If you have successfully sliced CAMs you will see two violin plots regarding (i) overall mean valence and
@@ -324,7 +324,7 @@ sliceCAMsServer <-
       })
 
 
-      output$APAtable_slicedCAMs_c1 <- renderDataTable({
+      output$APAtable_slicedCAMs_c1 <- DT::renderDT({
         req(networkInd_c12())
         getDescriptives(dataset = networkInd_c12()[networkInd_c12()$group == globals$namingSlicedCAMs[1], ],
                         nameAPAtable = NULL)
@@ -340,7 +340,7 @@ sliceCAMsServer <-
         )
       })
 
-      output$APAtable_slicedCAMs_c2 <- renderDataTable({
+      output$APAtable_slicedCAMs_c2 <- DT::renderDT({
         req(networkInd_c12())
         getDescriptives(dataset = networkInd_c12()[networkInd_c12()$group == globals$namingSlicedCAMs[2], ],
                         nameAPAtable = NULL)

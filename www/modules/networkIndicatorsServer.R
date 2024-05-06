@@ -57,7 +57,7 @@ networkIndicatorsServer <-
             tags$b(textOutput(ns("numCAMsDrawnNI"), inline = TRUE), " CAMs.")
         ),
         tags$div(HTML("Dynamic table of network indicators:"), style="font-size:14px"),
-        dataTableOutput(ns("networkIndicatorsTable")),
+        DT::DTOutput(ns("networkIndicatorsTable")),
         tags$br(),
         htmlOutput(ns("textTermsMultiple_NI")),
         tags$br(),
@@ -103,7 +103,7 @@ networkIndicatorsServer <-
         })
 
         ## dynamic table network indicators
-        output$networkIndicatorsTable <- renderDataTable({
+        output$networkIndicatorsTable <- DT::renderDT({
             networkIndicators()
         })
 
@@ -181,7 +181,7 @@ networkIndicatorsServer <-
                   tags$div(
           HTML("If you have computed the network indicators you will see a dynamic table with multiple summary statistics:"),
                       style="font-size:14px"),
-          dataTableOutput(ns("APAtable_NIdes")),
+          DT::DTOutput(ns("APAtable_NIdes")),
                     tags$br(),
                   tags$div(
           HTML("If you have computed the network indicators you will see a plot of the correlational matrix of
@@ -193,7 +193,7 @@ networkIndicatorsServer <-
          HTML("You can search single or multiple network indicators for significant correlations (Pearson correlation):"),
                       style="font-size:14px"),
           uiOutput(ns("selectSearchSigCorr_NIdes")),
-        dataTableOutput(ns("SigCorrelations_NIdes"))
+        DT::DTOutput(ns("SigCorrelations_NIdes"))
 
 
 
@@ -202,7 +202,7 @@ networkIndicatorsServer <-
 
 
         #> Server
-      output$APAtable_NIdes <- renderDataTable(
+      output$APAtable_NIdes <- DT::renderDT(
         if (!is.null(globals$dataNetworkIndicators)) {
           getDescriptives(dataset = globals$dataNetworkIndicators, nameAPAtable = NULL)
           }else{
@@ -246,19 +246,18 @@ networkIndicatorsServer <-
         })
 
 
+    observeEvent(input$SearchSigCorr_NIdes, {
        ## dynamic table network indicators
-        output$SigCorrelations_NIdes <- renderDataTable({
         if(is.null(input$SearchSigCorr_NIdes)){
           print("Please specifiy network indicators to check for significant correlations.")
+        }else if (!is.null(globals$dataNetworkIndicators)) {
+          output$SigCorrelations_NIdes <- DT::renderDT({
+           des_sigCorr(indicators_CAM = globals$dataNetworkIndicators, vars = input$SearchSigCorr_NIdes)
+           })
         }else{
-        if (!is.null(globals$dataNetworkIndicators)) {
-
-  des_sigCorr(indicatos_CAM = globals$dataNetworkIndicators, vars = input$SearchSigCorr_NIdes)
-          }else{
             print("Please compute network indicators before checking for significant correlations.")
             }
-        }
-        })
+    })
 
 
 
@@ -298,7 +297,7 @@ networkIndicatorsServer <-
             tags$b(textOutput(ns("numCAMsDrawnNI"), inline = TRUE), " CAMs.")
         ),
         tags$div(HTML("Dynamic table of neighborhood indicators:"), style="font-size:14px"),
-        dataTableOutput(ns("neighborhoodIndicatorsTable")),
+        DT::DTOutput(ns("neighborhoodIndicatorsTable")),
          tags$br(),
         htmlOutput(ns("textTermsMultiple_NeighborhoodInd")),
         tags$br(),
@@ -392,7 +391,7 @@ print(tmp_sliceCAMbool)
 })
 
 ## dynamic table network indicators
-output$neighborhoodIndicatorsTable <- renderDataTable({
+output$neighborhoodIndicatorsTable <- DT::renderDT({
   NeighborhoodIndicators()
 })
 
@@ -452,7 +451,7 @@ output$neighborhoodIndicatorsTable <- renderDataTable({
                   tags$div(
           HTML("If you have computed the neighborhood indicators you will a dynamic table with multiple summary statistics:"),
                       style="font-size:14px"),
-          dataTableOutput(ns("APAtable_NIdes_neighborhood")),
+          DT::DTOutput(ns("APAtable_NIdes_neighborhood")),
                     tags$br(),
                   tags$div(
           HTML("If you have computed the neighborhood indicators you will see a plot of the correlational matrix of
@@ -464,7 +463,7 @@ output$neighborhoodIndicatorsTable <- renderDataTable({
 
 
         #> Server
-      output$APAtable_NIdes_neighborhood <- renderDataTable(
+      output$APAtable_NIdes_neighborhood <- DT::renderDT(
         if (!is.null(globals$dataNetworkNeighborhoodIndicators)) {
           getDescriptives(dataset = globals$dataNetworkNeighborhoodIndicators, nameAPAtable = NULL)
           }else{
