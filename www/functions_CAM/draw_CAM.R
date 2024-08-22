@@ -16,6 +16,23 @@
 # useCoordinates = TRUE
 # relvertexsize = 7
 # reledgesize = 1
+
+# dat_merged = slicedCAMs_combined[[3]]
+# dat_nodes = slicedCAMs_combined[[1]]
+# ids_CAMs = "all"
+# plot_CAM = FALSE
+# useCoordinates = TRUE
+# relvertexsize = 3
+# reledgesize = 1
+
+
+# dat_merged = slicedCAMs_seperated[[3]]
+# dat_nodes = slicedCAMs_seperated[[1]]
+# ids_CAMs = "all"
+# plot_CAM = FALSE
+# useCoordinates = TRUE
+# relvertexsize = 3
+# reledgesize = 1
 draw_CAM <- function(dat_merged = CAMfiles[[3]],
                      dat_nodes = CAMfiles[[1]],
                      ids_CAMs = "all", plot_CAM = FALSE, useCoordinates = TRUE,

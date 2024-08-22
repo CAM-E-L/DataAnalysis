@@ -10,10 +10,10 @@
 #
 ############################################################################
 ### args
-# i <- 3
+# i <- 1
 # singleCAM = CAMdrawn[[i]]
 # singleCAMid =  names(CAMdrawn)[i]
-# removeConnection = c("Öffentliche Verkehrsmittel", "Eigener Pkw")
+# removeConnection = NULL # c("Öffentliche Verkehrsmittel", "Eigener Pkw")
 # removeNode = NULL
 # plot = TRUE
 # verbose = TRUE
@@ -158,13 +158,14 @@ sliceAllCAMs_combined <- function(CAMfilesList = NULL,
 
     ## if 2 components
     if(tmp_com$no == 2){
+      # print(i)
       tmp_C1 <- tmp_id[,1][tmp_id[,2] %in% names(tmp_com$membership[tmp_com$membership == 1])]
       tmp_C2 <- tmp_id[,1][tmp_id[,2] %in% names(tmp_com$membership[tmp_com$membership == 2])]
 
       ## if every components includes predefined nodes
       if(sum(tmp_C1 %in% centralConceptsSubgraphs) == 1 &&
          sum(tmp_C2 %in% centralConceptsSubgraphs) == 1){
-        # print(i)
+        print(i)
         vec_separableCAMs[h] <- i
         h = h + 1
 
@@ -181,21 +182,51 @@ sliceAllCAMs_combined <- function(CAMfilesList = NULL,
         tmp_diff <- difference(drawnCAMs[[i]], tmp_CAM, byname = "auto")
         tmp_diff_dat <- igraph::as_data_frame(x = tmp_diff)
 
+        # E(drawnCAMs[[i]])[!E(drawnCAMs[[i]]) %in% E(tmp_CAM)]
+        # int <- intersection(drawnCAMs[[i]], tmp_CAM)
+        # E(drawnCAMs[[i]] %s% tmp_CAM)
+        # E(tmp_CAM %s% drawnCAMs[[i]])
+
         ## remove concepts
         id_out_node <- V(drawnCAMs[[i]])$name[!V(drawnCAMs[[i]])$name %in% V(tmp_CAM)$name]
         if(!identical(id_out_node, character(0))){
-          # print("remove node")
-          # print(CAMfilesList[[1]]$text[CAMfilesList[[1]]$id %in% id_out_node])
+          print("remove node")
+          print(CAMfilesList[[1]]$text[CAMfilesList[[1]]$id %in% id_out_node])
+          print(sum(CAMfilesList[[1]]$id %in% id_out_node))
           CAMfilesList[[1]] <- CAMfilesList[[1]][!CAMfilesList[[1]]$id %in% id_out_node, ]
         }
 
         ## remove connections
+        # if all connections are bidirectional, mirror the edge list
+        tmp_merged <- CAMfilesList[[3]][CAMfilesList[[3]]$CAM.x %in% names(drawnCAMs)[i], ]
+
+
+        tmp_merged[tmp_merged$id %in% "3d38c234-c33a-4ffa-864d-387c363d864d", c("id", "idending")]
+        tmp_merged[tmp_merged$idending %in% "3d38c234-c33a-4ffa-864d-387c363d864d", c("id", "idending")]
+
+
+
+        if(all(tmp_merged$isBidirectional == 1)){
+        tmp_diff_dat <- tmp_diff_dat[, 1:2]
+        tmp_diff_dat <- rbind(tmp_diff_dat,
+                           data.frame(from = tmp_diff_dat[,2], to = tmp_diff_dat[,1]))
+        }
+
+
+
         if(nrow(tmp_diff_dat) >= 1){
-          for(i in 1:nrow(tmp_diff_dat)){
-            CAMfilesList[[2]] <- CAMfilesList[[2]][!(CAMfilesList[[2]]$motherID %in% tmp_diff_dat$from[i] &
-                                                       CAMfilesList[[2]]$daughterID %in% tmp_diff_dat$to[i]), ]
-            CAMfilesList[[3]] <- CAMfilesList[[3]][!(CAMfilesList[[3]]$id %in% tmp_diff_dat$from[i] &
-                                                       CAMfilesList[[3]]$idending %in% tmp_diff_dat$to[i]), ]
+          for(j in 1:nrow(tmp_diff_dat)){
+            # print(nrow(CAMfilesList[[3]]))
+              CAMfilesList[[2]] <- CAMfilesList[[2]][!(CAMfilesList[[2]]$motherID %in% tmp_diff_dat$from[j] &
+                                                         CAMfilesList[[2]]$daughterID %in% tmp_diff_dat$to[j]), ]
+              CAMfilesList[[3]] <- CAMfilesList[[3]][!(CAMfilesList[[3]]$id %in% tmp_diff_dat$from[j] &
+                                                         CAMfilesList[[3]]$idending %in% tmp_diff_dat$to[j]), ]
+              # CAMfilesList[[3]] <- CAMfilesList[[3]][!(CAMfilesList[[3]]$id %in% tmp_diff_dat$to[j] &
+              #                                            CAMfilesList[[3]]$idending %in% tmp_diff_dat$from[j]), ]
+
+              # CAMfilesList[[3]] <- CAMfilesList[[3]][!(CAMfilesList[[3]]$id %in% tmp_diff_dat$from[j] &
+              #                                            CAMfilesList[[3]]$idending %in% tmp_diff_dat$to[j]), ]
+            # print(nrow(CAMfilesList[[3]]))
           }
         }
 
@@ -240,6 +271,9 @@ sliceAllCAMs_combined <- function(CAMfilesList = NULL,
 #
 ############################################################################
 ### args
+# slicedCAMs = slicedCAMs_combined
+# centralConceptsSubgraphs = centralConcepts
+# plot = TRUE
 sliceAllCAMs_seperated <- function(slicedCAMs = NULL,
                                    centralConceptsSubgraphs = NULL,
                                    plot = FALSE){

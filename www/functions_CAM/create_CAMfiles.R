@@ -12,7 +12,8 @@
 # datCAM = raw_CAM
 # reDeleted = TRUE
 # verbose = TRUE
-create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
+# JSONfile = TRUE
+create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE, JSONfile = FALSE){
   ### create block dataset
   sn = 1 # no i index
   for(i in 1:length(datCAM)){
@@ -24,29 +25,60 @@ create_CAMfiles <- function(datCAM = raw_CAM, reDeleted = TRUE, verbose=FALSE){
     if(length(datCAM[[i]]$nodes) > 0){
       ## add creator ID
       if(!is.null(datCAM[[i]]$creator)){
-        tmp_participantCAM = rep(x = datCAM[[i]]$creator, times = nrow(datCAM[[i]]$nodes))
+        if(JSONfile){
+          tmp_participantCAM = rep(x = datCAM[[i]]$creator, times = length(datCAM[[i]]$nodes))
+        }else{
+          tmp_participantCAM = rep(x = datCAM[[i]]$creator, times = nrow(datCAM[[i]]$nodes))
+        }
       }else{
-        tmp_participantCAM = rep(x = "NO ID PROVIDED", times = nrow(datCAM[[i]]$nodes))
+        if(JSONfile){
+          tmp_participantCAM = rep(x = "NO ID PROVIDED", times = length(datCAM[[i]]$nodes))
+        }else{
+          tmp_participantCAM = rep(x = "NO ID PROVIDED", times = nrow(datCAM[[i]]$nodes))
+        }
       }
 
-      tmp <- data.frame(CAM = rep(x = datCAM[[i]]$idCAM, times = nrow(datCAM[[i]]$nodes)),
-                        participantCAM = tmp_participantCAM,
-                        dateCAMcreated = rep(x = lubridate::as_datetime(datCAM[[i]]$date / 1000), times = nrow(datCAM[[i]]$nodes)),
-                        dateConceptCreated = lubridate::as_datetime(datCAM[[i]]$nodes$date / 1000),
-                        id = datCAM[[i]]$nodes$id,
-                        text = datCAM[[i]]$nodes$text,
-                        value = datCAM[[i]]$nodes$value,
-                        comment = datCAM[[i]]$nodes$comment,
-                        date = lubridate::as_datetime(datCAM[[i]]$nodes$date / 1000),
-                        x_pos = datCAM[[i]]$nodes$position$x,
-                        y_pos = datCAM[[i]]$nodes$position$y,
-                        predefinedConcept = ifelse(test = datCAM[[i]]$nodes$isDraggable == FALSE |
-                                                     datCAM[[i]]$nodes$isDeletable == FALSE |
-                                                     datCAM[[i]]$nodes$isTextChangeable == FALSE, yes = TRUE, no = FALSE),
-                        isDraggable = as.numeric(datCAM[[i]]$nodes$isDraggable),
-                        isDeletable = as.numeric(datCAM[[i]]$nodes$isDeletable),
-                        isTextChangeable = as.numeric(datCAM[[i]]$nodes$isTextChangeable),
-                        isActive = datCAM[[i]]$nodes$isActive)
+      if(JSONfile){
+        for(n in 1:length(datCAM[[i]]$nodes)){
+       tmp <- data.frame(CAM = datCAM[[i]]$idCAM,
+                        participantCAM = tmp_participantCAM[n],
+                        dateCAMcreated = lubridate::as_datetime(datCAM[[i]]$date / 1000),
+                        dateConceptCreated = lubridate::as_datetime( datCAM[[i]]$nodes[[n]]$date / 1000),
+                        id = datCAM[[i]]$nodes[[n]]$id,
+                        text = datCAM[[i]]$nodes[[n]]$text,
+                        value = datCAM[[i]]$nodes[[n]]$value,
+                        comment = datCAM[[i]]$nodes[[n]]$comment,
+                        date = lubridate::as_datetime(datCAM[[i]]$nodes[[n]]$date / 1000),
+                        x_pos = datCAM[[i]]$nodes[[n]]$position$x,
+                        y_pos = datCAM[[i]]$nodes[[n]]$position$y,
+                        predefinedConcept = ifelse(test = datCAM[[i]]$nodes[[n]]$isDraggable == FALSE |
+                                                     datCAM[[i]]$nodes[[n]]$isDeletable == FALSE |
+                                                     datCAM[[i]]$nodes[[n]]$isTextChangeable == FALSE, yes = TRUE, no = FALSE),
+                        isDraggable = as.numeric(datCAM[[i]]$nodes[[n]]$isDraggable),
+                        isDeletable = as.numeric(datCAM[[i]]$nodes[[n]]$isDeletable),
+                        isTextChangeable = as.numeric(datCAM[[i]]$nodes[[n]]$isTextChangeable),
+                        isActive = datCAM[[i]]$nodes[[n]]$isActive)
+        }
+      }else{
+        tmp <- data.frame(CAM = rep(x = datCAM[[i]]$idCAM, times = nrow(datCAM[[i]]$nodes)),
+                          participantCAM = tmp_participantCAM,
+                          dateCAMcreated = rep(x = lubridate::as_datetime(datCAM[[i]]$date / 1000), times = nrow(datCAM[[i]]$nodes)),
+                          dateConceptCreated = lubridate::as_datetime(datCAM[[i]]$nodes$date / 1000),
+                          id = datCAM[[i]]$nodes$id,
+                          text = datCAM[[i]]$nodes$text,
+                          value = datCAM[[i]]$nodes$value,
+                          comment = datCAM[[i]]$nodes$comment,
+                          date = lubridate::as_datetime(datCAM[[i]]$nodes$date / 1000),
+                          x_pos = datCAM[[i]]$nodes$position$x,
+                          y_pos = datCAM[[i]]$nodes$position$y,
+                          predefinedConcept = ifelse(test = datCAM[[i]]$nodes$isDraggable == FALSE |
+                                                       datCAM[[i]]$nodes$isDeletable == FALSE |
+                                                       datCAM[[i]]$nodes$isTextChangeable == FALSE, yes = TRUE, no = FALSE),
+                          isDraggable = as.numeric(datCAM[[i]]$nodes$isDraggable),
+                          isDeletable = as.numeric(datCAM[[i]]$nodes$isDeletable),
+                          isTextChangeable = as.numeric(datCAM[[i]]$nodes$isTextChangeable),
+                          isActive = datCAM[[i]]$nodes$isActive)
+      }
       if(sn == 1){
         dat_nodes <- tmp
         sn = sn + 1

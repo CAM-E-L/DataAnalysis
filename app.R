@@ -255,7 +255,7 @@ ui <- fluidPage(
   downloadButton("downloadData", label = "Download"),
 
   navbarPage(
-    title = "CAM app",
+    title = "Data Analysis Tool",
     id = "tabs",
     tabPanel("upload data", {
       fluidPage(uploadUI("upload"))
@@ -1054,5 +1054,5 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
 
 
   ### run app
-shinyApp(ui, server)
-# runApp(shinyApp(ui, server), launch.browser = TRUE)
+#shinyApp(ui, server)
+runApp(shinyApp(ui, server), launch.browser = TRUE)
