@@ -8,15 +8,15 @@ authors:
     given-names: Florian
   - family-names: Gorki
     given-names: Michael
-  - family-names: Hüttner
-    given-names: Paul
   - family-names: Reuter
     given-names: Lisa
   - family-names: Gros
     given-names: Wilhelm
+  - family-names: Hüttner
+    given-names: Paul
   - family-names: Kiesel
     given-names: Andrea
-url: https://github.com/Camel-app/DataAnalysis
+url: https://github.com/CAM-E-L/DataAnalysis
 title: "CAM-App"
 version: 2.2
 date-released: 2023-06-01
