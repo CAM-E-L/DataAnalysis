@@ -1,14 +1,14 @@
 
 
-centralConcepts <- c("negative aspects", "positive aspects")
+centralConcepts <- c("Religion", "Atheismus")
 
 
 paste0("\nCAMs sliced datasets: .txt files (nodes, connectors, merged) created for central concept: ", centralConcepts[1])
 
 slicedCAMs_combined <- sliceAllCAMs_combined(CAMfilesList = CAMfiles,
                                              drawnCAMs = CAMdrawn,
-                                             connectionToRemove = NULL,
-                                             nodeToRemove = "Covid-19",
+                                             connectionToRemove = centralConcepts,
+                                             nodeToRemove = NULL,
                                              centralConceptsSubgraphs = centralConcepts,
                                              plot = FALSE)
 
@@ -44,8 +44,8 @@ slicedCAMs_seperated <- sliceAllCAMs_seperated(slicedCAMs = slicedCAMs_combined,
 names(slicedCAMs_seperated)
 
 
-tmp_merged <- slicedCAMs_combined[[3]][slicedCAMs_combined[[3]]$CAM.x %in% unique(slicedCAMs_combined[[3]]$CAM.x)[1], ]
-tmp_nodes <- slicedCAMs_combined[[1]][slicedCAMs_combined[[1]]$CAM %in% unique(slicedCAMs_combined[[1]]$CAM)[1], ]
+tmp_merged <- slicedCAMs_combined[[3]][slicedCAMs_combined[[3]]$CAM.x %in% unique(slicedCAMs_combined[[3]]$CAM.x), ]
+tmp_nodes <- slicedCAMs_combined[[1]][slicedCAMs_combined[[1]]$CAM %in% unique(slicedCAMs_combined[[1]]$CAM), ]
 
 
 tmp_c12 <- draw_CAM(dat_merged = tmp_merged,
@@ -55,10 +55,11 @@ tmp_c12 <- draw_CAM(dat_merged = tmp_merged,
                     relvertexsize = 3,
                     reledgesize = 1)
 
-plot(tmp_c12[[1]], edge.arrow.size = .3,
+j <- 3
+plot(tmp_c12[[j]], edge.arrow.size = .3,
      layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = 0.1,
      vertex.size = 10, vertex.label.cex = .9)
-plot(CAMdrawn[[names(tmp_c12)[1]]], edge.arrow.size = .3,
+plot(CAMdrawn[[names(tmp_c12)[j]]], edge.arrow.size = .3,
      layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = 0.1,
      vertex.size = 10, vertex.label.cex = .9)
 

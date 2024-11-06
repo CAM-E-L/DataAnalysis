@@ -9,7 +9,7 @@ graphics.off()
 # please define!
 #> put everything in the "data" folder (your data set and protocol if you have one)
 ########################################
-CAMdataset <- "Fenn_2023_CAMtools.txt" #  "website_v01.json"
+CAMdataset <- "religion_jatos_results_data_20240722152625.txt" #  "website_v01.json"
 # "Fenn_2023_SAIstudy_subset.txt"
 # "Fenn_2023_CAMtools.txt"
 
