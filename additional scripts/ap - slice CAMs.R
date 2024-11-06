@@ -12,16 +12,32 @@ slicedCAMs_combined <- sliceAllCAMs_combined(CAMfilesList = CAMfiles,
                                              centralConceptsSubgraphs = centralConcepts,
                                              plot = FALSE)
 
+
+length(unique(slicedCAMs_combined[[1]]$CAM))
+length(unique(slicedCAMs_combined[[3]]$CAM.x))
+
+
 tmp_nodes <- slicedCAMs_combined[[1]][slicedCAMs_combined[[1]]$CAM %in% unique(slicedCAMs_combined[[1]]$CAM)[1],]
 tmp_merged <- slicedCAMs_combined[[3]][slicedCAMs_combined[[3]]$CAM.x %in% unique(slicedCAMs_combined[[3]]$CAM.x)[1],]
 
+
+
+
+
+tmp_c12 <- draw_CAM(dat_merged = tmp_merged,
+                    dat_nodes = tmp_nodes, ids_CAMs = "all",
+                    plot_CAM = FALSE,
+                    useCoordinates = TRUE,
+                    relvertexsize = 3,
+                    reledgesize = 1)
+plot(tmp_c12[[1]])
 
 tmp_merged$id %in% tmp_nodes$id
 tmp_merged$idending[!tmp_merged$idending %in% tmp_nodes$id]
 
 tmp_connectors <- slicedCAMs_combined[[2]][slicedCAMs_combined[[2]]$CAM %in% unique(slicedCAMs_combined[[2]]$CAM)[1],]
 tmp_connectors$daughterID %in% tmp_nodes$id
-tmp_connectors$idending[!tmp_connectors$idending %in% tmp_nodes$id]
+# tmp_connectors$idending[!tmp_connectors$idending %in% tmp_nodes$id]
 
 
 
@@ -32,7 +48,7 @@ CAMdrawn_sliced <- draw_CAM(dat_merged = slicedCAMs_combined[[3]],
                      relvertexsize = 3,
                      reledgesize = 1)
 
-
+plot(CAMdrawn_sliced[[1]])
 
 
 CAMfiles[[1]]$text[CAMfiles[[1]]$id %in% tmp_merged$idending[!tmp_merged$idending %in% tmp_nodes$id]]
@@ -42,6 +58,35 @@ slicedCAMs_seperated <- sliceAllCAMs_seperated(slicedCAMs = slicedCAMs_combined,
                                                centralConceptsSubgraphs = centralConcepts,
                                                plot = FALSE)
 names(slicedCAMs_seperated)
+
+dat_merged = slicedCAMs_seperated[[3]]
+dat_nodes = slicedCAMs_seperated[[1]]
+
+a <- dat_nodes[dat_nodes$CAM == dat_nodes$CAM[1],]
+b <- dat_merged[dat_merged$CAM.x == dat_nodes$CAM[1],]
+
+
+b$id %in% a$id
+
+
+
+nrow(dat_merged)
+nrow(dat_nodes)
+
+
+CAMdrawn_c1 <- draw_CAM(dat_merged = slicedCAMs_seperated[[3]],
+                        dat_nodes = slicedCAMs_seperated[[1]], ids_CAMs = "all",
+                        plot_CAM = FALSE,
+                        useCoordinates = TRUE,
+                        relvertexsize = 3,
+                        reledgesize = 1)
+
+CAMdrawn_c2 <- draw_CAM(dat_merged = slicedCAMs_seperated[[6]],
+                        dat_nodes = slicedCAMs_seperated[[4]], ids_CAMs = "all",
+                        plot_CAM = FALSE,
+                        useCoordinates = TRUE,
+                        relvertexsize = 3,
+                        reledgesize = 1)
 
 
 tmp_merged <- slicedCAMs_combined[[3]][slicedCAMs_combined[[3]]$CAM.x %in% unique(slicedCAMs_combined[[3]]$CAM.x), ]

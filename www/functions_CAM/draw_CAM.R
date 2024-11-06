@@ -28,11 +28,16 @@
 
 # dat_merged = slicedCAMs_seperated[[3]]
 # dat_nodes = slicedCAMs_seperated[[1]]
+
+# dat_merged = slicedCAMs_seperated[[6]]
+# dat_nodes = slicedCAMs_seperated[[4]]
 # ids_CAMs = "all"
 # plot_CAM = FALSE
 # useCoordinates = TRUE
 # relvertexsize = 3
 # reledgesize = 1
+
+
 draw_CAM <- function(dat_merged = CAMfiles[[3]],
                      dat_nodes = CAMfiles[[1]],
                      ids_CAMs = "all", plot_CAM = FALSE, useCoordinates = TRUE,
@@ -90,6 +95,9 @@ draw_CAM <- function(dat_merged = CAMfiles[[3]],
 
     g_own <- igraph::graph.data.frame(as.data.frame(
       tmp_dat_merged[,c("id", "idending")]))
+
+
+
 
 
     # if all connections are bidirectional, treat network as undirected

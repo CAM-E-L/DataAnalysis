@@ -176,8 +176,9 @@ sliceAllCAMs_combined <- function(CAMfilesList = NULL,
     tmp_com <- components(graph = tmp_CAM)
 
     ## if 2 components
-    if(tmp_com$no == 2){
-      # print(i)
+    # cat("i - outer:", i, "\n")
+    if(tmp_com$no == 2 & all(tmp_com$csize != 1)){
+      # cat("i - inner:", i, "\n")
       tmp_C1 <- tmp_id[,1][tmp_id[,2] %in% names(tmp_com$membership[tmp_com$membership == 1])]
       tmp_C2 <- tmp_id[,1][tmp_id[,2] %in% names(tmp_com$membership[tmp_com$membership == 2])]
 
@@ -216,7 +217,6 @@ sliceAllCAMs_combined <- function(CAMfilesList = NULL,
         }
 
         ## remove connections
-        # if all connections are bidirectional, mirror the edge list
         #> if participant ID was given, else CAM ID:
         if(all(unique(CAMfilesList[[3]]$participantCAM.x) %in% names(drawnCAMs))){
           tmp_merged <- CAMfilesList[[3]][CAMfilesList[[3]]$participantCAM.x %in% names(drawnCAMs)[i], ]
@@ -224,13 +224,12 @@ sliceAllCAMs_combined <- function(CAMfilesList = NULL,
           tmp_merged <- CAMfilesList[[3]][CAMfilesList[[3]]$CAM.x %in% names(drawnCAMs)[i], ]
         }
 
-
+        # if all connections are bidirectional, mirror the edge list
         if(all(tmp_merged$isBidirectional == 1)){
         tmp_diff_dat <- tmp_diff_dat[, 1:2]
         tmp_diff_dat <- rbind(tmp_diff_dat,
                            data.frame(from = tmp_diff_dat[,2], to = tmp_diff_dat[,1]))
         }
-
 
 
         if(nrow(tmp_diff_dat) >= 1){
@@ -242,7 +241,6 @@ sliceAllCAMs_combined <- function(CAMfilesList = NULL,
                                                          CAMfilesList[[3]]$idending %in% tmp_diff_dat$to[j]), ]
               # CAMfilesList[[3]] <- CAMfilesList[[3]][!(CAMfilesList[[3]]$id %in% tmp_diff_dat$to[j] &
               #                                            CAMfilesList[[3]]$idending %in% tmp_diff_dat$from[j]), ]
-
               # CAMfilesList[[3]] <- CAMfilesList[[3]][!(CAMfilesList[[3]]$id %in% tmp_diff_dat$from[j] &
               #                                            CAMfilesList[[3]]$idending %in% tmp_diff_dat$to[j]), ]
             # print(nrow(CAMfilesList[[3]]))
@@ -280,9 +278,16 @@ sliceAllCAMs_combined <- function(CAMfilesList = NULL,
     }
   }
 
+  ## keep only CAMs if there is any existing data in the edges or merged data set:
+  #>  if only 2 concepts remain (you saved e.g. only pre-defined CAM with 2 opposing concepts) the data
+  #>  should not be stored, because it would conflict with the merged data set, which assumes at
+  #>  least 1 remaining connection
+  CAMfilesList[[1]] <- CAMfilesList[[1]][CAMfilesList[[1]]$CAM %in% unique(slicedCAMs_combined[[3]]$CAM.x), ]
 
   return(CAMfilesList)
 }
+
+
 
 
 ############################################################################
@@ -398,6 +403,15 @@ sliceAllCAMs_seperated <- function(slicedCAMs = NULL,
                                                                slicedCAMs_combined[[6]]$idending %in% tmp_diff_dat_c2$to[i]), ]
     }
   }
+
+
+  ## remove connections which where remains of the former CAM:
+  slicedCAMs_combined[[2]] <- slicedCAMs_combined[[2]][slicedCAMs_combined[[2]]$id %in% slicedCAMs_combined[[1]]$id, ]
+  slicedCAMs_combined[[3]] <- slicedCAMs_combined[[3]][slicedCAMs_combined[[3]]$id %in% slicedCAMs_combined[[1]]$id, ]
+
+  slicedCAMs_combined[[5]] <- slicedCAMs_combined[[5]][slicedCAMs_combined[[5]]$id %in% slicedCAMs_combined[[4]]$id, ]
+  slicedCAMs_combined[[6]] <- slicedCAMs_combined[[6]][slicedCAMs_combined[[6]]$id %in% slicedCAMs_combined[[4]]$id, ]
+
 
   return(slicedCAMs_combined)
 }
