@@ -282,7 +282,8 @@ sliceAllCAMs_combined <- function(CAMfilesList = NULL,
   #>  if only 2 concepts remain (you saved e.g. only pre-defined CAM with 2 opposing concepts) the data
   #>  should not be stored, because it would conflict with the merged data set, which assumes at
   #>  least 1 remaining connection
-  CAMfilesList[[1]] <- CAMfilesList[[1]][CAMfilesList[[1]]$CAM %in% unique(slicedCAMs_combined[[3]]$CAM.x), ]
+  CAMfilesList[[1]] <- CAMfilesList[[1]][CAMfilesList[[1]]$CAM %in%
+                                           unique(CAMfilesList[[3]]$CAM.x), ]
 
   return(CAMfilesList)
 }
