@@ -1,4 +1,4 @@
-# Welcome to the Cognitive-Affective Maps Tools **Data Collection Tool**!
+# Welcome to the **Data Collection Tool**!
 
 The **Cognitive-Affective Maps _Extended Logic_** software package provides an open-source solution to analyze Cognitive-Affective Map (CAM) data.
 
