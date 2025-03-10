@@ -9,7 +9,7 @@ graphics.off()
 # please define!
 #> put everything in the "data" folder (your data set and protocol if you have one)
 ########################################
-CAMdataset <- "Lars_2024_IndiviualCAMs.txt"
+CAMdataset <- "religion_jatos_results_data_20240722152625.txt" #  "website_v01.json"
 # "Fenn_2023_SAIstudy_subset.txt"
 # "Fenn_2023_CAMtools.txt"
 
@@ -113,7 +113,22 @@ rm(i)
 setwd("../../additional scripts/data")
 dir()
 
+
+
+# raw_CAM <- jsonlite::read_json(path = CAMdataset, simplifyVector = FALSE)
+# raw_CAM2 <- jsonlite::fromJSON(CAMdataset, simplifyVector = FALSE) %>% as.data.frame
+
+
 ### load CAM files
+suppressMessages(read_file(CAMdataset) %>%
+                   # ... split it into lines ...
+                   str_split('\n') %>% first() %>%
+                   discard(function(x) x == '') %>%
+                   discard(function(x) x == '\r') %>%
+                   # ... filter empty rows ...
+                   discard(function(x) x == '')) -> dat_CAM
+length(dat_CAM)
+
 # individual
 suppressMessages(read_file(CAMdataset) %>%
                    # ... split it into lines ...
@@ -211,16 +226,16 @@ tmp_Indicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn,
                                         micro_transitivity = tmp_micro,
                                         largestClique = FALSE)
 
-tmp_neighborhoodIndicators <- compute_neighborhoodIndicatorsCAM(drawn_CAM = CAMdrawn, weightSecondOrder = .5,
-                                  consideredConcepts = c("Ökologische Nachhaltigkeit", "Wirtschaftswachstum"),
-                                  sliceCAMbool = FALSE,
-                                  removeConnectionCAM = c("Ökologische Nachhaltigkeit", "Wirtschaftswachstum"),
-                                  removeNodeCAM = NULL)
-
-plot(tmp_neighborhoodIndicators$mean_1_ÖkologischeNachhaltigkeit, tmp_neighborhoodIndicators$mean_1_Wirtschaftswachstum
-)
-
-tmp_neighborhoodIndicators$mean_1_ÖkologischeNachhaltigkeit - tmp_neighborhoodIndicators$mean_1_Wirtschaftswachstum
+# tmp_neighborhoodIndicators <- compute_neighborhoodIndicatorsCAM(drawn_CAM = CAMdrawn, weightSecondOrder = .5,
+#                                   consideredConcepts = c("Ökologische Nachhaltigkeit", "Wirtschaftswachstum"),
+#                                   sliceCAMbool = FALSE,
+#                                   removeConnectionCAM = c("Ökologische Nachhaltigkeit", "Wirtschaftswachstum"),
+#                                   removeNodeCAM = NULL)
+#
+# plot(tmp_neighborhoodIndicators$mean_1_ÖkologischeNachhaltigkeit, tmp_neighborhoodIndicators$mean_1_Wirtschaftswachstum
+# )
+#
+# tmp_neighborhoodIndicators$mean_1_ÖkologischeNachhaltigkeit - tmp_neighborhoodIndicators$mean_1_Wirtschaftswachstum
 
 
 CAMwordlist <- create_wordlist(
@@ -264,8 +279,7 @@ sum(stringr::str_detect(string = dat_nodes$text, pattern = "_positive$|_negative
 # )
 
 
-length(wordsOut); nrow(CAMwordlist)
-CAMwordlist
-
-CAMwordlist$comment_1
-CAMwordlist$sd_valence
+# length(wordsOut); nrow(CAMwordlist)
+# CAMwordlist
+# CAMwordlist$comment_1
+# CAMwordlist$sd_valence

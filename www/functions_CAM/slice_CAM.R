@@ -10,13 +10,23 @@
 #
 ############################################################################
 ### args
-# i <- 3
+# i <- 12
 # singleCAM = CAMdrawn[[i]]
 # singleCAMid =  names(CAMdrawn)[i]
-# removeConnection = c("Öffentliche Verkehrsmittel", "Eigener Pkw")
+# removeConnection = c("Religion", "Atheismus") # NULL # c("Öffentliche Verkehrsmittel", "Eigener Pkw")
 # removeNode = NULL
 # plot = TRUE
 # verbose = TRUE
+
+
+# singleCAM_sliced <- sliceCAM(singleCAM = singleCAM, singleCAMid = singleCAMid,
+#                              removeConnection = removeConnection, removeNode = removeNode,
+#                              plot = plot,
+#                              verbose = verbose)
+# length(E(singleCAM))
+# length(E(singleCAM_sliced))
+
+
 sliceCAM <- function(singleCAM = NULL, singleCAMid = NULL,
                      removeConnection = NULL, removeNode = NULL, plot = FALSE, verbose = FALSE){
 
@@ -34,6 +44,14 @@ sliceCAM <- function(singleCAM = NULL, singleCAMid = NULL,
     return(NULL)
   }
 
+
+
+  if(plot){
+    plot.igraph(singleCAM,
+                edge.arrow.size = .2,
+                layout=layout_nicely, vertex.frame.color="black", asp = .5,
+                margin = 0, vertex.label.cex = .7, main = paste0(singleCAMid, "_original"))
+  }
 
   tmp_id <- cbind(V(singleCAM)$label, V(singleCAM)$name)
   ### remove connection
@@ -118,7 +136,7 @@ sliceCAM <- function(singleCAM = NULL, singleCAMid = NULL,
     plot.igraph(singleCAM,
                 edge.arrow.size = .2,
                 layout=layout_nicely, vertex.frame.color="black", asp = .5,
-                margin = 0, vertex.label.cex = .7, main = singleCAMid)
+                margin = 0, vertex.label.cex = .7, main = paste0(singleCAMid, "_sliced"))
   }
 
   return(singleCAM)
@@ -133,9 +151,9 @@ sliceCAM <- function(singleCAM = NULL, singleCAMid = NULL,
 ### args
 # CAMfilesList = CAMfiles
 # drawnCAMs = CAMdrawn
-# connectionToRemove = NULL
-# nodeToRemove = "Covid-19"
-# centralConceptsSubgraphs = c("negative aspects", "positive aspects")
+# connectionToRemove = c("Religion", "Atheismus")
+# nodeToRemove = NULL # "Covid-19"
+# centralConceptsSubgraphs = c("Religion", "Atheismus") # c("negative aspects", "positive aspects")
 # useSummarized = FALSE
 # plot = TRUE
 sliceAllCAMs_combined <- function(CAMfilesList = NULL,
@@ -147,17 +165,20 @@ sliceAllCAMs_combined <- function(CAMfilesList = NULL,
 
   vec_separableCAMs <- c(); h=1
   for(i in 1:length(drawnCAMs)){
+    # length(E(drawnCAMs[[i]]))
     tmp_CAM <- sliceCAM(singleCAM = drawnCAMs[[i]], singleCAMid = names(drawnCAMs)[i],
                         removeConnection = connectionToRemove,
                         removeNode = nodeToRemove,
                         plot = FALSE, verbose = FALSE)
-
+    # length(E(tmp_CAM))
     tmp_id <- cbind(V(tmp_CAM)$label, V(tmp_CAM)$name)
 
     tmp_com <- components(graph = tmp_CAM)
 
     ## if 2 components
-    if(tmp_com$no == 2){
+    # cat("i - outer:", i, "\n")
+    if(tmp_com$no == 2 & all(tmp_com$csize != 1)){
+      # cat("i - inner:", i, "\n")
       tmp_C1 <- tmp_id[,1][tmp_id[,2] %in% names(tmp_com$membership[tmp_com$membership == 1])]
       tmp_C2 <- tmp_id[,1][tmp_id[,2] %in% names(tmp_com$membership[tmp_com$membership == 2])]
 
@@ -171,31 +192,58 @@ sliceAllCAMs_combined <- function(CAMfilesList = NULL,
         if(plot){
           plot(drawnCAMs[[i]], edge.arrow.size = .3,
                layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
-               vertex.size = 10, vertex.label.cex = .9)
+               vertex.size = 10, vertex.label.cex = .9, main = paste0(names(drawnCAMs)[i], "_original"))
           plot(tmp_CAM, edge.arrow.size = .3,
                layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
-               vertex.size = 10, vertex.label.cex = .9)
+               vertex.size = 10, vertex.label.cex = .9, main = paste0(names(drawnCAMs)[i], "_sliced"))
         }
 
 
         tmp_diff <- difference(drawnCAMs[[i]], tmp_CAM, byname = "auto")
         tmp_diff_dat <- igraph::as_data_frame(x = tmp_diff)
 
+        # E(drawnCAMs[[i]])[!E(drawnCAMs[[i]]) %in% E(tmp_CAM)]
+        # int <- intersection(drawnCAMs[[i]], tmp_CAM)
+        # E(drawnCAMs[[i]] %s% tmp_CAM)
+        # E(tmp_CAM %s% drawnCAMs[[i]])
+
         ## remove concepts
         id_out_node <- V(drawnCAMs[[i]])$name[!V(drawnCAMs[[i]])$name %in% V(tmp_CAM)$name]
         if(!identical(id_out_node, character(0))){
-          # print("remove node")
-          # print(CAMfilesList[[1]]$text[CAMfilesList[[1]]$id %in% id_out_node])
+          print("remove node")
+          print(CAMfilesList[[1]]$text[CAMfilesList[[1]]$id %in% id_out_node])
+          print(sum(CAMfilesList[[1]]$id %in% id_out_node))
           CAMfilesList[[1]] <- CAMfilesList[[1]][!CAMfilesList[[1]]$id %in% id_out_node, ]
         }
 
         ## remove connections
+        #> if participant ID was given, else CAM ID:
+        if(all(unique(CAMfilesList[[3]]$participantCAM.x) %in% names(drawnCAMs))){
+          tmp_merged <- CAMfilesList[[3]][CAMfilesList[[3]]$participantCAM.x %in% names(drawnCAMs)[i], ]
+        }else{
+          tmp_merged <- CAMfilesList[[3]][CAMfilesList[[3]]$CAM.x %in% names(drawnCAMs)[i], ]
+        }
+
+        # if all connections are bidirectional, mirror the edge list
+        if(all(tmp_merged$isBidirectional == 1)){
+        tmp_diff_dat <- tmp_diff_dat[, 1:2]
+        tmp_diff_dat <- rbind(tmp_diff_dat,
+                           data.frame(from = tmp_diff_dat[,2], to = tmp_diff_dat[,1]))
+        }
+
+
         if(nrow(tmp_diff_dat) >= 1){
-          for(i in 1:nrow(tmp_diff_dat)){
-            CAMfilesList[[2]] <- CAMfilesList[[2]][!(CAMfilesList[[2]]$motherID %in% tmp_diff_dat$from[i] &
-                                                       CAMfilesList[[2]]$daughterID %in% tmp_diff_dat$to[i]), ]
-            CAMfilesList[[3]] <- CAMfilesList[[3]][!(CAMfilesList[[3]]$id %in% tmp_diff_dat$from[i] &
-                                                       CAMfilesList[[3]]$idending %in% tmp_diff_dat$to[i]), ]
+          for(j in 1:nrow(tmp_diff_dat)){
+            # print(nrow(CAMfilesList[[3]]))
+              CAMfilesList[[2]] <- CAMfilesList[[2]][!(CAMfilesList[[2]]$motherID %in% tmp_diff_dat$from[j] &
+                                                         CAMfilesList[[2]]$daughterID %in% tmp_diff_dat$to[j]), ]
+              CAMfilesList[[3]] <- CAMfilesList[[3]][!(CAMfilesList[[3]]$id %in% tmp_diff_dat$from[j] &
+                                                         CAMfilesList[[3]]$idending %in% tmp_diff_dat$to[j]), ]
+              # CAMfilesList[[3]] <- CAMfilesList[[3]][!(CAMfilesList[[3]]$id %in% tmp_diff_dat$to[j] &
+              #                                            CAMfilesList[[3]]$idending %in% tmp_diff_dat$from[j]), ]
+              # CAMfilesList[[3]] <- CAMfilesList[[3]][!(CAMfilesList[[3]]$id %in% tmp_diff_dat$from[j] &
+              #                                            CAMfilesList[[3]]$idending %in% tmp_diff_dat$to[j]), ]
+            # print(nrow(CAMfilesList[[3]]))
           }
         }
 
@@ -230,9 +278,17 @@ sliceAllCAMs_combined <- function(CAMfilesList = NULL,
     }
   }
 
+  ## keep only CAMs if there is any existing data in the edges or merged data set:
+  #>  if only 2 concepts remain (you saved e.g. only pre-defined CAM with 2 opposing concepts) the data
+  #>  should not be stored, because it would conflict with the merged data set, which assumes at
+  #>  least 1 remaining connection
+  CAMfilesList[[1]] <- CAMfilesList[[1]][CAMfilesList[[1]]$CAM %in%
+                                           unique(CAMfilesList[[3]]$CAM.x), ]
 
   return(CAMfilesList)
 }
+
+
 
 
 ############################################################################
@@ -240,6 +296,9 @@ sliceAllCAMs_combined <- function(CAMfilesList = NULL,
 #
 ############################################################################
 ### args
+# slicedCAMs = slicedCAMs_combined
+# centralConceptsSubgraphs = centralConcepts
+# plot = TRUE
 sliceAllCAMs_seperated <- function(slicedCAMs = NULL,
                                    centralConceptsSubgraphs = NULL,
                                    plot = FALSE){
@@ -345,6 +404,15 @@ sliceAllCAMs_seperated <- function(slicedCAMs = NULL,
                                                                slicedCAMs_combined[[6]]$idending %in% tmp_diff_dat_c2$to[i]), ]
     }
   }
+
+
+  ## remove connections which where remains of the former CAM:
+  slicedCAMs_combined[[2]] <- slicedCAMs_combined[[2]][slicedCAMs_combined[[2]]$id %in% slicedCAMs_combined[[1]]$id, ]
+  slicedCAMs_combined[[3]] <- slicedCAMs_combined[[3]][slicedCAMs_combined[[3]]$id %in% slicedCAMs_combined[[1]]$id, ]
+
+  slicedCAMs_combined[[5]] <- slicedCAMs_combined[[5]][slicedCAMs_combined[[5]]$id %in% slicedCAMs_combined[[4]]$id, ]
+  slicedCAMs_combined[[6]] <- slicedCAMs_combined[[6]][slicedCAMs_combined[[6]]$id %in% slicedCAMs_combined[[4]]$id, ]
+
 
   return(slicedCAMs_combined)
 }

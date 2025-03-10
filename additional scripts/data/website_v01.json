@@ -1,0 +1,382 @@
+[
+  {
+    "idCAM": "64caf37e-0663-4ff4-aa0b-ed7a4dbc0b30",
+    "creator": "111",
+    "projectCAM": "projectName",
+    "date": 1719220350371,
+    "nodes": [
+      {
+        "id": "e36d73bf-0253-4ca2-8f34-47e980aca3c1",
+        "value": -3,
+        "text": "111111111",
+        "comment": "",
+        "position": {
+          "x": 566,
+          "y": 410
+        },
+        "isActive": true,
+        "kind": "Node",
+        "isSelected": false,
+        "isConnectorSelected": false,
+        "isDraggable": 1,
+        "isDeletable": 1,
+        "hasElementMoved": false,
+        "eventLog": [],
+        "isTextChangeable": 1
+      },
+      {
+        "id": "58d0e422-58f9-4f68-b578-535776cc85b5",
+        "value": 3,
+        "text": "222222222",
+        "comment": "",
+        "position": {
+          "x": 663.2222213745117,
+          "y": 278.777774810791
+        },
+        "isActive": true,
+        "date": 1719220548613,
+        "kind": "Node",
+        "isSelected": false,
+        "isConnectorSelected": false,
+        "isDraggable": 1,
+        "isDeletable": 1,
+        "hasElementMoved": false,
+        "eventLog": [
+          {
+            "time": 1719220548613,
+            "type": "create node",
+            "value": 0
+          },
+          {
+            "time": 1719220548699,
+            "type": "selected",
+            "value": true
+          },
+          {
+            "time": 1719220551082,
+            "type": "text",
+            "value": "222222222"
+          },
+          {
+            "time": 1719220551082,
+            "type": "value",
+            "value": 3
+          },
+          {
+            "time": 1719220551082,
+            "type": "selected",
+            "value": false
+          }
+        ],
+        "isTextChangeable": 1
+      }
+    ],
+    "connectors": [
+      {
+        "id": "20d6fd89-450a-43c9-8a56-893aa1f15a97",
+        "value": null,
+        "source": "58d0e422-58f9-4f68-b578-535776cc85b5",
+        "target": "e36d73bf-0253-4ca2-8f34-47e980aca3c1",
+        "agreement": true,
+        "isActive": true,
+        "date": 1719220551932,
+        "kind": "Connector",
+        "isSelected": false,
+        "intensity": 3,
+        "isDeletable": true,
+        "isOver": false,
+        "isBidirectional": true,
+        "eventLog": [
+          {
+            "time": 1719220551932,
+            "type": "create connection",
+            "value": null
+          }
+        ]
+      }
+    ],
+    "currentID": null,
+    "currentNode": null,
+    "hasSelectedNode": false,
+    "currentConnector": null,
+    "hasSelectedConnector": false,
+    "readyToMove": false,
+    "isIncoming": false
+  },
+  {
+    "idCAM": "aaaaaaaaaaa",
+    "creator": "111",
+    "projectCAM": "projectName",
+    "date": 1719220350371,
+    "nodes": [
+      {
+        "id": "e36d73bf-0253-4ca2-8f34-47e980aca3c1",
+        "value": -3,
+        "text": "111111111",
+        "comment": "",
+        "position": {
+          "x": 566,
+          "y": 410
+        },
+        "isActive": true,
+        "kind": "Node",
+        "isSelected": false,
+        "isConnectorSelected": false,
+        "isDraggable": 1,
+        "isDeletable": 1,
+        "hasElementMoved": false,
+        "eventLog": [],
+        "isTextChangeable": 1
+      },
+      {
+        "id": "58d0e422-58f9-4f68-b578-535776cc85b5",
+        "value": 3,
+        "text": "222222222",
+        "comment": "",
+        "position": {
+          "x": 663.2222213745117,
+          "y": 278.777774810791
+        },
+        "isActive": true,
+        "date": 1719220548613,
+        "kind": "Node",
+        "isSelected": false,
+        "isConnectorSelected": false,
+        "isDraggable": 1,
+        "isDeletable": 1,
+        "hasElementMoved": false,
+        "eventLog": [
+          {
+            "time": 1719220548613,
+            "type": "create node",
+            "value": 0
+          },
+          {
+            "time": 1719220548699,
+            "type": "selected",
+            "value": true
+          },
+          {
+            "time": 1719220551082,
+            "type": "text",
+            "value": "222222222"
+          },
+          {
+            "time": 1719220551082,
+            "type": "value",
+            "value": 3
+          },
+          {
+            "time": 1719220551082,
+            "type": "selected",
+            "value": false
+          }
+        ],
+        "isTextChangeable": 1
+      }
+    ],
+    "connectors": [
+      {
+        "id": "20d6fd89-450a-43c9-8a56-893aa1f15a97",
+        "value": null,
+        "source": "58d0e422-58f9-4f68-b578-535776cc85b5",
+        "target": "e36d73bf-0253-4ca2-8f34-47e980aca3c1",
+        "agreement": true,
+        "isActive": true,
+        "date": 1719220551932,
+        "kind": "Connector",
+        "isSelected": false,
+        "intensity": 3,
+        "isDeletable": true,
+        "isOver": false,
+        "isBidirectional": true,
+        "eventLog": [
+          {
+            "time": 1719220551932,
+            "type": "create connection",
+            "value": null
+          }
+        ]
+      }
+    ],
+    "currentID": null,
+    "currentNode": null,
+    "hasSelectedNode": false,
+    "currentConnector": null,
+    "hasSelectedConnector": false,
+    "readyToMove": false,
+    "isIncoming": false
+  },
+  {
+    "idCAM": "bbbbbbb",
+    "creator": "111",
+    "projectCAM": "projectName",
+    "date": 1719220350371,
+    "nodes": [
+      {
+        "id": "e36d73bf-0253-4ca2-8f34-47e980aca3c1",
+        "value": -3,
+        "text": "111111111",
+        "comment": "",
+        "position": {
+          "x": 566,
+          "y": 410
+        },
+        "isActive": true,
+        "kind": "Node",
+        "isSelected": false,
+        "isConnectorSelected": false,
+        "isDraggable": 1,
+        "isDeletable": 1,
+        "hasElementMoved": false,
+        "eventLog": [],
+        "isTextChangeable": 1
+      },
+      {
+        "id": "58d0e422-58f9-4f68-b578-535776cc85b5",
+        "value": 3,
+        "text": "222222222",
+        "comment": "",
+        "position": {
+          "x": 663.2222213745117,
+          "y": 278.777774810791
+        },
+        "isActive": true,
+        "date": 1719220548613,
+        "kind": "Node",
+        "isSelected": false,
+        "isConnectorSelected": false,
+        "isDraggable": 1,
+        "isDeletable": 1,
+        "hasElementMoved": false,
+        "eventLog": [
+          {
+            "time": 1719220548613,
+            "type": "create node",
+            "value": 0
+          },
+          {
+            "time": 1719220548699,
+            "type": "selected",
+            "value": true
+          },
+          {
+            "time": 1719220551082,
+            "type": "text",
+            "value": "222222222"
+          },
+          {
+            "time": 1719220551082,
+            "type": "value",
+            "value": 3
+          },
+          {
+            "time": 1719220551082,
+            "type": "selected",
+            "value": false
+          }
+        ],
+        "isTextChangeable": 1
+      },
+      {
+        "id": "fc1aa201-ab30-47a1-be2c-170d764cd8ec",
+        "value": 3,
+        "text": "333",
+        "comment": "",
+        "position": {
+          "x": 787.2222213745117,
+          "y": 385.777774810791
+        },
+        "isActive": true,
+        "date": 1719221051725,
+        "kind": "Node",
+        "isSelected": false,
+        "isConnectorSelected": false,
+        "isDraggable": 1,
+        "isDeletable": 1,
+        "hasElementMoved": false,
+        "eventLog": [
+          {
+            "time": 1719221051725,
+            "type": "create node",
+            "value": 0
+          },
+          {
+            "time": 1719221051833,
+            "type": "selected",
+            "value": true
+          },
+          {
+            "time": 1719221054264,
+            "type": "text",
+            "value": "333"
+          },
+          {
+            "time": 1719221054264,
+            "type": "value",
+            "value": 3
+          },
+          {
+            "time": 1719221054264,
+            "type": "selected",
+            "value": false
+          }
+        ],
+        "isTextChangeable": 1
+      }
+    ],
+    "connectors": [
+      {
+        "id": "20d6fd89-450a-43c9-8a56-893aa1f15a97",
+        "value": null,
+        "source": "58d0e422-58f9-4f68-b578-535776cc85b5",
+        "target": "e36d73bf-0253-4ca2-8f34-47e980aca3c1",
+        "agreement": true,
+        "isActive": true,
+        "date": 1719220551932,
+        "kind": "Connector",
+        "isSelected": false,
+        "intensity": 3,
+        "isDeletable": true,
+        "isOver": false,
+        "isBidirectional": true,
+        "eventLog": [
+          {
+            "time": 1719220551932,
+            "type": "create connection",
+            "value": null
+          }
+        ]
+      },
+      {
+        "id": "6a4d2ec3-8032-452e-95c5-98697a7013c3",
+        "value": null,
+        "source": "fc1aa201-ab30-47a1-be2c-170d764cd8ec",
+        "target": "58d0e422-58f9-4f68-b578-535776cc85b5",
+        "agreement": true,
+        "isActive": true,
+        "date": 1719221055106,
+        "kind": "Connector",
+        "isSelected": false,
+        "intensity": 3,
+        "isDeletable": true,
+        "isOver": false,
+        "isBidirectional": true,
+        "eventLog": [
+          {
+            "time": 1719221055106,
+            "type": "create connection",
+            "value": null
+          }
+        ]
+      }
+    ],
+    "currentID": null,
+    "currentNode": null,
+    "hasSelectedNode": false,
+    "currentConnector": null,
+    "hasSelectedConnector": false,
+    "readyToMove": false,
+    "isIncoming": false
+  }
+]
