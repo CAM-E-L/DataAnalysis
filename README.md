@@ -1,10 +1,10 @@
-# Welcome to the **Data Collection Tool**!
+# Welcome to the **Data Analysis Tool**!
 
 The **Cognitive-Affective Maps _Extended Logic_** software package provides an open-source solution to analyze Cognitive-Affective Map (CAM) data.
 
 ## Getting Started
 
-For recommendations and workflow guidance on using the Data Collection Tool, please refer to the [online documentation](https://camtools-documentation.readthedocs.io/en/master/Data%20Analysis%20Tool/).
+For recommendations and workflow guidance on using the Data Analysis Tool, please refer to the [online documentation](https://camtools-documentation.readthedocs.io/en/master/Data%20Analysis%20Tool/).
 
 ## Need Help?
 
