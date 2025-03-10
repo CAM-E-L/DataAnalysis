@@ -1,4 +1,4 @@
-Welcome to the folder "additional scripts" of the Cognitive-Affective Maps tools *CAM-App*!
+Welcome to the folder "additional scripts" of the Data Analysis Tool!
 ======================================================
 
 ## What you can do here
@@ -23,5 +23,3 @@ If you want to implement your own functionalities you can start running the scri
 **additional functions**
 * "check non-sense CAMs": using dictionaries automatically identify CAMs where participant have not drawn one known word
 * "save CAMs as JSON, R format": save CAMs as .json, .png format
-
-

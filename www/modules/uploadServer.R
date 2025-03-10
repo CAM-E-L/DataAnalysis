@@ -52,7 +52,7 @@ uploadServer <- function(id, parent, globals) {
         tags$ul(
           tags$li(
             HTML(
-              '<b>Upload:</b> Upload your raw data (C.A.M.E.L. or Valence) and - if you already have - your protocol.'
+              '<b>Upload:</b> Upload your raw data (Data Collection Tool or Valence) and - if you already have - your protocol.'
             )
           ),
           tags$li(
@@ -250,7 +250,7 @@ uploadServer <- function(id, parent, globals) {
         tags$br(),
         fileInput(
           ns("upload"),
-          "2) Upload a raw CAM dataset (.txt file for C.A.M.E.L. or .csv files for Valence):",
+          "2) Upload a raw CAM dataset (.txt file for the Data Collection Tool or .csv files for Valence):",
           accept = c(".txt", ".csv"),
           placeholder = "upload raw CAM data",
           multiple = TRUE
@@ -390,7 +390,7 @@ uploadServer <- function(id, parent, globals) {
               modalDialog(
                 title = "Invalid raw data",
                 paste0(
-                  "The file you have uploaded doesn't appear to be a valid C.A.M.E.L. dataset. Please check again."
+                  "The file you have uploaded doesn't appear to be a valid Data Collection Tool dataset. Please check again."
                 ),
                 easyClose = TRUE,
                 footer = tagList(modalButton("Ok"))
@@ -409,7 +409,7 @@ uploadServer <- function(id, parent, globals) {
             modalDialog(
               title = "Invalid raw data",
               paste0(
-                "The file you have uploaded doesn't appear to be a valid C.A.M.E.L. dataset or it contains only empty CAMs. Please check again."
+                "The file you have uploaded doesn't appear to be a valid Data Collection Tool dataset or it contains only empty CAMs. Please check again."
               ),
               easyClose = TRUE,
               footer = tagList(modalButton("Ok"))
@@ -564,7 +564,7 @@ uploadServer <- function(id, parent, globals) {
         showModal(modalDialog(
           title = "Wrong files",
           paste0(
-            "Please upload a single .tsv file (for C.A.M.E.L.) OR at least two .csv files (for Valence)."
+            "Please upload a single .tsv file (for the Data Collection Tool) OR at least two .csv files (for Valence)."
           ),
           easyClose = TRUE,
           footer = tagList(modalButton("Ok"))
@@ -1314,7 +1314,7 @@ observeEvent(input$split_uploadExcel, {
           tags$ul(
             tags$li(
               HTML(
-                '<b>Upload - necessary step:</b> Upload your raw data (C.A.M.E.L. or Valence) and - if you already have - your protocol
+                '<b>Upload - necessary step:</b> Upload your raw data (Data Collection Tool or Valence) and - if you already have - your protocol
                 before uploading your data.'
               )
             ),
