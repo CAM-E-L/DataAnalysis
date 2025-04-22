@@ -379,8 +379,7 @@ uploadServer <- function(id, parent, globals) {
             col_names = FALSE
           )$X1
         )
-
-
+        
         raw_CAM <- list()
         for (i in 1:length(dat)) {
           if(testIfJson(dat[[i]])) {
@@ -400,6 +399,7 @@ uploadServer <- function(id, parent, globals) {
             return(NULL)
           }
         }
+        
         CAMfiles <-
           create_CAMfiles(datCAM = raw_CAM, reDeleted = TRUE, verbose = FALSE)
 
@@ -423,6 +423,57 @@ uploadServer <- function(id, parent, globals) {
         CAMfiles[[1]]$text <-
           stringr::str_trim(string = CAMfiles[[1]]$text, side = "both")
         v$dataUploaded <- "yes"
+        
+        ## if JSON file
+      } else if (all(stringr::str_detect(string = ext(), pattern = "json"))) {
+        
+        if(testIfJson(input$upload$datapath)) {
+          raw <- jsonlite::fromJSON(input$upload$datapath, simplifyVector = FALSE)
+        
+          # Then apply fromJSON again per CAM - this allows proper simplification
+          dat <- lapply(raw, function(cam) {
+            jsonlite::fromJSON(jsonlite::toJSON(cam, auto_unbox = TRUE))
+          })
+        } else {
+          showModal(
+            modalDialog(
+              title = "Invalid raw data",
+              paste0(
+                "The file you have uploaded doesn't appear to be a valid Data Collection Tool dataset. Please check again."
+              ),
+              easyClose = TRUE,
+              footer = tagList(modalButton("Ok"))
+            )
+          )
+          v$dataUploaded <- "no"
+          return(NULL)
+        }
+        
+        
+        CAMfiles <-
+          create_CAMfiles(datCAM = dat, reDeleted = TRUE, verbose = FALSE)
+
+        # check if parsing CAMs was successful
+        if(is.null(CAMfiles)) {
+          showModal(
+            modalDialog(
+              title = "Invalid raw data",
+              paste0(
+                "The file you have uploaded doesn't appear to be a valid Data Collection Tool dataset or it contains only empty CAMs. Please check again."
+              ),
+              easyClose = TRUE,
+              footer = tagList(modalButton("Ok"))
+            )
+          )
+          v$dataUploaded <- "no"
+          return(NULL)
+        }
+
+        ## trim whitespace
+        CAMfiles[[1]]$text <-
+          stringr::str_trim(string = CAMfiles[[1]]$text, side = "both")
+        v$dataUploaded <- "yes"
+        
         ## if Valence data (checked by .csv ending)
       } else if (all(stringr::str_detect(string = ext(), pattern = "csv"))) {
         ## check: at least 2 datasets
