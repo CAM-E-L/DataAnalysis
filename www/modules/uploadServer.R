@@ -250,8 +250,8 @@ uploadServer <- function(id, parent, globals) {
         tags$br(),
         fileInput(
           ns("upload"),
-          "2) Upload a raw CAM dataset (.txt file for the Data Collection Tool or .csv files for Valence):",
-          accept = c(".txt", ".csv"),
+          "2) Upload a raw CAM dataset (.txt or .json file for the Data Collection Tool or .csv files for Valence):",
+          accept = c(".txt", ".csv", ".json"),
           placeholder = "upload raw CAM data",
           multiple = TRUE
         ),
