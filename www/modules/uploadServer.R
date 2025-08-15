@@ -615,7 +615,7 @@ uploadServer <- function(id, parent, globals) {
         showModal(modalDialog(
           title = "Wrong files",
           paste0(
-            "Please upload a single .tsv file (for the Data Collection Tool) OR at least two .csv files (for Valence)."
+            "Please upload a single .txt or .json file (for the Data Collection Tool) OR at least two .csv files (for Valence)."
           ),
           easyClose = TRUE,
           footer = tagList(modalButton("Ok"))
