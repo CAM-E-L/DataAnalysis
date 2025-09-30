@@ -38,6 +38,7 @@ library(DT) # interactive Tables in shiny
 library(igraph)
 
 library(sortable)
+library(stringdist)
 
 library(vroom)
 library(xlsx)
