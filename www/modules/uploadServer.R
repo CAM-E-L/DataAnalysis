@@ -635,8 +635,11 @@ uploadServer <- function(id, parent, globals) {
       # print(head(CAMfiles[[2]]))
       # print(head(CAMfiles[[3]]))
 
-      if(v$protocol){
+      print("Starting protocol-section")
+      tryCatch({
+        if(v$protocol){
         #Possible error, if protocol()$software is NULL!
+        req(protocol())
         globals$protocol$software <- protocol()$software
         globals$protocol$cleanValence <- protocol()$cleanValence
 
@@ -685,7 +688,8 @@ uploadServer <- function(id, parent, globals) {
 
         # print("globals$protocol:")
         # print(globals$protocol)
-      }
+      }}, error = function(e) { 
+        print(paste("error in protocol section:", e$message))})
         ## save as global variable - else triggered to early
 
         # print(globals$protocol$cleanValence)
