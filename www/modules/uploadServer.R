@@ -1079,7 +1079,7 @@ uploadServer <- function(id, parent, globals) {
                                              verbose = FALSE)
 
         ## set protocol to true
-        globals$protocol()$cleanValence <- TRUE
+        globals$protocol$cleanValence <- TRUE
 
         v$dfClean <- clean_ValenceData
         v$df <- clean_ValenceData
