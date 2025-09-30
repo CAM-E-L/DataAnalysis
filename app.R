@@ -33,7 +33,7 @@ library(magrittr)
 library(rjson) # write JSON files
 library(jsonlite) # read JSON files
 
-
+library(DT) # interactive Tables in shiny
 
 library(igraph)
 
