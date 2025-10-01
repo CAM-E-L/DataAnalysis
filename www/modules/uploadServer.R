@@ -646,7 +646,7 @@ uploadServer <- function(id, parent, globals) {
 
         ## keep only CAMs which have not been deleted
         if(length(protocol()$currentCAMs) > 0){
-          print("tries to ony keep CAMs which have not been deleted?")
+          print("tries to only keep CAMs which have not been deleted")
           # if participants IDs have been used in the draw CAM step
           if(all(unlist(protocol()$currentCAMs) %in% CAMfiles[[1]]$CAM)){
             CAMfiles[[1]] <- CAMfiles[[1]][CAMfiles[[1]]$CAM %in% unlist(protocol()$currentCAMs), ]
