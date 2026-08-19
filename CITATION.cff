@@ -1,6 +1,7 @@
-
 cff-version: 1.2.1
 message: "If you use this software, please cite it as below."
+type: software
+title: "Cognitive-Affective Maps extended logic (CAM tools)"
 authors:
   - family-names: Fenn
     given-names: Julius
@@ -16,7 +17,36 @@ authors:
     given-names: Paul
   - family-names: Kiesel
     given-names: Andrea
-url: https://github.com/CAM-E-L/DataAnalysis
-title: "Data Analysis Tool"
+url: "https://camtools-documentation.readthedocs.io/"
+repository-code: "https://github.com/CAM-E-L"
 version: 2.2
 date-released: 2023-06-01
+license: MIT
+preferred-citation:
+  type: article
+  title: "Cognitive-affective maps extended logic: Proposing tools to collect and analyze attitudes and belief systems"
+  authors:
+    - family-names: Fenn
+      given-names: Julius
+    - family-names: Gouret
+      given-names: Florian
+    - family-names: Gorki
+      given-names: Michael
+    - family-names: Reuter
+      given-names: Lisa
+    - family-names: Gros
+      given-names: Wilhelm
+    - family-names: Hüttner
+      given-names: Paul
+    - family-names: Kiesel
+      given-names: Andrea
+  journal: "Behavior Research Methods"
+  publisher:
+    name: "Springer Science and Business Media LLC"
+  volume: 57
+  issue: 6
+  article-number: "174"
+  year: 2025
+  month: 5
+  doi: "10.3758/s13428-025-02699-y"
+  url: "https://doi.org/10.3758/s13428-025-02699-y"
