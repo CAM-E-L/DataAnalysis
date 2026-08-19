@@ -5,7 +5,7 @@ summarizeCAMsUI <- function(id) {
     fluidRow(class = "sidebar",
              column(1, tags$b("Module Options:"),
 
-                    actionButton(inputId =  ns("aggregateCAMs"), label = HTML('<b>aggregate CAMs</b>'),
+                   actionButton(inputId =  ns("aggregateCAMs"), label = HTML('<b>Aggregate CAMs</b>'),
                                  icon = icon(name = "angle-right", lib = "font-awesome"),
                                  class = "btn-sidebar"),
                     actionButton(inputId = ns("informationSummarizeCAMs"), label = "Information",

@@ -5,7 +5,7 @@ clusteringCAMs_overallLevelUI <- function(id) {
     fluidRow(class = "sidebar",
              column(1, tags$b("Module Options:"),
 
-                    actionButton(inputId =  ns("networkSimilarities"), label = HTML('<b>get network<br>similarities</b>'),
+                   actionButton(inputId =  ns("networkSimilarities"), label = HTML('<b>Get Network<br>Similarities</b>'),
                                  icon = icon(name = "angle-right", lib = "font-awesome"),
                                  class = "btn-sidebar"),
                     actionButton(inputId = ns("informationClusteringCAMsOverall"), label = "Information",

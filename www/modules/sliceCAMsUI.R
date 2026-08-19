@@ -5,10 +5,10 @@ sliceCAMsUI <- function(id) {
     fluidRow(class = "sidebar",
              column(1, tags$b("Module Options:"),
 
-                    actionButton(inputId =  ns("sliceCAMs"), label = HTML('<b>slice CAMs</b>'),
+                   actionButton(inputId =  ns("sliceCAMs"), label = HTML('<b>Slice CAMs</b>'),
                                  icon = icon(name = "angle-right", lib = "font-awesome"),
                                  class = "btn-sidebar"),
-                    actionButton(inputId =  ns("sliceCAMsDescriptives"), label = HTML('get sliced CAMs<br>descriptives'),
+                   actionButton(inputId =  ns("sliceCAMsDescriptives"), label = HTML('Get Sliced CAMs<br>Descriptives'),
                                  icon = icon(name = "angle-right", lib = "font-awesome"),
                                  class = "btn-sidebar"),
                     actionButton(inputId = ns("informationSliceCAMs"), label = "Information",

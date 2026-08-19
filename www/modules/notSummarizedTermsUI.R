@@ -5,10 +5,10 @@ notSummarizedTermsUI <- function(id) {
     fluidRow(class = "sidebar",
              column(1, tags$b("Module Options:"),
 
-actionButton(inputId =  ns("NST_getNonSummarized"), label = HTML('get ns<br>terms'),
+actionButton(inputId =  ns("NST_getNonSummarized"), label = HTML('Get NS<br>Terms'),
              icon = icon(name = "angle-right", lib = "font-awesome"),
              class = "btn-sidebar"),
-actionButton(inputId =  ns("NST_clickThroughNonSummarized"), label = HTML('click through<br>ns terms'),
+actionButton(inputId =  ns("NST_clickThroughNonSummarized"), label = HTML('Click Through<br>NS Terms'),
              icon = icon(name = "angle-right", lib = "font-awesome"),
              class = "btn-sidebar"),
 actionButton(inputId = ns("NST_information"), label = "Information",

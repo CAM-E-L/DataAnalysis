@@ -5,7 +5,7 @@ getReportAPAUI <- function(id) {
     fluidRow(class = "sidebar",
              column(1, tags$b("Module Options:"),
 
-                    actionButton(inputId =  ns("getReport"), label = HTML('<b>Get report</b>'),
+                   actionButton(inputId =  ns("getReport"), label = HTML('<b>Get Report</b>'),
                                  icon = icon(name = "angle-right", lib = "font-awesome"),
                                  class = "btn-sidebar"),
                     actionButton(inputId = ns("informationGetReport"), label = "Information",
