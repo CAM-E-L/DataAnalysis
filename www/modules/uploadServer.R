@@ -290,44 +290,26 @@ uploadServer <- function(id, parent, globals) {
 
     #> Server
     ### upload protocol dataset
+    
+    ## to test validity of JSON file
     protocol <- reactive({
-      ## to test validity of JSON file
-      text <- readLines(input$uploadProtocol$datapath, warn = FALSE)
-      text <- readLines(textConnection(text, encoding="UTF-8"), encoding="UTF-8")
-      if (testIfJson(file = text)) {
-        protocol <- rjson::fromJSON(file = input$uploadProtocol$datapath)
-
-        return(protocol)
-      } else{
-        print("Invalid protocol uploaded")
-        return(NULL)
-      }
-
-
-      # ## alternative
-      # text <- readLines(input$uploadProtocol$datapath)
-      # text <- readLines(textConnection(text, encoding="UTF-8"), encoding="UTF-8")
-      # if (testIfJson(file = text)) {
-      #   protocol <- jsonlite::fromJSON(txt = text)
-      #   # jsonlite::read_json(path = input$uploadProtocol$datapath)
-      #   # rjson::fromJSON(file = input$uploadProtocol$datapath)
-      #   return(protocol)
-      # } else{
-      #   print("ERROR")
-      #   return(NULL)
-      # }
-      #
-      # ## right encoding
-      # for(i in 1:length(protocol$approximateMatching)){
-      #   Encoding(x = protocol$approximateMatching[[i]]$wordsFound) <- "latin1"
-      #   Encoding(x = protocol$approximateMatching[[i]]$supordinateWord) <- "latin1"
-      # }
+    req(input$uploadProtocol)
+    if (testIfJson(file = readLines(input$uploadProtocol$datapath, warn = FALSE, encoding="UTF-8"))) {
+      protocol <- rjson::fromJSON(file = input$uploadProtocol$datapath)
+      return(protocol)
+    } else {
+      print("Invalid protocol uploaded")
+      return(NULL)
+    }
     })
+   
 
     observeEvent(input$uploadProtocol, {
+      print("observer for uploadProtocol is triggered")
       if (!is.null(protocol())) {
         message("successfully uploaded protocol!")
         v$protocol = TRUE
+        print(v$protocol)
       } else{
         v$protocol = FALSE
         showModal(
@@ -365,9 +347,10 @@ uploadServer <- function(id, parent, globals) {
 
 
     ### create three data sets with nodes / connectors / merged
-    data <- reactive({
-      # wait for upload
+    uploadedData <- reactive({
       req(ext())
+      print("uploadedData ist being read")
+      print(ext())
 
       ## if CAMEL data (checked by .txt ending)
       if (all(stringr::str_detect(string = ext(), pattern = "txt"))) {
@@ -396,6 +379,7 @@ uploadServer <- function(id, parent, globals) {
               )
             )
             v$dataUploaded <- "no"
+            print("Uploaded raw_CAM Datei doesn't seem to be a valid Data Collection Tool dataset..")
             return(NULL)
           }
         }
@@ -416,6 +400,7 @@ uploadServer <- function(id, parent, globals) {
             )
           )
           v$dataUploaded <- "no"
+          print("CAMs are not valid Data Collection Tool datasets or a empty")
           return(NULL)
         }
 
@@ -427,13 +412,24 @@ uploadServer <- function(id, parent, globals) {
         ## if JSON file
       } else if (all(stringr::str_detect(string = ext(), pattern = "json"))) {
         
+        print("Starting JSON-Branch")
+        print(input$upload$datapath)
+        print(ext())
+        print("testIfJson:")
+        print(testIfJson(input$upload$datapath))
+
         if(testIfJson(input$upload$datapath)) {
           raw <- jsonlite::fromJSON(input$upload$datapath, simplifyVector = FALSE)
-        
+
+          #print("raw nach fromJSON:")
+          #str(raw, max.level=2)
+                
           # Then apply fromJSON again per CAM - this allows proper simplification
           dat <- lapply(raw, function(cam) {
             jsonlite::fromJSON(jsonlite::toJSON(cam, auto_unbox = TRUE))
           })
+          #print("dat nach lapply:")
+          #str(dat, max.level=2)
         } else {
           showModal(
             modalDialog(
@@ -446,12 +442,15 @@ uploadServer <- function(id, parent, globals) {
             )
           )
           v$dataUploaded <- "no"
+          print("CAMs scheinen fehlerhaft zu sein. (TestifJson)")
           return(NULL)
         }
         
         
         CAMfiles <-
           create_CAMfiles(datCAM = dat, reDeleted = TRUE, verbose = FALSE)
+        #print("CAMfiles nach create_CAMfiles:")
+        #str(CAMfiles, max.level=2)
 
         # check if parsing CAMs was successful
         if(is.null(CAMfiles)) {
@@ -466,6 +465,7 @@ uploadServer <- function(id, parent, globals) {
             )
           )
           v$dataUploaded <- "no"
+          print("CAM doesn't have a valid Data Collection Tool dataset or it contains only empty CAMS")
           return(NULL)
         }
 
@@ -473,6 +473,9 @@ uploadServer <- function(id, parent, globals) {
         CAMfiles[[1]]$text <-
           stringr::str_trim(string = CAMfiles[[1]]$text, side = "both")
         v$dataUploaded <- "yes"
+
+        #print("CAMfiles nach trim:")
+        #str(CAMfiles, max.level=2)
         
         ## if Valence data (checked by .csv ending)
       } else if (all(stringr::str_detect(string = ext(), pattern = "csv"))) {
@@ -490,6 +493,7 @@ uploadServer <- function(id, parent, globals) {
             )
           )
           v$dataUploaded <- "no"
+          print("Not enough csv files")
           return(NULL)
         }
 
@@ -497,10 +501,10 @@ uploadServer <- function(id, parent, globals) {
         ## names for blocks and links files
         files_blocks <-
           sort(stringr::str_subset(string = input$upload[, "name"],
-                                   pattern = "blocks"))
+                                  pattern = "blocks"))
         files_links <-
           sort(stringr::str_subset(string = input$upload[, "name"],
-                                   pattern = "links"))
+                                  pattern = "links"))
 
         ## check: equal numbers of blocks and links dataset
         if (v$boolContinue) {
@@ -517,6 +521,7 @@ uploadServer <- function(id, parent, globals) {
               )
             )
             v$dataUploaded <- "no"
+            print("csv files do not have the same number of blocks and links")
             return(NULL)
           }
         }
@@ -547,6 +552,7 @@ uploadServer <- function(id, parent, globals) {
               )
             )
             v$dataUploaded <- "no"
+            print("CSV Files do not have identical IDs in the format ID_CAMnumber_links/blocks")
             return(NULL)
           }
         }
@@ -610,7 +616,7 @@ uploadServer <- function(id, parent, globals) {
           CAMfiles <- NULL
         }
 
-      } else{
+      }else{
         ## if no CAMEL or Valence files have been upload
         showModal(modalDialog(
           title = "Wrong files",
@@ -629,14 +635,18 @@ uploadServer <- function(id, parent, globals) {
       # print(head(CAMfiles[[2]]))
       # print(head(CAMfiles[[3]]))
 
-      if(v$protocol){
-        # print(globals$protocol)
+      print("Starting protocol-section")
+      tryCatch({
+        if(v$protocol){
+        #Possible error, if protocol()$software is NULL!
+        req(protocol())
         globals$protocol$software <- protocol()$software
-
         globals$protocol$cleanValence <- protocol()$cleanValence
+
 
         ## keep only CAMs which have not been deleted
         if(length(protocol()$currentCAMs) > 0){
+          print("tries to only keep CAMs which have not been deleted")
           # if participants IDs have been used in the draw CAM step
           if(all(unlist(protocol()$currentCAMs) %in% CAMfiles[[1]]$CAM)){
             CAMfiles[[1]] <- CAMfiles[[1]][CAMfiles[[1]]$CAM %in% unlist(protocol()$currentCAMs), ]
@@ -659,9 +669,10 @@ uploadServer <- function(id, parent, globals) {
         }
 
         if(length(protocol()$approximateMatching) > 0
-           || length(protocol()$searchTerms) > 0
-           || length(protocol()$findSynonyms) > 0
-           || length(protocol()$modelwordVec) > 0){
+          || length(protocol()$searchTerms) > 0
+          || length(protocol()$findSynonyms) > 0
+          || length(protocol()$modelwordVec) > 0){
+            print("tries to overwrite protocol, if apporximate Matching has been done")
           CAMfiles[[1]]$text_summarized <- CAMfiles[[1]]$text
           tmp_out <- overwriteTextNodes(protocolDat = protocol(), nodesDat = CAMfiles[[1]])
           CAMfiles[[1]] <- tmp_out[[1]]
@@ -677,10 +688,11 @@ uploadServer <- function(id, parent, globals) {
 
         # print("globals$protocol:")
         # print(globals$protocol)
-      }
-      ## save as global variable - else triggered to early
+      }}, error = function(e) { 
+        print(paste("error in protocol section:", e$message))})
+        ## save as global variable - else triggered to early
 
-      # print(globals$protocol$cleanValence)
+        # print(globals$protocol$cleanValence)
 
       if(!globals$protocol$cleanValence[[1]]){
         v$df <- CAMfiles
@@ -690,21 +702,37 @@ uploadServer <- function(id, parent, globals) {
                                 dat_merged = CAMfiles[[3]],
                                 verbose = FALSE)
         message("successfully cleaned Valence data!")
-
       }
 
       # nodes_raw$text_summarized <- nodes_raw$text
-
+      print("End of uploadedData, v$df:")
+      print(str(v$df, max.level=1))
       return(v$df) ### ??? CAMfiles
     })
-
+    
 
     ## SAVE to globals ##
     observeEvent(input$upload, {
+      print("Input upload:")
+      print(input$upload)
+      print("ext:")
+      print(ext())
+      if (!exists("uploadedData") || is.null(uploadedData)){
+        print("uploadedData ist NULL!")
+        return(NULL)  
+      }
+      
+      dat <- tryCatch(uploadedData(), error = function(e) NULL)
+      if (is.null(dat)) {
+        print("uploadedData() ist NULL!")
+        return(NULL)  
+      }
+      req(dat)
+      
       req(ext())
-      req(data())
+      req(uploadedData())
       message("uploaded file(s) - extensions:", ext())
-      if (!is.null(v$df)) {
+      if (v$dataUploaded == "yes" && !is.null(v$df)) {
         message("successfully uploaded data!")
         #> change condition
         globals$condition <-
@@ -726,6 +754,7 @@ uploadServer <- function(id, parent, globals) {
             tmp_list
         }
       } else{
+        print("Fehler beim Data-Upload")
         #> avoid error in download function
         globals$condition <-
           str_replace_all(
@@ -737,7 +766,7 @@ uploadServer <- function(id, parent, globals) {
         globals$protocol$software[[length(globals$protocol$software) + 1]] <-
           c("unknown", as.character(as.POSIXct(Sys.time())))
       }
-    })
+    }, ignoreNULL = TRUE)
     ####
 
 
@@ -939,6 +968,7 @@ uploadServer <- function(id, parent, globals) {
 
 
       if(length(list_summarizeTerms) == 0){
+        print("Länge der list_summarizeTerms ist Null)")
         return(NULL)
       }
 
@@ -1192,105 +1222,101 @@ uploadServer <- function(id, parent, globals) {
       )
     })
 
-#> Server
-split_data <- reactive({
-  
-  tmp_extensions <- tools::file_ext(input$split_uploadCAMfiles$name)
-  print(tmp_extensions)
-  
-  ## if CAMEL data (checked by .txt ending)
+    #> Server
+    split_data <- reactive({
+      
+      tmp_extensions <- tools::file_ext(input$split_uploadCAMfiles$name)
+      print(tmp_extensions)
+      
+      ## if CAMEL data (checked by .txt ending)
 
-  if (all(stringr::str_detect(string = tmp_extensions, pattern = "txt")) && length(tmp_extensions) == 3 && all(stringr::str_detect(string = input$split_uploadCAMfiles$name, pattern = "nodes|connectors|merged"))){
+      if (all(stringr::str_detect(string = tmp_extensions, pattern = "txt")) && length(tmp_extensions) == 3 && all(stringr::str_detect(string = input$split_uploadCAMfiles$name, pattern = "nodes|connectors|merged"))){
 
+        tmp_names <- input$split_uploadCAMfiles$name
+        tmp_datapat <- input$split_uploadCAMfiles$datapath
 
-tmp_names <- input$split_uploadCAMfiles$name
-tmp_datapat <- input$split_uploadCAMfiles$datapath
-
-CAMfiles <- list()
-CAMfiles[[1]] <- vroom::vroom(
-  file = tmp_datapat[stringr::str_detect(string = tmp_names, pattern = "nodes")],
-  delim = "\t",
-  show_col_types = FALSE,
-  col_names = TRUE
-)
-## trim whitespace
-CAMfiles[[1]]$text <-
-  stringr::str_trim(string = CAMfiles[[1]]$text, side = "both")
-
-  if(any(colnames(CAMfiles[[1]]) == "text_summarized")){
-## trim whitespace
-CAMfiles[[1]]$text_summarized <-
-  stringr::str_trim(string = CAMfiles[[1]]$text_summarized, side = "both")
-
-    ## remove white spaces before suffixes
- CAMfiles[[1]]$text_summarized <- str_remove_all(string =  CAMfiles[[1]]$text_summarized, pattern = "\\s(?=(_neutral$|_positive$|_negative$|_ambivalent$))")
-  }
-  
-
-
-CAMfiles[[2]] <- vroom::vroom(
-  file = tmp_datapat[stringr::str_detect(string = tmp_names, pattern = "connectors")],
-  delim = "\t",
-  show_col_types = FALSE,
-  col_names = TRUE
-)
-
-CAMfiles[[3]] <- vroom::vroom(
-  file = tmp_datapat[stringr::str_detect(string = tmp_names, pattern = "merged")],
-  delim = "\t",
-  show_col_types = FALSE,
-  col_names = TRUE
-)
-
-
-
-
-
-  ## continue analysis
-  v$df <- CAMfiles
-  v$dataUploaded <- "yes"
-
-
-  } else {
-    if(!all(stringr::str_detect(string = tmp_extensions, pattern = "txt")) || length(tmp_extensions) != 3){
-      showModal(
-        modalDialog(
-          title = "Invalid raw data",
-          paste0(
-            "You have uploaded ", length(tmp_extensions), " files. Please upload exactly three files .txt files."
-          ),
-          easyClose = TRUE,
-          footer = tagList(modalButton("Ok"))
+        CAMfiles <- list()
+        CAMfiles[[1]] <- vroom::vroom(
+          file = tmp_datapat[stringr::str_detect(string = tmp_names, pattern = "nodes")],
+          delim = "\t",
+          show_col_types = FALSE,
+          col_names = TRUE
         )
-      )
-    }else if(!all(stringr::str_detect(string = input$split_uploadCAMfiles$name, pattern = "nodes|connectors|merged"))){
-      showModal(
-        modalDialog(
-          title = "Invalid raw data",
-          paste0(
-            "You have uploaded files with the following names: ", paste0(input$split_uploadCAMfiles$name, collapse = ", ")," files. Please upload exactly three .txt files containing the names nodes, connectors, merged."
-          ),
-          easyClose = TRUE,
-          footer = tagList(modalButton("Ok"))
-        )
-      )
-    }
-  }
-  })
+        ## trim whitespace
+        CAMfiles[[1]]$text <-
+          stringr::str_trim(string = CAMfiles[[1]]$text, side = "both")
+
+          if(any(colnames(CAMfiles[[1]]) == "text_summarized")){
+        ## trim whitespace
+        CAMfiles[[1]]$text_summarized <-
+          stringr::str_trim(string = CAMfiles[[1]]$text_summarized, side = "both")
+
+            ## remove white spaces before suffixes
+        CAMfiles[[1]]$text_summarized <- str_remove_all(string =  CAMfiles[[1]]$text_summarized, pattern = "\\s(?=(_neutral$|_positive$|_negative$|_ambivalent$))")
+          }
+          
 
 
-observeEvent(input$split_uploadExcel, {
-        showModal(
-        modalDialog(
-          title = "Will be implemented soon",
-          paste0(
-            "Just wait for it."
-          ),
-          easyClose = TRUE,
-          footer = tagList(modalButton("Ok"))
+        CAMfiles[[2]] <- vroom::vroom(
+          file = tmp_datapat[stringr::str_detect(string = tmp_names, pattern = "connectors")],
+          delim = "\t",
+          show_col_types = FALSE,
+          col_names = TRUE
         )
-      )
-})
+
+        CAMfiles[[3]] <- vroom::vroom(
+          file = tmp_datapat[stringr::str_detect(string = tmp_names, pattern = "merged")],
+          delim = "\t",
+          show_col_types = FALSE,
+          col_names = TRUE
+        )
+
+
+        ## continue analysis
+        v$df <- CAMfiles
+        v$dataUploaded <- "yes"
+
+
+      } else {
+        if(!all(stringr::str_detect(string = tmp_extensions, pattern = "txt")) || length(tmp_extensions) != 3){
+          showModal(
+            modalDialog(
+              title = "Invalid raw data",
+              paste0(
+                "You have uploaded ", length(tmp_extensions), " files. Please upload exactly three files .txt files."
+              ),
+              easyClose = TRUE,
+              footer = tagList(modalButton("Ok"))
+            )
+          )
+        }else if(!all(stringr::str_detect(string = input$split_uploadCAMfiles$name, pattern = "nodes|connectors|merged"))){
+          showModal(
+            modalDialog(
+              title = "Invalid raw data",
+              paste0(
+                "You have uploaded files with the following names: ", paste0(input$split_uploadCAMfiles$name, collapse = ", ")," files. Please upload exactly three .txt files containing the names nodes, connectors, merged."
+              ),
+              easyClose = TRUE,
+              footer = tagList(modalButton("Ok"))
+            )
+          )
+        }
+      }
+    })
+
+
+    observeEvent(input$split_uploadExcel, {
+            showModal(
+            modalDialog(
+              title = "Will be implemented soon",
+              paste0(
+                "Just wait for it."
+              ),
+              easyClose = TRUE,
+              footer = tagList(modalButton("Ok"))
+            )
+          )
+    })
 
     ## wait for uploaded files ##
     observeEvent(input$split_uploadCAMfiles, {
@@ -1319,11 +1345,11 @@ observeEvent(input$split_uploadExcel, {
         tags$br(),
         HTML(
           'The tool is a shiny-App programmed in the R environment. Every time you have finished the central step of
-                     the module (here the Upload step) you can click "continue" in the bottom right to jump to the next
-                     module. This is just a <i>recommended procedure</i>, whereby the first two steps - uploading your data and draw your CAMs - is mandatory. Feel free to skip every other module.
-                     The central step within each module is depicted in <b>bold</b>.
-                     <br>
-                     The application is divided in two central parts, whereby for the first part a protocol is generated, which should be uploaded together with the raw dataset(s).'
+                      the module (here the Upload step) you can click "continue" in the bottom right to jump to the next
+                      module. This is just a <i>recommended procedure</i>, whereby the first two steps - uploading your data and draw your CAMs - is mandatory. Feel free to skip every other module.
+                      The central step within each module is depicted in <b>bold</b>.
+                      <br>
+                      The application is divided in two central parts, whereby for the first part a protocol is generated, which should be uploaded together with the raw dataset(s).'
         ),
         tags$ol(tags$li(
           HTML('<b>Prep-rocessing Part:</b> using multiple modules it is possible to summarize the CAM data semi-automatically')

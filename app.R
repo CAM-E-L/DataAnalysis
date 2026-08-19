@@ -33,11 +33,12 @@ library(magrittr)
 library(rjson) # write JSON files
 library(jsonlite) # read JSON files
 
-
+library(DT) # interactive Tables in shiny
 
 library(igraph)
 
 library(sortable)
+library(stringdist)
 
 library(vroom)
 library(xlsx)
@@ -736,7 +737,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
           )
         }
 
-      if ("approximateMatching" %in% globals$condition ||
+        if ("approximateMatching" %in% globals$condition ||
         "searchTerms" %in% globals$condition ||
         "findSynonyms" %in% globals$condition ||
         "word2vec" %in% globals$condition) {
@@ -810,7 +811,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
           )
         }
 
-      if ("networkIndicators" %in% globals$condition) {
+        if ("networkIndicators" %in% globals$condition) {
         write(
             "\nnetworkIndicators: .txt file of all computed network indicators",
             path,
@@ -836,7 +837,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
           )
         }
 
-      if ("networkNeighborhoodIndicators" %in% globals$condition) {
+        if ("networkNeighborhoodIndicators" %in% globals$condition) {
         write(
             "\nnetworkNeighborhoodIndicators: .txt file of all computed neighborhood indicators",
             path,
@@ -861,31 +862,31 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
             path,
             append = TRUE
           )
-      }
+        }
 
 
-      if ("wordlistOverallCreated" %in% globals$condition) {
-        write(
+        if ("wordlistOverallCreated" %in% globals$condition) {
+          write(
             "\nwordlistOverall: .txt file of overall wordlist",
             path,
             append = TRUE
           )
 
-        write(
+          write(
             "wordlistOverall: .xlsx (Excel) file of overall wordlist",
             path,
             append = TRUE
           )
         }
 
-      if ("singleConceptsTable" %in% globals$condition) {
-        write(
+        if ("singleConceptsTable" %in% globals$condition) {
+          write(
             "\nsingleConceptsTable: .txt file of all drawn single concepts seperated by CAMs",
             path,
             append = TRUE
           )
 
-        write(
+          write(
             "singleConceptsTable: .xlsx (Excel) file of all drawn single concepts seperated by CAMs",
             path,
             append = TRUE
@@ -893,14 +894,14 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
         }
 
 
-      if ("CAMsSlicedCreated" %in% globals$condition) {
-        write(
+        if ("CAMsSlicedCreated" %in% globals$condition) {
+          write(
             paste0("\nCAMs sliced datasets: .txt files (nodes, connectors, merged) created for central concept: ", globals$namingSlicedCAMs[1]),
             path,
             append = TRUE
           )
 
-        write(
+          write(
           paste0("CAMs sliced datasets: .txt files (nodes, connectors, merged) created for central concept: ", globals$namingSlicedCAMs[2]),
             path,
             append = TRUE
@@ -925,9 +926,7 @@ fluidPage(clusteringCAMs_overallLevelUI("clusteringCAMs_overallLevel"))
        # write(rjson::toJSON(globals$protocol), path)
       #jsonlite::write_json(x = globals$protocol, path = path)
 
-
-
-        zip(zipfile = fname, files = fs)
+        zip::zipr(zipfile = fname, files = fs)
       },
       contentType = "application/zip"
     )
